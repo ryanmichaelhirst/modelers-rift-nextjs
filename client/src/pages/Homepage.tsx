@@ -1,6 +1,11 @@
 import React from "react";
 
-const Homepage = props => {
+interface PropsDef {
+    name: string;
+    depth: number;
+};
+
+const Homepage = (props: Required<PropsDef>) => {
     return (
         <div>
             Time to start coding!
