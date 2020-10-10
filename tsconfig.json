@@ -9,6 +9,10 @@
     "allowJs": true,
     "allowSyntheticDefaultImports" : true,
     "esModuleInterop" : true,
-    "strictFunctionTypes": true
+    "strictFunctionTypes": true,
+    "types": [
+      "react",
+      "react-dom"
+    ]
   }
 }
