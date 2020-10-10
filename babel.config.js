@@ -12,12 +12,14 @@ const presets = [
             useBuiltIns: "entry"
         }
     ],
-    "@babel/preset-react"
+    "@babel/preset-react",
+    "@babel/preset-typescript"
 ];
 
 const plugins = [
     "@babel/plugin-proposal-class-properties",
-    "@babel/plugin-transform-runtime"
+    "@babel/plugin-transform-runtime",
+    "@babel/plugin-transform-typescript"
 ];
 
 module.exports = { presets, plugins };

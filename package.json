@@ -2,10 +2,10 @@
   "name": "webpack-starter",
   "version": "1.0.0",
   "description": "",
-  "main": "client/src/index.js",
+  "main": "client/src/index.tsx",
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "dev": "nodemon server/index.js"
+    "start": "nodemon server/index.js"
   },
   "dependencies": {
     "core-js": "^3.2.1",
@@ -22,9 +22,11 @@
     "@babel/node": "^7.6.2",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/plugin-transform-typescript": "^7.11.0",
     "@babel/polyfill": "^7.6.0",
     "@babel/preset-env": "^7.6.2",
     "@babel/preset-react": "^7.6.3",
+    "@babel/preset-typescript": "^7.10.4",
     "@babel/runtime": "^7.6.3",
     "@types/react": "^16.9.44",
     "@types/react-dom": "^16.9.8",
