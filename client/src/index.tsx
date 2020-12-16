@@ -1,9 +1,7 @@
 import React from 'react'
-import ReactDOM from "react-dom";
-import App from "./App";
-import "../style/index.css";
+import ReactDOM from 'react-dom'
+import App from './App'
+import '../styles/tailwind.css'
+import '../styles/index.css'
 
-ReactDOM.render(
-  <App />,
-  document.getElementById("app")
-);
+ReactDOM.render(<App />, document.getElementById('app'))
