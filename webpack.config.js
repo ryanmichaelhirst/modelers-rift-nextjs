@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 
 module.exports = {
   entry: {
@@ -15,6 +16,7 @@ module.exports = {
       template: path.join(__dirname, 'client/templates/index.ejs'),
       filename: 'index.html',
     }),
+    new FaviconsWebpackPlugin('./client/src/icons/api.png'),
   ],
   module: {
     rules: [
