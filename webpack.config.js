@@ -45,9 +45,20 @@ module.exports = {
         },
       },
       {
-        test: /\.(png|jpg)$/,
-        include: path.join(__dirname, '/client/img'),
-        loader: 'file-loader',
+        test: /\.svg$/,
+        loader: 'react-svg-loader',
+      },
+      {
+        test: /\.(gif|png|jpe?g)$/i,
+        use: [
+          'file-loader',
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              bypassOnDebug: true,
+            },
+          },
+        ],
       },
       {
         test: /\.css$/i,
