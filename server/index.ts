@@ -8,12 +8,11 @@ const config = require(path.join(__dirname, '../webpack.config.js'))
 const compiler = webpack(config)
 const app = express()
 
-app.use(webpackDevMiddleware(compiler, config.devServer))
-app.use(webpackHotMiddleware(compiler))
-app.use(express.static(path.join(__dirname, '../build')))
+app.use(webpackDevMiddleware(compiler, { publicPath: config.output.publicPath }))
+app.use(webpackHotMiddleware(compiler, { log: console.log, path: '/__webpack_hmr', heartbeat: 10 * 1000 }))
 
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../build', 'index.html'))
-})
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../dist', 'index.html'))
+// })
 
 app.listen(4000)

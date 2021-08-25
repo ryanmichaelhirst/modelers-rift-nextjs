@@ -27,7 +27,7 @@ or with docker-compose
 npm run up
 ```
 
-## Prod
+## Deployment with Docker
 
 Add the following to Github -> Settings -> Secrets -> Add Repository Secret
 
@@ -54,3 +54,11 @@ on:
 Instead of writing your own css classes, you can use the default classes from [Tailwind](https://tailwindcss.com/docs)
 
 Look at [Card.tsx] for an example of some of their classes.
+
+## Why aren't you using the offical webpack-hot-middleware?
+
+The webpack-hot-middleware package currently has a bug with webpack v5 that causes HMR to stop working.
+You can read about the [issue here](https://github.com/webpack-contrib/webpack-hot-middleware/issues/390)
+
+This repo uses a branch until the issue is fixed.
+`"webpack-hot-middleware": "git+https://github.com/lukeapage/webpack-hot-middleware#2cdfe0d0111dab6432b8683112fd2d17a5e80572"`

@@ -1,14 +1,15 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const webpack = require('webpack')
 
 module.exports = {
-  entry: {
-    main: path.join(__dirname, 'client/src/index.tsx'),
-  },
+  entry: ['webpack-hot-middleware/client?reload=true', path.join(__dirname, 'client/src/index.tsx')],
   output: {
-    path: path.join(__dirname, 'build'),
+    path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
+    clean: true,
+    publicPath: '/',
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -16,7 +17,12 @@ module.exports = {
       template: path.join(__dirname, 'client/templates/index.ejs'),
       filename: 'index.html',
     }),
-    new FaviconsWebpackPlugin('./client/src/icons/api.png'),
+    new FaviconsWebpackPlugin({
+      logo: 'client/src/icons/api.png',
+      mode: process.env.NODE_ENV === 'development' ? 'light' : 'webapp',
+      devMode: process.env.NODE_ENV === 'development' ? 'light' : 'webapp',
+    }),
+    new webpack.HotModuleReplacementPlugin(),
   ],
   module: {
     rules: [
@@ -85,19 +91,12 @@ module.exports = {
     ],
   },
   devServer: {
-    contentBase: path.join(__dirname, 'build'),
-    compress: true,
-    proxy: {
-      '/api': 'http://localhost:4000',
-    },
+    static: './dist',
   },
   resolve: {
     extensions: ['*', '.js', '.jsx', '.tsx', '.ts'],
   },
-  resolveLoader: {
-    moduleExtensions: ['babel-loader'],
-  },
   devtool: 'source-map',
-  mode: 'development',
-  node: { global: true, fs: 'empty', net: 'empty', tls: 'empty' },
+  mode: process.env.NODE_ENV,
+  node: { global: true, __filename: false, __dirname: false },
 }
