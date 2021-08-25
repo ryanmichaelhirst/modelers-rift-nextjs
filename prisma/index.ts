@@ -2,23 +2,22 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-const getUsers = async () => {
-  const allUsers = await prisma.user.findMany()
-  console.log(allUsers)
-}
+// delete all below, examples for sample model
+export const getUsers = async () => await prisma.user.findMany()
 
-const createUser = async () => {
+export const createUser = async () => {
   await prisma.user.create({
     data: {
-      name: 'Alice',
-      email: 'alice@prisma.io',
+      name: 'Alice #3',
+      email: 'alice_three@prisma.io',
     },
   })
 
-  getUsers()
+  return getUsers()
 }
 
 createUser()
+  .then((res) => console.log(res))
   .catch((e) => {
     throw e
   })

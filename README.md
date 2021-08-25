@@ -51,9 +51,38 @@ on:
 
 ## CSS with Tailwind
 
-Instead of writing your own css classes, you can use the default classes from [Tailwind](https://tailwindcss.com/docs)
+[Tailwind](https://tailwindcss.com/docs) is a css framework that prevents you from having to write your own css classes 🤮.
 
-Look at [Card.tsx] for an example of some of their classes.
+Look at [CardList.tsx](https://github.com/rmbh4211995/ts-webpack-starter/blob/master/client/src/components/CardList.tsx) for an example.
+
+## Database with Prisma
+
+[Prisma](https://www.prisma.io/docs/getting-started) is a newer ORM to help you access your database from Node.js.
+It even generates types for your tables! 😊
+
+To configure add to your `.env`
+
+```
+DATABASE_URL="your-database-url"
+```
+
+Sync your db schema
+
+```
+npx prisma db pull
+```
+
+Generate your unique client
+
+```
+npx prisma generate
+```
+
+View your database with prisma
+
+```
+npx prisma studio
+```
 
 ## Why aren't you using the offical webpack-hot-middleware?
 
