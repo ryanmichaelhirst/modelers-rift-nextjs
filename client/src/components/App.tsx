@@ -1,18 +1,14 @@
 import React from 'react'
 import Header from './Header'
-import CardList from './CardList'
-import UserList from './UserList'
+import ChampionComparison from './ChampionComparison'
 
-const App = () => {
-  return (
-    <>
-      <Header />
-      <div className='m-5'>
-        <CardList />
-        <UserList />
-      </div>
-    </>
-  )
-}
+const App = () => (
+  <>
+    <Header />
+    <div className='m-5'>
+      <ChampionComparison />
+    </div>
+  </>
+)
 
 export default App
