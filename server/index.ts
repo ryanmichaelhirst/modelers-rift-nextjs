@@ -3,7 +3,7 @@ import express from 'express'
 import webpack from 'webpack'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
-import { getUsers } from '../prisma'
+import { getUsers } from '../prisma/queries'
 
 const config = require(path.join(__dirname, '../webpack.config.js'))
 const compiler = webpack(config)
