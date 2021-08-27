@@ -6,12 +6,13 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.js",
     "start": "cross-env NODE_ENV=development env-cmd nodemon server/index.ts",
-    "prisma": "ts-node prisma/index.ts",
+    "db": "env-cmd ts-node bin/index -c=db",
     "docker-build": "docker-compose -f docker-compose.dev.yml build",
     "up": "docker-compose -f docker-compose.dev.yml up"
   },
   "dependencies": {
     "@amcharts/amcharts4": "^4.10.22",
+    "@leafac/sqlite": "^1.5.0",
     "core-js": "^3.2.1",
     "ejs": "^2.7.1",
     "express": "^4.17.1",
@@ -42,6 +43,7 @@
     "@types/react-select": "^4.0.17",
     "@types/webpack-dev-middleware": "^5.0.2",
     "@types/webpack-hot-middleware": "^2.25.5",
+    "@types/yargs": "^17.0.2",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
     "autoprefixer": "^10.1.0",
@@ -76,6 +78,7 @@
     "webpack": "^5.51.1",
     "webpack-cli": "^4.8.0",
     "webpack-dev-middleware": "^5.0.0",
-    "webpack-hot-middleware": "git+https://github.com/lukeapage/webpack-hot-middleware#2cdfe0d0111dab6432b8683112fd2d17a5e80572"
+    "webpack-hot-middleware": "git+https://github.com/lukeapage/webpack-hot-middleware#2cdfe0d0111dab6432b8683112fd2d17a5e80572",
+    "yargs": "^17.1.1"
   }
 }
