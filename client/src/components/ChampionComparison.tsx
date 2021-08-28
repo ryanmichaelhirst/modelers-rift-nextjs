@@ -8,11 +8,15 @@ import {
   selectChampionMultiLineGraph,
   stats,
   selectSelectedStat,
+  fetchVersions,
+  selectSelectedVersion,
+  selectVersions,
 } from '../store/slices/championSlice'
 import ChampionSelect from './ChampionSelect'
 import Champion from './Champion'
 import MultiLineGraph from './MultiLineGraph'
 import StatSelect from './StatSelect'
+import VersionSelect from './VersionSelect'
 
 const ChampionComparison = () => {
   const dispatch = useDispatch()
@@ -21,10 +25,16 @@ const ChampionComparison = () => {
   const opponentChampion = useSelector(selectOpponentChampion)
   const multiLineData = useSelector(selectChampionMultiLineGraph)
   const selectedStat = useSelector(selectSelectedStat)
+  const selectedVersion = useSelector(selectSelectedVersion)
+  const versions = useSelector(selectVersions)
 
   useEffect(() => {
-    dispatch(fetchChampions())
+    dispatch(fetchVersions())
   }, [])
+
+  useEffect(() => {
+    if (selectedVersion) dispatch(fetchChampions())
+  }, [selectedVersion])
 
   const tooltipTitle = stats.find((s) => s.value === selectedStat).label
   const tooltipTitles = [playerChampion?.name || '', opponentChampion?.name || '']
@@ -34,10 +44,12 @@ const ChampionComparison = () => {
     label: c.name ? c.name : '',
     icon: c.square_asset,
   }))
+  const versionOptions = versions.map((c: any) => ({ label: c, value: c }))
 
   return (
     <>
       <div>
+        <VersionSelect options={versionOptions} name='selectedVersion' placeholder='Select patch' />
         <StatSelect options={stats} name='selectedStat' placeholder='Select stat' />
         <MultiLineGraph
           data={multiLineData}

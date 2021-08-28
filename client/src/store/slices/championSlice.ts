@@ -7,12 +7,15 @@ interface ChampionState {
   champions: Record<string, Record<string, any>>
   playerChampion?: Record<string, any>
   opponentChampion?: Record<string, any>
+  versions: string[]
+  selectedVersion?: string
 }
 
 const initialState: ChampionState = {
   loading: true,
   selectedStat: 'attackdamage',
   champions: {},
+  versions: [],
 }
 
 export const stats = [
@@ -46,29 +49,42 @@ export const championSlice = createSlice({
     setSelectedStat: (state, action: PayloadAction<{ value: string; label: string }>) => {
       state.selectedStat = action.payload.value
     },
+    setVersions: (state, action: PayloadAction<any>) => {
+      state.versions = action.payload
+    },
+    setSelectedVersion: (state, action: PayloadAction<any>) => {
+      state.selectedVersion = action.payload.value
+    },
   },
 })
 
-export const chooseChampion = (type: string, payload: { value: string }): AppThunk => async (dispatch) => {
+export const chooseChampion = (type: string, payload: { value: string }): AppThunk => async (dispatch, getState) => {
   const json = JSON.parse(payload.value)
+  const state = getState()
+  const selectedVersion = state.champion.selectedVersion
+
   const { data } = await fetch(
-    `http://ddragon.leagueoflegends.com/cdn/11.16.1/data/en_US/champion/${json.name}.json`,
+    `http://ddragon.leagueoflegends.com/cdn/${selectedVersion}/data/en_US/champion/${json.name}.json`,
   ).then((res) => res.json())
   const name = json.name
+
   if (type === 'playerChampion') dispatch(setPlayerChampion(data[name]))
   if (type === 'opponentChampion') dispatch(setOpponentChampion(data[name]))
 }
 
-export const fetchChampions = (): AppThunk => async (dispatch) => {
-  const { data } = await fetch('http://ddragon.leagueoflegends.com/cdn/11.16.1/data/en_US/champion.json').then((res) =>
-    res.json(),
-  )
+export const fetchChampions = (): AppThunk => async (dispatch, getState) => {
+  const state = getState()
+  const selectedVersion = state.champion.selectedVersion
+
+  const { data } = await fetch(
+    `http://ddragon.leagueoflegends.com/cdn/${selectedVersion}/data/en_US/champion.json`,
+  ).then((res) => res.json())
   const championsWithAssets = Object.keys(data).reduce((acc, cur) => {
     return {
       ...acc,
       [cur]: {
         ...acc[cur],
-        square_asset: `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/champion/${cur}.png`,
+        square_asset: `http://ddragon.leagueoflegends.com/cdn/${selectedVersion}/img/champion/${cur}.png`,
       },
     }
   }, data)
@@ -77,12 +93,20 @@ export const fetchChampions = (): AppThunk => async (dispatch) => {
   dispatch(setChampionLoading(false))
 }
 
+export const fetchVersions = (): AppThunk => async (dispatch) => {
+  const data = await fetch('https://ddragon.leagueoflegends.com/api/versions.json').then((res) => res.json())
+  dispatch(setVersions(data))
+  dispatch(setSelectedVersion(data[0]))
+}
+
 export const {
   setChampions,
   setPlayerChampion,
   setOpponentChampion,
   setChampionLoading,
   setSelectedStat,
+  setSelectedVersion,
+  setVersions,
 } = championSlice.actions
 
 export const selectSelectedStat = (state: RootState) => state.champion.selectedStat
@@ -107,5 +131,8 @@ export const selectChampionMultiLineGraph = (state: RootState) => {
     }
   })
 }
+
+export const selectSelectedVersion = (state: RootState) => state.champion.selectedVersion
+export const selectVersions = (state: RootState) => state.champion.versions
 
 export default championSlice.reducer
