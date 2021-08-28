@@ -1,10 +1,10 @@
 import React from 'react'
 import Select from 'react-select'
 import { useDispatch } from 'react-redux'
-import { setSelectedStat } from '../store/slices/championSlice'
+import { setSelectedPatch } from '../store/slices/championSlice'
 import { SelectOption } from '../types'
 
-const StatSelect = ({
+const PatchSelect = ({
   options,
   name,
   placeholder,
@@ -15,7 +15,7 @@ const StatSelect = ({
 }) => {
   const dispatch = useDispatch()
 
-  const onSelect = (value: SelectOption) => dispatch(setSelectedStat(value))
+  const onSelect = (value: SelectOption) => dispatch(setSelectedPatch(value))
 
   return (
     <Select
@@ -28,4 +28,4 @@ const StatSelect = ({
   )
 }
 
-export default StatSelect
+export default PatchSelect

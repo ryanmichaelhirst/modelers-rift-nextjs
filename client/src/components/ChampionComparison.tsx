@@ -8,15 +8,15 @@ import {
   selectChampionMultiLineGraph,
   stats,
   selectSelectedStat,
-  fetchVersions,
-  selectSelectedVersion,
-  selectVersions,
+  fetchPatches,
+  selectSelectedPatch,
+  selectPatches,
 } from '../store/slices/championSlice'
 import ChampionSelect from './ChampionSelect'
 import Champion from './Champion'
 import MultiLineGraph from './MultiLineGraph'
 import StatSelect from './StatSelect'
-import VersionSelect from './VersionSelect'
+import PatchSelect from './PatchSelect'
 
 const ChampionComparison = () => {
   const dispatch = useDispatch()
@@ -25,16 +25,16 @@ const ChampionComparison = () => {
   const opponentChampion = useSelector(selectOpponentChampion)
   const multiLineData = useSelector(selectChampionMultiLineGraph)
   const selectedStat = useSelector(selectSelectedStat)
-  const selectedVersion = useSelector(selectSelectedVersion)
-  const versions = useSelector(selectVersions)
+  const selectedPatch = useSelector(selectSelectedPatch)
+  const patches = useSelector(selectPatches)
 
   useEffect(() => {
-    dispatch(fetchVersions())
+    dispatch(fetchPatches())
   }, [])
 
   useEffect(() => {
-    if (selectedVersion) dispatch(fetchChampions())
-  }, [selectedVersion])
+    if (selectedPatch) dispatch(fetchChampions())
+  }, [selectedPatch])
 
   const tooltipTitle = stats.find((s) => s.value === selectedStat).label
   const tooltipTitles = [playerChampion?.name || '', opponentChampion?.name || '']
@@ -44,12 +44,12 @@ const ChampionComparison = () => {
     label: c.name ? c.name : '',
     icon: c.square_asset,
   }))
-  const versionOptions = versions.map((c: any) => ({ label: c, value: c }))
+  const patchOptions = patches.map((c: any) => ({ label: c, value: c }))
 
   return (
     <>
       <div>
-        <VersionSelect options={versionOptions} name='selectedVersion' placeholder='Select patch' />
+        <PatchSelect options={patchOptions} name='selectedPatch' placeholder='Select patch' />
         <StatSelect options={stats} name='selectedStat' placeholder='Select stat' />
         <MultiLineGraph
           data={multiLineData}
@@ -61,8 +61,16 @@ const ChampionComparison = () => {
         />
       </div>
       <div className='mx-auto'>
-        <ChampionSelect options={selectOptions} name='playerChampion' placeholder='Select your champion' />
-        <ChampionSelect options={selectOptions} name='opponentChampion' placeholder='Select your opponent' />
+        <ChampionSelect
+          options={selectOptions}
+          name='playerChampion'
+          placeholder='Select your champion'
+        />
+        <ChampionSelect
+          options={selectOptions}
+          name='opponentChampion'
+          placeholder='Select opponent'
+        />
       </div>
       <div className='flex'>
         <Champion champion={playerChampion} />

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState, AppThunk } from '../index'
+import { SelectOption } from '../../types'
 
 interface ChampionState {
   loading: boolean
@@ -7,15 +8,15 @@ interface ChampionState {
   champions: Record<string, Record<string, any>>
   playerChampion?: Record<string, any>
   opponentChampion?: Record<string, any>
-  versions: string[]
-  selectedVersion?: string
+  patches: string[]
+  selectedPatch?: string
 }
 
 const initialState: ChampionState = {
   loading: true,
   selectedStat: 'attackdamage',
   champions: {},
-  versions: [],
+  patches: [],
 }
 
 export const stats = [
@@ -46,25 +47,28 @@ export const championSlice = createSlice({
     setChampionLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload
     },
-    setSelectedStat: (state, action: PayloadAction<{ value: string; label: string }>) => {
+    setSelectedStat: (state, action: PayloadAction<SelectOption>) => {
       state.selectedStat = action.payload.value
     },
-    setVersions: (state, action: PayloadAction<any>) => {
-      state.versions = action.payload
+    setPatches: (state, action: PayloadAction<string[]>) => {
+      state.patches = action.payload
     },
-    setSelectedVersion: (state, action: PayloadAction<any>) => {
-      state.selectedVersion = action.payload.value
+    setSelectedPatch: (state, action: PayloadAction<SelectOption>) => {
+      state.selectedPatch = action.payload.value
     },
   },
 })
 
-export const chooseChampion = (type: string, payload: { value: string }): AppThunk => async (dispatch, getState) => {
+export const chooseChampion = (type: string, payload: { value: string }): AppThunk => async (
+  dispatch,
+  getState,
+) => {
   const json = JSON.parse(payload.value)
   const state = getState()
-  const selectedVersion = state.champion.selectedVersion
+  const selectedPatch = state.champion.selectedPatch
 
   const { data } = await fetch(
-    `http://ddragon.leagueoflegends.com/cdn/${selectedVersion}/data/en_US/champion/${json.name}.json`,
+    `http://ddragon.leagueoflegends.com/cdn/${selectedPatch}/data/en_US/champion/${json.name}.json`,
   ).then((res) => res.json())
   const name = json.name
 
@@ -74,17 +78,17 @@ export const chooseChampion = (type: string, payload: { value: string }): AppThu
 
 export const fetchChampions = (): AppThunk => async (dispatch, getState) => {
   const state = getState()
-  const selectedVersion = state.champion.selectedVersion
+  const { selectedPatch } = state.champion
 
   const { data } = await fetch(
-    `http://ddragon.leagueoflegends.com/cdn/${selectedVersion}/data/en_US/champion.json`,
+    `http://ddragon.leagueoflegends.com/cdn/${selectedPatch}/data/en_US/champion.json`,
   ).then((res) => res.json())
   const championsWithAssets = Object.keys(data).reduce((acc, cur) => {
     return {
       ...acc,
       [cur]: {
         ...acc[cur],
-        square_asset: `http://ddragon.leagueoflegends.com/cdn/${selectedVersion}/img/champion/${cur}.png`,
+        square_asset: `http://ddragon.leagueoflegends.com/cdn/${selectedPatch}/img/champion/${cur}.png`,
       },
     }
   }, data)
@@ -93,10 +97,12 @@ export const fetchChampions = (): AppThunk => async (dispatch, getState) => {
   dispatch(setChampionLoading(false))
 }
 
-export const fetchVersions = (): AppThunk => async (dispatch) => {
-  const data = await fetch('https://ddragon.leagueoflegends.com/api/versions.json').then((res) => res.json())
-  dispatch(setVersions(data))
-  dispatch(setSelectedVersion(data[0]))
+export const fetchPatches = (): AppThunk => async (dispatch) => {
+  const data = await fetch('https://ddragon.leagueoflegends.com/api/versions.json').then((res) =>
+    res.json(),
+  )
+  dispatch(setPatches(data))
+  dispatch(setSelectedPatch(data[0]))
 }
 
 export const {
@@ -105,8 +111,8 @@ export const {
   setOpponentChampion,
   setChampionLoading,
   setSelectedStat,
-  setSelectedVersion,
-  setVersions,
+  setSelectedPatch,
+  setPatches,
 } = championSlice.actions
 
 export const selectSelectedStat = (state: RootState) => state.champion.selectedStat
@@ -127,12 +133,14 @@ export const selectChampionMultiLineGraph = (state: RootState) => {
     return {
       level: level + 1,
       ...(playerStats && { value1: level * playerStats[statPerLevel] + playerStats[selectedStat] }),
-      ...(opponentStats && { value2: level * opponentStats[statPerLevel] + opponentStats[selectedStat] }),
+      ...(opponentStats && {
+        value2: level * opponentStats[statPerLevel] + opponentStats[selectedStat],
+      }),
     }
   })
 }
 
-export const selectSelectedVersion = (state: RootState) => state.champion.selectedVersion
-export const selectVersions = (state: RootState) => state.champion.versions
+export const selectSelectedPatch = (state: RootState) => state.champion.selectedPatch
+export const selectPatches = (state: RootState) => state.champion.patches
 
 export default championSlice.reducer
