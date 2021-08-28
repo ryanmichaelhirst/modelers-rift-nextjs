@@ -1,95 +1,60 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import {
+  selectPlayerChampion,
+  selectOpponentChampion,
+  selectChampions,
+  fetchChampions,
+  selectChampionMultiLineGraph,
+  stats,
+  selectSelectedStat,
+} from '../store/slices/championSlice'
 import ChampionSelect from './ChampionSelect'
 import Champion from './Champion'
 import MultiLineGraph from './MultiLineGraph'
+import StatSelect from './StatSelect'
 
 const ChampionComparison = () => {
-  const [champions, setChampions] = useState({})
-  const [champion1, setChampion1] = useState()
-  const [champion2, setChampion2] = useState()
-  const [multi, setMulti] = useState([])
+  const dispatch = useDispatch()
+  const champions = useSelector(selectChampions)
+  const playerChampion = useSelector(selectPlayerChampion)
+  const opponentChampion = useSelector(selectOpponentChampion)
+  const multiLineData = useSelector(selectChampionMultiLineGraph)
+  const selectedStat = useSelector(selectSelectedStat)
 
   useEffect(() => {
-    const data = async () => {
-      const req = await fetch('http://ddragon.leagueoflegends.com/cdn/11.16.1/data/en_US/champion.json').then((res) =>
-        res.json(),
-      )
-
-      setChampions(req.data)
-    }
-
-    data()
+    dispatch(fetchChampions())
   }, [])
 
-  useEffect(() => {
-    const data = async () => {
-      const req1 = await fetch(
-        `http://ddragon.leagueoflegends.com/cdn/11.16.1/data/en_US/champion/Aatrox.json`,
-      ).then((res) => res.json())
-
-      const req2 = await fetch(
-        `http://ddragon.leagueoflegends.com/cdn/11.16.1/data/en_US/champion/Ashe.json`,
-      ).then((res) => res.json())
-
-      const playerStats = req1.data['Aatrox'].stats
-      const opponentStats = req2.data['Ashe'].stats
-
-      const data = [...Array(18).keys()].map((level) => {
-        return {
-          level: level + 1,
-          value1: level * playerStats.attackdamageperlevel + playerStats.attackdamage,
-          value2: level * opponentStats.attackdamageperlevel + opponentStats.attackdamage,
-        }
-      })
-      setMulti(data)
-    }
-
-    data()
-  }, [])
-
-  console.log(multi)
-
-  const onSelect = (name: string, obj: Record<string, string>) => {
-    const json = JSON.parse(obj.value)
-
-    if (name === 'champion-1') setChampion1(json)
-    if (name === 'champion-2') setChampion2(json)
-  }
+  const tooltipTitle = stats.find((s) => s.value === selectedStat).label
+  const tooltipTitles = [playerChampion?.name || '', opponentChampion?.name || '']
 
   const selectOptions = Object.values(champions).map((c: any) => ({
     value: JSON.stringify(c),
     label: c.name ? c.name : '',
+    icon: c.square_asset,
   }))
 
   return (
     <>
       <div>
+        <StatSelect options={stats} name='selectedStat' placeholder='Select stat' />
         <MultiLineGraph
-          data={multi}
+          data={multiLineData}
           id='multi-graph'
           xLabel='level'
           yLabels={['value1', 'value2']}
-          tooltipTitle={'Attack damage'}
-          tooltipTitles={['Aatrox', 'Ashe']}
+          tooltipTitle={tooltipTitle}
+          tooltipTitles={tooltipTitles}
         />
       </div>
       <div className='mx-auto'>
-        <ChampionSelect
-          options={selectOptions}
-          onChange={onSelect}
-          name='champion-1'
-          placeholder='Select your champion'
-        />
-        <ChampionSelect
-          options={selectOptions}
-          onChange={onSelect}
-          name='champion-2'
-          placeholder='Select your opponent'
-        />
+        <ChampionSelect options={selectOptions} name='playerChampion' placeholder='Select your champion' />
+        <ChampionSelect options={selectOptions} name='opponentChampion' placeholder='Select your opponent' />
       </div>
       <div className='flex'>
-        <Champion champion={champion1} />
-        <Champion champion={champion2} />
+        <Champion champion={playerChampion} />
+        <Champion champion={opponentChampion} />
       </div>
     </>
   )
