@@ -25,16 +25,19 @@ const ChampionCard = ({ champion }: { champion: any }) => {
             src: `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/passive/${passive.image.full}`,
           }}
           text={passive.description}
+          tooltip={passive.description}
         />
       </div>
       <div>
         {spells.map((s) => (
           <ImageTextRow
+            key={s.name}
             image={{
               ...s.image,
               src: `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/${s.image.full}`,
             }}
             text={s.description}
+            tooltip={s.tooltip}
           />
         ))}
       </div>

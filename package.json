@@ -14,6 +14,7 @@
     "@amcharts/amcharts4": "^4.10.22",
     "@leafac/sqlite": "^1.5.0",
     "@reduxjs/toolkit": "^1.6.1",
+    "@tippyjs/react": "^4.2.5",
     "core-js": "^3.2.1",
     "ejs": "^2.7.1",
     "express": "^4.17.1",

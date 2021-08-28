@@ -1,4 +1,5 @@
 import React from 'react'
+import Tippy from '@tippyjs/react'
 
 const ellipsisStyle = {
   display: '-webkit-box',
@@ -10,21 +11,21 @@ const ImageTextRow = ({
   color,
   image,
   text,
+  tooltip,
 }: {
   color?: string
   image: { src: string; h: string; w: string }
   text: string
+  tooltip: string
 }) => {
   return (
-    <div className='flex mb-3 bg-blue-100'>
-      <img
-        className='mr-3 border-4 border-yellow-100 rounded-lg'
-        style={{ height: image.h, width: image.w }}
-        src={image.src}
-      />
-      <p style={{ ...ellipsisStyle }} className='text-xs overflow-hidden'>
-        {text}
-      </p>
+    <div className='flex mb-3 bg-blue-100 h-14 rounded'>
+      <img className='mr-3 border-2 border-yellow-100 rounded shadow' src={image.src} />
+      <Tippy content={tooltip}>
+        <p style={{ ...ellipsisStyle }} className='text-xs overflow-hidden m-2'>
+          {text}
+        </p>
+      </Tippy>
     </div>
   )
 }
