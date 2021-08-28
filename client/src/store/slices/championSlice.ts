@@ -101,8 +101,10 @@ export const fetchPatches = (): AppThunk => async (dispatch) => {
   const data = await fetch('https://ddragon.leagueoflegends.com/api/versions.json').then((res) =>
     res.json(),
   )
+  const patch = { label: data[0], value: data[0] }
+
   dispatch(setPatches(data))
-  dispatch(setSelectedPatch(data[0]))
+  dispatch(setSelectedPatch(patch))
 }
 
 export const {

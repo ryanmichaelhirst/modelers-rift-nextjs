@@ -1,4 +1,5 @@
 import React from 'react'
+import ChampionCard from './ChampionCard'
 import LineGraph from './LineGraph'
 
 const Champion = ({ champion }: { champion: any }) => {
@@ -17,10 +18,7 @@ const Champion = ({ champion }: { champion: any }) => {
 
   return (
     <div className='mt-10 flex-1'>
-      <p>{champion.name}</p>
-      <p>Base Stats</p>
-      <pre>{JSON.stringify(champion.stats, null, '\t')}</pre>
-      <p>Level Progression</p>
+      <ChampionCard champion={champion} />
       <LineGraph id={`line-${champion.name}`} data={lineData} xLabel='level' yLabel='value' />
     </div>
   )

@@ -49,7 +49,12 @@ const ChampionComparison = () => {
   return (
     <>
       <div>
-        <PatchSelect options={patchOptions} name='selectedPatch' placeholder='Select patch' />
+        <PatchSelect
+          options={patchOptions}
+          value={selectedPatch}
+          name='selectedPatch'
+          placeholder='Select patch'
+        />
         <StatSelect options={stats} name='selectedStat' placeholder='Select stat' />
         <MultiLineGraph
           data={multiLineData}
