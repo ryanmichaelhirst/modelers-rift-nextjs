@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Select, { components } from 'react-select'
 import { useDispatch } from 'react-redux'
 import { chooseChampion } from '../store/slices/championSlice'
+import { SelectOption } from '../types'
+
 const { Option, SingleValue } = components
 
 const IconOption = (props: any) => {
@@ -22,13 +24,31 @@ const SingleOption = (props: any) => {
   )
 }
 
-const ChampionSelect = ({ options, name, placeholder }: { name: string; placeholder: string; options: any[] }) => {
+const ChampionSelect = ({
+  value,
+  options,
+  name,
+  placeholder,
+}: {
+  name: string
+  placeholder: string
+  options: any[]
+  value: any
+}) => {
   const dispatch = useDispatch()
+  const [selectValue, setSelectValue] = useState<SelectOption>()
+
+  useEffect(() => {
+    const val = options.find((o) => o.label === value.name)
+
+    if (val) setSelectValue(val)
+  }, [value])
 
   const onSelect = (value: any) => dispatch(chooseChampion(name, value))
 
   return (
     <Select
+      value={selectValue}
       components={{ Option: IconOption, SingleValue: SingleOption }}
       options={options}
       onChange={onSelect}

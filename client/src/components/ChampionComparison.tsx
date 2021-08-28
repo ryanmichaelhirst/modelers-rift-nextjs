@@ -39,7 +39,7 @@ const ChampionComparison = () => {
   const tooltipTitle = stats.find((s) => s.value === selectedStat).label
   const tooltipTitles = [playerChampion?.name || '', opponentChampion?.name || '']
 
-  const selectOptions = Object.values(champions).map((c: any) => ({
+  const championOptions = Object.values(champions).map((c: any) => ({
     value: JSON.stringify(c),
     label: c.name ? c.name : '',
     icon: c.square_asset,
@@ -67,12 +67,14 @@ const ChampionComparison = () => {
       </div>
       <div className='mx-auto'>
         <ChampionSelect
-          options={selectOptions}
+          value={playerChampion}
+          options={championOptions}
           name='playerChampion'
           placeholder='Select your champion'
         />
         <ChampionSelect
-          options={selectOptions}
+          value={opponentChampion}
+          options={championOptions}
           name='opponentChampion'
           placeholder='Select opponent'
         />

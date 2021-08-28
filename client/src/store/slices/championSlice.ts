@@ -93,6 +93,8 @@ export const fetchChampions = (): AppThunk => async (dispatch, getState) => {
     }
   }, data)
 
+  // set default option
+  dispatch(chooseChampion('playerChampion', { value: JSON.stringify(championsWithAssets.Aatrox) }))
   dispatch(setChampions(championsWithAssets))
   dispatch(setChampionLoading(false))
 }

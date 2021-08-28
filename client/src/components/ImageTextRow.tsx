@@ -11,20 +11,23 @@ const ImageTextRow = ({
   color,
   image,
   text,
+  title,
   tooltip,
 }: {
   color?: string
   image: { src: string; h: string; w: string }
   text: string
   tooltip: string
+  title?: string
 }) => {
   return (
     <div className='flex mb-3 bg-blue-100 h-14 rounded'>
       <img className='mr-3 border-2 border-yellow-100 rounded shadow' src={image.src} />
-      <Tippy content={tooltip}>
-        <p style={{ ...ellipsisStyle }} className='text-xs overflow-hidden m-2'>
-          {text}
-        </p>
+      <Tippy content={tooltip} placement='right-start'>
+        <div className='overflow-hidden' style={{ ...ellipsisStyle }}>
+          {title && <p className='text-sm text-yellow-300 font-semibold'>{title}</p>}
+          <p className='text-xs'>{text}</p>
+        </div>
       </Tippy>
     </div>
   )
