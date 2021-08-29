@@ -6,7 +6,6 @@ import {
   selectChampions,
   fetchChampions,
   selectChampionMultiLineGraph,
-  stats,
   selectSelectedStat,
   fetchPatches,
   selectSelectedPatch,
@@ -17,6 +16,7 @@ import Champion from './Champion'
 import MultiLineGraph from './MultiLineGraph'
 import StatSelect from './StatSelect'
 import PatchSelect from './PatchSelect'
+import { STAT_OPTIONS } from '../types/constants'
 
 const ChampionComparison = () => {
   const dispatch = useDispatch()
@@ -36,7 +36,7 @@ const ChampionComparison = () => {
     if (selectedPatch) dispatch(fetchChampions())
   }, [selectedPatch])
 
-  const tooltipTitle = stats.find((s) => s.value === selectedStat).label
+  const tooltipTitle = STAT_OPTIONS.find((s) => s.value === selectedStat).label
   const tooltipTitles = [playerChampion?.name || '', opponentChampion?.name || '']
 
   const championOptions = Object.values(champions).map((c: any) => ({
@@ -55,7 +55,7 @@ const ChampionComparison = () => {
           name='selectedPatch'
           placeholder='Select patch'
         />
-        <StatSelect options={stats} name='selectedStat' placeholder='Select stat' />
+        <StatSelect options={STAT_OPTIONS} name='selectedStat' placeholder='Select stat' />
         <MultiLineGraph
           data={multiLineData}
           id='multi-graph'

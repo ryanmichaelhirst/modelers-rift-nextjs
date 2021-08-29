@@ -1,10 +1,8 @@
 import React from 'react'
-import ImageTextRow from './ImageTextRow'
+import ChampionTabs from './ChampionTabs'
 
 const ChampionCard = ({ champion }: { champion: any }) => {
   if (!champion) return null
-
-  const { name, passive, spells } = champion
 
   console.log(champion)
 
@@ -18,7 +16,7 @@ const ChampionCard = ({ champion }: { champion: any }) => {
         <img
           className='mr-3 border-4 border-yellow-100 rounded-lg'
           alt={`${champion.name} loading image`}
-          src={`http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${name}_0.jpg`}
+          src={`http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champion.name}_0.jpg`}
         />
         {champion.tags.map((t) => (
           <span
@@ -29,31 +27,7 @@ const ChampionCard = ({ champion }: { champion: any }) => {
           </span>
         ))}
       </div>
-      <div className='flex mb-3'>
-        <ImageTextRow
-          image={{
-            ...passive.image,
-            src: `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/passive/${passive.image.full}`,
-          }}
-          text={passive.description}
-          tooltip={passive.description}
-          title={passive.name}
-        />
-      </div>
-      <div>
-        {spells.map((s) => (
-          <ImageTextRow
-            key={s.name}
-            image={{
-              ...s.image,
-              src: `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/${s.image.full}`,
-            }}
-            text={s.description}
-            tooltip={s.tooltip}
-            title={s.name}
-          />
-        ))}
-      </div>
+      <ChampionTabs champion={champion} />
     </div>
   )
 }
