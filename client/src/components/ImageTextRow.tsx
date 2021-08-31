@@ -8,20 +8,20 @@ const ellipsisStyle = {
 }
 
 const ImageTextRow = ({
-  color,
+  style,
   image,
   text,
   title,
   tooltip,
 }: {
-  color?: string
+  style?: React.CSSProperties
   image: { src: string; h: string; w: string }
   text: string
   tooltip: string
   title?: string
 }) => {
   return (
-    <div className='flex mb-3 bg-blue-100 h-14 rounded'>
+    <div className='flex mb-3 bg-blue-100 h-14 rounded' style={style}>
       <img className='mr-3 border-2 border-yellow-100 rounded shadow' src={image.src} />
       <Tippy content={tooltip} placement='right-start'>
         <div className='overflow-hidden' style={{ ...ellipsisStyle }}>

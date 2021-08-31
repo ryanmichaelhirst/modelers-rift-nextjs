@@ -4,6 +4,8 @@ import ChampionCard from './ChampionCard'
 const Champion = ({ champion, bg }: { champion: any; bg: number }) => {
   if (!champion) return null
 
+  console.log(champion)
+
   // const lineData = champion.stats
   //   ? [...Array(18).keys()]
   //       .filter((level) => level !== 0)

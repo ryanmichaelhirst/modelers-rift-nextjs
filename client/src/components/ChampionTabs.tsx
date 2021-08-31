@@ -54,9 +54,9 @@ const ChampionTabs = ({ champion }: { champion: any }) => {
         <>
           <div className='my-2 text-xs italic font-montserrat'>Hover for skin name</div>
           {skins.map((s) => (
-            <div className='inline-block mr-2 mb-2 border rounded-xl' key={s.id}>
+            <div className='inline-block mr-2 mb-2' key={s.id}>
               <img
-                className='h-28'
+                className='h-28 rounded'
                 src={`http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.name}_${s.num}.jpg`}
                 title={s.name}
               />
@@ -68,7 +68,15 @@ const ChampionTabs = ({ champion }: { champion: any }) => {
     },
     {
       tab: 'Tips',
-      content: <p>tips panel</p>,
+      content: (
+        <ul className='list-decimal list-inside'>
+          {champion.allytips.concat(champion.enemytips).map((t, idx) => (
+            <li className='text-xs' key={`tip-${idx}`}>
+              {t}
+            </li>
+          ))}
+        </ul>
+      ),
     },
   ]
 
