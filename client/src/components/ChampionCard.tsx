@@ -1,13 +1,23 @@
 import React from 'react'
 import ChampionTabs from './ChampionTabs'
+import Background1 from '../assets/bg-blue.png'
+import Background2 from '../assets/bg-yellow.png'
 
-const ChampionCard = ({ champion }: { champion: any }) => {
+const Backgrounds = {
+  1: Background1,
+  2: Background2,
+}
+
+const ChampionCard = ({ champion, bg }: { champion: any; bg: number }) => {
   if (!champion) return null
 
-  console.log(champion)
+  const background = Backgrounds[bg]
 
   return (
-    <div className='w-80 border-4 border-black rounded-xl shadow-lg px-3 py-2 bg-gray-200'>
+    <div
+      className='w-80 border-4 border-black rounded-xl shadow-lg px-3 py-2 bg-cover bg-center'
+      style={{ backgroundImage: `url(${background})` }}
+    >
       <div className='bg-gray-800 rounded-sm shadow-lg px-2 py-1 my-3 text-2xl text-yellow-300'>
         <span className='font-montserrat'>{champion.name}, </span>
         <span className='italic text-xl capitalize'>{champion.title}</span>

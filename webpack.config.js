@@ -4,7 +4,10 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const webpack = require('webpack')
 
 module.exports = {
-  entry: ['webpack-hot-middleware/client?reload=true', path.join(__dirname, 'client/src/index.tsx')],
+  entry: [
+    'webpack-hot-middleware/client?reload=true',
+    path.join(__dirname, 'client/src/index.tsx'),
+  ],
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
@@ -18,7 +21,7 @@ module.exports = {
       filename: 'index.html',
     }),
     new FaviconsWebpackPlugin({
-      logo: 'client/src/icons/api.png',
+      logo: 'client/src/assets/api.png',
       mode: process.env.NODE_ENV === 'development' ? 'light' : 'webapp',
       devMode: process.env.NODE_ENV === 'development' ? 'light' : 'webapp',
     }),
@@ -62,6 +65,7 @@ module.exports = {
             loader: 'image-webpack-loader',
             options: {
               bypassOnDebug: true,
+              name: 'assets/[name].[ext]',
             },
           },
         ],

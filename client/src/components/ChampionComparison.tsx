@@ -86,11 +86,11 @@ const ChampionComparison = () => {
         </div>
         <div className='flex'>
           <div>
-            <Champion champion={playerChampion} />
+            <Champion champion={playerChampion} bg={1} />
             <ItemGrid />
           </div>
           <div>
-            <Champion champion={opponentChampion} />
+            <Champion champion={opponentChampion} bg={2} />
             <ItemGrid />
           </div>
         </div>

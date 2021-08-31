@@ -6,6 +6,25 @@ import { IconOption, SingleOption } from './ChampionSelect'
 import Tippy from '@tippyjs/react'
 import classNames from 'classnames'
 
+const ItemRow = ({ items, location }: { items: Record<string, any>[]; location: 't' | 'b' }) => (
+  <>
+    {items.map((item, ii) => (
+      <Tippy key={item.name} content={item.name}>
+        <div key={item.name}>
+          <img
+            className={classNames(
+              ii === 0 && `rounded-${location}l`,
+              ii === 3 && `rounded-${location}r`,
+            )}
+            src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/item/${item.image.full}`}
+            alt={item.name}
+          />
+        </div>
+      </Tippy>
+    ))}
+  </>
+)
+
 const ItemGrid = () => {
   const dispatch = useDispatch()
   const items = useSelector(selectItems)
@@ -36,34 +55,10 @@ const ItemGrid = () => {
       />
       <div className='flex-1 flex-col items-center justify-center border rounded shadow mt-4'>
         <div className='flex'>
-          {Object.values(selectedItems)
-            .slice(0, 3)
-            .map((item, ii) => (
-              <Tippy content={item.name}>
-                <div key={item.name}>
-                  <img
-                    className={classNames(ii === 0 && 'rounded-tl', ii === 3 && 'rounded-tr')}
-                    src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/item/${item.image.full}`}
-                    alt={item.name}
-                  />
-                </div>
-              </Tippy>
-            ))}
+          <ItemRow items={Object.values(selectedItems).slice(0, 3)} location='t' />
         </div>
         <div className='flex'>
-          {Object.values(selectedItems)
-            .slice(3, 6)
-            .map((item, ii) => (
-              <Tippy content={item.name}>
-                <div key={item.name}>
-                  <img
-                    className={classNames(ii === 0 && 'rounded-bl', ii === 3 && 'rounded-br')}
-                    src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/item/${item.image.full}`}
-                    alt={item.name}
-                  />
-                </div>
-              </Tippy>
-            ))}
+          <ItemRow items={Object.values(selectedItems).slice(3, 6)} location='b' />
         </div>
       </div>
     </div>
