@@ -12,11 +12,13 @@ import {
   selectPatches,
 } from '../store/slices/championSlice'
 import ChampionSelect from './ChampionSelect'
+import { fetchItems } from '../store/slices/itemSlice'
 import Champion from './Champion'
 import MultiLineGraph from './MultiLineGraph'
 import StatSelect from './StatSelect'
 import PatchSelect from './PatchSelect'
 import { STAT_OPTIONS } from '../types/constants'
+import ItemGrid from './ItemGrid'
 
 const ChampionComparison = () => {
   const dispatch = useDispatch()
@@ -30,6 +32,7 @@ const ChampionComparison = () => {
 
   useEffect(() => {
     dispatch(fetchPatches())
+    dispatch(fetchItems())
   }, [])
 
   useEffect(() => {
@@ -47,8 +50,8 @@ const ChampionComparison = () => {
   const patchOptions = patches.map((c: any) => ({ label: c, value: c }))
 
   return (
-    <>
-      <div>
+    <div className='flex'>
+      <div className='flex-1 mr-3'>
         <PatchSelect
           options={patchOptions}
           value={selectedPatch}
@@ -56,6 +59,7 @@ const ChampionComparison = () => {
           placeholder='Select patch'
         />
         <StatSelect options={STAT_OPTIONS} name='selectedStat' placeholder='Select stat' />
+        <div className='mt-4' />
         <MultiLineGraph
           data={multiLineData}
           id='multi-graph'
@@ -65,25 +69,33 @@ const ChampionComparison = () => {
           tooltipTitles={tooltipTitles}
         />
       </div>
-      <div className='mx-auto'>
-        <ChampionSelect
-          value={playerChampion}
-          options={championOptions}
-          name='playerChampion'
-          placeholder='Select your champion'
-        />
-        <ChampionSelect
-          value={opponentChampion}
-          options={championOptions}
-          name='opponentChampion'
-          placeholder='Select opponent'
-        />
+      <div className='flex-1 ml-3'>
+        <div>
+          <ChampionSelect
+            value={playerChampion}
+            options={championOptions}
+            name='playerChampion'
+            placeholder='Select your champion'
+          />
+          <ChampionSelect
+            value={opponentChampion}
+            options={championOptions}
+            name='opponentChampion'
+            placeholder='Select opponent'
+          />
+        </div>
+        <div className='flex'>
+          <div>
+            <Champion champion={playerChampion} />
+            <ItemGrid />
+          </div>
+          <div>
+            <Champion champion={opponentChampion} />
+            <ItemGrid />
+          </div>
+        </div>
       </div>
-      <div className='flex'>
-        <Champion champion={playerChampion} />
-        <Champion champion={opponentChampion} />
-      </div>
-    </>
+    </div>
   )
 }
 

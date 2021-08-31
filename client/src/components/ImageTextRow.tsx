@@ -3,8 +3,8 @@ import Tippy from '@tippyjs/react'
 
 const ellipsisStyle = {
   display: '-webkit-box',
-  '-webkit-line-clamp': '3',
-  '-webkit-box-orient': 'vertical',
+  WebkitBoxOrient: 'vertical' as any,
+  WebkitLineClamp: 3,
 }
 
 const ImageTextRow = ({

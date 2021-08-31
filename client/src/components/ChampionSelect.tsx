@@ -6,7 +6,7 @@ import { SelectOption } from '../types'
 
 const { Option, SingleValue } = components
 
-const IconOption = (props: any) => {
+export const IconOption = (props: any) => {
   return (
     <Option {...props}>
       <img src={props.data.icon} alt={props.data.label} className='w-7 h-7 inline-block mr-4' />
@@ -15,7 +15,7 @@ const IconOption = (props: any) => {
   )
 }
 
-const SingleOption = (props: any) => {
+export const SingleOption = (props: any) => {
   return (
     <SingleValue {...props}>
       <img src={props.data.icon} alt={props.data.label} className='w-7 h-7 inline-block mr-4' />
