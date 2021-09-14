@@ -2,6 +2,7 @@ import React from 'react'
 import ImageTextRow from './ImageTextRow'
 import Tabs from './Tabs'
 import { STAT_OPTIONS } from '../types/constants'
+import PassiveSpellRow from './PassiveSpellRow'
 
 const ChampionTabs = ({ champion }: { champion: any }) => {
   const { passive, spells, stats, skins } = champion
@@ -11,8 +12,8 @@ const ChampionTabs = ({ champion }: { champion: any }) => {
       tab: 'Spells',
       content: (
         <>
-          <div className='flex mb-3'>
-            <ImageTextRow
+          <div className='flex mb-1'>
+            <PassiveSpellRow
               image={{
                 ...passive.image,
                 src: `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/passive/${passive.image.full}`,

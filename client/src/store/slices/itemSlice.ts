@@ -39,6 +39,13 @@ export const fetchItems = (): AppThunk => async (dispatch, getState) => {
     return acc
   }, {})
 
+  const selected = {}
+  for (const key in itemsAsRecord) {
+    if (Object.keys(selected).length === 6) break
+    else selected[key] = itemsAsRecord[key]
+  }
+
+  dispatch(setSelectedItems(selected))
   dispatch(setItems(itemsAsRecord))
 }
 

@@ -10,7 +10,13 @@ const compiler = webpack(config)
 const app = express()
 
 app.use(webpackDevMiddleware(compiler, { publicPath: config.output.publicPath }))
-app.use(webpackHotMiddleware(compiler, { log: console.log, path: '/__webpack_hmr', heartbeat: 10 * 1000 }))
+app.use(
+  webpackHotMiddleware(compiler, {
+    log: console.log,
+    path: '/__webpack_hmr',
+    heartbeat: 10 * 1000,
+  }),
+)
 app.get('/api/getUsers', async (req, res) => {
   console.log('request made to /api/getUser')
   const users = await getUsers()

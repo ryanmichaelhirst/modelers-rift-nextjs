@@ -21,7 +21,7 @@ const ImageTextRow = ({
   title?: string
 }) => {
   return (
-    <div className='flex mb-3 bg-blue-100 h-14 rounded' style={style}>
+    <div className='flex mb-3 bg-blue-100 h-14 rounded font-montserrat' style={style}>
       <img className='mr-3 border-2 border-yellow-100 rounded shadow' src={image.src} />
       <Tippy content={tooltip} placement='right-start'>
         <div className='overflow-hidden' style={{ ...ellipsisStyle }}>

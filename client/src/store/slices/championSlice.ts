@@ -58,7 +58,7 @@ export const chooseChampion = (type: string, payload: { value: string }): AppThu
   const { data } = await fetch(
     `http://ddragon.leagueoflegends.com/cdn/${selectedPatch}/data/en_US/champion/${json.name}.json`,
   ).then((res) => res.json())
-  const name = json.name
+  const { name } = json
 
   if (type === 'playerChampion') dispatch(setPlayerChampion(data[name]))
   if (type === 'opponentChampion') dispatch(setOpponentChampion(data[name]))
@@ -81,8 +81,8 @@ export const fetchChampions = (): AppThunk => async (dispatch, getState) => {
     }
   }, data)
 
-  // set default option
   dispatch(chooseChampion('playerChampion', { value: JSON.stringify(championsWithAssets.Aatrox) }))
+  dispatch(chooseChampion('opponentChampion', { value: JSON.stringify(championsWithAssets.Akali) }))
   dispatch(setChampions(championsWithAssets))
   dispatch(setChampionLoading(false))
 }

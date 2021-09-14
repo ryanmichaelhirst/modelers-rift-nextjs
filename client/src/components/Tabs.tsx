@@ -12,7 +12,7 @@ const Tabs = ({ options }: { options: { tab: string; content: any }[] }) => {
 
   return (
     <div>
-      <div>
+      <div className='mb-2'>
         {options.map((t) => (
           <span
             className={classNames(
