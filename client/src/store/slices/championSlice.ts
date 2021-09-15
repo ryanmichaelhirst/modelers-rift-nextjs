@@ -53,7 +53,7 @@ export const chooseChampion = (type: string, payload: { value: string }): AppThu
 ) => {
   const json = JSON.parse(payload.value)
   const state = getState()
-  const selectedPatch = state.champion.selectedPatch
+  const { selectedPatch } = state.champion
 
   const { data } = await fetch(
     `http://ddragon.leagueoflegends.com/cdn/${selectedPatch}/data/en_US/champion/${json.name}.json`,

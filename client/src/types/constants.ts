@@ -9,3 +9,17 @@ export const STAT_OPTIONS = [
   { label: 'Crit', value: 'crit' },
   { label: 'Attack Speed', value: 'attackspeed' },
 ]
+
+export const STAT_SEMANTIC_TEMPLATES = {
+  '<physicalDamage>': 'Physical Damage',
+  '<magicDamage>': 'Magic Damage',
+  '<status>': 'Status',
+  '<recast>': 'Recast',
+  '<lifeSteal>': 'Life Steal',
+  '<spellPassive>': 'Passive',
+  '<spellActive>': 'Active',
+  '<scaleAD>': 'Scale AD',
+  '<healing>': 'Healing',
+  '<speed>': 'Speed',
+  '<keywordStealth>': 'Stealth',
+}

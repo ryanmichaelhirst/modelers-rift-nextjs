@@ -1,19 +1,20 @@
 import React from 'react'
-import ImageTextRow from './ImageTextRow'
+import SpellRow from './SpellRow'
 import Tabs from './Tabs'
 import { STAT_OPTIONS } from '../types/constants'
-import PassiveSpellRow from './PassiveSpellRow'
+import PassiveRow from './PassiveRow'
 
 const ChampionTabs = ({ champion }: { champion: any }) => {
   const { passive, spells, stats, skins } = champion
 
+  // console.log(spells)
   const options = [
     {
       tab: 'Spells',
       content: (
         <>
           <div className='flex mb-1'>
-            <PassiveSpellRow
+            <PassiveRow
               image={{
                 ...passive.image,
                 src: `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/passive/${passive.image.full}`,
@@ -25,13 +26,13 @@ const ChampionTabs = ({ champion }: { champion: any }) => {
           </div>
           <div>
             {spells.map((s) => (
-              <ImageTextRow
+              <SpellRow
                 key={s.name}
+                spellKey={s.id.charAt(s.id.length - 1)}
                 image={{
                   ...s.image,
                   src: `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/${s.image.full}`,
                 }}
-                text={s.description}
                 tooltip={s.tooltip}
                 title={s.name}
               />
