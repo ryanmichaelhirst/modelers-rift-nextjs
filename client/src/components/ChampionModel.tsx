@@ -5,7 +5,7 @@ import Aatrox from './Aatrox'
 import Akali from './Akali'
 
 const ChampionModel = ({ champion }: { champion: string }) => (
-  <Canvas style={{ height: '50vh' }}>
+  <Canvas style={{ height: '100vh' }}>
     <Suspense fallback={null}>
       {champion === 'akali' ? <Akali /> : <Aatrox />}
       {/** @ts-ignore */}
