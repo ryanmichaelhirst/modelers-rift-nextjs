@@ -58,6 +58,17 @@ module.exports = {
         loader: 'react-svg-loader',
       },
       {
+        test: /\.(glb|gltf)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'assets/',
+            },
+          },
+        ],
+      },
+      {
         test: /\.(gif|png|jpe?g)$/i,
         use: [
           'file-loader',

@@ -1,21 +1,19 @@
-// import React, { Suspense } from 'react'
-// import { Canvas, useLoader } from '@react-three/fiber'
-// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-// // @ts-ignore
-// import aatrox from '../assets/aatrox.gltf'
+import React, { Suspense } from 'react'
+import { Canvas } from '@react-three/fiber'
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
+import Aatrox from './Aatrox'
+import Akali from './Akali'
 
-// const ChampionModel = () => {
-//   const gltf = useLoader(GLTFLoader, aatrox)
+const ChampionModel = ({ champion }: { champion: string }) => (
+  <Canvas style={{ height: '50vh' }}>
+    <Suspense fallback={null}>
+      {champion === 'akali' ? <Akali /> : <Aatrox />}
+      {/** @ts-ignore */}
+      <OrbitControls />
+      {/** @ts-ignore */}
+      <PerspectiveCamera makeDefault position={[300, 300, -500, 1000]} />
+    </Suspense>
+  </Canvas>
+)
 
-//   return <primitive object={gltf.scene} />
-// }
-
-// const Container = () => (
-//   <Canvas>
-//     <Suspense fallback={null}>
-//       <ChampionModel />
-//     </Suspense>
-//   </Canvas>
-// )
-
-// export default Container
+export default ChampionModel
