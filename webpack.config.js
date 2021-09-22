@@ -1,4 +1,5 @@
 const path = require('path')
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const webpack = require('webpack')
@@ -109,6 +110,7 @@ module.exports = {
     static: './dist',
   },
   resolve: {
+    plugins: [new TsconfigPathsPlugin({})],
     extensions: ['*', '.js', '.jsx', '.tsx', '.ts'],
   },
   devtool: 'source-map',

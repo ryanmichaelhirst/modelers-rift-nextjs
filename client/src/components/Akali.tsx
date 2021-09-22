@@ -7,7 +7,7 @@ import React, { useRef } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
 import { useFrame } from '@react-three/fiber'
-import akali from '../assets/akali.glb'
+import akali from '@assets/akali.glb'
 
 type GLTFResult = GLTF & {
   nodes: {

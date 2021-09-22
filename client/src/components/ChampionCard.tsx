@@ -1,7 +1,7 @@
 import React from 'react'
-import ChampionTabs from './ChampionTabs'
-import Background1 from '../assets/bg-blue.png'
-import Background2 from '../assets/bg-yellow.png'
+import ChampionTabs from '@components/ChampionTabs'
+import Background1 from '@assets/bg-blue.png'
+import Background2 from '@assets/bg-yellow.png'
 
 const Backgrounds = {
   1: Background1,

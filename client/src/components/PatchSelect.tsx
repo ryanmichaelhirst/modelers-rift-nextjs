@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 import { useDispatch } from 'react-redux'
-import { setSelectedPatch } from '../store/slices/championSlice'
-import { SelectOption } from '../types'
+import { setSelectedPatch } from '@store/slices/championSlice'
+import { SelectOption } from '@customtypes/index'
 
 const PatchSelect = ({
   options,

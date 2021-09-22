@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from './Header'
-import ChampionComparison from './ChampionComparison'
-import ChampionModel from './ChampionModel'
+import ChampionComparison from '@components/ChampionComparison'
+import ChampionModel from '@components/ChampionModel'
 
 const App = () => (
   <>

@@ -11,14 +11,14 @@ import {
   selectSelectedPatch,
   selectPatches,
 } from '../store/slices/championSlice'
-import ChampionSelect from './ChampionSelect'
-import { fetchItems } from '../store/slices/itemSlice'
-import Champion from './Champion'
-import MultiLineGraph from './MultiLineGraph'
-import StatSelect from './StatSelect'
-import PatchSelect from './PatchSelect'
-import { STAT_OPTIONS } from '../types/constants'
-import ItemGrid from './ItemGrid'
+import ChampionSelect from '@components/ChampionSelect'
+import { fetchItems } from '@store/slices/itemSlice'
+import Champion from '@components/Champion'
+import MultiLineGraph from '@components/MultiLineGraph'
+import StatSelect from '@components/StatSelect'
+import PatchSelect from '@components/PatchSelect'
+import { STAT_OPTIONS } from '@customtypes/constants'
+import ItemGrid from '@components/ItemGrid'
 
 const ChampionComparison = () => {
   const dispatch = useDispatch()

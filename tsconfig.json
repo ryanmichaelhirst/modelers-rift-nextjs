@@ -10,6 +10,14 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["client/src/components/*"],
+      "@assets/*": ["client/src/assets/*"],
+      "@hooks/*": ["client/src/hooks/*"],
+      "@store/*": ["client/src/store/*"],
+      "@customtypes/*": ["client/src/types/*"]
+    }
   }
 }

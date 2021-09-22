@@ -1,8 +1,8 @@
 import React, { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
-import Aatrox from './Aatrox'
-import Akali from './Akali'
+import Aatrox from '@components/Aatrox'
+import Akali from '@components/Akali'
 
 const ChampionModel = ({ champion }: { champion: string }) => (
   <Canvas style={{ height: '100vh' }}>

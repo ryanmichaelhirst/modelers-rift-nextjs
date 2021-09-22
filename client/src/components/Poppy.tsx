@@ -7,7 +7,7 @@ import React, { useRef } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
 import { useFrame } from '@react-three/fiber'
-import poppy from '../assets/poppy.glb'
+import poppy from '@assets/poppy.glb'
 
 type GLTFResult = GLTF & {
   nodes: {
