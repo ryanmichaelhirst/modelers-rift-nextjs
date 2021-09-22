@@ -137,43 +137,26 @@ type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
 export default function Model(props: JSX.IntrinsicElements['group']) {
   const group = useRef<THREE.Group>()
-  const [test, setTest] = useState<any>()
-
   const { nodes, materials, animations } = useGLTF(aatrox) as GLTFResult
-  const { actions } = useAnimations(animations, group)
+  const { ref, mixer, names, actions, clips } = useAnimations(animations, group)
   const aatroxActions = actions as GLTFActions
+  const animationNames = Object.keys(aatroxActions).map((key) => key)
 
   useEffect(() => {
-    const cycleAnimations = async () => {
-      // const doAnimation = (animation: any) => {
-      //   console.log(animation.isRunning())
-
-      //   if (animation.isRunning()) {
-      //     doAnimation(animation)
-      //   } else {
-      //     console.log('stopped')
-      //   }
-      // }
-
-      const firstKey = Object.keys(aatroxActions)[0]
-      const animation = aatroxActions.aatrox_buffbones
-      console.log(animation)
-      animation.setLoop(THREE.LoopOnce)
-      animation.clampWhenFinished = true
-      animation.play()
-
-      if (!test) setTest(animation)
-    }
-
-    cycleAnimations()
+    playNextAnimation()
   }, [])
 
-  useEffect(() => {
-    for (let ii = 0; ii < 50000; ii++) {
-      if (test) {
-        console.log(test.isRunning())
-      }
-    }
+  const playNextAnimation = () => {
+    const name = animationNames.shift()
+    animationNames.push(name)
+    const animation = aatroxActions[name]
+    animation.repetitions = 3
+    animation.enable = true
+    animation.play()
+  }
+
+  mixer.addEventListener('finished', (e: any) => {
+    playNextAnimation()
   })
 
   return (
