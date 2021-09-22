@@ -134,7 +134,7 @@ type GLTFActions = Record<ActionName, THREE.AnimationAction>
 export default function Model(props: JSX.IntrinsicElements['group']) {
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(aatrox) as GLTFResult
-  useCycleAnimations<GLTFActions>({ animations, ref })
+  useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: 'aatrox' })
 
   return (
     <group ref={ref} {...props} dispose={null}>

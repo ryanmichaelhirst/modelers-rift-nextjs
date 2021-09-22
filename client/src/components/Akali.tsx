@@ -153,7 +153,7 @@ type GLTFActions = Record<ActionName, THREE.AnimationAction>
 export default function Model(props: JSX.IntrinsicElements['group']) {
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(akali) as GLTFResult
-  useCycleAnimations<GLTFActions>({ animations, ref })
+  useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: 'akali' })
 
   useFrame(({ clock }) => {
     const a = clock.getElapsedTime()

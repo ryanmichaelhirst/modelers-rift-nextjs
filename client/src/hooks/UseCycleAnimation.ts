@@ -1,28 +1,51 @@
 import { useEffect } from 'react'
 import { useAnimations } from '@react-three/drei'
 
-export const cycleAnimations = <T>({ animations, ref }: { animations: any; ref: any }) => {
+export const cycleAnimations = <T>({
+  animations,
+  ref,
+  timerLabel,
+}: {
+  animations: any
+  ref: any
+  timerLabel: string
+}) => {
   const { mixer, names, actions, clips } = useAnimations(animations, ref)
-  const modelActions = (actions as unknown) as T
-  const animationNames = Object.keys(modelActions).map((key) => key)
-
-  const playNextAnimation = (e?: unknown) => {
-    const name = animationNames.shift()
-    animationNames.push(name)
-    const animation = modelActions[name]
-    animation.repetitions = 3
-    animation.enable = true
-    animation.play()
-  }
+  const aniActions = (actions as unknown) as T
+  const aniNames = Object.keys(aniActions).map((key) => key)
+  const lastClipName = aniNames[aniNames.length - 1]
 
   useEffect(() => {
-    if (mixer) {
-      mixer.addEventListener('finished', playNextAnimation)
-      playNextAnimation()
-    }
+    mixer.addEventListener('finished', playNextAnimation)
 
     return () => mixer.removeEventListener('finished', playNextAnimation)
-  }, [mixer])
+  }, [])
+
+  useEffect(() => {
+    playNextAnimation()
+  }, [])
+
+  const playNextAnimation = (e?: any) => {
+    const curIdx = aniNames.indexOf(e?.action?.getClip()?.name)
+    const currentClipName = aniNames[curIdx]
+
+    if (curIdx === 0 || curIdx === -1) console.time(`full-animation-cycle-${timerLabel}`)
+
+    let nextIdx = curIdx === -1 ? 1 : curIdx + 1
+
+    if (currentClipName === lastClipName) {
+      console.timeEnd(`full-animation-cycle-${timerLabel}`)
+      nextIdx = 0
+      mixer.setTime(0)
+    }
+
+    const nextClipName = aniNames[nextIdx]
+    const animation = aniActions[nextClipName]
+
+    animation.repetitions = 1
+    animation.enabled = true
+    animation.play()
+  }
 }
 
 export default cycleAnimations
