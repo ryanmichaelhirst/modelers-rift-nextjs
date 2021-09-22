@@ -5,7 +5,7 @@ import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import { getUsers } from '../prisma/queries'
 
-const config = require(path.join(__dirname, '../webpack.config.js'))
+const config = require(path.join(__dirname, '../webpack.config.ts'))
 const compiler = webpack(config)
 const app = express()
 

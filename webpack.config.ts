@@ -1,8 +1,8 @@
-const path = require('path')
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
-const webpack = require('webpack')
+import path from 'path'
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import FaviconsWebpackPlugin from 'favicons-webpack-plugin'
+import webpack from 'webpack'
 
 module.exports = {
   entry: [
