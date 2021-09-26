@@ -4,10 +4,10 @@ import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import Aatrox from '@components/Aatrox'
 import Akali from '@components/Akali'
 
-const ChampionModel = ({ champion }: { champion: string }) => (
-  <Canvas style={{ height: '100vh' }}>
+const ChampionModel = ({ name }: { name: string }) => (
+  <Canvas style={{ height: '70vh' }}>
     <Suspense fallback={null}>
-      {champion === 'akali' ? <Akali /> : <Aatrox />}
+      {name === 'akali' ? <Akali /> : <Aatrox />}
       {/** @ts-ignore */}
       <OrbitControls />
       {/** @ts-ignore */}

@@ -1,7 +1,7 @@
 import React from 'react'
 import ChampionCard from '@components/ChampionCard'
 
-const Champion = ({ champion, bg }: { champion: any; bg: number }) => {
+const Champion = ({ champion }: { champion: any }) => {
   if (!champion) return null
 
   // const lineData = champion.stats
@@ -17,7 +17,7 @@ const Champion = ({ champion, bg }: { champion: any; bg: number }) => {
 
   return (
     <div className='mt-10 flex-1'>
-      <ChampionCard champion={champion} bg={bg} />
+      <ChampionCard champion={champion} />
       {/* <LineGraph id={`line-${champion.name}`} data={lineData} xLabel='level' yLabel='value' /> */}
     </div>
   )
