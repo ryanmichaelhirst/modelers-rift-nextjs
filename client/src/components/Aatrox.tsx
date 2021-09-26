@@ -3,7 +3,7 @@ import { useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
 import useCycleAnimations from '@hooks/UseCycleAnimation'
-import aatrox from '@assets/aatrox.glb'
+import aatrox from '@assets/aatrox/skin0.glb'
 
 type GLTFResult = GLTF & {
   nodes: {
