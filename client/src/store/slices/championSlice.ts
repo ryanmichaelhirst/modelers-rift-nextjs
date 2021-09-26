@@ -10,6 +10,7 @@ interface ChampionState {
   opponentChampion?: Record<string, any>
   patches: string[]
   selectedPatch?: string
+  loreLink?: string
 }
 
 const initialState: ChampionState = {
@@ -17,6 +18,7 @@ const initialState: ChampionState = {
   selectedStat: 'attackdamage',
   champions: {},
   patches: [],
+  loreLink: 'https://universe.leagueoflegends.com/en_US/champion/brand/',
 }
 
 export const championSlice = createSlice({
@@ -44,8 +46,23 @@ export const championSlice = createSlice({
     setSelectedPatch: (state, action: PayloadAction<SelectOption>) => {
       state.selectedPatch = action.payload.value
     },
+    setLoreLink: (state, action: PayloadAction<{ region: string; champion: string }>) => {
+      const { region, champion } = action.payload
+      state.loreLink = `https://universe.leagueoflegends.com/${region}/champion/${champion}/`
+    },
   },
 })
+
+export const {
+  setChampions,
+  setPlayerChampion,
+  setOpponentChampion,
+  setChampionLoading,
+  setSelectedStat,
+  setSelectedPatch,
+  setPatches,
+  setLoreLink,
+} = championSlice.actions
 
 export const chooseChampion = (type: string, payload: { value: string }): AppThunk => async (
   dispatch,
@@ -97,16 +114,6 @@ export const fetchPatches = (): AppThunk => async (dispatch) => {
   dispatch(setSelectedPatch(patch))
 }
 
-export const {
-  setChampions,
-  setPlayerChampion,
-  setOpponentChampion,
-  setChampionLoading,
-  setSelectedStat,
-  setSelectedPatch,
-  setPatches,
-} = championSlice.actions
-
 export const selectSelectedStat = (state: RootState) => state.champion.selectedStat
 export const selectChampionLoading = (state: RootState) => state.champion.loading
 export const selectPlayerChampion = (state: RootState) => state.champion.playerChampion
@@ -134,5 +141,6 @@ export const selectChampionMultiLineGraph = (state: RootState) => {
 
 export const selectSelectedPatch = (state: RootState) => state.champion.selectedPatch
 export const selectPatches = (state: RootState) => state.champion.patches
+export const selectLoreLink = (state: RootState) => state.champion.loreLink
 
 export default championSlice.reducer
