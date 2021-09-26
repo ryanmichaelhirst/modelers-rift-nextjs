@@ -13,6 +13,7 @@ interface ChampionState {
   patches: string[]
   selectedPatch?: string
   loreLink?: string
+  selectedSkin: string
 }
 
 const initialState: ChampionState = {
@@ -21,6 +22,7 @@ const initialState: ChampionState = {
   champions: {},
   patches: [],
   loreLink: 'https://universe.leagueoflegends.com/en_US/champion/brand/',
+  selectedSkin: 'skin0',
 }
 
 export const championSlice = createSlice({
@@ -52,6 +54,9 @@ export const championSlice = createSlice({
       const { region, champion } = action.payload
       state.loreLink = `https://universe.leagueoflegends.com/${region}/champion/${champion}/`
     },
+    setSelectedSkin: (state, action: PayloadAction<string>) => {
+      state.selectedSkin = action.payload
+    },
   },
 })
 
@@ -64,6 +69,7 @@ export const {
   setSelectedPatch,
   setPatches,
   setLoreLink,
+  setSelectedSkin,
 } = championSlice.actions
 
 export const chooseChampion = (type: string, payload: { value: string }): AppThunk => async (
@@ -144,5 +150,6 @@ export const selectChampionMultiLineGraph = (state: RootState) => {
 export const selectSelectedPatch = (state: RootState) => state.champion.selectedPatch
 export const selectPatches = (state: RootState) => state.champion.patches
 export const selectLoreLink = (state: RootState) => state.champion.loreLink
+export const selectSkin = (state: RootState) => state.champion.selectedSkin
 
 export default championSlice.reducer
