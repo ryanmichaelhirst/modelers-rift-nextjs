@@ -17,7 +17,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'App title here',
+      title: 'League of Legends Models',
       template: path.join(__dirname, 'client/templates/index.ejs'),
       filename: 'index.html',
     }),

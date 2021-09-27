@@ -5,7 +5,7 @@
   "main": "client/src/index.tsx",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.ts",
-    "start": "cross-env NODE_ENV=development env-cmd nodemon --watch server server/index.ts",
+    "start": "cross-env NODE_ENV=development env-cmd nodemon --watch server --watch graphql --watch prisma server/index.ts",
     "db": "env-cmd ts-node bin/index -c=db",
     "docker-build": "docker-compose -f docker-compose.dev.yml build",
     "up": "docker-compose -f docker-compose.dev.yml up"
@@ -17,7 +17,7 @@
     "@react-three/fiber": "^7.0.6",
     "@reduxjs/toolkit": "^1.6.1",
     "@tippyjs/react": "^4.2.5",
-    "apollo-server": "^3.3.0",
+    "apollo-server-express": "^3.3.0",
     "classnames": "^2.3.1",
     "core-js": "^3.2.1",
     "ejs": "^2.7.1",
