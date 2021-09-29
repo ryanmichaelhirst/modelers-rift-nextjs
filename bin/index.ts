@@ -33,6 +33,11 @@ const createDatabase = async () => {
   prisma.$disconnect()
 }
 
+const convertGltf = async () => {
+  const gltfDir = '../../league_raw_models'
+  const outDir = '../../league_react_models'
+}
+
 const run = async () => {
   // Parse flags
   const argv = await yargs(hideBin(process.argv)).options({
@@ -50,6 +55,8 @@ const run = async () => {
     case 'db':
       createDatabase()
       break
+    case 'convert':
+      convertGltf()
     default:
       throw new Error('command not recognized')
   }
