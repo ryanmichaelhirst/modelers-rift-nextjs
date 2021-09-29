@@ -1,6 +1,7 @@
 import { Database } from '@leafac/sqlite'
 import { execSync } from 'child_process'
 import fs from 'fs'
+import path from 'path'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 import { sampleUsers, createUser, prisma } from '../prisma/queries'
@@ -34,8 +35,45 @@ const createDatabase = async () => {
 }
 
 const convertGltf = async () => {
-  const gltfDir = '../../league_raw_models'
-  const outDir = '../../league_react_models'
+  const gltfDir = path.join(__dirname, '..', '..', '..', '/league_raw_models')
+  const outDir = path.join(__dirname, '..', '..', '..', '/league_react_models')
+
+  console.log({
+    gltfDir,
+    outDir,
+  })
+
+  fs.readdir(gltfDir, (err, dirs) => {
+    if (err) throw new Error('Could not get directory')
+
+    dirs.forEach((champDir, idx) => {
+      fs.readdir(`${gltfDir}/${champDir}`, (err, skinDirs) => {
+        skinDirs.forEach((skinDir) => {
+          fs.readdir(`${gltfDir}/${champDir}/${skinDir}`, (err, files) => {
+            files.forEach((f) => {
+              const filename = path.parse(f).name
+
+              if (f.includes('.gltf') && idx < 1) {
+                console.log({
+                  idx,
+                  champDir,
+                  filename,
+                  cmd: `gltf-pipeline -i ${gltfDir}/${champDir}/${skinDir}/${f} -o ${outDir}/${champDir}/${filename}.glb`,
+                })
+
+                execSync(
+                  `gltf-pipeline -i ${gltfDir}/${champDir}/${skinDir}/${f} -o ${outDir}/${champDir}/${filename}.glb`,
+                  {
+                    stdio: 'inherit',
+                  },
+                )
+              }
+            })
+          })
+        })
+      })
+    })
+  })
 }
 
 const run = async () => {
@@ -57,6 +95,7 @@ const run = async () => {
       break
     case 'convert':
       convertGltf()
+      break
     default:
       throw new Error('command not recognized')
   }
