@@ -34,7 +34,7 @@ const createDatabase = async () => {
   prisma.$disconnect()
 }
 
-const convertGltf = async () => {
+const generateGlb = async () => {
   const gltfDir = path.join(__dirname, '..', '..', '..', '/league_raw_models')
   const outDir = path.join(__dirname, '..', '..', '..', '/league_react_models')
 
@@ -53,7 +53,7 @@ const convertGltf = async () => {
             files.forEach((f) => {
               const filename = path.parse(f).name
 
-              if (f.includes('.gltf') && idx < 1) {
+              if (f.includes('.gltf')) {
                 console.log({
                   idx,
                   champDir,
@@ -76,6 +76,33 @@ const convertGltf = async () => {
   })
 }
 
+const generateJsx = async () => {
+  const glbDir = path.join(__dirname, '../../../league_react_models')
+
+  fs.readdir(glbDir, (err, dirs) => {
+    if (err) throw new Error('Could not get directory')
+
+    dirs.forEach((champDir, dirIdx) => {
+      if (dirIdx === 0) {
+        fs.readdir(`${glbDir}/${champDir}`, (err, files) => {
+          files.forEach((f, fIdx) => {
+            if (fIdx < 4) {
+              let jsxFile = f.substring(0, 1).toUpperCase() + f.substring(1)
+              jsxFile = jsxFile.replace('glb', 'tsx')
+
+              console.log(`gltfjsx ${glbDir}/${champDir}/${f} -t > ${jsxFile}`)
+              execSync(`gltfjsx ${glbDir}/${champDir}/${f} -t`, {
+                stdio: 'inherit',
+              })
+              execSync(`mv ${jsxFile} client/src/components/${champDir}/${jsxFile}`)
+            }
+          })
+        })
+      }
+    })
+  })
+}
+
 const run = async () => {
   // Parse flags
   const argv = await yargs(hideBin(process.argv)).options({
@@ -93,8 +120,11 @@ const run = async () => {
     case 'db':
       createDatabase()
       break
-    case 'convert':
-      convertGltf()
+    case 'generate-glb':
+      generateGlb()
+      break
+    case 'generate-jsx':
+      generateJsx()
       break
     default:
       throw new Error('command not recognized')

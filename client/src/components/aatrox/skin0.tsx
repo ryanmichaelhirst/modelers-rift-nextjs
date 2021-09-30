@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
+import React, { useRef } from 'react'
+import { useGLTF } from '@react-three/drei'
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
-import useCycleAnimations from '@hooks/UseCycleAnimation'
 import aatrox from '@assets/aatrox/skin0.glb'
+import useCycleAnimations from '@hooks/UseCycleAnimation'
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -131,27 +131,24 @@ type ActionName =
   | 'BannerOff'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
-export default function Model(props: JSX.IntrinsicElements['group']) {
+export default function Model({ ...props }: JSX.IntrinsicElements['group']) {
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(aatrox) as GLTFResult
-  useCycleAnimations<GLTFActions>({
-    animations,
-    ref,
-    timerLabel: 'aatrox',
-    baseMaterial: materials.Body,
-  })
+  useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: 'aatrox' })
 
   return (
     <group ref={ref} {...props} dispose={null}>
-      <primitive object={nodes.Root} />
-      <primitive object={nodes.Weapon_World} />
-      <primitive object={nodes.Buffbone_Glb_Channel_Loc} />
-      <primitive object={nodes.Buffbone_Glb_Ground_Loc} />
-      <primitive object={nodes.C_Buffbone_Glb_Layout_Loc} />
-      <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
-      <primitive object={nodes.RunPython} />
-      <primitive object={nodes.Buffbone_Cstm_Healthbar} />
-      <primitive object={nodes.Body_World} />
+      <group scale={[-1, 1, 1]}>
+        <primitive object={nodes.Root} />
+        <primitive object={nodes.Weapon_World} />
+        <primitive object={nodes.Buffbone_Glb_Channel_Loc} />
+        <primitive object={nodes.Buffbone_Glb_Ground_Loc} />
+        <primitive object={nodes.C_Buffbone_Glb_Layout_Loc} />
+        <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
+        <primitive object={nodes.RunPython} />
+        <primitive object={nodes.Buffbone_Cstm_Healthbar} />
+        <primitive object={nodes.Body_World} />
+      </group>
       <skinnedMesh
         geometry={nodes.mesh_0.geometry}
         material={materials.Wings}
@@ -181,4 +178,4 @@ export default function Model(props: JSX.IntrinsicElements['group']) {
   )
 }
 
-useGLTF.preload('/skin0.glb')
+useGLTF.preload(aatrox)
