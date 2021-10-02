@@ -79,28 +79,53 @@ const generateGlb = async () => {
 const generateJsx = async () => {
   const glbDir = path.join(__dirname, '../../../league_react_models')
 
-  fs.readdir(glbDir, (err, dirs) => {
-    if (err) throw new Error('Could not get directory')
+  try {
+    const dirs = fs.readdirSync(glbDir)
+    let counter = 0
 
-    dirs.forEach((champDir, dirIdx) => {
-      if (dirIdx === 0) {
-        fs.readdir(`${glbDir}/${champDir}`, (err, files) => {
-          files.forEach((f, fIdx) => {
-            if (fIdx < 4) {
-              let jsxFile = f.substring(0, 1).toUpperCase() + f.substring(1)
-              jsxFile = jsxFile.replace('glb', 'tsx')
+    for (const champDir of champDirs) {
+      if (counter >= 5) return
 
-              console.log(`gltfjsx ${glbDir}/${champDir}/${f} -t > ${jsxFile}`)
-              execSync(`gltfjsx ${glbDir}/${champDir}/${f} -t`, {
-                stdio: 'inherit',
-              })
-              execSync(`mv ${jsxFile} client/src/components/${champDir}/${jsxFile}`)
-            }
-          })
+      const files = fs.readdirSync(`${glbDir}/${champDir}`)
+
+      for (const file of files) {
+        const jsxFile = file.substring(0, 1).toUpperCase() + file.substring(1).replace('glb', 'tsx')
+
+        console.log(`gltfjsx ${glbDir}/${champDir}/${file} -t > ${jsxFile}`)
+
+        execSync(`gltfjsx ${glbDir}/${champDir}/${file} -t`, {
+          stdio: 'inherit',
         })
+        execSync(`mv ${jsxFile} client/src/components/${champDir}/${jsxFile}`)
       }
-    })
-  })
+    }
+
+    counter++
+  } catch (err) {
+    throw new Error(`Could not read directory @ ${glbDir}`)
+  }
+}
+
+const copyAssets = async () => {
+  const assetDir = path.join(__dirname, '../../../league_raw_models')
+
+  try {
+    const champDirs = fs.readdirSync(assetDir)
+    let counter = 0
+
+    for (const champDir of champDirs) {
+      if (counter >= 5) return
+      const skinDirs = fs.readdirSync(`${assetDir}/${champDir}`)
+
+      for (const skinDir of skinDirs) {
+        const files = fs.readdirSync(`${assetDir}/${champDir}/${skinDir}`)
+
+        execSync(`cp ${assetDir}`)
+      }
+    }
+  } catch (err) {
+    throw new Error(`Could not read directory @ ${assetDir}`)
+  }
 }
 
 const run = async () => {
@@ -125,6 +150,9 @@ const run = async () => {
       break
     case 'generate-jsx':
       generateJsx()
+      break
+    case 'copy-assets':
+      copyAssets()
       break
     default:
       throw new Error('command not recognized')
