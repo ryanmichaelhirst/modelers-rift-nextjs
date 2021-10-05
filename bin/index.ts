@@ -80,7 +80,7 @@ const generateJsx = async () => {
   const glbDir = path.join(__dirname, '../../../league_react_models')
 
   try {
-    const dirs = fs.readdirSync(glbDir)
+    const champDirs = fs.readdirSync(glbDir)
     let counter = 0
 
     for (const champDir of champDirs) {
@@ -120,7 +120,11 @@ const copyAssets = async () => {
       for (const skinDir of skinDirs) {
         const files = fs.readdirSync(`${assetDir}/${champDir}/${skinDir}`)
 
-        execSync(`cp ${assetDir}`)
+        for (const file of files) {
+          if (file.includes('.glb')) {
+            execSync(`cp ${path.resolve(file)} client/src/components${champDir}/${file}`)
+          }
+        }
       }
     }
   } catch (err) {
