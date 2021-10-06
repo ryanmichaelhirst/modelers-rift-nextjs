@@ -107,7 +107,7 @@ const generateJsx = async () => {
 }
 
 const copyAssets = async () => {
-  const assetDir = path.join(__dirname, '../../../league_raw_models')
+  const assetDir = path.join(__dirname, '../../../league_react_models')
 
   try {
     const champDirs = fs.readdirSync(assetDir)
@@ -115,17 +115,18 @@ const copyAssets = async () => {
 
     for (const champDir of champDirs) {
       if (counter >= 5) return
-      const skinDirs = fs.readdirSync(`${assetDir}/${champDir}`)
+      const files = fs.readdirSync(`${assetDir}/${champDir}`)
 
-      for (const skinDir of skinDirs) {
-        const files = fs.readdirSync(`${assetDir}/${champDir}/${skinDir}`)
-
-        for (const file of files) {
-          if (file.includes('.glb')) {
-            execSync(`cp ${path.resolve(file)} client/src/components${champDir}/${file}`)
+      for (const file of files) {
+        if (file.includes('.glb')) {
+          if (!fs.existsSync(`client/src/assets/${champDir}`)) {
+            fs.mkdirSync(`client/src/assets/${champDir}`)
           }
+
+          execSync(`cp ${assetDir}/${champDir}/${file} client/src/assets/${champDir}/${file}`)
         }
       }
+      counter++
     }
   } catch (err) {
     throw new Error(`Could not read directory @ ${assetDir}`)
