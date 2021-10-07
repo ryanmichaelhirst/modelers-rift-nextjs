@@ -1,10 +1,13 @@
 import { Database } from '@leafac/sqlite'
-import { execSync } from 'child_process'
+import { exec, execSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 import { sampleUsers, createUser, prisma } from '../prisma/queries'
+import PQueue from 'p-queue'
+
+const queue = new PQueue({ concurrency: 5 })
 
 const createDatabase = async () => {
   const dbPath = 'prisma/dev.db'
@@ -79,31 +82,54 @@ const generateGlb = async () => {
 const generateJsx = async () => {
   const glbDir = path.join(__dirname, '../../../league_react_models')
 
+  console.time('generate-jsx')
   try {
     const champDirs = fs.readdirSync(glbDir)
     let counter = 0
 
     for (const champDir of champDirs) {
-      if (counter >= 5) return
+      if (counter >= 1) break
 
       const files = fs.readdirSync(`${glbDir}/${champDir}`)
 
-      for (const file of files) {
-        const jsxFile = file.substring(0, 1).toUpperCase() + file.substring(1).replace('glb', 'tsx')
-
-        console.log(`gltfjsx ${glbDir}/${champDir}/${file} -t > ${jsxFile}`)
-
-        execSync(`gltfjsx ${glbDir}/${champDir}/${file} -t`, {
-          stdio: 'inherit',
-        })
-        execSync(`mv ${jsxFile} client/src/components/${champDir}/${jsxFile}`)
+      if (!fs.existsSync(`client/src/components/${champDir}`)) {
+        fs.mkdirSync(`client/src/components/${champDir}`)
       }
-    }
 
-    counter++
+      for (const file of files) {
+        const jsxFile = file.replace('glb', 'tsx')
+
+        await queue.add(async () => {
+          console.log(`gltfjsx ${glbDir}/${champDir}/${file} -t > ${jsxFile}`)
+
+          exec(`gltfjsx ${glbDir}/${champDir}/${file} -t`, async (err, stdout, stderr) => {
+            console.log(stdout)
+            await new Promise<void>((resolve) => {
+              exec(
+                `mv ${jsxFile} client/src/components/${champDir}/${jsxFile}`,
+                async (err, stdout, stderr) => {
+                  console.log('completed move')
+                  resolve()
+                },
+              )
+            })
+          })
+        })
+
+        // pause when queue gets large
+        if (queue.size >= 100) await new Promise((resolve) => setTimeout(resolve, 100))
+      }
+
+      counter++
+    }
   } catch (err) {
     throw new Error(`Could not read directory @ ${glbDir}`)
   }
+
+  await queue.onIdle()
+
+  console.log(`queue size: ${queue.size}`)
+  console.timeEnd('generate-jsx')
 }
 
 const copyAssets = async () => {
@@ -114,7 +140,7 @@ const copyAssets = async () => {
     let counter = 0
 
     for (const champDir of champDirs) {
-      if (counter >= 5) return
+      if (counter >= 5) break
       const files = fs.readdirSync(`${assetDir}/${champDir}`)
 
       for (const file of files) {
