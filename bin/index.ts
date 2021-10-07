@@ -7,7 +7,7 @@ import { hideBin } from 'yargs/helpers'
 import { sampleUsers, createUser, prisma } from '../prisma/queries'
 import PQueue from 'p-queue'
 
-const queue = new PQueue({ concurrency: 5 })
+const queue = new PQueue({ concurrency: 30 })
 
 const createDatabase = async () => {
   const dbPath = 'prisma/dev.db'
@@ -88,7 +88,7 @@ const generateJsx = async () => {
     let counter = 0
 
     for (const champDir of champDirs) {
-      if (counter >= 1) break
+      if (counter >= 5) break
 
       const files = fs.readdirSync(`${glbDir}/${champDir}`)
 
@@ -99,16 +99,15 @@ const generateJsx = async () => {
       for (const file of files) {
         const jsxFile = file.replace('glb', 'tsx')
 
-        await queue.add(async () => {
-          console.log(`gltfjsx ${glbDir}/${champDir}/${file} -t > ${jsxFile}`)
-
-          exec(`gltfjsx ${glbDir}/${champDir}/${file} -t`, async (err, stdout, stderr) => {
-            console.log(stdout)
-            await new Promise<void>((resolve) => {
+        queue.add(async () => {
+          await new Promise<void>((resolve) => {
+            exec(`gltfjsx ${glbDir}/${champDir}/${file} -t`, async (err, stdout, stderr) => {
+              console.log(`gltfjsx ${glbDir}/${champDir}/${file} -t > ${jsxFile}`)
+              console.log(stdout)
               exec(
                 `mv ${jsxFile} client/src/components/${champDir}/${jsxFile}`,
                 async (err, stdout, stderr) => {
-                  console.log('completed move')
+                  console.log(`mv ${jsxFile} client/src/components/${champDir}/${jsxFile} `)
                   resolve()
                 },
               )
@@ -117,18 +116,17 @@ const generateJsx = async () => {
         })
 
         // pause when queue gets large
-        if (queue.size >= 100) await new Promise((resolve) => setTimeout(resolve, 100))
+        if (queue.size >= 50) await new Promise((resolve) => setTimeout(resolve, 100))
       }
 
+      await queue.onIdle()
+      console.log(`queue size: ${queue.size}`)
       counter++
     }
   } catch (err) {
     throw new Error(`Could not read directory @ ${glbDir}`)
   }
 
-  await queue.onIdle()
-
-  console.log(`queue size: ${queue.size}`)
   console.timeEnd('generate-jsx')
 }
 
