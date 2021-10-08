@@ -82,14 +82,10 @@ const generateGlb = async () => {
 const generateJsx = async () => {
   const glbDir = path.join(__dirname, '../../../league_react_models')
 
-  console.time('generate-jsx')
   try {
     const champDirs = fs.readdirSync(glbDir)
-    let counter = 0
 
     for (const champDir of champDirs) {
-      if (counter >= 5) break
-
       const files = fs.readdirSync(`${glbDir}/${champDir}`)
 
       if (!fs.existsSync(`client/src/components/${champDir}`)) {
@@ -121,7 +117,6 @@ const generateJsx = async () => {
 
       await queue.onIdle()
       console.log(`queue size: ${queue.size}`)
-      counter++
     }
   } catch (err) {
     throw new Error(`Could not read directory @ ${glbDir}`)
