@@ -58,7 +58,7 @@ const generateGlb = async () => {
 
           queue.add(() => {
             exec(
-              `gltf-pipeline -i ${gltfDir}/${cdir}/${sdir}/${f} -o ${outDir}/${cdir}/${filename}.glb`,
+              `npx gltf-pipeline -i ${gltfDir}/${cdir}/${sdir}/${f} -o ${outDir}/${cdir}/${filename}.glb`,
               (err, stdout, stderr) => {
                 console.log(
                   `gltf-pipeline -i ${gltfDir}/${cdir}/${sdir}/${f} -o ${outDir}/${cdir}/${filename}.glb`,

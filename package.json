@@ -69,6 +69,7 @@
     "favicons": "^6.2.2",
     "favicons-webpack-plugin": "^5.0.2",
     "file-loader": "^5.1.0",
+    "gltf-pipeline": "^3.0.4",
     "gltfjsx": "git+https://github.com/rmbh4211995/gltfjsx.git",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^5.3.2",
