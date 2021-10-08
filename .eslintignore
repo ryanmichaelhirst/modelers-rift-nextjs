@@ -1,6 +1,3 @@
-node_modules/
-dist
-src/assets
-src/**/*.d.ts
-__fixtures__
-__tests__
+/node_modules
+/dist
+client/src/assets/**/*
