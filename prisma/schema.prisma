@@ -14,3 +14,8 @@ model User {
   username String
   password String
 }
+
+model Champion {
+  id   Int    @id @default(autoincrement())
+  name String
+}
