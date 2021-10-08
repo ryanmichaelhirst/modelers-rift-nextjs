@@ -7,3 +7,9 @@ Web app to explore champion stats, item builds, and lane match-ups.
 https://gltf.pmnd.rs/
 
 - create generic model component -- https://stackoverflow.com/questions/58960077/how-to-check-if-a-strongly-typed-object-contains-a-given-key-in-typescript-witho
+
+### Prisma
+
+`npx prisma migrate dev`
+
+`npx prisma migrate dev --name ${migration-name}`
