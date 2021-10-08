@@ -1,6 +1,6 @@
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
-import { copyAssets, createDatabase, generateGlb, generateJsx } from './cmds'
+import { copyAssets, createDb, generateGlb, generateJsx } from './cmds'
 
 const run = async () => {
   // Parse flags
@@ -16,8 +16,10 @@ const run = async () => {
   const command = argv.c
 
   switch (command) {
-    case 'db':
-      createDatabase()
+    case 'create-db':
+      createDb({ type: 'postgresql' })
+      break
+    case 'seed-db':
       break
     case 'generate-glb':
       generateGlb()
