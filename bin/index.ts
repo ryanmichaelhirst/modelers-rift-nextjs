@@ -81,6 +81,7 @@ const generateGlb = async () => {
 
 const generateJsx = async () => {
   const glbDir = path.join(__dirname, '../../../league_react_models')
+  console.time('generate-jsx')
 
   try {
     const champDirs = fs.readdirSync(glbDir)
@@ -97,7 +98,7 @@ const generateJsx = async () => {
 
         queue.add(async () => {
           await new Promise<void>((resolve) => {
-            exec(`gltfjsx ${glbDir}/${champDir}/${file} -t`, async (err, stdout, stderr) => {
+            exec(`npx gltfjsx ${glbDir}/${champDir}/${file} -t`, async (err, stdout, stderr) => {
               console.log(`gltfjsx ${glbDir}/${champDir}/${file} -t > ${jsxFile}`)
               console.log(stdout)
               exec(

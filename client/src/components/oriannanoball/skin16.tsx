@@ -1,0 +1,93 @@
+import * as THREE from 'three'
+import React, { useRef } from 'react'
+import useCycleAnimations from '@hooks/UseCycleAnimation'
+import { useGLTF, useAnimations } from '@react-three/drei'
+import { GLTF } from 'three-stdlib'
+
+type GLTFResult = GLTF & {
+  nodes: {
+    mesh_0: THREE.SkinnedMesh
+    mesh_0_1: THREE.SkinnedMesh
+    mesh_0_2: THREE.SkinnedMesh
+    mesh_0_3: THREE.SkinnedMesh
+    Root: THREE.Bone
+    C_Buffbone_Glb_Center_Loc: THREE.Bone
+    C_Buffbone_Glb_Layout_Loc: THREE.Bone
+    C_Buffbone_Glb_Overhead_Loc: THREE.Bone
+    Buffbone_Cstm_Healthbar: THREE.Bone
+    Buffbone_Glb_Ground_Loc: THREE.Bone
+    Buffbone_Glb_Channel_Loc: THREE.Bone
+    Coconut: THREE.Bone
+    Fin: THREE.Bone
+    Recall_Root: THREE.Bone
+  }
+  materials: {
+    Orianna_Skin11_MAT: THREE.MeshBasicMaterial
+    Coconut_MAT: THREE.MeshBasicMaterial
+    Orianna_Skin11_Fin_MAT: THREE.MeshBasicMaterial
+    Crab: THREE.MeshBasicMaterial
+  }
+}
+
+type ActionName =
+  | 'Attack1'
+  | 'Attack2'
+  | 'Attack3'
+  | 'Channel'
+  | 'Channel_Wndup'
+  | 'Crit'
+  | 'Dance'
+  | 'Death'
+  | 'Idle1'
+  | 'Idle2'
+  | 'Idle3'
+  | 'Joke'
+  | 'Laugh'
+  | 'Run'
+  | 'Spell1'
+  | 'Spell1B'
+  | 'Spell2'
+  | 'Spell3'
+  | 'Spell4'
+  | 'Taunt'
+  | 'oriannanoball_recall.pie_c_10_13'
+  | 'oriananoball_skin11_floaty.pie_c_10_13'
+type GLTFActions = Record<ActionName, THREE.AnimationAction>
+
+export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string }) {
+  const ref = useRef<THREE.Group>()
+  const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
+  useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
+  return (
+    <group ref={ref} {...props} dispose={null}>
+      <group scale={[-1, 1, 1]}>
+        <primitive object={nodes.Root} />
+        <primitive object={nodes.C_Buffbone_Glb_Center_Loc} />
+        <primitive object={nodes.C_Buffbone_Glb_Layout_Loc} />
+        <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
+        <primitive object={nodes.Buffbone_Cstm_Healthbar} />
+        <primitive object={nodes.Buffbone_Glb_Ground_Loc} />
+        <primitive object={nodes.Buffbone_Glb_Channel_Loc} />
+        <primitive object={nodes.Coconut} />
+        <primitive object={nodes.Fin} />
+        <primitive object={nodes.Recall_Root} />
+      </group>
+      <skinnedMesh
+        geometry={nodes.mesh_0.geometry}
+        material={materials.Orianna_Skin11_MAT}
+        skeleton={nodes.mesh_0.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.mesh_0_1.geometry}
+        material={materials.Coconut_MAT}
+        skeleton={nodes.mesh_0_1.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.mesh_0_2.geometry}
+        material={materials.Orianna_Skin11_Fin_MAT}
+        skeleton={nodes.mesh_0_2.skeleton}
+      />
+      <skinnedMesh geometry={nodes.mesh_0_3.geometry} material={materials.Crab} skeleton={nodes.mesh_0_3.skeleton} />
+    </group>
+  )
+}

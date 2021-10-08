@@ -1,0 +1,96 @@
+import * as THREE from 'three'
+import React, { useRef } from 'react'
+import useCycleAnimations from '@hooks/UseCycleAnimation'
+import { useGLTF, useAnimations } from '@react-three/drei'
+import { GLTF } from 'three-stdlib'
+
+type GLTFResult = GLTF & {
+  nodes: {
+    mesh_0: THREE.SkinnedMesh
+    mesh_0_1: THREE.SkinnedMesh
+    mesh_0_2: THREE.SkinnedMesh
+    mesh_0_3: THREE.SkinnedMesh
+    mesh_0_4: THREE.SkinnedMesh
+    Root: THREE.Bone
+    C_Buffbone_Glb_Center_Loc: THREE.Bone
+    C_Buffbone_Glb_Layout_Loc: THREE.Bone
+    C_Buffbone_Glb_Overhead_Loc: THREE.Bone
+    Buffbone_Cstm_Healthbar: THREE.Bone
+    Buffbone_Glb_Ground_Loc: THREE.Bone
+    Buffbone_Glb_Channel_Loc: THREE.Bone
+    Weapon_Snap: THREE.Bone
+    Fam_Root: THREE.Bone
+  }
+  materials: {
+    Body: THREE.MeshBasicMaterial
+    Weapon_feather: THREE.MeshBasicMaterial
+    Wings: THREE.MeshBasicMaterial
+    closedWings: THREE.MeshBasicMaterial
+    Fam: THREE.MeshBasicMaterial
+  }
+}
+
+type ActionName =
+  | 'Channel'
+  | 'Channel_Wndup'
+  | 'Attack1'
+  | 'Attack2'
+  | 'Crit'
+  | 'Idle1'
+  | 'Idle2'
+  | 'Idle3'
+  | 'Idle4'
+  | 'Dance'
+  | 'Death'
+  | 'Laugh'
+  | 'Taunt'
+  | 'Spell1'
+  | 'Spell2'
+  | 'Spell3'
+  | 'Spell4'
+  | 'Joke'
+  | 'Recall'
+  | 'Run'
+  | 'Buffbones'
+  | 'Run_Homeguard'
+  | 'Turn_0'
+  | 'Turn_L'
+  | 'Turn_L_180'
+  | 'Turn_R'
+  | 'Turn_R_180'
+  | 'soraka_skin07_recall'
+type GLTFActions = Record<ActionName, THREE.AnimationAction>
+
+export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string }) {
+  const ref = useRef<THREE.Group>()
+  const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
+  useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
+  return (
+    <group ref={ref} {...props} dispose={null}>
+      <group scale={[-1, 1, 1]}>
+        <primitive object={nodes.Root} />
+        <primitive object={nodes.C_Buffbone_Glb_Center_Loc} />
+        <primitive object={nodes.C_Buffbone_Glb_Layout_Loc} />
+        <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
+        <primitive object={nodes.Buffbone_Cstm_Healthbar} />
+        <primitive object={nodes.Buffbone_Glb_Ground_Loc} />
+        <primitive object={nodes.Buffbone_Glb_Channel_Loc} />
+        <primitive object={nodes.Weapon_Snap} />
+        <primitive object={nodes.Fam_Root} />
+      </group>
+      <skinnedMesh geometry={nodes.mesh_0.geometry} material={materials.Body} skeleton={nodes.mesh_0.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0_1.geometry}
+        material={materials.Weapon_feather}
+        skeleton={nodes.mesh_0_1.skeleton}
+      />
+      <skinnedMesh geometry={nodes.mesh_0_2.geometry} material={materials.Wings} skeleton={nodes.mesh_0_2.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0_3.geometry}
+        material={materials.closedWings}
+        skeleton={nodes.mesh_0_3.skeleton}
+      />
+      <skinnedMesh geometry={nodes.mesh_0_4.geometry} material={materials.Fam} skeleton={nodes.mesh_0_4.skeleton} />
+    </group>
+  )
+}

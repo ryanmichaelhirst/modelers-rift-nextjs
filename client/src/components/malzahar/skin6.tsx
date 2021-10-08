@@ -1,0 +1,78 @@
+import * as THREE from 'three'
+import React, { useRef } from 'react'
+import useCycleAnimations from '@hooks/UseCycleAnimation'
+import { useGLTF, useAnimations } from '@react-three/drei'
+import { GLTF } from 'three-stdlib'
+
+type GLTFResult = GLTF & {
+  nodes: {
+    mesh_0: THREE.SkinnedMesh
+    mesh_0_1: THREE.SkinnedMesh
+    mesh_0_2: THREE.SkinnedMesh
+    mesh_0_3: THREE.SkinnedMesh
+    mesh_0_4: THREE.SkinnedMesh
+    ROOT: THREE.Bone
+    Buffbone_Glb_Ground_Loc: THREE.Bone
+    C_Buffbone_Glb_Overhead_Loc: THREE.Bone
+    C_Buffbone_Glb_Layout_Loc: THREE.Bone
+    C_Buffbone_Glb_Center_Loc: THREE.Bone
+    Buffbone_Glb_Channel_Loc: THREE.Bone
+    Buffbone_Cstm_Healthbar: THREE.Bone
+    Voidling1_Voidling_Root: THREE.Bone
+    Voidling2_Voidling_Root: THREE.Bone
+    Voidling3_Voidling_Root: THREE.Bone
+  }
+  materials: {
+    Malhazar_Skin06_MAT: THREE.MeshBasicMaterial
+    cape: THREE.MeshBasicMaterial
+    Voidling1_Mat: THREE.MeshBasicMaterial
+    Voidling2_Mat: THREE.MeshBasicMaterial
+    Voidling3_Mat: THREE.MeshBasicMaterial
+  }
+}
+
+type ActionName = 'Buffbones_Additive' | 'Dance' | 'Laugh' | 'Recall' | 'Recall_Winddown' | 'Respawn'
+type GLTFActions = Record<ActionName, THREE.AnimationAction>
+
+export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string }) {
+  const ref = useRef<THREE.Group>()
+  const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
+  useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
+  return (
+    <group ref={ref} {...props} dispose={null}>
+      <group scale={[-1, 1, 1]}>
+        <primitive object={nodes.ROOT} />
+        <primitive object={nodes.Buffbone_Glb_Ground_Loc} />
+        <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
+        <primitive object={nodes.C_Buffbone_Glb_Layout_Loc} />
+        <primitive object={nodes.C_Buffbone_Glb_Center_Loc} />
+        <primitive object={nodes.Buffbone_Glb_Channel_Loc} />
+        <primitive object={nodes.Buffbone_Cstm_Healthbar} />
+        <primitive object={nodes.Voidling1_Voidling_Root} />
+        <primitive object={nodes.Voidling2_Voidling_Root} />
+        <primitive object={nodes.Voidling3_Voidling_Root} />
+      </group>
+      <skinnedMesh
+        geometry={nodes.mesh_0.geometry}
+        material={materials.Malhazar_Skin06_MAT}
+        skeleton={nodes.mesh_0.skeleton}
+      />
+      <skinnedMesh geometry={nodes.mesh_0_1.geometry} material={materials.cape} skeleton={nodes.mesh_0_1.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0_2.geometry}
+        material={materials.Voidling1_Mat}
+        skeleton={nodes.mesh_0_2.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.mesh_0_3.geometry}
+        material={materials.Voidling2_Mat}
+        skeleton={nodes.mesh_0_3.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.mesh_0_4.geometry}
+        material={materials.Voidling3_Mat}
+        skeleton={nodes.mesh_0_4.skeleton}
+      />
+    </group>
+  )
+}
