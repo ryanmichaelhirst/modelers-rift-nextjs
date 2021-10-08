@@ -1,5 +1,5 @@
-import React from 'react'
 import ChampionCard from '@components/ChampionCard'
+import React from 'react'
 
 const Champion = ({ champion }: { champion: any }) => {
   if (!champion) return null

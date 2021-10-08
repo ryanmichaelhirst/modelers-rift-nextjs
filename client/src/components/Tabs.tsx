@@ -1,5 +1,5 @@
-import React, { useEffect, useState, MouseEvent } from 'react'
 import classNames from 'classnames'
+import React, { MouseEvent, useEffect, useState } from 'react'
 
 const Tabs = ({ options }: { options: { tab: string; content: any }[] }) => {
   const [selectedTab, setSelectedTab] = useState<string>()

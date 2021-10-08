@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { RootState, AppThunk } from '../index'
 import { Item } from '../../types'
+import { AppThunk, RootState } from '../index'
 
 type Items = Record<string, Item>
 

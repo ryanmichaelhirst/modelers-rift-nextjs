@@ -1,7 +1,7 @@
-import * as THREE from 'three'
-import React, { useRef } from 'react'
 import useCycleAnimations from '@hooks/UseCycleAnimation'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
+import React, { useRef } from 'react'
+import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -87,10 +87,13 @@ type ActionName =
   | 'heimerdinger_recall.pie_c_10_13'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
-export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string }) {
+export default function Model(
+  props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string },
+) {
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
+
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -115,7 +118,11 @@ export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any
         <primitive object={nodes.Recall_Root} />
         <primitive object={nodes.Prop_Root} />
       </group>
-      <skinnedMesh geometry={nodes.mesh_0.geometry} material={materials.Body} skeleton={nodes.mesh_0.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0.geometry}
+        material={materials.Body}
+        skeleton={nodes.mesh_0.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_1.geometry}
         material={materials.R_Weapon}
@@ -126,10 +133,26 @@ export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any
         material={materials.L_Weapon}
         skeleton={nodes.mesh_0_2.skeleton}
       />
-      <skinnedMesh geometry={nodes.mesh_0_3.geometry} material={materials.Rocket} skeleton={nodes.mesh_0_3.skeleton} />
-      <skinnedMesh geometry={nodes.mesh_0_4.geometry} material={materials.Claw} skeleton={nodes.mesh_0_4.skeleton} />
-      <skinnedMesh geometry={nodes.mesh_0_5.geometry} material={materials.Antenna} skeleton={nodes.mesh_0_5.skeleton} />
-      <skinnedMesh geometry={nodes.mesh_0_6.geometry} material={materials.Crab} skeleton={nodes.mesh_0_6.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0_3.geometry}
+        material={materials.Rocket}
+        skeleton={nodes.mesh_0_3.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.mesh_0_4.geometry}
+        material={materials.Claw}
+        skeleton={nodes.mesh_0_4.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.mesh_0_5.geometry}
+        material={materials.Antenna}
+        skeleton={nodes.mesh_0_5.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.mesh_0_6.geometry}
+        material={materials.Crab}
+        skeleton={nodes.mesh_0_6.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_7.geometry}
         material={materials.Sand_MAT}

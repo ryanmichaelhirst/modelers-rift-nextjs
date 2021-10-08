@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import Select, { components } from 'react-select'
-import { useDispatch } from 'react-redux'
-import { chooseChampion } from '@store/slices/championSlice'
 import { SelectOption } from '@customtypes/index'
+import { chooseChampion } from '@store/slices/championSlice'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import Select, { components } from 'react-select'
 
 const { Option, SingleValue } = components
 

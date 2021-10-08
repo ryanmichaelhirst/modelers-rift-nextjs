@@ -1,11 +1,11 @@
 import { Database } from '@leafac/sqlite'
 import { exec, execSync } from 'child_process'
 import fs from 'fs'
+import PQueue from 'p-queue'
 import path from 'path'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
-import { sampleUsers, createUser, prisma } from '../prisma/queries'
-import PQueue from 'p-queue'
+import { createUser, prisma, sampleUsers } from '../prisma/queries'
 
 const queue = new PQueue({ concurrency: 30 })
 

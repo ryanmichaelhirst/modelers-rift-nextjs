@@ -1,6 +1,6 @@
-import React from 'react'
 import Tippy from '@tippyjs/react'
 import classNames from 'classnames'
+import React from 'react'
 
 const ellipsisStyle = {
   display: '-webkit-box',

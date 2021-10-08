@@ -1,7 +1,7 @@
-import * as THREE from 'three'
-import React, { useRef } from 'react'
 import useCycleAnimations from '@hooks/UseCycleAnimation'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
+import React, { useRef } from 'react'
+import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -167,10 +167,13 @@ type ActionName =
   | 'akali_base_spell3_to_passive_run_135_-135_180_-180'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
-export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string }) {
+export default function Model(
+  props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string },
+) {
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
+
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -202,7 +205,11 @@ export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any
         <primitive object={nodes.R_Arm_Top_Blade} />
         <primitive object={nodes.R_Arm_Bot_Blade} />
       </group>
-      <skinnedMesh geometry={nodes.mesh_0.geometry} material={materials.Skin14_MAT} skeleton={nodes.mesh_0.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0.geometry}
+        material={materials.Skin14_MAT}
+        skeleton={nodes.mesh_0.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_1.geometry}
         material={materials.Skin14_Hair_MAT}
@@ -248,7 +255,11 @@ export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any
         material={materials.chopsticks}
         skeleton={nodes.mesh_0_9.skeleton}
       />
-      <skinnedMesh geometry={nodes.mesh_0_10.geometry} material={materials.ramen} skeleton={nodes.mesh_0_10.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0_10.geometry}
+        material={materials.ramen}
+        skeleton={nodes.mesh_0_10.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_11.geometry}
         material={materials.ramen_noodles}

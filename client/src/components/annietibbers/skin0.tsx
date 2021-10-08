@@ -1,7 +1,7 @@
-import * as THREE from 'three'
-import React, { useRef } from 'react'
 import useCycleAnimations from '@hooks/UseCycleAnimation'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
+import React, { useRef } from 'react'
+import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {

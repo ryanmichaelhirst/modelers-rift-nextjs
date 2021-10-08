@@ -1,7 +1,7 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
+import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit'
+import 'tippy.js/dist/tippy.css'
 import championReducer from './slices/championSlice'
 import itemReducer from './slices/itemSlice'
-import 'tippy.js/dist/tippy.css'
 
 export const store = configureStore({
   reducer: {

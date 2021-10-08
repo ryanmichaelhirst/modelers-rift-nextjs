@@ -1,9 +1,9 @@
-import * as THREE from 'three'
-import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
-import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
 import aatrox from '@assets/aatrox/skin0.glb'
 import useCycleAnimations from '@hooks/UseCycleAnimation'
+import { useGLTF } from '@react-three/drei'
+import React, { useRef } from 'react'
+import * as THREE from 'three'
+import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
 
 type GLTFResult = GLTF & {
   nodes: {

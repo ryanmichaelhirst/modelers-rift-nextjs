@@ -1,7 +1,7 @@
-import React from 'react'
 import Skin0 from '@components/aatrox/skin0'
 import Skin1 from '@components/aatrox/skin1'
 import Skin2 from '@components/aatrox/skin2'
+import React from 'react'
 
 const Aatrox = ({ glb, skin }: { glb?: any; skin: string }) => {
   switch (skin) {

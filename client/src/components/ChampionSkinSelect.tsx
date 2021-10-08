@@ -1,6 +1,6 @@
+import { setSelectedSkin } from '@store/slices/championSlice'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { setSelectedSkin } from '@store/slices/championSlice'
 
 const ChampionSkinSelect = ({ skins }: { skins?: any[] }) => {
   const dispatch = useDispatch()

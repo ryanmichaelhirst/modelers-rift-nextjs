@@ -1,24 +1,24 @@
-import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import {
-  selectPlayerChampion,
-  selectOpponentChampion,
-  selectChampions,
-  fetchChampions,
-  selectChampionMultiLineGraph,
-  selectSelectedStat,
-  fetchPatches,
-  selectSelectedPatch,
-  selectPatches,
-} from '../store/slices/championSlice'
-import ChampionSelect from '@components/ChampionSelect'
-import { fetchItems } from '@store/slices/itemSlice'
 import Champion from '@components/Champion'
-import MultiLineGraph from '@components/MultiLineGraph'
-import StatSelect from '@components/StatSelect'
-import PatchSelect from '@components/PatchSelect'
-import { STAT_OPTIONS } from '@customtypes/constants'
+import ChampionSelect from '@components/ChampionSelect'
 import ItemGrid from '@components/ItemGrid'
+import MultiLineGraph from '@components/MultiLineGraph'
+import PatchSelect from '@components/PatchSelect'
+import StatSelect from '@components/StatSelect'
+import { STAT_OPTIONS } from '@customtypes/constants'
+import { fetchItems } from '@store/slices/itemSlice'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  fetchChampions,
+  fetchPatches,
+  selectChampionMultiLineGraph,
+  selectChampions,
+  selectOpponentChampion,
+  selectPatches,
+  selectPlayerChampion,
+  selectSelectedPatch,
+  selectSelectedStat,
+} from '../store/slices/championSlice'
 
 const ChampionComparison = () => {
   const dispatch = useDispatch()

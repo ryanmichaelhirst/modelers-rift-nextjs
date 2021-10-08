@@ -1,7 +1,7 @@
-import * as THREE from 'three'
-import React, { useRef } from 'react'
 import useCycleAnimations from '@hooks/UseCycleAnimation'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
+import React, { useRef } from 'react'
+import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -61,10 +61,13 @@ type ActionName =
   | 'twitch_base_dancein'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
-export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string }) {
+export default function Model(
+  props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string },
+) {
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
+
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -79,15 +82,31 @@ export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any
         <primitive object={nodes.Cheese} />
         <primitive object={nodes.Pillar} />
       </group>
-      <skinnedMesh geometry={nodes.mesh_0.geometry} material={materials.Body} skeleton={nodes.mesh_0.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0.geometry}
+        material={materials.Body}
+        skeleton={nodes.mesh_0.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_1.geometry}
         material={materials.Twitch_Skin36_Body_Mat1}
         skeleton={nodes.mesh_0_1.skeleton}
       />
-      <skinnedMesh geometry={nodes.mesh_0_2.geometry} material={materials.Cheese} skeleton={nodes.mesh_0_2.skeleton} />
-      <skinnedMesh geometry={nodes.mesh_0_3.geometry} material={materials.Pillar} skeleton={nodes.mesh_0_3.skeleton} />
-      <skinnedMesh geometry={nodes.mesh_0_4.geometry} material={materials.Egg} skeleton={nodes.mesh_0_4.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0_2.geometry}
+        material={materials.Cheese}
+        skeleton={nodes.mesh_0_2.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.mesh_0_3.geometry}
+        material={materials.Pillar}
+        skeleton={nodes.mesh_0_3.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.mesh_0_4.geometry}
+        material={materials.Egg}
+        skeleton={nodes.mesh_0_4.skeleton}
+      />
     </group>
   )
 }

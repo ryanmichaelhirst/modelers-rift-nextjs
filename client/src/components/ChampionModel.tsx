@@ -1,9 +1,9 @@
-import React, { Suspense, useState, useEffect } from 'react'
-import { Canvas } from '@react-three/fiber'
-import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
-import { useSelector } from 'react-redux'
-import { selectSkin } from '@store/slices/championSlice'
 import Aatrox from '@components/aatrox/index'
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
+import { Canvas } from '@react-three/fiber'
+import { selectSkin } from '@store/slices/championSlice'
+import React, { Suspense, useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 const ChampionModel = ({ name }: { name: string }) => {
   const skin = useSelector(selectSkin)

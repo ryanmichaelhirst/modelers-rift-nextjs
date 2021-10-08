@@ -1,7 +1,7 @@
-import * as THREE from 'three'
-import React, { useRef } from 'react'
 import useCycleAnimations from '@hooks/UseCycleAnimation'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
+import React, { useRef } from 'react'
+import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -145,10 +145,13 @@ type ActionName =
   | 'yone_idlesheathed_torun01.yone'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
-export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string }) {
+export default function Model(
+  props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string },
+) {
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
+
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -172,16 +175,36 @@ export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any
         <primitive object={nodes.Recall_Mask} />
         <primitive object={nodes.Stage} />
       </group>
-      <skinnedMesh geometry={nodes.mesh_0.geometry} material={materials.GhostKatana} skeleton={nodes.mesh_0.skeleton} />
-      <skinnedMesh geometry={nodes.mesh_0_1.geometry} material={materials.Skirt} skeleton={nodes.mesh_0_1.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0.geometry}
+        material={materials.GhostKatana}
+        skeleton={nodes.mesh_0.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.mesh_0_1.geometry}
+        material={materials.Skirt}
+        skeleton={nodes.mesh_0_1.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_2.geometry}
         material={materials.Skirt_Inner}
         skeleton={nodes.mesh_0_2.skeleton}
       />
-      <skinnedMesh geometry={nodes.mesh_0_3.geometry} material={materials.Sheath} skeleton={nodes.mesh_0_3.skeleton} />
-      <skinnedMesh geometry={nodes.mesh_0_4.geometry} material={materials.Katana} skeleton={nodes.mesh_0_4.skeleton} />
-      <skinnedMesh geometry={nodes.mesh_0_5.geometry} material={materials.Body} skeleton={nodes.mesh_0_5.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0_3.geometry}
+        material={materials.Sheath}
+        skeleton={nodes.mesh_0_3.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.mesh_0_4.geometry}
+        material={materials.Katana}
+        skeleton={nodes.mesh_0_4.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.mesh_0_5.geometry}
+        material={materials.Body}
+        skeleton={nodes.mesh_0_5.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_6.geometry}
         material={materials.Katana_Smear}
@@ -192,8 +215,16 @@ export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any
         material={materials.GhostKatana_Smear}
         skeleton={nodes.mesh_0_7.skeleton}
       />
-      <skinnedMesh geometry={nodes.mesh_0_8.geometry} material={materials.Sushi} skeleton={nodes.mesh_0_8.skeleton} />
-      <skinnedMesh geometry={nodes.mesh_0_9.geometry} material={materials.Fish} skeleton={nodes.mesh_0_9.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0_8.geometry}
+        material={materials.Sushi}
+        skeleton={nodes.mesh_0_8.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.mesh_0_9.geometry}
+        material={materials.Fish}
+        skeleton={nodes.mesh_0_9.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_10.geometry}
         material={materials.Instrument}

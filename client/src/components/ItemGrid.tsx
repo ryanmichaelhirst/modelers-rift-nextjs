@@ -1,10 +1,10 @@
+import { IconOption, SingleOption } from '@components/ChampionSelect'
+import { selectItems, selectSelectedItems, setSelectedItems } from '@store/slices/itemSlice'
+import Tippy from '@tippyjs/react'
+import classNames from 'classnames'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Select from 'react-select'
-import Tippy from '@tippyjs/react'
-import classNames from 'classnames'
-import { selectItems, selectSelectedItems, setSelectedItems } from '@store/slices/itemSlice'
-import { IconOption, SingleOption } from '@components/ChampionSelect'
 
 const ItemTooltip = ({ name, description }: { name: string; description: string }) => (
   <div>

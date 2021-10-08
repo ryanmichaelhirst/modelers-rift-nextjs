@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { RootState, AppThunk } from '../index'
 import { SelectOption } from '../../types'
+import { AppThunk, RootState } from '../index'
 
 // TODO: add champion model // current skin selector
 // TODO: add PlayerState and OpponentState slices

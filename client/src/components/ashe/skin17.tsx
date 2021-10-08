@@ -1,7 +1,7 @@
-import * as THREE from 'three'
-import React, { useRef } from 'react'
 import useCycleAnimations from '@hooks/UseCycleAnimation'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
+import React, { useRef } from 'react'
+import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -123,10 +123,13 @@ type ActionName =
   | 'ashe_skin17_run1_in'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
-export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string }) {
+export default function Model(
+  props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string },
+) {
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
+
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -157,7 +160,11 @@ export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any
         <primitive object={nodes.Recall4_Elbow} />
         <primitive object={nodes.Poster_Base} />
       </group>
-      <skinnedMesh geometry={nodes.mesh_0.geometry} material={materials.Horse_Mat} skeleton={nodes.mesh_0.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0.geometry}
+        material={materials.Horse_Mat}
+        skeleton={nodes.mesh_0.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_1.geometry}
         material={materials.Arrow_Mat}
@@ -178,13 +185,21 @@ export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any
         material={materials.Body_Mat}
         skeleton={nodes.mesh_0_4.skeleton}
       />
-      <skinnedMesh geometry={nodes.mesh_0_5.geometry} material={materials.Bow_Mat} skeleton={nodes.mesh_0_5.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0_5.geometry}
+        material={materials.Bow_Mat}
+        skeleton={nodes.mesh_0_5.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_6.geometry}
         material={materials.String_Mat}
         skeleton={nodes.mesh_0_6.skeleton}
       />
-      <skinnedMesh geometry={nodes.mesh_0_7.geometry} material={materials.Hat_Mat} skeleton={nodes.mesh_0_7.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0_7.geometry}
+        material={materials.Hat_Mat}
+        skeleton={nodes.mesh_0_7.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_8.geometry}
         material={materials.MechaHawk_Mat}

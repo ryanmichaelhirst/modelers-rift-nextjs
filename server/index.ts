@@ -1,10 +1,10 @@
-import path from 'path'
 import express from 'express'
+import path from 'path'
 import webpack from 'webpack'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
-import { getUsers } from '../prisma/queries'
 import { apolloServer } from '../graphql'
+import { getUsers } from '../prisma/queries'
 
 export default (async () => {
   const config = require(path.join(__dirname, '../webpack.config.ts'))

@@ -1,6 +1,6 @@
-import React from 'react'
-import Tippy from '@tippyjs/react'
 import { STAT_SEMANTIC_TEMPLATES } from '@customtypes/constants'
+import Tippy from '@tippyjs/react'
+import React from 'react'
 
 const ellipsisStyle = {
   display: '-webkit-box',

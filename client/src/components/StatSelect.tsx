@@ -1,8 +1,8 @@
-import React from 'react'
-import Select from 'react-select'
-import { useDispatch } from 'react-redux'
-import { setSelectedStat } from '@store/slices/championSlice'
 import { SelectOption } from '@customtypes/index'
+import { setSelectedStat } from '@store/slices/championSlice'
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import Select from 'react-select'
 
 const StatSelect = ({
   options,

@@ -1,8 +1,8 @@
-import React from 'react'
+import PassiveRow from '@components/PassiveRow'
 import SpellRow from '@components/SpellRow'
 import Tabs from '@components/Tabs'
 import { STAT_OPTIONS } from '@customtypes/constants'
-import PassiveRow from '@components/PassiveRow'
+import React from 'react'
 
 const ChampionTabs = ({ champion }: { champion: any }) => {
   const { passive, spells, stats, skins } = champion

@@ -1,7 +1,7 @@
-import * as THREE from 'three'
-import React, { useRef } from 'react'
 import useCycleAnimations from '@hooks/UseCycleAnimation'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
+import React, { useRef } from 'react'
+import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -88,10 +88,13 @@ type ActionName =
   | 'Turn_90'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
-export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string }) {
+export default function Model(
+  props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string },
+) {
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
+
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -113,7 +116,11 @@ export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any
         <primitive object={nodes.R_Wing_Hand_Buffbone} />
         <primitive object={nodes.R_Wing_Pinky1_Buffbone} />
       </group>
-      <skinnedMesh geometry={nodes.mesh_0.geometry} material={materials.Head_MAT} skeleton={nodes.mesh_0.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0.geometry}
+        material={materials.Head_MAT}
+        skeleton={nodes.mesh_0.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_1.geometry}
         material={materials.Body_MAT}
@@ -129,7 +136,11 @@ export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any
         material={materials.Pad_Wings_MAT1}
         skeleton={nodes.mesh_0_3.skeleton}
       />
-      <skinnedMesh geometry={nodes.mesh_0_4.geometry} material={materials.cane} skeleton={nodes.mesh_0_4.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0_4.geometry}
+        material={materials.cane}
+        skeleton={nodes.mesh_0_4.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_5.geometry}
         material={materials.Wing_MAT}

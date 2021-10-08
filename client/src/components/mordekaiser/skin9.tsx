@@ -1,7 +1,7 @@
-import * as THREE from 'three'
-import React, { useRef } from 'react'
 import useCycleAnimations from '@hooks/UseCycleAnimation'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
+import React, { useRef } from 'react'
+import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -120,10 +120,13 @@ type ActionName =
   | 'orboffsets'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
-export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string }) {
+export default function Model(
+  props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string },
+) {
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
+
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -147,21 +150,41 @@ export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any
         material={materials.Mordekaiser_Skin06_MAT}
         skeleton={nodes.mesh_0.skeleton}
       />
-      <skinnedMesh geometry={nodes.mesh_0_1.geometry} material={materials.Head} skeleton={nodes.mesh_0_1.skeleton} />
-      <skinnedMesh geometry={nodes.mesh_0_2.geometry} material={materials.Crown} skeleton={nodes.mesh_0_2.skeleton} />
-      <skinnedMesh geometry={nodes.mesh_0_3.geometry} material={materials.Capes} skeleton={nodes.mesh_0_3.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0_1.geometry}
+        material={materials.Head}
+        skeleton={nodes.mesh_0_1.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.mesh_0_2.geometry}
+        material={materials.Crown}
+        skeleton={nodes.mesh_0_2.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.mesh_0_3.geometry}
+        material={materials.Capes}
+        skeleton={nodes.mesh_0_3.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_4.geometry}
         material={materials.ChestBlackHole}
         skeleton={nodes.mesh_0_4.skeleton}
       />
-      <skinnedMesh geometry={nodes.mesh_0_5.geometry} material={materials.Mace} skeleton={nodes.mesh_0_5.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0_5.geometry}
+        material={materials.Mace}
+        skeleton={nodes.mesh_0_5.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_6.geometry}
         material={materials.MaceBlackHole}
         skeleton={nodes.mesh_0_6.skeleton}
       />
-      <skinnedMesh geometry={nodes.mesh_0_7.geometry} material={materials.Guitar} skeleton={nodes.mesh_0_7.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0_7.geometry}
+        material={materials.Guitar}
+        skeleton={nodes.mesh_0_7.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_8.geometry}
         material={materials.PlanetChunks}

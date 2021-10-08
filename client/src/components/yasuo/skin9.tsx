@@ -1,7 +1,7 @@
-import * as THREE from 'three'
-import React, { useRef } from 'react'
 import useCycleAnimations from '@hooks/UseCycleAnimation'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
+import React, { useRef } from 'react'
+import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -110,10 +110,13 @@ type ActionName =
   | 'Sheath_Run_Haste'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
-export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string }) {
+export default function Model(
+  props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string },
+) {
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
+
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -135,7 +138,11 @@ export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any
         <primitive object={nodes.Fire_Root_4} />
         <primitive object={nodes.TestJoint} />
       </group>
-      <skinnedMesh geometry={nodes.mesh_0.geometry} material={materials.Big_Sword} skeleton={nodes.mesh_0.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0.geometry}
+        material={materials.Big_Sword}
+        skeleton={nodes.mesh_0.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_1.geometry}
         material={materials.Big_Spikes}
@@ -146,7 +153,11 @@ export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any
         material={materials.Small_Spikes}
         skeleton={nodes.mesh_0_2.skeleton}
       />
-      <skinnedMesh geometry={nodes.mesh_0_3.geometry} material={materials.Body} skeleton={nodes.mesh_0_3.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0_3.geometry}
+        material={materials.Body}
+        skeleton={nodes.mesh_0_3.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_4.geometry}
         material={materials.Small_Sword}
@@ -157,10 +168,26 @@ export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any
         material={materials.Small_Sword_Blade}
         skeleton={nodes.mesh_0_5.skeleton}
       />
-      <skinnedMesh geometry={nodes.mesh_0_6.geometry} material={materials.HeadB} skeleton={nodes.mesh_0_6.skeleton} />
-      <skinnedMesh geometry={nodes.mesh_0_7.geometry} material={materials.HeadA} skeleton={nodes.mesh_0_7.skeleton} />
-      <skinnedMesh geometry={nodes.mesh_0_8.geometry} material={materials.Spikes} skeleton={nodes.mesh_0_8.skeleton} />
-      <skinnedMesh geometry={nodes.mesh_0_9.geometry} material={materials.FireBro} skeleton={nodes.mesh_0_9.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0_6.geometry}
+        material={materials.HeadB}
+        skeleton={nodes.mesh_0_6.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.mesh_0_7.geometry}
+        material={materials.HeadA}
+        skeleton={nodes.mesh_0_7.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.mesh_0_8.geometry}
+        material={materials.Spikes}
+        skeleton={nodes.mesh_0_8.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.mesh_0_9.geometry}
+        material={materials.FireBro}
+        skeleton={nodes.mesh_0_9.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_10.geometry}
         material={materials.FireBro2}

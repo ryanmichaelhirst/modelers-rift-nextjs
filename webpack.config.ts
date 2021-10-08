@@ -1,7 +1,7 @@
+import FaviconsWebpackPlugin from 'favicons-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 import path from 'path'
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
-import FaviconsWebpackPlugin from 'favicons-webpack-plugin'
 import webpack from 'webpack'
 
 module.exports = {

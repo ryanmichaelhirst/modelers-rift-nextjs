@@ -1,10 +1,10 @@
-import * as THREE from 'three'
-import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
-import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
-import { useFrame } from '@react-three/fiber'
 import akali from '@assets/akali.glb'
 import useCycleAnimations from '@hooks/UseCycleAnimation'
+import { useGLTF } from '@react-three/drei'
+import { useFrame } from '@react-three/fiber'
+import React, { useRef } from 'react'
+import * as THREE from 'three'
+import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
 
 type GLTFResult = GLTF & {
   nodes: {

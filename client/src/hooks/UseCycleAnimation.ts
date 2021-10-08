@@ -1,7 +1,7 @@
-import { useEffect } from 'react'
 import { useAnimations } from '@react-three/drei'
-import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
+import { useEffect } from 'react'
+import * as THREE from 'three'
 
 export const cycleAnimations = <T>({
   animations,

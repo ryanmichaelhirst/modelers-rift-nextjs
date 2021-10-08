@@ -1,7 +1,7 @@
-import * as THREE from 'three'
-import React, { useRef } from 'react'
 import useCycleAnimations from '@hooks/UseCycleAnimation'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
+import React, { useRef } from 'react'
+import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -118,10 +118,13 @@ type ActionName =
   | 'Attack1_To_Idle'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
-export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string }) {
+export default function Model(
+  props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string },
+) {
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
+
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -143,7 +146,11 @@ export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any
         <primitive object={nodes.R_DragonShoulder} />
         <primitive object={nodes.Dragon_Tail1_Grnd} />
       </group>
-      <skinnedMesh geometry={nodes.mesh_0.geometry} material={materials.Main_Mat} skeleton={nodes.mesh_0.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0.geometry}
+        material={materials.Main_Mat}
+        skeleton={nodes.mesh_0.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_1.geometry}
         material={materials.Legs_Mat}
@@ -164,8 +171,16 @@ export default function Model(props: JSX.IntrinsicElements['group'] & { glb: any
         material={materials.wings_open}
         skeleton={nodes.mesh_0_4.skeleton}
       />
-      <skinnedMesh geometry={nodes.mesh_0_5.geometry} material={materials.flower} skeleton={nodes.mesh_0_5.skeleton} />
-      <skinnedMesh geometry={nodes.mesh_0_6.geometry} material={materials.Dragon} skeleton={nodes.mesh_0_6.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0_5.geometry}
+        material={materials.flower}
+        skeleton={nodes.mesh_0_5.skeleton}
+      />
+      <skinnedMesh
+        geometry={nodes.mesh_0_6.geometry}
+        material={materials.Dragon}
+        skeleton={nodes.mesh_0_6.skeleton}
+      />
     </group>
   )
 }

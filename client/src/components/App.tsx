@@ -1,7 +1,7 @@
-import React from 'react'
-import Header from '@components/Header'
-import ChampionComparison from '@components/ChampionComparison'
 import SiteBackground from '@assets/site-bg.png'
+import ChampionComparison from '@components/ChampionComparison'
+import Header from '@components/Header'
+import React from 'react'
 import ChampionModelContainer from './ChampionModelContainer'
 
 const App = () => (
