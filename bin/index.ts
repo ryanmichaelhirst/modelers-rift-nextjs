@@ -40,43 +40,47 @@ const createDatabase = async () => {
 const generateGlb = async () => {
   const gltfDir = path.join(__dirname, '..', '..', '..', '/league_raw_models')
   const outDir = path.join(__dirname, '..', '..', '..', '/league_react_models')
+  console.time('generate-glb')
 
-  console.log({
-    gltfDir,
-    outDir,
-  })
+  try {
+    const champDirs = fs.readdirSync(gltfDir)
 
-  fs.readdir(gltfDir, (err, dirs) => {
-    if (err) throw new Error('Could not get directory')
+    for (const cdir of champDirs) {
+      const skinDirs = fs.readdirSync(`${gltfDir}/${cdir}`)
 
-    dirs.forEach((champDir, idx) => {
-      fs.readdir(`${gltfDir}/${champDir}`, (err, skinDirs) => {
-        skinDirs.forEach((skinDir) => {
-          fs.readdir(`${gltfDir}/${champDir}/${skinDir}`, (err, files) => {
-            files.forEach((f) => {
-              const filename = path.parse(f).name
+      for (const sdir of skinDirs) {
+        const files = fs.readdirSync(`${gltfDir}/${cdir}/${sdir}`)
 
-              if (f.includes('.gltf')) {
-                console.log({
-                  idx,
-                  champDir,
-                  filename,
-                  cmd: `gltf-pipeline -i ${gltfDir}/${champDir}/${skinDir}/${f} -o ${outDir}/${champDir}/${filename}.glb`,
-                })
+        for (const f of files) {
+          const filename = path.parse(f).name
 
-                execSync(
-                  `gltf-pipeline -i ${gltfDir}/${champDir}/${skinDir}/${f} -o ${outDir}/${champDir}/${filename}.glb`,
-                  {
-                    stdio: 'inherit',
-                  },
+          if (!f.includes('.gltf')) continue
+
+          queue.add(() => {
+            exec(
+              `gltf-pipeline -i ${gltfDir}/${cdir}/${sdir}/${f} -o ${outDir}/${cdir}/${filename}.glb`,
+              (err, stdout, stderr) => {
+                console.log(
+                  `gltf-pipeline -i ${gltfDir}/${cdir}/${sdir}/${f} -o ${outDir}/${cdir}/${filename}.glb`,
                 )
-              }
-            })
+                console.log(stdout)
+              },
+            )
           })
-        })
-      })
-    })
-  })
+        }
+
+        // pause when queue gets large
+        if (queue.size >= 100) await new Promise((resolve) => setTimeout(resolve, 100))
+      }
+    }
+
+    // wait until queue empties before next champ dir
+    await queue.onIdle()
+  } catch (err) {
+    throw new Error(`Could not read directory @ ${gltfDir}`)
+  }
+
+  console.timeEnd('generate-glb')
 }
 
 const generateJsx = async () => {
@@ -116,8 +120,8 @@ const generateJsx = async () => {
         if (queue.size >= 50) await new Promise((resolve) => setTimeout(resolve, 100))
       }
 
+      // wait until queue empties before next champ dir
       await queue.onIdle()
-      console.log(`queue size: ${queue.size}`)
     }
   } catch (err) {
     throw new Error(`Could not read directory @ ${glbDir}`)
