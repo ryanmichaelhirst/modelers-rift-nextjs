@@ -16,6 +16,15 @@ model User {
 }
 
 model Champion {
-  id   Int    @id @default(autoincrement())
-  name String
+  id     Int    @id @default(autoincrement())
+  name   String
+  models Model[]
+}
+
+model Model {
+  id          Int      @id @default(autoincrement())
+  champion    Champion @relation(fields: [championId], references: [id])
+  championId  Int
+  name        String   @unique
+  url         String
 }
