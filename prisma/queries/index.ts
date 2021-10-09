@@ -9,22 +9,3 @@ export const sampleUsers = [
 export const prisma = new PrismaClient()
 
 export const getUsers = async () => await prisma.user.findMany()
-
-export const createUser = async ({ name, email }) => {
-  await prisma.user.create({
-    data: {
-      name,
-      email,
-    },
-  })
-
-  return getUsers()
-}
-
-export const getUserByUsername = async (username: string) => {
-  await prisma.user.findFirst({
-    where: {
-      name: username,
-    },
-  })
-}

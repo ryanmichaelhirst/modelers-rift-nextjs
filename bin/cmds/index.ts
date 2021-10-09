@@ -1,4 +1,4 @@
-import { createDb } from './db'
+import { createDb, seedDb } from './db'
 import { copyAssets, generateGlb, generateJsx } from './models'
 
-export { createDb, generateGlb, generateJsx, copyAssets }
+export { createDb, seedDb, generateGlb, generateJsx, copyAssets }
