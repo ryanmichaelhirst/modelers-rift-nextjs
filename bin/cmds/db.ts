@@ -63,6 +63,7 @@ export const seedAws = async () => {
   })
   const response = await s3.send(command)
 
+  console.log(response)
   // try {
   //   const champDirs = fs.readdirSync(glbDir)
 

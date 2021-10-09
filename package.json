@@ -6,9 +6,9 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.ts",
     "start": "cross-env NODE_ENV=development env-cmd nodemon --watch server --watch graphql --watch prisma server/index.ts",
-    "db": "env-cmd ts-node bin/index -c=db",
     "docker-build": "docker-compose -f docker-compose.dev.yml build",
-    "up": "docker-compose -f docker-compose.dev.yml up"
+    "up": "docker-compose -f docker-compose.dev.yml up",
+    "bin": "ts-node bin/index"
   },
   "dependencies": {
     "@amcharts/amcharts4": "^4.10.22",
