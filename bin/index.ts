@@ -1,6 +1,6 @@
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
-import { copyAssets, createDb, generateGlb, generateJsx, seedDb } from './cmds'
+import { copyAssets, createDb, generateGlb, generateJsx, seedAws, seedDb } from './cmds'
 
 const run = async () => {
   // Parse flags
@@ -21,6 +21,9 @@ const run = async () => {
       break
     case 'seed-db':
       seedDb({ readDir: '' })
+      break
+    case 'seed-aws':
+      seedAws()
       break
     case 'generate-glb':
       generateGlb()
