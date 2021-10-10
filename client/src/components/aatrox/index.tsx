@@ -8,7 +8,7 @@ const Aatrox = ({ glb, skin }: { glb?: any; skin: string }) => {
     case 'skin0':
       return <Skin0 glb={glb} timerLabel={`aatrox-${skin}`} />
     case 'skin1':
-      return <Skin1 glb={glb} />
+      return <Skin1 glb={glb} timerLabel={`aatrox-${skin}`} />
     case 'skin2':
       return <Skin2 glb={glb} timerLabel={`aatrox-${skin}`} />
     default:
