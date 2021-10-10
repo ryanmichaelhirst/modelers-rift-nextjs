@@ -1,10 +1,19 @@
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import { ListObjectsV2Command, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { Database } from '@leafac/sqlite'
 import { execSync } from 'child_process'
 import fs from 'fs'
 import PQueue from 'p-queue'
 import path from 'path'
 import { prisma } from '../../prisma/queries/index'
+
+const queue = new PQueue({ concurrency: 30 })
+const s3 = new S3Client({
+  region: 'us-east-1',
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
+})
 
 export const createDb = async ({ type }: { type: 'postgresql' | 'sqlite' }) => {
   if (type === 'sqlite') {
@@ -28,16 +37,30 @@ export const createDb = async ({ type }: { type: 'postgresql' | 'sqlite' }) => {
 export const seedDb = async ({ readDir }: { readDir: string }) => {
   const glbDir = path.join(__dirname, '../../../../league_react_models')
   const data = []
+  let counter = true
 
   try {
     const champDirs = fs.readdirSync(glbDir)
 
     for (const champDir of champDirs) {
+      if (!counter) continue
+
+      const command = new ListObjectsV2Command({
+        Bucket: 'league-glb-models',
+        Prefix: `${champDir}`,
+      })
+
+      const response = await s3.send(command)
+      console.log(response)
+
       data.push({ name: champDir })
+      counter = false
     }
   } catch (err) {
     throw new Error(`Could not read directory @ ${glbDir}`)
   }
+
+  return
 
   await prisma.champion.createMany({
     data,
@@ -48,14 +71,6 @@ export const seedDb = async ({ readDir }: { readDir: string }) => {
 
 export const seedAws = async () => {
   const glbDir = path.join(__dirname, '../../../../league_react_models')
-  const queue = new PQueue({ concurrency: 30 })
-  const s3 = new S3Client({
-    region: 'us-east-1',
-    credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    },
-  })
 
   try {
     const champDirs = fs.readdirSync(glbDir)
