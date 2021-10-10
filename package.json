@@ -4,11 +4,12 @@
   "description": "",
   "main": "client/src/index.tsx",
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack --config webpack.config.ts",
+    "build": "cross-env NODE_ENV=production webpack",
     "start": "cross-env NODE_ENV=development env-cmd nodemon --watch server --watch graphql --watch prisma server/index.ts",
     "docker-build": "docker-compose -f docker-compose.dev.yml build",
     "up": "docker-compose -f docker-compose.dev.yml up",
-    "bin": "ts-node bin/index"
+    "bin": "ts-node bin/index",
+    "analyze": "cross-env NODE_ENV=development ANALYZE=true webpack"
   },
   "dependencies": {
     "@amcharts/amcharts4": "^4.10.22",
@@ -52,6 +53,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-select": "^4.0.17",
     "@types/three": "^0.132.0",
+    "@types/webpack-bundle-analyzer": "^4.4.1",
     "@types/webpack-dev-middleware": "^5.0.2",
     "@types/webpack-hot-middleware": "^2.25.5",
     "@types/yargs": "^17.0.2",
@@ -92,6 +94,7 @@
     "tsconfig-paths-webpack-plugin": "^3.5.1",
     "typescript": "^4.2.3",
     "webpack": "^5.51.1",
+    "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.8.0",
     "webpack-dev-middleware": "^5.0.0",
     "webpack-hot-middleware": "git+https://github.com/lukeapage/webpack-hot-middleware#2cdfe0d0111dab6432b8683112fd2d17a5e80572",

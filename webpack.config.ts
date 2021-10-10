@@ -3,6 +3,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import path from 'path'
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 import webpack from 'webpack'
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 
 module.exports = {
   entry: [
@@ -16,6 +17,7 @@ module.exports = {
     publicPath: '/',
   },
   plugins: [
+    process.env.ANALYZE ? new BundleAnalyzerPlugin() : undefined,
     new HtmlWebpackPlugin({
       title: 'League of Legends Models',
       template: path.join(__dirname, 'client/templates/index.ejs'),
@@ -27,7 +29,7 @@ module.exports = {
       devMode: process.env.NODE_ENV === 'development' ? 'light' : 'webapp',
     }),
     new webpack.HotModuleReplacementPlugin(),
-  ],
+  ].filter(Boolean),
   module: {
     rules: [
       {
