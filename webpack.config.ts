@@ -12,9 +12,15 @@ module.exports = {
   ],
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     clean: true,
     publicPath: '/',
+  },
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      chunks: 'all',
+    },
   },
   plugins: [
     process.env.ANALYZE ? new BundleAnalyzerPlugin() : undefined,

@@ -5,11 +5,12 @@
   "main": "client/src/index.tsx",
   "scripts": {
     "build": "cross-env NODE_ENV=production NODE_OPTIONS=--max_old_space_size=8192 webpack",
+    "test": "snowpack dev",
     "start": "cross-env NODE_ENV=development NODE_OPTIONS=--max_old_space_size=8192 env-cmd nodemon --watch server --watch graphql --watch prisma server/index.ts",
     "docker-build": "docker-compose -f docker-compose.dev.yml build",
     "up": "docker-compose -f docker-compose.dev.yml up",
     "bin": "ts-node bin/index",
-    "analyze": "cross-env NODE_ENV=development ANALYZE=true webpack"
+    "analyze": "cross-env NODE_ENV=development NODE_OPTIONS=--max_old_space_size=8192 ANALYZE=true webpack"
   },
   "dependencies": {
     "@amcharts/amcharts4": "^4.10.22",
@@ -46,6 +47,7 @@
     "@babel/preset-typescript": "^7.10.4",
     "@babel/runtime": "^7.15.3",
     "@prisma/client": "^2.30.0",
+    "@snowpack/plugin-typescript": "^1.2.1",
     "@types/express": "^4.17.13",
     "@types/html-webpack-plugin": "^3.2.6",
     "@types/node": "^14.14.35",
@@ -87,6 +89,7 @@
     "prettier-plugin-organize-imports": "^2.3.4",
     "prisma": "^2.30.0",
     "react-svg-loader": "^3.0.3",
+    "snowpack": "^3.8.8",
     "style-loader": "^1.0.0",
     "tailwindcss": "^2.0.2",
     "ts-loader": "^8.0.2",
