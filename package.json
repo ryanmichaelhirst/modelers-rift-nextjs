@@ -5,7 +5,7 @@
   "main": "client/src/index.tsx",
   "scripts": {
     "start": "vite",
-    "server": "cross-env NODE_OPTIONS=--max_old_space_size=8192 env-cmd nodemon --watch server --watch graphql --watch prisma server/index.ts",
+    "server": "env-cmd nodemon --watch server --watch graphql --watch prisma server/index.ts",
     "docker-build": "docker-compose -f docker-compose.dev.yml build",
     "up": "docker-compose -f docker-compose.dev.yml up",
     "bin": "ts-node --project tsconfig.node.json bin/index"
