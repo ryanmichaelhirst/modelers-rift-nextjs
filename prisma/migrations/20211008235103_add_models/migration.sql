@@ -8,8 +8,6 @@ CREATE TABLE "Model" (
     PRIMARY KEY ("id")
 );
 
--- CreateIndex
-CREATE UNIQUE INDEX "Model.name_unique" ON "Model"("name");
 
 -- AddForeignKey
 ALTER TABLE "Model" ADD FOREIGN KEY ("championId") REFERENCES "Champion"("id") ON DELETE CASCADE ON UPDATE CASCADE;

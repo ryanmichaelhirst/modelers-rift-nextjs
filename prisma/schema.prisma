@@ -25,6 +25,6 @@ model Model {
   id          Int      @id @default(autoincrement())
   champion    Champion @relation(fields: [championId], references: [id])
   championId  Int
-  name        String   @unique
+  name        String
   url         String
 }
