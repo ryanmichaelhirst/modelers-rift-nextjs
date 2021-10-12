@@ -36,35 +36,45 @@ export const createDb = async ({ type }: { type: 'postgresql' | 'sqlite' }) => {
 
 export const seedDb = async ({ readDir }: { readDir: string }) => {
   const glbDir = path.join(__dirname, '../../../../league_react_models')
-  const data = []
-  let counter = true
 
   try {
     const champDirs = fs.readdirSync(glbDir)
 
     for (const champDir of champDirs) {
-      if (!counter) continue
+      queue.add(async () => {
+        const command = new ListObjectsV2Command({
+          Bucket: 'league-glb-models',
+          Prefix: `${champDir}`,
+        })
 
-      const command = new ListObjectsV2Command({
-        Bucket: 'league-glb-models',
-        Prefix: `${champDir}`,
+        const response = await s3.send(command)
+        const { Contents } = response
+        console.log(`got models for ${champDir}`)
+
+        const res = await prisma.champion.create({
+          data: {
+            name: champDir,
+            models: {
+              create: Contents.map((c) => ({
+                name: c.Key.split('/')[1],
+                url: `https://league-glb-models.s3.amazonaws.com/${c.Key}`,
+              })),
+            },
+          },
+        })
       })
 
-      const response = await s3.send(command)
-      console.log(response)
+      console.log(`inserted ${champDir} data`)
 
-      data.push({ name: champDir })
-      counter = false
+      if (queue.size >= 100) new Promise((resolve) => setTimeout(resolve, 300))
     }
   } catch (err) {
     throw new Error(`Could not read directory @ ${glbDir}`)
   }
 
-  return
+  await queue.onIdle()
 
-  await prisma.champion.createMany({
-    data,
-  })
+  console.log('successfully seeded prisma db')
 
   prisma.$disconnect()
 }
