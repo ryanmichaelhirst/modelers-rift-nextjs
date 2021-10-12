@@ -4,6 +4,18 @@ import { defineConfig } from 'vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'client/src/index.html'),
+      },
+    },
+  },
+  server: {
+    fs: {
+      allow: ['client', 'node_modules'],
+    },
+  },
   plugins: [react()],
   assetsInclude: ['**/*.glb'],
   resolve: {
