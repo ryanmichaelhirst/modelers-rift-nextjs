@@ -4,6 +4,8 @@ import { defineConfig } from 'vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // client @ http://localhost:3000
+  // is this worth?
   build: {
     rollupOptions: {
       input: {
@@ -14,6 +16,9 @@ export default defineConfig({
   server: {
     fs: {
       allow: ['client', 'node_modules'],
+    },
+    proxy: {
+      '/api': 'http://localhost:4000',
     },
   },
   plugins: [react()],

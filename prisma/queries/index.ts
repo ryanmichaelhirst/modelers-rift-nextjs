@@ -9,3 +9,16 @@ export const sampleUsers = [
 export const prisma = new PrismaClient()
 
 export const getUsers = async () => await prisma.user.findMany()
+
+export const getChampions = async () =>
+  await prisma.champion.findMany({
+    include: {
+      models: {
+        select: {
+          id: true,
+          name: true,
+          url: true,
+        },
+      },
+    },
+  })
