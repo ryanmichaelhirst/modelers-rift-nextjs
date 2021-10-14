@@ -1,19 +1,13 @@
-import { ListObjectsV2Command, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import { PutObjectCommand } from '@aws-sdk/client-s3'
 import { Database } from '@leafac/sqlite'
 import { execSync } from 'child_process'
 import fs from 'fs'
 import PQueue from 'p-queue'
 import path from 'path'
 import { prisma } from '../../prisma/queries/index'
+import { getAwsChampionObject, s3 } from '../../server/aws'
 
 const queue = new PQueue({ concurrency: 30 })
-const s3 = new S3Client({
-  region: 'us-east-1',
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  },
-})
 
 export const createDb = async ({ type }: { type: 'postgresql' | 'sqlite' }) => {
   if (type === 'sqlite') {
@@ -42,16 +36,9 @@ export const seedDb = async ({ readDir }: { readDir: string }) => {
 
     for (const champDir of champDirs) {
       queue.add(async () => {
-        const command = new ListObjectsV2Command({
-          Bucket: 'league-glb-models',
-          Prefix: `${champDir}`,
-        })
+        const { Contents } = await getAwsChampionObject({ name: champDir })
 
-        const response = await s3.send(command)
-        const { Contents } = response
-        console.log(`got models for ${champDir}`)
-
-        const res = await prisma.champion.create({
+        await prisma.champion.create({
           data: {
             name: champDir,
             models: {
