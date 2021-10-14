@@ -1,5 +1,4 @@
 import { selectPlayerChampion } from '@store/slices/championSlice'
-import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import Card from './Card'
 import ChampionModel from './ChampionModel'
@@ -11,12 +10,6 @@ const ChampionModelContainer = ({ name }: { name: string }) => {
     ...s,
     src: `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.name}_${s.num}.jpg`,
   }))
-
-  useEffect(() => {
-    fetch('/api/getChampions')
-      .then((res) => res.json())
-      .then((res) => console.log(res))
-  }, [])
 
   return (
     <Card>
