@@ -4,7 +4,7 @@
   "description": "",
   "main": "client/src/index.tsx",
   "scripts": {
-    "start": "npm run app & npm run server",
+    "dev": "concurrently \"npm run app\" \"npm run server\"",
     "app": "vite",
     "server": "env-cmd nodemon --watch server --watch graphql --watch prisma server/index.ts",
     "docker-build": "docker-compose -f docker-compose.dev.yml build",
@@ -39,9 +39,10 @@
     "@types/yargs": "^17.0.2",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
-    "@vitejs/plugin-react": "^1.0.2",
+    "@vitejs/plugin-react": "^1.0.4",
     "apollo-server-express": "^3.3.0",
     "autoprefixer": "^10.1.0",
+    "concurrently": "^6.3.0",
     "cross-env": "^7.0.3",
     "env-cmd": "^10.1.0",
     "eslint": "^7.32.0",
@@ -62,7 +63,7 @@
     "tailwindcss": "^2.0.2",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.3",
-    "vite": "^2.6.5",
+    "vite": "^2.6.7",
     "yargs": "^17.1.1"
   }
 }
