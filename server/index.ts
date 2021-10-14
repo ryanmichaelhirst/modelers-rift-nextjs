@@ -36,22 +36,31 @@ export default (async () => {
     const key = awsChampionObject.Contents.find((c) => c.Key).Key
 
     const response = await getAwsObject({ key })
+    const glbBuffer = []
+
     console.log('got response')
     console.log(response.Body)
 
-    const test = []
-    // @ts-ignore
-    response.Body.on('data', (chunk) => {
-      console.log('on')
-      console.log(chunk)
-      test.push(chunk)
+    await new Promise<void>((resolve, reject) => {
+      try {
+        // @ts-ignore
+        response.Body.on('data', (chunk) => {
+          console.log('on')
+          glbBuffer.push(chunk)
+        })
+
+        // @ts-ignore
+        response.Body.on('end', () => {
+          console.log('end')
+          resolve()
+        })
+      } catch (err) {
+        console.log('err')
+        reject()
+      }
     })
 
-    // @ts-ignore
-    response.Body.on('end', () => console.log('ended'))
-
-    console.log('returning')
-    res.send({ models, glbs: awsChampionObject.Contents, test })
+    res.send({ models, glbs: awsChampionObject.Contents, glbBuffer })
   })
 
   app.get('/api/getAwsObject/:key', async (req, res) => {
