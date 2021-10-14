@@ -1,4 +1,5 @@
 import express from 'express'
+import fs from 'fs'
 import { apolloServer } from '../graphql'
 import { getChampionModels, getChampions, getUsers } from '../prisma/queries'
 import { getAwsChampionObject, getAwsObject } from './aws'
@@ -33,10 +34,18 @@ export default (async () => {
       name,
     })
     const awsChampionObject = await getAwsChampionObject({ name })
-    const key = awsChampionObject.Contents.find((c) => c.Key).Key
 
+    res.send({ models, glbs: awsChampionObject.Contents })
+  })
+
+  app.get('/api/getAwsObject/:folder/:file', async (req, res) => {
+    console.log('server /api/getAwsObject/:folder/:file')
+
+    const key = `${req.params.folder}/${req.params.file}`
     const response = await getAwsObject({ key })
-    const glbBuffer = []
+
+    const buffers: Buffer[] = []
+    let buffer: Buffer
 
     console.log('got response')
     console.log(response.Body)
@@ -44,14 +53,19 @@ export default (async () => {
     await new Promise<void>((resolve, reject) => {
       try {
         // @ts-ignore
-        response.Body.on('data', (chunk) => {
+        response.Body.on('data', (chunk: Buffer) => {
           console.log('on')
-          glbBuffer.push(chunk)
+          buffers.push(chunk)
         })
 
         // @ts-ignore
         response.Body.on('end', () => {
           console.log('end')
+          buffer = Buffer.concat(buffers)
+          fs.writeFile('test.glb', buffer, async (err) => {
+            console.log('file write err', err)
+          })
+
           resolve()
         })
       } catch (err) {
@@ -60,16 +74,7 @@ export default (async () => {
       }
     })
 
-    res.send({ models, glbs: awsChampionObject.Contents, glbBuffer })
-  })
-
-  app.get('/api/getAwsObject/:key', async (req, res) => {
-    console.log('server /api/getAwsObject/:key')
-
-    const { key } = req.params
-    const awsObject = await getAwsObject({ key })
-
-    res.send(awsObject)
+    res.send({ buffer })
   })
 
   app.listen(4000)

@@ -4,19 +4,26 @@ import Skin2 from '@components/aatrox/skin2'
 import { useEffect, useState } from 'react'
 
 const Aatrox = ({ skin }: { skin: string }) => {
-  const [models, setModels] = useState([])
   const [glb, setGlb] = useState()
+  const [obj, setObj] = useState()
 
   useEffect(() => {
-    fetch(`/api/getChampionModels/aatrox`)
-      .then((res) => res.json())
-      .then((res) => {
-        setGlb(res)
-        setModels(res)
-      })
+    const getData = async () => {
+      const res1 = await (await fetch(`/api/getChampionModels/aatrox`)).json()
+      const [folder, file] = res1.glbs[0].Key.split('/')
+
+      console.log({ folder, file })
+      const res2 = await (await fetch(`/api/getAwsObject/${folder}/${file}`)).json()
+
+      setGlb(res1)
+      setObj(res2)
+    }
+
+    getData()
   }, [])
 
   console.log(glb)
+  console.log(obj)
 
   return null
 
