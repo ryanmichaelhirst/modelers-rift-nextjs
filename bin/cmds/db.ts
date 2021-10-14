@@ -5,7 +5,7 @@ import fs from 'fs'
 import PQueue from 'p-queue'
 import path from 'path'
 import { prisma } from '../../prisma/queries/index'
-import { getAwsChampionObject, s3 } from '../../server/aws'
+import { BUCKET_NAME, getAwsChampionObject, s3 } from '../../server/aws'
 
 const queue = new PQueue({ concurrency: 30 })
 
@@ -44,7 +44,7 @@ export const seedDb = async ({ readDir }: { readDir: string }) => {
             models: {
               create: Contents.map((c) => ({
                 name: c.Key.split('/')[1],
-                url: `https://league-glb-models.s3.amazonaws.com/${c.Key}`,
+                url: `https://${BUCKET_NAME}.s3.amazonaws.com/${c.Key}`,
               })),
             },
           },
@@ -81,7 +81,7 @@ export const seedAws = async () => {
           console.log(`reading file ${glbDir}/${champDir}/${file}`)
 
           const command = new PutObjectCommand({
-            Bucket: 'league-glb-models',
+            Bucket: BUCKET_NAME,
             Body: data,
             Key: `${champDir}/${file}`,
           })
