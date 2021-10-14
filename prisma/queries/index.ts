@@ -22,3 +22,15 @@ export const getChampions = async () =>
       },
     },
   })
+
+export const getChampionModels = async ({ name }: { name: string }) =>
+  (
+    await prisma.champion.findFirst({
+      where: {
+        name,
+      },
+      include: {
+        models: true,
+      },
+    })
+  ).models

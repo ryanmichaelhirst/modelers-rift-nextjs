@@ -1,9 +1,25 @@
 import Skin0 from '@components/aatrox/skin0'
 import Skin1 from '@components/aatrox/skin1'
 import Skin2 from '@components/aatrox/skin2'
-import React from 'react'
+import { useEffect, useState } from 'react'
 
-const Aatrox = ({ glb, skin }: { glb?: any; skin: string }) => {
+const Aatrox = ({ skin }: { skin: string }) => {
+  const [models, setModels] = useState([])
+  const [glb, setGlb] = useState()
+
+  useEffect(() => {
+    fetch(`/api/getChampionModels/aatrox`)
+      .then((res) => res.json())
+      .then((res) => {
+        setGlb(res)
+        setModels(res)
+      })
+  }, [])
+
+  console.log(glb)
+
+  return null
+
   switch (skin) {
     case 'skin0':
       return <Skin0 glb={glb} timerLabel={`aatrox-${skin}`} />

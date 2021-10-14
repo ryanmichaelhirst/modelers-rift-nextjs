@@ -1,6 +1,6 @@
 import express from 'express'
 import { apolloServer } from '../graphql'
-import { getChampions, getUsers } from '../prisma/queries'
+import { getChampionModels, getChampions, getUsers } from '../prisma/queries'
 
 export default (async () => {
   const app = express()
@@ -18,6 +18,14 @@ export default (async () => {
     console.log('proxy request made to /api/getChampions')
     const champions = await getChampions()
     res.send(champions)
+  })
+
+  app.get('/api/getChampionModels/:name', async (req, res) => {
+    console.log('server /api/getChampionModels/:name')
+    const model = await getChampionModels({
+      name: req.params.name,
+    })
+    res.send(model)
   })
 
   app.listen(4000)
