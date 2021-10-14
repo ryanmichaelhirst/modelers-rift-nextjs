@@ -4,7 +4,7 @@ import { defineConfig } from 'vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // client @ http://localhost:3000
+  // client @ http://localhost:3000/client/src/index.html
   // is this worth?
   build: {
     rollupOptions: {
