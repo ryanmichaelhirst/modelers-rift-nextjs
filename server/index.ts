@@ -35,9 +35,23 @@ export default (async () => {
     const awsChampionObject = await getAwsChampionObject({ name })
     const key = awsChampionObject.Contents.find((c) => c.Key).Key
 
-    const firstModel = await getAwsObject({ key })
+    const response = await getAwsObject({ key })
+    console.log('got response')
+    console.log(response.Body)
 
-    res.send({ models, glbs: awsChampionObject.Contents })
+    const test = []
+    // @ts-ignore
+    response.Body.on('data', (chunk) => {
+      console.log('on')
+      console.log(chunk)
+      test.push(chunk)
+    })
+
+    // @ts-ignore
+    response.Body.on('end', () => console.log('ended'))
+
+    console.log('returning')
+    res.send({ models, glbs: awsChampionObject.Contents, test })
   })
 
   app.get('/api/getAwsObject/:key', async (req, res) => {
