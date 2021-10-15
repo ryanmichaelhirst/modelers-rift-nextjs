@@ -13,7 +13,13 @@ const Aatrox = ({ skin }: { skin: string }) => {
       const [folder, file] = res1.glbs[0].Key.split('/')
 
       console.log({ folder, file })
-      const res2 = await (await fetch(`/api/getAwsObject/${folder}/${file}`)).json()
+      const res2 = await (
+        await fetch(`/api/getAwsObject/${folder}/${file}`, {
+          headers: {
+            'Content-Type': 'model/gltf-binary',
+          },
+        })
+      ).json()
 
       setGlb(res1)
       setObj(res2)
@@ -23,7 +29,7 @@ const Aatrox = ({ skin }: { skin: string }) => {
   }, [])
 
   console.log(glb)
-  console.log(obj)
+  // console.log(obj)
 
   return null
 

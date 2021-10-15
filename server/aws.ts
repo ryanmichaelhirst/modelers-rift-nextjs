@@ -27,6 +27,7 @@ export const getAwsObject = async ({ key }: { key: string }) => {
     Bucket: BUCKET_NAME,
     Key: key,
   })
+
   const response = await s3.send(command)
   console.log(`got aws object ${key}`)
 
