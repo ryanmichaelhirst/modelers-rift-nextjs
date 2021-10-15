@@ -14,8 +14,8 @@
   "dependencies": {
     "@amcharts/amcharts4": "^4.10.22",
     "@aws-sdk/client-s3": "^3.36.0",
-    "@react-three/drei": "^7.8.0",
-    "@react-three/fiber": "^7.0.6",
+    "@react-three/drei": "^7.14.3",
+    "@react-three/fiber": "^7.0.16",
     "@reduxjs/toolkit": "^1.6.1",
     "@tippyjs/react": "^4.2.5",
     "classnames": "^2.3.1",
