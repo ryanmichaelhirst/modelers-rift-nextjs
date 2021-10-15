@@ -55,7 +55,8 @@ export default (async () => {
       }
     })
 
-    res.send({ test: '' })
+    // @ts-ignore
+    res.send({ binaryStr })
   })
 
   app.listen(4000)
