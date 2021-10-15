@@ -14,19 +14,22 @@ const Aatrox = ({ skin }: { skin: string }) => {
 
       const res2 = await (await fetch(`/api/getAwsObject/${folder}/${file}`)).json()
 
-      const blob = new Blob([res2.binaryStr], { type: 'application/javascript' })
-      const glb = new File([blob], 'custom-file.glb')
+      // 'model/gltf-binary'
+      // 'https://league-glb-models.s3.amazonaws.com/aatrox/skin0.glb'
+      const blob = new Blob([res2.binaryStr], { type: 'models/gltf-binary' })
       const url = URL.createObjectURL(blob)
 
-      try {
-        const module = await import(url)
-        console.log({ module })
-        setBlob(module)
-      } catch (err) {
-        console.error(err)
-      }
+      setBlob('https://league-glb-models.s3.amazonaws.com/aatrox/skin0.glb')
+      // setBlob(url)
+      // try {
+      //   const module = await import(url)
+      //   console.log({ module })
+      //   setBlob(module)
+      // } catch (err) {
+      //   console.error(err)
+      // }
 
-      console.log({ folder, file, glb, blob, url })
+      console.log({ folder, file, blob, url })
       console.timeEnd('get-model-req')
     }
 
