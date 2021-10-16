@@ -45,16 +45,16 @@ export default (async () => {
     const { Body, ...response } = await getAwsObject({ key })
 
     if (Body instanceof Readable) {
-      console.log('body is readable')
-
-      try {
-        Body.on('data', (data) => res.write(data))
-        Body.on('end', () => res.status(200).send())
-      } catch (err) {
-        res.status(500).send('error writing stream from aws')
-      }
+      console.log('body is type readable')
+      Body.pipe(res)
+      // try {
+      //   Body.on('data', (data) => res.write(data))
+      //   Body.on('end', () => res.status(200).send())
+      // } catch (err) {
+      //   res.status(500).send('error writing stream from aws')
+      // }
     } else if (Body instanceof Blob) {
-      console.log('body is blob')
+      console.log('body is type blob')
     } else {
       res.status(501).send('error reading body from aws')
     }
