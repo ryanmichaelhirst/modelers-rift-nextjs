@@ -11,6 +11,8 @@ const ChampionModelContainer = ({ name }: { name: string }) => {
     src: `http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.name}_${s.num}.jpg`,
   }))
 
+  console.log({ skins, champion })
+
   return (
     <Card>
       <ChampionModel name={name} />
