@@ -1,4 +1,5 @@
 import express from 'express'
+import { Readable } from 'stream'
 import { apolloServer } from '../graphql'
 import { getChampionModels, getChampions, getUsers } from '../prisma/queries'
 import { getAwsChampionObject, getAwsObject } from './aws'
@@ -41,22 +42,22 @@ export default (async () => {
     console.log('server /api/getAwsObject/:folder/:file')
 
     const key = `${req.params.folder}/${req.params.file}`
-    const response = await getAwsObject({ key })
-    const chunks: Buffer[] = []
+    const { Body, ...response } = await getAwsObject({ key })
 
-    const binaryStr = await new Promise<any>((resolve, reject) => {
+    if (Body instanceof Readable) {
+      console.log('body is readable')
+
       try {
-        // @ts-ignore
-        response.Body.on('data', (chunk: Buffer) => chunks.push(chunk))
-        // @ts-ignore
-        response.Body.on('end', () => resolve(chunks.join('')))
+        Body.on('data', (data) => res.write(data))
+        Body.on('end', () => res.status(200).send())
       } catch (err) {
-        reject(err)
+        res.status(500).send('error writing stream from aws')
       }
-    })
-
-    // @ts-ignore
-    res.send({ binaryStr })
+    } else if (Body instanceof Blob) {
+      console.log('body is blob')
+    } else {
+      res.status(501).send('error reading body from aws')
+    }
   })
 
   app.listen(4000)
