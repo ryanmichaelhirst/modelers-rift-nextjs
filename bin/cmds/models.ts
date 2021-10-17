@@ -106,6 +106,9 @@ export const generateJsx = async () => {
   console.timeEnd('generate-jsx')
 }
 
+/**
+ * @deprecated no longer in use, assets are now uploaded to s3. use --c -seed-aws instead
+ */
 export const copyAssets = async () => {
   const assetDir = path.join(__dirname, '../../../league_react_models')
 

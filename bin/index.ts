@@ -1,6 +1,6 @@
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
-import { copyAssets, createDb, generateGlb, generateJsx, seedAws, seedDb } from './cmds'
+import { createDb, generateGlb, generateJsx, seedAws, seedDb } from './cmds'
 
 const run = async () => {
   // Parse flags
@@ -32,8 +32,7 @@ const run = async () => {
       generateJsx()
       break
     case 'copy-assets':
-      copyAssets()
-      break
+      throw new Error('copy-assets cmd is not deprecated. GLB files will be hosted on aws s3.')
     default:
       throw new Error('command not recognized')
   }
