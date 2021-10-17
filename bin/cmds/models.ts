@@ -6,8 +6,8 @@ import path from 'path'
 const queue = new PQueue({ concurrency: 30 })
 
 export const generateGlb = async () => {
-  const gltfDir = path.join(__dirname, '..', '..', '..', '/league_raw_models')
-  const outDir = path.join(__dirname, '..', '..', '..', '/league_react_models')
+  const gltfDir = path.join(__dirname, '../../../../league_raw_models')
+  const outDir = path.join(__dirname, '../../../../league_react_models')
   console.time('generate-glb')
 
   try {
@@ -32,6 +32,14 @@ export const generateGlb = async () => {
                   `gltf-pipeline -i ${gltfDir}/${cdir}/${sdir}/${f} -o ${outDir}/${cdir}/${filename}.glb`,
                 )
                 console.log(stdout)
+
+                exec(
+                  `npx gltfpack -i ${outDir}/${cdir}/${filename}.glb -o ${outDir}/${cdir}/${filename}.glb`,
+                  (err, stdout, stderr) => {
+                    console.log(`compressed glb for ${outDir}/${cdir}/${filename}.glb`)
+                    console.log(stdout)
+                  },
+                )
               },
             )
           })
