@@ -12,13 +12,13 @@ type GLTFResult = GLTF & {
     mesh_0_3: THREE.SkinnedMesh
     Root: THREE.Bone
     Tail1_Grnd: THREE.Bone
-    C_BUFFBONE_GLB_OVERHEAD_LOC: THREE.Bone
-    C_BUFFBONE_GLB_LAYOUT_LOC: THREE.Bone
     BUFFBONE_GLB_CHANNEL_LOC: THREE.Bone
     BUFFBONE_GLB_GROUND_LOC: THREE.Bone
     C_BUFFBONE_GLB_CENTER_LOC: THREE.Bone
     Buffbone_Cstm_Healthbar: THREE.Bone
     Bridge: THREE.Bone
+    C_BUFFBONE_GLB_OVERHEAD_LOC: THREE.Bone
+    C_BUFFBONE_GLB_LAYOUT_LOC: THREE.Bone
   }
   materials: {
     Body: THREE.MeshBasicMaterial
@@ -58,40 +58,41 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
         <primitive object={nodes.Root} />
         <primitive object={nodes.Tail1_Grnd} />
-        <primitive object={nodes.C_BUFFBONE_GLB_OVERHEAD_LOC} />
-        <primitive object={nodes.C_BUFFBONE_GLB_LAYOUT_LOC} />
         <primitive object={nodes.BUFFBONE_GLB_CHANNEL_LOC} />
         <primitive object={nodes.BUFFBONE_GLB_GROUND_LOC} />
         <primitive object={nodes.C_BUFFBONE_GLB_CENTER_LOC} />
         <primitive object={nodes.Buffbone_Cstm_Healthbar} />
         <primitive object={nodes.Bridge} />
+        <primitive object={nodes.C_BUFFBONE_GLB_OVERHEAD_LOC} />
+        <primitive object={nodes.C_BUFFBONE_GLB_LAYOUT_LOC} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Body}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Tail}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Fan}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Bridge}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
+      <group position={[-137.68, -2.89, -214.81]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Body}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Tail}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Fan}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Bridge}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+      </group>
     </group>
   )
 }

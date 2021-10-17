@@ -9,13 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
-    mesh_0_9: THREE.SkinnedMesh
     Root: THREE.Bone
     Root_Wil: THREE.Bone
     C_Lip_Low_B_SKN: THREE.Bone
@@ -34,21 +27,14 @@ type GLTFResult = GLTF & {
     Buffbone_Cstm_Healthbar: THREE.Bone
     Linght_Buffbone_Loc1: THREE.Bone
     Linght_Buffbone_Loc2: THREE.Bone
+    Disc: THREE.Bone
     Snowman_Root: THREE.Bone
     Snowman_True_World: THREE.Bone
-    Disc: THREE.Bone
   }
   materials: {
     Body: THREE.MeshBasicMaterial
     TeethBig: THREE.MeshBasicMaterial
-    Willump: THREE.MeshBasicMaterial
-    translucent: THREE.MeshBasicMaterial
     Snface: THREE.MeshBasicMaterial
-    Snowman: THREE.MeshBasicMaterial
-    Snjelly: THREE.MeshBasicMaterial
-    outTongueface: THREE.MeshBasicMaterial
-    outTonguejelly: THREE.MeshBasicMaterial
-    Discplaye: THREE.MeshBasicMaterial
   }
 }
 
@@ -123,7 +109,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -145,60 +130,27 @@ export default function Model(
         <primitive object={nodes.Buffbone_Cstm_Healthbar} />
         <primitive object={nodes.Linght_Buffbone_Loc1} />
         <primitive object={nodes.Linght_Buffbone_Loc2} />
+        <primitive object={nodes.Disc} />
         <primitive object={nodes.Snowman_Root} />
         <primitive object={nodes.Snowman_True_World} />
-        <primitive object={nodes.Disc} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Body}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.TeethBig}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Willump}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.translucent}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Snface}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Snowman}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Snjelly}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.outTongueface}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.outTonguejelly}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_9.geometry}
-        material={materials.Discplaye}
-        skeleton={nodes.mesh_0_9.skeleton}
-      />
+      <group position={[-94.09, -1.9, -82.58]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Body}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.TeethBig}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Snface}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

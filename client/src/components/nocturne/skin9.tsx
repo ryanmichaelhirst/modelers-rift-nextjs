@@ -54,7 +54,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -67,16 +66,18 @@ export default function Model(
         <primitive object={nodes.Buffbone_Cstm_Healthbar} />
         <primitive object={nodes.ButterflyRoot} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Nocturne_Skin07_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Butterfly_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
+      <group position={[-94.58, 1.7, -29.96]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Nocturne_Skin07_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Butterfly_MAT}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+      </group>
     </group>
   )
 }

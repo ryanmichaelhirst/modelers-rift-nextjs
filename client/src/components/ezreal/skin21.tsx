@@ -10,11 +10,6 @@ type GLTFResult = GLTF & {
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
     mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
@@ -31,12 +26,7 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Ezreal_Base_Mat: THREE.MeshBasicMaterial
-    Hair_Mat: THREE.MeshBasicMaterial
-    Gauntlet_Mat: THREE.MeshBasicMaterial
-    Gauntlet_Bits_Mat: THREE.MeshBasicMaterial
-    Gauntlet_FX_Mat: THREE.MeshBasicMaterial
     Bread_Mat: THREE.MeshBasicMaterial
-    Phone_Mat: THREE.MeshBasicMaterial
     Dummies_Mat: THREE.MeshBasicMaterial
     Platform_Mat: THREE.MeshBasicMaterial
   }
@@ -112,7 +102,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -130,51 +119,28 @@ export default function Model(
         <primitive object={nodes.Phone} />
         <primitive object={nodes.Platform} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Ezreal_Base_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Hair_Mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Gauntlet_Mat}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Gauntlet_Bits_Mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Gauntlet_FX_Mat}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Bread_Mat}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Phone_Mat}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.Dummies_Mat}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.Platform_Mat}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
+      <group position={[-197.67, -56.39, -147.95]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Ezreal_Base_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Bread_Mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Dummies_Mat}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Platform_Mat}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+      </group>
     </group>
   )
 }

@@ -1,4 +1,3 @@
-import useCycleAnimations from '@hooks/UseCycleAnimation'
 import { useGLTF } from '@react-three/drei'
 import React, { useRef } from 'react'
 import * as THREE from 'three'
@@ -14,16 +13,11 @@ type GLTFResult = GLTF & {
   }
 }
 
-type ActionName = 'Run' | 'Attack1' | 'Idle1' | 'Death'
-type GLTFActions = Record<ActionName, THREE.AnimationAction>
-
 export default function Model(
   props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string },
 ) {
   const ref = useRef<THREE.Group>()
-  const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
-  useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
+  const { nodes, materials } = useGLTF(props.glb) as GLTFResult
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -33,6 +27,8 @@ export default function Model(
         geometry={nodes.mesh_0.geometry}
         material={materials.lambert2}
         skeleton={nodes.mesh_0.skeleton}
+        position={[-0.06, -22.86, -0.06]}
+        scale={0}
       />
     </group>
   )

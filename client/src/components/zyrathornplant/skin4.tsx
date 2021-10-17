@@ -13,8 +13,8 @@ type GLTFResult = GLTF & {
     C_Buffbone_Glb_Center_Loc: THREE.Bone
     Buffbone_Glb_Ground_Loc: THREE.Bone
     R_Buffbone_Glb_Foot_Loc: THREE.Bone
-    C_Buffbone_Glb_Overhead_Loc: THREE.Bone
     Buffbone_Glb_Channel_Loc: THREE.Bone
+    C_Buffbone_Glb_Overhead_Loc: THREE.Bone
     C_Buffbone_Glb_Chest_Loc: THREE.Bone
   }
   materials: {
@@ -37,7 +37,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -47,14 +46,16 @@ export default function Model(
         <primitive object={nodes.C_Buffbone_Glb_Center_Loc} />
         <primitive object={nodes.Buffbone_Glb_Ground_Loc} />
         <primitive object={nodes.R_Buffbone_Glb_Foot_Loc} />
-        <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
         <primitive object={nodes.Buffbone_Glb_Channel_Loc} />
+        <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
         <primitive object={nodes.C_Buffbone_Glb_Chest_Loc} />
       </group>
       <skinnedMesh
         geometry={nodes.mesh_0.geometry}
         material={materials.Zyra_Skin04_Range_MAT}
         skeleton={nodes.mesh_0.skeleton}
+        position={[-51.97, -1.3, -50.16]}
+        scale={0.01}
       />
     </group>
   )

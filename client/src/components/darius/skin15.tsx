@@ -9,8 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
@@ -30,8 +28,6 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Darius_Skin15_Mat: THREE.MeshBasicMaterial
-    Darius_Cape_Mat: THREE.MeshBasicMaterial
-    Darius_Axe_Mat: THREE.MeshBasicMaterial
     Wolf_Mat: THREE.MeshBasicMaterial
     Throne_mat: THREE.MeshBasicMaterial
   }
@@ -94,7 +90,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -115,31 +110,23 @@ export default function Model(
         <primitive object={nodes.Piece_2} />
         <primitive object={nodes.Piece_3} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Darius_Skin15_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Darius_Cape_Mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Darius_Axe_Mat}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Wolf_Mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Throne_mat}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
+      <group position={[-140.43, -124.33, -261.24]} scale={0.03}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Darius_Skin15_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Wolf_Mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Throne_mat}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

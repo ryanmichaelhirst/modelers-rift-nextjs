@@ -8,9 +8,6 @@ type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
-    mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
     Root: THREE.Bone
     C_BUFFBONE_GLB_CENTER_LOC: THREE.Bone
     C_BUFFBONE_GLB_OVERHEAD_LOC: THREE.Bone
@@ -22,10 +19,7 @@ type GLTFResult = GLTF & {
   }
   materials: {
     LeBlanc_MAT: THREE.MeshBasicMaterial
-    Cape_MAT: THREE.MeshBasicMaterial
-    LeBlanc_Head_MAT: THREE.MeshBasicMaterial
     Heads_MAT: THREE.MeshBasicMaterial
-    Head_Opaque_Mat: THREE.MeshBasicMaterial
   }
 }
 
@@ -62,7 +56,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -75,31 +68,18 @@ export default function Model(
         <primitive object={nodes.SnapWeapon2World} />
         <primitive object={nodes.SnapCollar2World} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.LeBlanc_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Cape_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.LeBlanc_Head_MAT}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Heads_MAT}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Head_Opaque_Mat}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
+      <group position={[-149.9, -1.48, -59.42]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.LeBlanc_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Heads_MAT}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+      </group>
     </group>
   )
 }

@@ -11,7 +11,6 @@ type GLTFResult = GLTF & {
     mesh_0_2: THREE.SkinnedMesh
     mesh_0_3: THREE.SkinnedMesh
     mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
     Root: THREE.Bone
     Mace_Hand_Driver: THREE.Bone
     Mace: THREE.Bone
@@ -29,7 +28,6 @@ type GLTFResult = GLTF & {
   materials: {
     Mordekaiser_Base_Mat: THREE.MeshBasicMaterial
     Mace: THREE.MeshBasicMaterial
-    Head: THREE.MeshBasicMaterial
     Crown: THREE.MeshBasicMaterial
     Guitar: THREE.MeshBasicMaterial
     Poro_ShadowIsles_Mat: THREE.MeshBasicMaterial
@@ -113,7 +111,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -131,36 +128,33 @@ export default function Model(
         <primitive object={nodes.Poro_Root} />
         <primitive object={nodes.Poro_C_Buffbone_Glb_Overhead_Loc} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Mordekaiser_Base_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Mace}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Head}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Crown}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Guitar}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Poro_ShadowIsles_Mat}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
+      <group position={[-186.4, -64.94, -152.12]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Mordekaiser_Base_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Mace}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Crown}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Guitar}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.Poro_ShadowIsles_Mat}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
+      </group>
     </group>
   )
 }

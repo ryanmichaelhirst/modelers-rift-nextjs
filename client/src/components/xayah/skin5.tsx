@@ -13,9 +13,6 @@ type GLTFResult = GLTF & {
     mesh_0_4: THREE.SkinnedMesh
     mesh_0_5: THREE.SkinnedMesh
     mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
-    mesh_0_9: THREE.SkinnedMesh
     Root: THREE.Bone
     Snap_Weapon2World: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
@@ -38,15 +35,12 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Xayah_Base_Mat: THREE.MeshBasicMaterial
-    Xayah_Crest_Mat: THREE.MeshBasicMaterial
-    Xayah_Base_Weapon_Mat: THREE.MeshBasicMaterial
     Xayah_Familiar_mat: THREE.MeshBasicMaterial
     Xayah_Base_Wing_Mat: THREE.MeshBasicMaterial
     Ult_Wing_Mat: THREE.MeshBasicMaterial
     crest_Xayah_Base_Mat: THREE.MeshBasicMaterial
     Props_Joke_Mat: THREE.MeshBasicMaterial
     Xayah_Familiar_Joke_mat: THREE.MeshBasicMaterial
-    DeathProp_Mat: THREE.MeshBasicMaterial
   }
 }
 
@@ -132,7 +126,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -156,56 +149,43 @@ export default function Model(
         <primitive object={nodes.JokeSnacks1} />
         <primitive object={nodes.DeathCrest} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Xayah_Base_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Xayah_Crest_Mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Xayah_Base_Weapon_Mat}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Xayah_Familiar_mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Xayah_Base_Wing_Mat}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Ult_Wing_Mat}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.crest_Xayah_Base_Mat}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.Props_Joke_Mat}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.Xayah_Familiar_Joke_mat}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_9.geometry}
-        material={materials.DeathProp_Mat}
-        skeleton={nodes.mesh_0_9.skeleton}
-      />
+      <group position={[-183.97, -4.55, -106.31]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Xayah_Base_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Xayah_Familiar_mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Xayah_Base_Wing_Mat}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Ult_Wing_Mat}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.crest_Xayah_Base_Mat}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_5.geometry}
+          material={materials.Props_Joke_Mat}
+          skeleton={nodes.mesh_0_5.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_6.geometry}
+          material={materials.Xayah_Familiar_Joke_mat}
+          skeleton={nodes.mesh_0_6.skeleton}
+        />
+      </group>
     </group>
   )
 }

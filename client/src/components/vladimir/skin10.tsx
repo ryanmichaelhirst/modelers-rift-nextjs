@@ -64,7 +64,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -80,21 +79,23 @@ export default function Model(
         <primitive object={nodes.Recall3_Elbow} />
         <primitive object={nodes.Recall4_Elbow} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Vladimir_Bilgewater_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.waterCape_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Hands_MAT}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
+      <group position={[-70.48, -1.02, -93.1]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Vladimir_Bilgewater_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.waterCape_MAT}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Hands_MAT}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

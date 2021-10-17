@@ -11,10 +11,6 @@ type GLTFResult = GLTF & {
     mesh_0_2: THREE.SkinnedMesh
     mesh_0_3: THREE.SkinnedMesh
     mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
     Root: THREE.Bone
     L_Arm_Socket: THREE.Bone
     R_Arm_Socket: THREE.Bone
@@ -35,13 +31,9 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Body: THREE.MeshBasicMaterial
-    Weapon: THREE.MeshBasicMaterial
     Skateboard: THREE.MeshBasicMaterial
     Recall: THREE.MeshBasicMaterial
     TargetShield1: THREE.MeshBasicMaterial
-    TargetShield4: THREE.MeshBasicMaterial
-    TargetShield3: THREE.MeshBasicMaterial
-    TargetShield2: THREE.MeshBasicMaterial
     GameMachine: THREE.MeshBasicMaterial
   }
 }
@@ -76,7 +68,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -98,51 +89,33 @@ export default function Model(
         <primitive object={nodes.Recall_Destroyed_04} />
         <primitive object={nodes.Recall_GameMachine_jnt} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Body}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Weapon}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Skateboard}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Recall}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.TargetShield1}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.TargetShield4}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.TargetShield3}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.TargetShield2}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.GameMachine}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
+      <group position={[-108.42, -3.26, -111.18]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Body}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Skateboard}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Recall}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.TargetShield1}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.GameMachine}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
+      </group>
     </group>
   )
 }

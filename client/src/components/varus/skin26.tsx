@@ -9,7 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Glb_Overhead_Loc: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
@@ -28,7 +27,6 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Body: THREE.MeshBasicMaterial
-    Weapon: THREE.MeshBasicMaterial
     VFXPassive: THREE.MeshBasicMaterial
     Recall: THREE.MeshBasicMaterial
   }
@@ -67,7 +65,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -87,26 +84,23 @@ export default function Model(
         <primitive object={nodes.Buffbone_Mosaic_Weapon_Loc} />
         <primitive object={nodes.Reall_Recall_root} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Body}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Weapon}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.VFXPassive}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Recall}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
+      <group position={[-32.43, -19.92, -146.28]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Body}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.VFXPassive}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Recall}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

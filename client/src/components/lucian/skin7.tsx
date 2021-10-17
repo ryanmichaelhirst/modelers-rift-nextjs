@@ -98,7 +98,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -112,16 +111,18 @@ export default function Model(
         <primitive object={nodes.C_LightGun_World} />
         <primitive object={nodes.Skin07_Recall_World} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Lucian_Skin_07_mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Skin07_Recall}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
+      <group position={[-94.29, -1.32, -97.25]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Lucian_Skin_07_mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Skin07_Recall}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+      </group>
     </group>
   )
 }

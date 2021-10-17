@@ -10,11 +10,6 @@ type GLTFResult = GLTF & {
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
     mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
     Root: THREE.Bone
     Sword_Root: THREE.Bone
     Sword_Ground_Root: THREE.Bone
@@ -35,14 +30,9 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Irelia_Skin06_Mat: THREE.MeshBasicMaterial
-    Default_Tassles: THREE.MeshBasicMaterial
-    Hair: THREE.MeshBasicMaterial
-    Irelia_Base_Mat: THREE.MeshBasicMaterial
     blades: THREE.MeshBasicMaterial
     Irelia_Skin06_Tassles_Mat: THREE.MeshBasicMaterial
-    Recall: THREE.MeshBasicMaterial
     Skin06_Homeguard_Sword_Mat: THREE.MeshBasicMaterial
-    Irelia_Skin06_Mat_Alpha: THREE.MeshBasicMaterial
   }
 }
 
@@ -126,7 +116,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -148,51 +137,28 @@ export default function Model(
         <primitive object={nodes.Dragon_Tail1_Grnd} />
         <primitive object={nodes.Homeguard_Sword} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Irelia_Skin06_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Default_Tassles}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Hair}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Irelia_Base_Mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.blades}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Irelia_Skin06_Tassles_Mat}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Recall}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.Skin06_Homeguard_Sword_Mat}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.Irelia_Skin06_Mat_Alpha}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
+      <group position={[-95.05, -59.55, -620.84]} scale={0.06}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Irelia_Skin06_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.blades}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Irelia_Skin06_Tassles_Mat}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Skin06_Homeguard_Sword_Mat}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+      </group>
     </group>
   )
 }

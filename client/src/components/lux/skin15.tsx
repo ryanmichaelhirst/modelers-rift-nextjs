@@ -11,7 +11,6 @@ type GLTFResult = GLTF & {
     mesh_0_2: THREE.SkinnedMesh
     mesh_0_3: THREE.SkinnedMesh
     mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
     Root: THREE.Bone
     C_BUFFBONE_CSTM_BEAM: THREE.Bone
     WeaponBottom_World: THREE.Bone
@@ -30,7 +29,6 @@ type GLTFResult = GLTF & {
     Lux_Skin15_Body_MAT: THREE.MeshBasicMaterial
     Lux_Skin15_Recall_MAT: THREE.MeshBasicMaterial
     Lux_Skin15_Dummy_MAT: THREE.MeshBasicMaterial
-    Lux_Skin15_DummyStick_MAT: THREE.MeshBasicMaterial
     Lux_Skin15_Book_MAT: THREE.MeshBasicMaterial
     Lux_Skin15_Bread_MAT: THREE.MeshBasicMaterial
   }
@@ -73,7 +71,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -91,36 +88,33 @@ export default function Model(
         <primitive object={nodes.Book} />
         <primitive object={nodes.Bread} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Lux_Skin15_Body_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Lux_Skin15_Recall_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Lux_Skin15_Dummy_MAT}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Lux_Skin15_DummyStick_MAT}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Lux_Skin15_Book_MAT}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Lux_Skin15_Bread_MAT}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
+      <group position={[-131.45, -4.22, -132.19]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Lux_Skin15_Body_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Lux_Skin15_Recall_MAT}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Lux_Skin15_Dummy_MAT}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Lux_Skin15_Book_MAT}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.Lux_Skin15_Bread_MAT}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
+      </group>
     </group>
   )
 }

@@ -8,13 +8,13 @@ type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
     Root: THREE.Bone
+    Headphones: THREE.Bone
+    Notebook: THREE.Bone
+    Pen: THREE.Bone
     Buffbone_Glb_Channel_Loc: THREE.Bone
     Buffbone_Glb_Ground_Loc: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
-    Headphones: THREE.Bone
-    Notebook: THREE.Bone
-    Pen: THREE.Bone
   }
   materials: {
     Sightward_Skin84_MD_Ward_Kkoma_MAT: THREE.MeshBasicMaterial
@@ -30,23 +30,24 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
         <primitive object={nodes.Root} />
+        <primitive object={nodes.Headphones} />
+        <primitive object={nodes.Notebook} />
+        <primitive object={nodes.Pen} />
         <primitive object={nodes.Buffbone_Glb_Channel_Loc} />
         <primitive object={nodes.Buffbone_Glb_Ground_Loc} />
         <primitive object={nodes.C_Buffbone_Glb_Center_Loc} />
         <primitive object={nodes.C_Buffbone_Glb_Layout_Loc} />
-        <primitive object={nodes.Headphones} />
-        <primitive object={nodes.Notebook} />
-        <primitive object={nodes.Pen} />
       </group>
       <skinnedMesh
         geometry={nodes.mesh_0.geometry}
         material={materials.Sightward_Skin84_MD_Ward_Kkoma_MAT}
         skeleton={nodes.mesh_0.skeleton}
+        position={[-106.15, -1.58, -23.5]}
+        scale={0.01}
       />
     </group>
   )

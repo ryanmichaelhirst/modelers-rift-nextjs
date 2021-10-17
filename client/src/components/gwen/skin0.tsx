@@ -10,7 +10,6 @@ type GLTFResult = GLTF & {
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
     mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
     Doll_Root: THREE.Bone
     Scissors_A: THREE.Bone
     Needle: THREE.Bone
@@ -29,7 +28,6 @@ type GLTFResult = GLTF & {
     Doll: THREE.MeshBasicMaterial
     Scissors: THREE.MeshBasicMaterial
     Scissors_A_Smear: THREE.MeshBasicMaterial
-    Needle: THREE.MeshBasicMaterial
     Body: THREE.MeshBasicMaterial
   }
 }
@@ -138,7 +136,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -156,31 +153,28 @@ export default function Model(
         <primitive object={nodes.SnapJoint1} />
         <primitive object={nodes.SnapJoint2} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Doll}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Scissors}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Scissors_A_Smear}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Needle}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Body}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
+      <group position={[-50.32, -77.75, -153.21]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Doll}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Scissors}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Scissors_A_Smear}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Body}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+      </group>
     </group>
   )
 }

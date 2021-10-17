@@ -9,10 +9,10 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
-    Buffbone_Glb_Channel_Loc: THREE.Bone
     C_Buffbone_Glb_Overhead_Loc: THREE.Bone
-    C_Buffbone_Glb_Layout_Loc: THREE.Bone
     Buffbone_Glb_Ground_Loc: THREE.Bone
+    Buffbone_Glb_Channel_Loc: THREE.Bone
+    C_Buffbone_Glb_Layout_Loc: THREE.Bone
     Buffbone_Cstm_Healthbar: THREE.Bone
   }
   materials: {
@@ -49,22 +49,23 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
         <primitive object={nodes.Root} />
         <primitive object={nodes.C_Buffbone_Glb_Center_Loc} />
-        <primitive object={nodes.Buffbone_Glb_Channel_Loc} />
         <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
-        <primitive object={nodes.C_Buffbone_Glb_Layout_Loc} />
         <primitive object={nodes.Buffbone_Glb_Ground_Loc} />
+        <primitive object={nodes.Buffbone_Glb_Channel_Loc} />
+        <primitive object={nodes.C_Buffbone_Glb_Layout_Loc} />
         <primitive object={nodes.Buffbone_Cstm_Healthbar} />
       </group>
       <skinnedMesh
         geometry={nodes.mesh_0.geometry}
         material={materials.Elise_Skin6_Spiderling_Mat}
         skeleton={nodes.mesh_0.skeleton}
+        position={[-119.67, 5.25, -146.08]}
+        scale={0.02}
       />
     </group>
   )

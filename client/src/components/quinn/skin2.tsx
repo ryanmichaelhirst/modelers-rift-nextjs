@@ -7,7 +7,6 @@ import { GLTF } from 'three-stdlib'
 type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
-    mesh_0_1: THREE.SkinnedMesh
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
     Buffbone_Glb_Ground_Loc: THREE.Bone
@@ -18,7 +17,6 @@ type GLTFResult = GLTF & {
   }
   materials: {
     quinn_woad_MAT: THREE.MeshBasicMaterial
-    Arrow: THREE.MeshBasicMaterial
   }
 }
 
@@ -72,7 +70,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -88,11 +85,8 @@ export default function Model(
         geometry={nodes.mesh_0.geometry}
         material={materials.quinn_woad_MAT}
         skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Arrow}
-        skeleton={nodes.mesh_0_1.skeleton}
+        position={[-70.97, 1.79, -33.57]}
+        scale={0.01}
       />
     </group>
   )

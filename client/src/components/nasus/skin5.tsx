@@ -8,25 +8,19 @@ type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
-    mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
     Root: THREE.Bone
     Weapon: THREE.Bone
-    C_Buffbone_Glb_Layout_Loc: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
-    Buffbone_Glb_Ground_Loc: THREE.Bone
-    C_Buffbone_Glb_Overhead_Loc: THREE.Bone
     Buffbone_Glb_Channel_Loc: THREE.Bone
     Bone: THREE.Bone
-    Hydrant: THREE.Bone
     Kicker_Root: THREE.Bone
+    C_Buffbone_Glb_Layout_Loc: THREE.Bone
+    Buffbone_Glb_Ground_Loc: THREE.Bone
+    C_Buffbone_Glb_Overhead_Loc: THREE.Bone
+    Hydrant: THREE.Bone
   }
   materials: {
     nasus_cerberus_weapon2: THREE.MeshBasicMaterial
-    nasus_cerberus_base: THREE.MeshBasicMaterial
-    nasus_cerberus_weapon: THREE.MeshBasicMaterial
-    nasus_cerberus_bone: THREE.MeshBasicMaterial
     nasus_kicker: THREE.MeshBasicMaterial
   }
 }
@@ -71,46 +65,32 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
         <primitive object={nodes.Root} />
         <primitive object={nodes.Weapon} />
-        <primitive object={nodes.C_Buffbone_Glb_Layout_Loc} />
         <primitive object={nodes.C_Buffbone_Glb_Center_Loc} />
-        <primitive object={nodes.Buffbone_Glb_Ground_Loc} />
-        <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
         <primitive object={nodes.Buffbone_Glb_Channel_Loc} />
         <primitive object={nodes.Bone} />
-        <primitive object={nodes.Hydrant} />
         <primitive object={nodes.Kicker_Root} />
+        <primitive object={nodes.C_Buffbone_Glb_Layout_Loc} />
+        <primitive object={nodes.Buffbone_Glb_Ground_Loc} />
+        <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
+        <primitive object={nodes.Hydrant} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.nasus_cerberus_weapon2}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.nasus_cerberus_base}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.nasus_cerberus_weapon}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.nasus_cerberus_bone}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.nasus_kicker}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
+      <group position={[-120.62, -27.74, -219.48]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.nasus_cerberus_weapon2}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.nasus_kicker}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+      </group>
     </group>
   )
 }

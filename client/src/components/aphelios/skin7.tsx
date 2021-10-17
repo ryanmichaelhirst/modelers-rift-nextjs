@@ -9,14 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
-    mesh_0_9: THREE.SkinnedMesh
-    mesh_0_10: THREE.SkinnedMesh
     Root: THREE.Bone
     Buffbone_Cstm_Healthbar: THREE.Bone
     Buffbone_Glb_Channel_Loc: THREE.Bone
@@ -35,16 +27,8 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Aphelios_Skin01_Mat: THREE.MeshBasicMaterial
-    scarf: THREE.MeshBasicMaterial
     flower: THREE.MeshBasicMaterial
-    bowl: THREE.MeshBasicMaterial
-    mask: THREE.MeshBasicMaterial
-    liquid: THREE.MeshBasicMaterial
     calibrum: THREE.MeshBasicMaterial
-    gravitum: THREE.MeshBasicMaterial
-    crescendum: THREE.MeshBasicMaterial
-    infernum: THREE.MeshBasicMaterial
-    severum: THREE.MeshBasicMaterial
   }
 }
 
@@ -214,7 +198,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -234,61 +217,23 @@ export default function Model(
         <primitive object={nodes.Bowl} />
         <primitive object={nodes.Flower} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Aphelios_Skin01_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.scarf}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.flower}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.bowl}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.mask}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.liquid}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.calibrum}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.gravitum}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.crescendum}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_9.geometry}
-        material={materials.infernum}
-        skeleton={nodes.mesh_0_9.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_10.geometry}
-        material={materials.severum}
-        skeleton={nodes.mesh_0_10.skeleton}
-      />
+      <group position={[-66.77, -142.58, -84.75]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Aphelios_Skin01_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.flower}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.calibrum}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

@@ -9,7 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
     BeeA_Root: THREE.Bone
     BeeB_Root: THREE.Bone
     BeeC_Root: THREE.Bone
@@ -28,7 +27,6 @@ type GLTFResult = GLTF & {
   materials: {
     Recall: THREE.MeshBasicMaterial
     Teemo_Skin18_MAT: THREE.MeshBasicMaterial
-    Wand: THREE.MeshBasicMaterial
     Honey: THREE.MeshBasicMaterial
   }
 }
@@ -62,7 +60,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -81,26 +78,23 @@ export default function Model(
         <primitive object={nodes.Buffbone_Glb_Channel_Loc} />
         <primitive object={nodes.Buffbone_Cstm_Healthbar} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Recall}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Teemo_Skin18_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Wand}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Honey}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
+      <group position={[-28.85, -0.76, -40.17]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Recall}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Teemo_Skin18_MAT}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Honey}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

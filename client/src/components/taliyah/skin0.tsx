@@ -8,8 +8,6 @@ type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
-    mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
     C_Surfboard: THREE.Bone
     Root: THREE.Bone
     Buffbone_Glb_Channel_Loc: THREE.Bone
@@ -21,8 +19,6 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Taliyah_base_RecallRock_mat: THREE.MeshBasicMaterial
-    Taliyah_base_SurfStone_mat: THREE.MeshBasicMaterial
-    Taliyah_base_TauntRock_mat: THREE.MeshBasicMaterial
     Taliyah_base_mat: THREE.MeshBasicMaterial
   }
 }
@@ -94,7 +90,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -107,26 +102,18 @@ export default function Model(
         <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
         <primitive object={nodes.C_Buffbone_Glb_Passive_Trail} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Taliyah_base_RecallRock_mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Taliyah_base_SurfStone_mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Taliyah_base_TauntRock_mat}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Taliyah_base_mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
+      <group position={[-101.79, -46.96, -65.76]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Taliyah_base_RecallRock_mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Taliyah_base_mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+      </group>
     </group>
   )
 }

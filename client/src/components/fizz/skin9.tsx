@@ -8,7 +8,6 @@ type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
-    mesh_0_2: THREE.SkinnedMesh
     Shark: THREE.Bone
     Root: THREE.Bone
     Weapon: THREE.Bone
@@ -21,7 +20,6 @@ type GLTFResult = GLTF & {
   materials: {
     Shark_Mobile: THREE.MeshBasicMaterial
     Fizz_Skin09_mat: THREE.MeshBasicMaterial
-    Visor: THREE.MeshBasicMaterial
   }
 }
 
@@ -62,7 +60,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -75,21 +72,18 @@ export default function Model(
         <primitive object={nodes.C_BUFFBONE_GLB_LAYOUT_LOC} />
         <primitive object={nodes.C_BUFFBONE_GLB_OVERHEAD_LOC} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Shark_Mobile}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Fizz_Skin09_mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Visor}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
+      <group position={[-115.7, -64.26, -286.62]} scale={0.03}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Shark_Mobile}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Fizz_Skin09_mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+      </group>
     </group>
   )
 }

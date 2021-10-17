@@ -9,7 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
     Root: THREE.Bone
     Weapon: THREE.Bone
     Cheese: THREE.Bone
@@ -24,7 +23,6 @@ type GLTFResult = GLTF & {
   materials: {
     Twitch_Skin08_MD_Twitch_OmegaSquad_MAT: THREE.MeshBasicMaterial
     Recall_Rope: THREE.MeshBasicMaterial
-    Recall_OS: THREE.MeshBasicMaterial
     Twitch_Cheese_Mat: THREE.MeshBasicMaterial
   }
 }
@@ -66,7 +64,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -81,26 +78,23 @@ export default function Model(
         <primitive object={nodes.Rope_Space} />
         <primitive object={nodes.Flare} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Twitch_Skin08_MD_Twitch_OmegaSquad_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Recall_Rope}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Recall_OS}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Twitch_Cheese_Mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
+      <group position={[-63.66, -0.13, -161.75]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Twitch_Skin08_MD_Twitch_OmegaSquad_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Recall_Rope}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Twitch_Cheese_Mat}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

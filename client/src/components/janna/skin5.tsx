@@ -7,10 +7,6 @@ import { GLTF } from 'three-stdlib'
 type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
-    mesh_0_1: THREE.SkinnedMesh
-    mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
     Root: THREE.Bone
     Mic: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
@@ -22,10 +18,6 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Janna_Forecast_Mat: THREE.MeshBasicMaterial
-    Janna_Forecast_LightningHair: THREE.MeshBasicMaterial
-    Janna_Forecast_Hair: THREE.MeshBasicMaterial
-    Janna_Forecast_CleanHair: THREE.MeshBasicMaterial
-    Janna_Forecast_Camera: THREE.MeshBasicMaterial
   }
 }
 
@@ -69,7 +61,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -86,26 +77,8 @@ export default function Model(
         geometry={nodes.mesh_0.geometry}
         material={materials.Janna_Forecast_Mat}
         skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Janna_Forecast_LightningHair}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Janna_Forecast_Hair}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Janna_Forecast_CleanHair}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Janna_Forecast_Camera}
-        skeleton={nodes.mesh_0_4.skeleton}
+        position={[-85.28, -0.06, -47.1]}
+        scale={0.01}
       />
     </group>
   )

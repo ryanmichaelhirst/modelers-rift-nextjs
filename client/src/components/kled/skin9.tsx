@@ -18,9 +18,9 @@ type GLTFResult = GLTF & {
     C_Buffbone_Glb_Center_Loc: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
     C_Buffbone_Glb_Overhead_Loc: THREE.Bone
-    Buffbone_Glb_Healthbar_Loc: THREE.Bone
     Mount_Root: THREE.Bone
     Recall_Mini_Root: THREE.Bone
+    Buffbone_Glb_Healthbar_Loc: THREE.Bone
   }
   materials: {
     Kled: THREE.MeshBasicMaterial
@@ -90,7 +90,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -102,30 +101,32 @@ export default function Model(
         <primitive object={nodes.C_Buffbone_Glb_Center_Loc} />
         <primitive object={nodes.C_Buffbone_Glb_Layout_Loc} />
         <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
-        <primitive object={nodes.Buffbone_Glb_Healthbar_Loc} />
         <primitive object={nodes.Mount_Root} />
         <primitive object={nodes.Recall_Mini_Root} />
+        <primitive object={nodes.Buffbone_Glb_Healthbar_Loc} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Kled}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Skaarl}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Wheel}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Frog}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
+      <group position={[-56.72, -16.29, -132.41]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Kled}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Skaarl}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Wheel}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Frog}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+      </group>
     </group>
   )
 }

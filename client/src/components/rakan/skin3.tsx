@@ -9,7 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
     Root: THREE.Bone
     Buffbone_Glb_Weapon_1: THREE.Bone
     Snap_Weapon2World: THREE.Bone
@@ -34,7 +33,6 @@ type GLTFResult = GLTF & {
   materials: {
     Rakan_Skin03_MAT: THREE.MeshBasicMaterial
     Rakan_Skin03_Wing_MAT: THREE.MeshBasicMaterial
-    Rakan_Skin03_Flower_MAT: THREE.MeshBasicMaterial
     Rakan_Skin03_Recall_MAT: THREE.MeshBasicMaterial
   }
 }
@@ -106,7 +104,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -131,26 +128,23 @@ export default function Model(
         <primitive object={nodes.Paper_01} />
         <primitive object={nodes.Mat_01} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Rakan_Skin03_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Rakan_Skin03_Wing_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Rakan_Skin03_Flower_MAT}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Rakan_Skin03_Recall_MAT}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
+      <group position={[-89.39, -27.7, -101.65]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Rakan_Skin03_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Rakan_Skin03_Wing_MAT}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Rakan_Skin03_Recall_MAT}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

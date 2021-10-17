@@ -11,21 +11,6 @@ type GLTFResult = GLTF & {
     mesh_0_2: THREE.SkinnedMesh
     mesh_0_3: THREE.SkinnedMesh
     mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
-    mesh_0_9: THREE.SkinnedMesh
-    mesh_0_10: THREE.SkinnedMesh
-    mesh_0_11: THREE.SkinnedMesh
-    mesh_0_12: THREE.SkinnedMesh
-    mesh_0_13: THREE.SkinnedMesh
-    mesh_0_14: THREE.SkinnedMesh
-    mesh_0_15: THREE.SkinnedMesh
-    mesh_0_16: THREE.SkinnedMesh
-    mesh_0_17: THREE.SkinnedMesh
-    mesh_0_18: THREE.SkinnedMesh
-    mesh_0_19: THREE.SkinnedMesh
     Root: THREE.Bone
     Lance: THREE.Bone
     Buffbone_Cstm_Healthbar: THREE.Bone
@@ -48,25 +33,10 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Armor_Chest: THREE.MeshBasicMaterial
-    Armor_Shoulder: THREE.MeshBasicMaterial
-    Armor_Foot: THREE.MeshBasicMaterial
-    Armor_Gauntlet: THREE.MeshBasicMaterial
-    Armor_Leg_Lower: THREE.MeshBasicMaterial
-    Armor_Leg_Mid: THREE.MeshBasicMaterial
-    Armor_Leg: THREE.MeshBasicMaterial
-    Body: THREE.MeshBasicMaterial
     Lance: THREE.MeshBasicMaterial
-    LanceMetal: THREE.MeshBasicMaterial
     Crown: THREE.MeshBasicMaterial
     Horse_Tail: THREE.MeshBasicMaterial
-    Horse_Head: THREE.MeshBasicMaterial
-    Horse_Backlegs: THREE.MeshBasicMaterial
-    Horse_FrontLegs: THREE.MeshBasicMaterial
-    Horse_Midsection: THREE.MeshBasicMaterial
-    Horse_Saddle: THREE.MeshBasicMaterial
-    Horse_Rear: THREE.MeshBasicMaterial
     JokeHorsie_Stand: THREE.MeshBasicMaterial
-    JokeHorsie: THREE.MeshBasicMaterial
   }
 }
 
@@ -190,7 +160,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -214,106 +183,33 @@ export default function Model(
         <primitive object={nodes.H_C_Buffbone_Glb_Overhead_Loc} />
         <primitive object={nodes.J_JokeHorsie_Root} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Armor_Chest}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Armor_Shoulder}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Armor_Foot}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Armor_Gauntlet}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Armor_Leg_Lower}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Armor_Leg_Mid}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Armor_Leg}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.Body}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.Lance}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_9.geometry}
-        material={materials.LanceMetal}
-        skeleton={nodes.mesh_0_9.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_10.geometry}
-        material={materials.Crown}
-        skeleton={nodes.mesh_0_10.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_11.geometry}
-        material={materials.Horse_Tail}
-        skeleton={nodes.mesh_0_11.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_12.geometry}
-        material={materials.Horse_Head}
-        skeleton={nodes.mesh_0_12.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_13.geometry}
-        material={materials.Horse_Backlegs}
-        skeleton={nodes.mesh_0_13.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_14.geometry}
-        material={materials.Horse_FrontLegs}
-        skeleton={nodes.mesh_0_14.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_15.geometry}
-        material={materials.Horse_Midsection}
-        skeleton={nodes.mesh_0_15.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_16.geometry}
-        material={materials.Horse_Saddle}
-        skeleton={nodes.mesh_0_16.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_17.geometry}
-        material={materials.Horse_Rear}
-        skeleton={nodes.mesh_0_17.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_18.geometry}
-        material={materials.JokeHorsie_Stand}
-        skeleton={nodes.mesh_0_18.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_19.geometry}
-        material={materials.JokeHorsie}
-        skeleton={nodes.mesh_0_19.skeleton}
-      />
+      <group position={[-62.14, -5.27, -215.19]} scale={0.03}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Armor_Chest}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Lance}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Crown}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Horse_Tail}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.JokeHorsie_Stand}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
+      </group>
     </group>
   )
 }

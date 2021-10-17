@@ -8,8 +8,6 @@ type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
-    mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
     Buffbone_Glb_Channel_Loc: THREE.Bone
@@ -22,9 +20,7 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Rengar_Skin23_MAT: THREE.MeshBasicMaterial
-    Rengar_Skin23_Weapon_MD_Rengar_Skin23_MAT: THREE.MeshBasicMaterial
     PropRecall_MAT: THREE.MeshBasicMaterial
-    PropGemRecall_MAT: THREE.MeshBasicMaterial
   }
 }
 
@@ -71,7 +67,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -85,26 +80,18 @@ export default function Model(
         <primitive object={nodes.Snap_Weapon} />
         <primitive object={nodes.RootProp} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Rengar_Skin23_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Rengar_Skin23_Weapon_MD_Rengar_Skin23_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.PropRecall_MAT}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.PropGemRecall_MAT}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
+      <group position={[-189.85, -0.06, -199.46]} scale={0.03}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Rengar_Skin23_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.PropRecall_MAT}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+      </group>
     </group>
   )
 }

@@ -9,13 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
-    mesh_0_9: THREE.SkinnedMesh
     Vehicle_Main: THREE.Bone
     Buffbone_Cstm_Vehicle: THREE.Bone
     Root: THREE.Bone
@@ -42,13 +35,6 @@ type GLTFResult = GLTF & {
   materials: {
     Vehicle: THREE.MeshBasicMaterial
     Cape: THREE.MeshBasicMaterial
-    Drone: THREE.MeshBasicMaterial
-    Mask: THREE.MeshBasicMaterial
-    Vayne_MAT: THREE.MeshBasicMaterial
-    Crossbow_Cover: THREE.MeshBasicMaterial
-    Crossbow_Arm: THREE.MeshBasicMaterial
-    Crossbow_C_Blade: THREE.MeshBasicMaterial
-    Vayne1: THREE.MeshBasicMaterial
     Remote: THREE.MeshBasicMaterial
   }
 }
@@ -105,7 +91,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -132,56 +117,23 @@ export default function Model(
         <primitive object={nodes.Crossbow_Handle} />
         <primitive object={nodes.Remote} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Vehicle}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Cape}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Drone}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Mask}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Vayne_MAT}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Crossbow_Cover}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Crossbow_Arm}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.Crossbow_C_Blade}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.Vayne1}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_9.geometry}
-        material={materials.Remote}
-        skeleton={nodes.mesh_0_9.skeleton}
-      />
+      <group position={[-130.74, -1.23, -157.08]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Vehicle}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Cape}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Remote}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

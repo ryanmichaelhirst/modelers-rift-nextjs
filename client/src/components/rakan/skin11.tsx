@@ -11,13 +11,6 @@ type GLTFResult = GLTF & {
     mesh_0_2: THREE.SkinnedMesh
     mesh_0_3: THREE.SkinnedMesh
     mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
-    mesh_0_9: THREE.SkinnedMesh
-    mesh_0_10: THREE.SkinnedMesh
-    mesh_0_11: THREE.SkinnedMesh
     Root: THREE.Bone
     Buffbone_Glb_Weapon_1: THREE.Bone
     Snap_Weapon2World: THREE.Bone
@@ -36,14 +29,7 @@ type GLTFResult = GLTF & {
   materials: {
     Head: THREE.MeshBasicMaterial
     Tail: THREE.MeshBasicMaterial
-    Body: THREE.MeshBasicMaterial
-    Feathers: THREE.MeshBasicMaterial
-    ArmFeathers: THREE.MeshBasicMaterial
     Rose: THREE.MeshBasicMaterial
-    Mirror: THREE.MeshBasicMaterial
-    HeadRecall: THREE.MeshBasicMaterial
-    Cape: THREE.MeshBasicMaterial
-    CapeRecall: THREE.MeshBasicMaterial
     Recall: THREE.MeshBasicMaterial
     Butterfly: THREE.MeshBasicMaterial
   }
@@ -116,7 +102,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -135,66 +120,33 @@ export default function Model(
         <primitive object={nodes.Recall_root} />
         <primitive object={nodes.butterflyMain} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Head}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Tail}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Body}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Feathers}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.ArmFeathers}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Rose}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Mirror}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.HeadRecall}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.Cape}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_9.geometry}
-        material={materials.CapeRecall}
-        skeleton={nodes.mesh_0_9.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_10.geometry}
-        material={materials.Recall}
-        skeleton={nodes.mesh_0_10.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_11.geometry}
-        material={materials.Butterfly}
-        skeleton={nodes.mesh_0_11.skeleton}
-      />
+      <group position={[-112.95, -22.12, -101.78]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Head}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Tail}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Rose}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Recall}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.Butterfly}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
+      </group>
     </group>
   )
 }

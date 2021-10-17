@@ -12,10 +12,6 @@ type GLTFResult = GLTF & {
     mesh_0_3: THREE.SkinnedMesh
     mesh_0_4: THREE.SkinnedMesh
     mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
-    mesh_0_9: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
@@ -48,12 +44,8 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Evelynn_Mat: THREE.MeshBasicMaterial
-    Evelynn_Lashers_Mat: THREE.MeshBasicMaterial
-    Evelynn_Lashers_Mask_Mat: THREE.MeshBasicMaterial
     Evelynn_Shadow_Mat: THREE.MeshBasicMaterial
-    Evelynn_Shadow_Lasher_Mask_Mat: THREE.MeshBasicMaterial
     Throne_Mat: THREE.MeshBasicMaterial
-    Ground_Mat: THREE.MeshBasicMaterial
     Flower_Mat: THREE.MeshBasicMaterial
     Raven_Mat: THREE.MeshBasicMaterial
     Butterfly_MAT: THREE.MeshBasicMaterial
@@ -148,7 +140,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -182,56 +173,38 @@ export default function Model(
         <primitive object={nodes.Raven_Root} />
         <primitive object={nodes.Butterfly_Root} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Evelynn_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Evelynn_Lashers_Mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Evelynn_Lashers_Mask_Mat}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Evelynn_Shadow_Mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Evelynn_Shadow_Lasher_Mask_Mat}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Throne_Mat}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Ground_Mat}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.Flower_Mat}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.Raven_Mat}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_9.geometry}
-        material={materials.Butterfly_MAT}
-        skeleton={nodes.mesh_0_9.skeleton}
-      />
+      <group position={[-151.46, -23.24, -308.69]} scale={0.03}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Evelynn_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Evelynn_Shadow_Mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Throne_Mat}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Flower_Mat}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.Raven_Mat}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_5.geometry}
+          material={materials.Butterfly_MAT}
+          skeleton={nodes.mesh_0_5.skeleton}
+        />
+      </group>
     </group>
   )
 }

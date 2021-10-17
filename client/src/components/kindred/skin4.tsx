@@ -9,9 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Glb_Overhead_Loc: THREE.Bone
     Tiny_Bow: THREE.Bone
@@ -21,17 +18,14 @@ type GLTFResult = GLTF & {
     Buffbone_Cstm_Healthbar: THREE.Bone
     Mask: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
-    C_Buffbone_Glb_Layout_Loc: THREE.Bone
     Snap_Weapon2World: THREE.Bone
     Buffbone_Glb_Ground_Loc: THREE.Bone
     Buffbone_Glb_Channel_Loc: THREE.Bone
     RecallOne_SpiritWisp_Root: THREE.Bone
+    C_Buffbone_Glb_Layout_Loc: THREE.Bone
   }
   materials: {
     Body: THREE.MeshBasicMaterial
-    Recallface: THREE.MeshBasicMaterial
-    Maskface: THREE.MeshBasicMaterial
-    Weapon: THREE.MeshBasicMaterial
     Props: THREE.MeshBasicMaterial
     SpiritWisp: THREE.MeshBasicMaterial
   }
@@ -78,7 +72,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -91,42 +84,29 @@ export default function Model(
         <primitive object={nodes.Buffbone_Cstm_Healthbar} />
         <primitive object={nodes.Mask} />
         <primitive object={nodes.C_Buffbone_Glb_Center_Loc} />
-        <primitive object={nodes.C_Buffbone_Glb_Layout_Loc} />
         <primitive object={nodes.Snap_Weapon2World} />
         <primitive object={nodes.Buffbone_Glb_Ground_Loc} />
         <primitive object={nodes.Buffbone_Glb_Channel_Loc} />
         <primitive object={nodes.RecallOne_SpiritWisp_Root} />
+        <primitive object={nodes.C_Buffbone_Glb_Layout_Loc} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Body}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Recallface}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Maskface}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Weapon}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Props}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.SpiritWisp}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
+      <group position={[-98.16, -46.33, -92.35]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Body}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Props}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.SpiritWisp}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

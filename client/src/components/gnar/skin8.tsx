@@ -8,8 +8,6 @@ type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
-    mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
     Root_Upper: THREE.Bone
     Root_Lower: THREE.Bone
     Buffbone_Glb_Channel_Loc: THREE.Bone
@@ -23,8 +21,6 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Dino_Gnar: THREE.MeshBasicMaterial
-    Gnar_Weapon: THREE.MeshBasicMaterial
-    Gnar_Boomerang: THREE.MeshBasicMaterial
     Dino_Gnar_Angry_Mat: THREE.MeshBasicMaterial
   }
 }
@@ -93,7 +89,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -108,26 +103,18 @@ export default function Model(
         <primitive object={nodes.Snap_Weapon2World} />
         <primitive object={nodes.Snap_Hat2World} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Dino_Gnar}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Gnar_Weapon}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Gnar_Boomerang}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Dino_Gnar_Angry_Mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
+      <group position={[-72.55, -66.75, -120.19]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Dino_Gnar}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Dino_Gnar_Angry_Mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+      </group>
     </group>
   )
 }

@@ -9,10 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
     Root: THREE.Bone
     Buffbone_Glb_Channel_Loc: THREE.Bone
     Buffbone_Cstm_Healthbar: THREE.Bone
@@ -22,16 +18,12 @@ type GLTFResult = GLTF & {
     Buffbone_Glb_Ground_Loc: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
     C_Buffbone_Glb_Overhead_Loc: THREE.Bone
-    Recall_Tree_World: THREE.Bone
     Recall_Smear: THREE.Bone
+    Recall_Tree_World: THREE.Bone
   }
   materials: {
     Body: THREE.MeshBasicMaterial
-    Weapon: THREE.MeshBasicMaterial
     Recall_BigTree: THREE.MeshBasicMaterial
-    Recall_Tree: THREE.MeshBasicMaterial
-    Recall_Helmet01: THREE.MeshBasicMaterial
-    Recall_Helmet02: THREE.MeshBasicMaterial
     Recall_Smear: THREE.MeshBasicMaterial
   }
 }
@@ -89,7 +81,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -102,44 +93,26 @@ export default function Model(
         <primitive object={nodes.Buffbone_Glb_Ground_Loc} />
         <primitive object={nodes.C_Buffbone_Glb_Center_Loc} />
         <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
-        <primitive object={nodes.Recall_Tree_World} />
         <primitive object={nodes.Recall_Smear} />
+        <primitive object={nodes.Recall_Tree_World} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Body}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Weapon}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Recall_BigTree}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Recall_Tree}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Recall_Helmet01}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Recall_Helmet02}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Recall_Smear}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
+      <group position={[-292.91, -48.04, -571.82]} scale={0.05}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Body}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Recall_BigTree}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Recall_Smear}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

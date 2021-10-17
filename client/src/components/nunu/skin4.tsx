@@ -13,9 +13,6 @@ type GLTFResult = GLTF & {
     mesh_0_4: THREE.SkinnedMesh
     mesh_0_5: THREE.SkinnedMesh
     mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
-    mesh_0_9: THREE.SkinnedMesh
     Root: THREE.Bone
     Root_Wil: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
@@ -36,10 +33,7 @@ type GLTFResult = GLTF & {
     screen: THREE.MeshBasicMaterial
     claws_long: THREE.MeshBasicMaterial
     face: THREE.MeshBasicMaterial
-    wheels: THREE.MeshBasicMaterial
-    tail_recall: THREE.MeshBasicMaterial
     recall: THREE.MeshBasicMaterial
-    tail: THREE.MeshBasicMaterial
     snowman: THREE.MeshBasicMaterial
   }
 }
@@ -115,7 +109,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -133,56 +126,43 @@ export default function Model(
         <primitive object={nodes.Recall_Plug_Base} />
         <primitive object={nodes.Snowman_Root} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Nunu_Skin04_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.willump}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.screen}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.claws_long}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.face}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.wheels}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.tail_recall}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.recall}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.tail}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_9.geometry}
-        material={materials.snowman}
-        skeleton={nodes.mesh_0_9.skeleton}
-      />
+      <group position={[-113.4, -8.04, -86.15]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Nunu_Skin04_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.willump}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.screen}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.claws_long}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.face}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_5.geometry}
+          material={materials.recall}
+          skeleton={nodes.mesh_0_5.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_6.geometry}
+          material={materials.snowman}
+          skeleton={nodes.mesh_0_6.skeleton}
+        />
+      </group>
     </group>
   )
 }

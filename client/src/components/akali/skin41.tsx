@@ -11,13 +11,6 @@ type GLTFResult = GLTF & {
     mesh_0_2: THREE.SkinnedMesh
     mesh_0_3: THREE.SkinnedMesh
     mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
-    mesh_0_9: THREE.SkinnedMesh
-    mesh_0_10: THREE.SkinnedMesh
-    mesh_0_11: THREE.SkinnedMesh
     Root: THREE.Bone
     L_Kunai_Spawn_a: THREE.Bone
     L_Kunai_Spawn_b: THREE.Bone
@@ -47,17 +40,10 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Body: THREE.MeshBasicMaterial
-    Hair_Bangs: THREE.MeshBasicMaterial
     kama_left: THREE.MeshBasicMaterial
-    kama_grip: THREE.MeshBasicMaterial
-    kama_right: THREE.MeshBasicMaterial
-    kunai_hand: THREE.MeshBasicMaterial
     ramen: THREE.MeshBasicMaterial
-    ramen_noodles: THREE.MeshBasicMaterial
-    chopsticks: THREE.MeshBasicMaterial
     Helmet: THREE.MeshBasicMaterial
     Lights: THREE.MeshBasicMaterial
-    Stage: THREE.MeshBasicMaterial
   }
 }
 
@@ -169,7 +155,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -200,66 +185,33 @@ export default function Model(
         <primitive object={nodes.LightColumn5} />
         <primitive object={nodes.Platform} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Body}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Hair_Bangs}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.kama_left}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.kama_grip}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.kama_right}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.kunai_hand}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.ramen}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.ramen_noodles}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.chopsticks}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_9.geometry}
-        material={materials.Helmet}
-        skeleton={nodes.mesh_0_9.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_10.geometry}
-        material={materials.Lights}
-        skeleton={nodes.mesh_0_10.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_11.geometry}
-        material={materials.Stage}
-        skeleton={nodes.mesh_0_11.skeleton}
-      />
+      <group position={[-160.59, -8.99, -158.64]} scale={0.03}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Body}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.kama_left}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.ramen}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Helmet}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.Lights}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
+      </group>
     </group>
   )
 }

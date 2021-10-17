@@ -17,9 +17,6 @@ type GLTFResult = GLTF & {
     mesh_0_8: THREE.SkinnedMesh
     mesh_0_9: THREE.SkinnedMesh
     mesh_0_10: THREE.SkinnedMesh
-    mesh_0_11: THREE.SkinnedMesh
-    mesh_0_12: THREE.SkinnedMesh
-    mesh_0_13: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
@@ -34,9 +31,6 @@ type GLTFResult = GLTF & {
     Body: THREE.MeshBasicMaterial
     HelmetVisor: THREE.MeshBasicMaterial
     Bristle: THREE.MeshBasicMaterial
-    GlassHorn: THREE.MeshBasicMaterial
-    Weapon: THREE.MeshBasicMaterial
-    WeaponBlades: THREE.MeshBasicMaterial
     CityRed: THREE.MeshBasicMaterial
     CityTeal: THREE.MeshBasicMaterial
     ScreenLargeRed: THREE.MeshBasicMaterial
@@ -99,7 +93,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -113,76 +106,63 @@ export default function Model(
         <primitive object={nodes.Root_Ride} />
         <primitive object={nodes.Root_Recall} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Body}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.HelmetVisor}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Bristle}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.GlassHorn}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Weapon}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.WeaponBlades}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.CityRed}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.CityTeal}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.ScreenLargeRed}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_9.geometry}
-        material={materials.ScreenSmallRedA}
-        skeleton={nodes.mesh_0_9.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_10.geometry}
-        material={materials.ScreenSmallRedB}
-        skeleton={nodes.mesh_0_10.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_11.geometry}
-        material={materials.ScreenLargeTeal}
-        skeleton={nodes.mesh_0_11.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_12.geometry}
-        material={materials.ScreenSmallTealA}
-        skeleton={nodes.mesh_0_12.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_13.geometry}
-        material={materials.ScreenSmallTealB}
-        skeleton={nodes.mesh_0_13.skeleton}
-      />
+      <group position={[-81.02, -22.3, -106.31]} scale={0.04}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Body}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.HelmetVisor}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Bristle}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.CityRed}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.CityTeal}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_5.geometry}
+          material={materials.ScreenLargeRed}
+          skeleton={nodes.mesh_0_5.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_6.geometry}
+          material={materials.ScreenSmallRedA}
+          skeleton={nodes.mesh_0_6.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_7.geometry}
+          material={materials.ScreenSmallRedB}
+          skeleton={nodes.mesh_0_7.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_8.geometry}
+          material={materials.ScreenLargeTeal}
+          skeleton={nodes.mesh_0_8.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_9.geometry}
+          material={materials.ScreenSmallTealA}
+          skeleton={nodes.mesh_0_9.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_10.geometry}
+          material={materials.ScreenSmallTealB}
+          skeleton={nodes.mesh_0_10.skeleton}
+        />
+      </group>
     </group>
   )
 }

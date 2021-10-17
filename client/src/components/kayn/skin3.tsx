@@ -9,10 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
     Buffbone_Cstm_Healthbar: THREE.Bone
     Buffbone_Glb_Channel_Loc: THREE.Bone
     C_Buffbone_Glb_Overhead_Loc: THREE.Bone
@@ -37,11 +33,7 @@ type GLTFResult = GLTF & {
   materials: {
     Skin02_Base_Ora_Mat: THREE.MeshBasicMaterial
     Kayn_Base_Assassin_Mat: THREE.MeshBasicMaterial
-    Kayn_Assassin_Hair_Mat: THREE.MeshBasicMaterial
-    Skin02_Assassin_Ora_Mat: THREE.MeshBasicMaterial
     Kayn_Base_Slayer_Mat: THREE.MeshBasicMaterial
-    Kayn_Base_Mat: THREE.MeshBasicMaterial
-    Recall_Ora_Mat: THREE.MeshBasicMaterial
   }
 }
 
@@ -155,7 +147,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -180,41 +171,23 @@ export default function Model(
         <primitive object={nodes.Recall_Ora2} />
         <primitive object={nodes.Recall_Ora3} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Skin02_Base_Ora_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Kayn_Base_Assassin_Mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Kayn_Assassin_Hair_Mat}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Skin02_Assassin_Ora_Mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Kayn_Base_Slayer_Mat}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Kayn_Base_Mat}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Recall_Ora_Mat}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
+      <group position={[-59.65, -29.3, -134.51]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Skin02_Base_Ora_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Kayn_Base_Assassin_Mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Kayn_Base_Slayer_Mat}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

@@ -10,8 +10,6 @@ type GLTFResult = GLTF & {
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
     mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
     Root: THREE.Bone
     Buffbone_Glb_Channel_Loc: THREE.Bone
     Buffbone_Glb_Ground_Loc: THREE.Bone
@@ -24,9 +22,7 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Kaisa_Skin15_Mat: THREE.MeshBasicMaterial
-    Kaisa_Skin15_Gold_Mat: THREE.MeshBasicMaterial
     Kaisa_Helmet_Mat: THREE.MeshBasicMaterial
-    Kaisa_Pistols_Mat: THREE.MeshBasicMaterial
     Kaisa_Base_Frog_Mat: THREE.MeshBasicMaterial
     Kaisa_Base_VoidFrog_Mat: THREE.MeshBasicMaterial
   }
@@ -120,7 +116,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -134,36 +129,28 @@ export default function Model(
         <primitive object={nodes.Snap_Weapon2World} />
         <primitive object={nodes.Mini_Root} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Kaisa_Skin15_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Kaisa_Skin15_Gold_Mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Kaisa_Helmet_Mat}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Kaisa_Pistols_Mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Kaisa_Base_Frog_Mat}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Kaisa_Base_VoidFrog_Mat}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
+      <group position={[-74.55, -0.65, -95.34]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Kaisa_Skin15_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Kaisa_Helmet_Mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Kaisa_Base_Frog_Mat}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Kaisa_Base_VoidFrog_Mat}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+      </group>
     </group>
   )
 }

@@ -11,13 +11,6 @@ type GLTFResult = GLTF & {
     mesh_0_2: THREE.SkinnedMesh
     mesh_0_3: THREE.SkinnedMesh
     mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
-    mesh_0_9: THREE.SkinnedMesh
-    mesh_0_10: THREE.SkinnedMesh
-    mesh_0_11: THREE.SkinnedMesh
     Root: THREE.Bone
     L_Cape1_Ground: THREE.Bone
     R_Cape1_Ground: THREE.Bone
@@ -36,15 +29,8 @@ type GLTFResult = GLTF & {
   materials: {
     Pyke_Skin16_MAT: THREE.MeshBasicMaterial
     Pyke_Skin16_ShoulderProjection_MAT: THREE.MeshBasicMaterial
-    Cape_Projection_MAT: THREE.MeshBasicMaterial
     Pyke_Base_Scroll_Mat: THREE.MeshBasicMaterial
-    Skin16_WeaponHandle_MAT: THREE.MeshBasicMaterial
     Pyke_Skin16_EnergySnake_MAT: THREE.MeshBasicMaterial
-    Skin16_DefaultWeapon_Mat: THREE.MeshBasicMaterial
-    Skin16_Q_Harpoon_VariantWeapon_MAT: THREE.MeshBasicMaterial
-    Skin16_Q_SpearWeapon_MAT: THREE.MeshBasicMaterial
-    Skin16_ChainA_MAT: THREE.MeshBasicMaterial
-    Skin16_ChainB_MAT: THREE.MeshBasicMaterial
     Pyke_Skin16_EmoteProps_MAT: THREE.MeshBasicMaterial
   }
 }
@@ -130,7 +116,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -149,66 +134,33 @@ export default function Model(
         <primitive object={nodes.Guitar} />
         <primitive object={nodes.SpeakerB_Main} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Pyke_Skin16_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Pyke_Skin16_ShoulderProjection_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Cape_Projection_MAT}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Pyke_Base_Scroll_Mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Skin16_WeaponHandle_MAT}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Pyke_Skin16_EnergySnake_MAT}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Skin16_DefaultWeapon_Mat}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.Skin16_Q_Harpoon_VariantWeapon_MAT}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.Skin16_Q_SpearWeapon_MAT}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_9.geometry}
-        material={materials.Skin16_ChainA_MAT}
-        skeleton={nodes.mesh_0_9.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_10.geometry}
-        material={materials.Skin16_ChainB_MAT}
-        skeleton={nodes.mesh_0_10.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_11.geometry}
-        material={materials.Pyke_Skin16_EmoteProps_MAT}
-        skeleton={nodes.mesh_0_11.skeleton}
-      />
+      <group position={[-198.78, -96.7, -156.91]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Pyke_Skin16_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Pyke_Skin16_ShoulderProjection_MAT}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Pyke_Base_Scroll_Mat}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Pyke_Skin16_EnergySnake_MAT}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.Pyke_Skin16_EmoteProps_MAT}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
+      </group>
     </group>
   )
 }

@@ -8,13 +8,8 @@ type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
-    mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
     Root: THREE.Bone
     C_BUFFBONE_GLB_CENTER_LOC: THREE.Bone
-    C_BUFFBONE_GLB_OVERHEAD_LOC: THREE.Bone
     C_BUFFBONE_GLB_LAYOUT_LOC: THREE.Bone
     BUFFBONE_GLB_GROUND_LOC: THREE.Bone
     BUFFBONE_GLB_CHANNEL_LOC: THREE.Bone
@@ -23,14 +18,11 @@ type GLTFResult = GLTF & {
     Head_Pivot: THREE.Bone
     BUFFBONE_GLB_Healthbar_LOC: THREE.Bone
     RecallRoot: THREE.Bone
+    C_BUFFBONE_GLB_OVERHEAD_LOC: THREE.Bone
   }
   materials: {
     Leblanc_Skin20_Mat: THREE.MeshBasicMaterial
-    BodyWings: THREE.MeshBasicMaterial
-    LeftWing: THREE.MeshBasicMaterial
-    RightWing: THREE.MeshBasicMaterial
     Mirror: THREE.MeshBasicMaterial
-    MirrorGlass: THREE.MeshBasicMaterial
   }
 }
 
@@ -65,13 +57,11 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
         <primitive object={nodes.Root} />
         <primitive object={nodes.C_BUFFBONE_GLB_CENTER_LOC} />
-        <primitive object={nodes.C_BUFFBONE_GLB_OVERHEAD_LOC} />
         <primitive object={nodes.C_BUFFBONE_GLB_LAYOUT_LOC} />
         <primitive object={nodes.BUFFBONE_GLB_GROUND_LOC} />
         <primitive object={nodes.BUFFBONE_GLB_CHANNEL_LOC} />
@@ -80,37 +70,20 @@ export default function Model(
         <primitive object={nodes.Head_Pivot} />
         <primitive object={nodes.BUFFBONE_GLB_Healthbar_LOC} />
         <primitive object={nodes.RecallRoot} />
+        <primitive object={nodes.C_BUFFBONE_GLB_OVERHEAD_LOC} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Leblanc_Skin20_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.BodyWings}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.LeftWing}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.RightWing}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Mirror}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.MirrorGlass}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
+      <group position={[-141.7, -1.74, -88.72]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Leblanc_Skin20_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Mirror}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+      </group>
     </group>
   )
 }

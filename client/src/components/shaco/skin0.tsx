@@ -11,9 +11,9 @@ type GLTFResult = GLTF & {
     R_weapon: THREE.Bone
     L_weapon: THREE.Bone
     C_BUFFBONE_GLB_CENTER_LOC: THREE.Bone
-    C_BUFFBONE_GLB_OVERHEAD_LOC: THREE.Bone
     BUFFBONE_GLB_GROUND_LOC: THREE.Bone
     BUFFBONE_GLB_CHANNEL_LOC: THREE.Bone
+    C_BUFFBONE_GLB_OVERHEAD_LOC: THREE.Bone
     C_BUFFBONE_GLB_LAYOUT_LOC: THREE.Bone
   }
   materials: {
@@ -47,7 +47,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -55,15 +54,17 @@ export default function Model(
         <primitive object={nodes.R_weapon} />
         <primitive object={nodes.L_weapon} />
         <primitive object={nodes.C_BUFFBONE_GLB_CENTER_LOC} />
-        <primitive object={nodes.C_BUFFBONE_GLB_OVERHEAD_LOC} />
         <primitive object={nodes.BUFFBONE_GLB_GROUND_LOC} />
         <primitive object={nodes.BUFFBONE_GLB_CHANNEL_LOC} />
+        <primitive object={nodes.C_BUFFBONE_GLB_OVERHEAD_LOC} />
         <primitive object={nodes.C_BUFFBONE_GLB_LAYOUT_LOC} />
       </group>
       <skinnedMesh
         geometry={nodes.mesh_0.geometry}
         material={materials['riotRig:MAT_shaco']}
         skeleton={nodes.mesh_0.skeleton}
+        position={[-27.03, 0.31, -44.85]}
+        scale={0.01}
       />
     </group>
   )

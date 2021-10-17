@@ -8,7 +8,6 @@ type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
-    mesh_0_2: THREE.SkinnedMesh
     Root: THREE.Bone
     Buffbone_Glb_Channel_Loc: THREE.Bone
     Buffbone_Glb_Ground_Loc: THREE.Bone
@@ -19,7 +18,6 @@ type GLTFResult = GLTF & {
   }
   materials: {
     _Warwick_LunarRevel_MAT: THREE.MeshBasicMaterial
-    Sash_Mat: THREE.MeshBasicMaterial
     Lunar_Recall_Mat: THREE.MeshBasicMaterial
   }
 }
@@ -98,7 +96,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -110,21 +107,18 @@ export default function Model(
         <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
         <primitive object={nodes.Lunar_Door} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials._Warwick_LunarRevel_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Sash_Mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Lunar_Recall_Mat}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
+      <group position={[-274.31, -0.32, -297.87]} scale={0.03}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials._Warwick_LunarRevel_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Lunar_Recall_Mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+      </group>
     </group>
   )
 }

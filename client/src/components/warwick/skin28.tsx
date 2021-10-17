@@ -9,11 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
@@ -28,12 +23,7 @@ type GLTFResult = GLTF & {
   materials: {
     Warwick_Skin16_MD_Warwick_Skin16_MAT: THREE.MeshBasicMaterial
     Warwick_Skin16_MD_Warwick_Skin16_HumanHead_MAT: THREE.MeshBasicMaterial
-    Warwick_Skin16_WolfHeadMesh_MAT: THREE.MeshBasicMaterial
-    Warwick_Tongue_MAT: THREE.MeshBasicMaterial
-    Warwick_Skin16_MD_MoveablePlates_MAT: THREE.MeshBasicMaterial
-    Warwick_Skin16_MD_StaticPlates_MAT: THREE.MeshBasicMaterial
     Warwick_Skin16_Drones_MAT: THREE.MeshBasicMaterial
-    Warwick_Skin16_FingerFresnel1: THREE.MeshBasicMaterial
   }
 }
 
@@ -111,7 +101,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -126,46 +115,23 @@ export default function Model(
         <primitive object={nodes.Drone2} />
         <primitive object={nodes.Drone3} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Warwick_Skin16_MD_Warwick_Skin16_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Warwick_Skin16_MD_Warwick_Skin16_HumanHead_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Warwick_Skin16_WolfHeadMesh_MAT}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Warwick_Tongue_MAT}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Warwick_Skin16_MD_MoveablePlates_MAT}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Warwick_Skin16_MD_StaticPlates_MAT}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Warwick_Skin16_Drones_MAT}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.Warwick_Skin16_FingerFresnel1}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
+      <group position={[-116.01, -16.49, -311.68]} scale={0.03}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Warwick_Skin16_MD_Warwick_Skin16_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Warwick_Skin16_MD_Warwick_Skin16_HumanHead_MAT}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Warwick_Skin16_Drones_MAT}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

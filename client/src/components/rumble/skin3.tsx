@@ -8,24 +8,16 @@ type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
-    mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
+    Buffbone_Glb_Channel_Loc: THREE.Bone
+    Pilot_Recall: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
     Buffbone_Glb_Ground_Loc: THREE.Bone
     C_Buffbone_Glb_Overhead_Loc: THREE.Bone
-    Buffbone_Glb_Channel_Loc: THREE.Bone
-    Pilot_Recall: THREE.Bone
   }
   materials: {
     Rumble_Robot_Mat: THREE.MeshBasicMaterial
-    base_drill: THREE.MeshBasicMaterial
-    overheat_drill: THREE.MeshBasicMaterial
-    Rumble_Mat: THREE.MeshBasicMaterial
-    Rumble_Cape: THREE.MeshBasicMaterial
     Rumble_Shield: THREE.MeshBasicMaterial
   }
 }
@@ -92,48 +84,29 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
         <primitive object={nodes.Root} />
         <primitive object={nodes.C_Buffbone_Glb_Center_Loc} />
+        <primitive object={nodes.Buffbone_Glb_Channel_Loc} />
+        <primitive object={nodes.Pilot_Recall} />
         <primitive object={nodes.C_Buffbone_Glb_Layout_Loc} />
         <primitive object={nodes.Buffbone_Glb_Ground_Loc} />
         <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
-        <primitive object={nodes.Buffbone_Glb_Channel_Loc} />
-        <primitive object={nodes.Pilot_Recall} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Rumble_Robot_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.base_drill}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.overheat_drill}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Rumble_Mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Rumble_Cape}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Rumble_Shield}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
+      <group position={[-70.21, -0.04, -69.49]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Rumble_Robot_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Rumble_Shield}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+      </group>
     </group>
   )
 }

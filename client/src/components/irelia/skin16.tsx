@@ -9,7 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
     Root: THREE.Bone
     Sword_Ground_Root: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
@@ -28,7 +27,6 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Skin16_MAT: THREE.MeshBasicMaterial
-    Skin16_Visor_MAT: THREE.MeshBasicMaterial
     blades: THREE.MeshBasicMaterial
     Skin16_Recall_MAT: THREE.MeshBasicMaterial
   }
@@ -114,7 +112,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -134,26 +131,23 @@ export default function Model(
         <primitive object={nodes.Skin14_Recall_Drone01} />
         <primitive object={nodes.Skin14_Recall_Drone02} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Skin16_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Skin16_Visor_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.blades}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Skin16_Recall_MAT}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
+      <group position={[-95.05, -16.49, -132.83]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Skin16_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.blades}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Skin16_Recall_MAT}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

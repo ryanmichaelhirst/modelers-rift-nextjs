@@ -10,7 +10,6 @@ type GLTFResult = GLTF & {
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
     mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
     Root: THREE.Bone
     Snap_Weapon2World: THREE.Bone
     True_World: THREE.Bone
@@ -31,7 +30,6 @@ type GLTFResult = GLTF & {
     Pyke_Base_Mat: THREE.MeshBasicMaterial
     Pyke_Base_Weapon_A_Mat: THREE.MeshBasicMaterial
     Pyke_Base_Scroll_Mat: THREE.MeshBasicMaterial
-    Pyke_Base_Scroll_Onbody_Mat: THREE.MeshBasicMaterial
     Pyke_Base_Nensi_Mat: THREE.MeshBasicMaterial
   }
 }
@@ -105,7 +103,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -125,31 +122,28 @@ export default function Model(
         <primitive object={nodes.Nensi_Main2} />
         <primitive object={nodes.Buffbone_Cstm_Nensi_Head} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Pyke_Base_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Pyke_Base_Weapon_A_Mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Pyke_Base_Scroll_Mat}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Pyke_Base_Scroll_Onbody_Mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Pyke_Base_Nensi_Mat}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
+      <group position={[-184.26, -158.61, -601.25]} scale={0.05}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Pyke_Base_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Pyke_Base_Weapon_A_Mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Pyke_Base_Scroll_Mat}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Pyke_Base_Nensi_Mat}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+      </group>
     </group>
   )
 }

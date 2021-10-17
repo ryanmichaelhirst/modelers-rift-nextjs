@@ -8,10 +8,6 @@ type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
-    mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
     Root: THREE.Bone
     Snap_Weapon2World: THREE.Bone
     True_World: THREE.Bone
@@ -30,11 +26,7 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Pyke_Base_Mat: THREE.MeshBasicMaterial
-    Ink_Wells: THREE.MeshBasicMaterial
-    Pyke_Base_Weapon_B_Mat: THREE.MeshBasicMaterial
     Pyke_Base_Scroll_Mat: THREE.MeshBasicMaterial
-    Mask_Mat: THREE.MeshBasicMaterial
-    Recall_Mesh: THREE.MeshBasicMaterial
   }
 }
 
@@ -107,7 +99,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -127,36 +118,18 @@ export default function Model(
         <primitive object={nodes.SandWraith_Recall_Throne} />
         <primitive object={nodes.Spheres_Base} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Pyke_Base_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Ink_Wells}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Pyke_Base_Weapon_B_Mat}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Pyke_Base_Scroll_Mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Mask_Mat}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Recall_Mesh}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
+      <group position={[-114.27, -5.63, -107.84]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Pyke_Base_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Pyke_Base_Scroll_Mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+      </group>
     </group>
   )
 }

@@ -7,11 +7,6 @@ import { GLTF } from 'three-stdlib'
 type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
-    mesh_0_1: THREE.SkinnedMesh
-    mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
     Root: THREE.Bone
     Buffbone_Water_Large_1: THREE.Bone
     Buffbone_Water_Large_2: THREE.Bone
@@ -36,11 +31,6 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Nami_ImmortalJourney_MD_Nami_ImmortalJourney_MAT: THREE.MeshBasicMaterial
-    armsOnly_MAT: THREE.MeshBasicMaterial
-    Nami_ImmortalJourney_MAT: THREE.MeshBasicMaterial
-    legs_MAT: THREE.MeshBasicMaterial
-    tail_MAT: THREE.MeshBasicMaterial
-    Nami_Skin15_Main_MD_Nami_ImmortalJourney_MAT: THREE.MeshBasicMaterial
   }
 }
 
@@ -89,7 +79,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -119,31 +108,8 @@ export default function Model(
         geometry={nodes.mesh_0.geometry}
         material={materials.Nami_ImmortalJourney_MD_Nami_ImmortalJourney_MAT}
         skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.armsOnly_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Nami_ImmortalJourney_MAT}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.legs_MAT}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.tail_MAT}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Nami_Skin15_Main_MD_Nami_ImmortalJourney_MAT}
-        skeleton={nodes.mesh_0_5.skeleton}
+        position={[-111.1, -153.66, -43.41]}
+        scale={0.02}
       />
     </group>
   )

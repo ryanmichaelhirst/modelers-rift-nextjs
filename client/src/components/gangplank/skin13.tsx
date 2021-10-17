@@ -10,12 +10,6 @@ type GLTFResult = GLTF & {
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
     mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
-    mesh_0_9: THREE.SkinnedMesh
     Root: THREE.Bone
     Orange1: THREE.Bone
     Orange2: THREE.Bone
@@ -34,15 +28,9 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Gangplank_SpacePirate_MAT3: THREE.MeshBasicMaterial
-    Gangplank_SpacePirate_MAT4: THREE.MeshBasicMaterial
     TENTACLE_MAT: THREE.MeshBasicMaterial
-    AIRLOCK_MAT: THREE.MeshBasicMaterial
-    SPACE_MAT: THREE.MeshBasicMaterial
     ALIEN_MAT: THREE.MeshBasicMaterial
     SMALL_TENTACLE: THREE.MeshBasicMaterial
-    BLADE_MAT: THREE.MeshBasicMaterial
-    Orange: THREE.MeshBasicMaterial
-    Orange_Alien_MAT: THREE.MeshBasicMaterial
   }
 }
 
@@ -87,7 +75,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -107,56 +94,28 @@ export default function Model(
         <primitive object={nodes.Hole_root} />
         <primitive object={nodes.monster} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Gangplank_SpacePirate_MAT3}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Gangplank_SpacePirate_MAT4}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.TENTACLE_MAT}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.AIRLOCK_MAT}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.SPACE_MAT}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.ALIEN_MAT}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.SMALL_TENTACLE}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.BLADE_MAT}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.Orange}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_9.geometry}
-        material={materials.Orange_Alien_MAT}
-        skeleton={nodes.mesh_0_9.skeleton}
-      />
+      <group position={[-163.95, -16.61, -86.1]} scale={0.04}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Gangplank_SpacePirate_MAT3}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.TENTACLE_MAT}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.ALIEN_MAT}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.SMALL_TENTACLE}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+      </group>
     </group>
   )
 }

@@ -12,9 +12,6 @@ type GLTFResult = GLTF & {
     mesh_0_3: THREE.SkinnedMesh
     mesh_0_4: THREE.SkinnedMesh
     mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
     Root: THREE.Bone
     Familiar: THREE.Bone
     Buffbone_CSTM_Orb_Root: THREE.Bone
@@ -34,10 +31,7 @@ type GLTFResult = GLTF & {
     Zoe_Base_IceCream_Mat: THREE.MeshBasicMaterial
     Familiar_Mat: THREE.MeshBasicMaterial
     Recall_Mat: THREE.MeshBasicMaterial
-    Zoe_Base_TennisRac_Mat: THREE.MeshBasicMaterial
     Zoe_Base_Yoyo_Mat: THREE.MeshBasicMaterial
-    Zoe_Base_Jumprope_Mat: THREE.MeshBasicMaterial
-    Zoe_Base_Mat: THREE.MeshBasicMaterial
     Hair_VFX_Mat: THREE.MeshBasicMaterial
     Zoe_Base_Hair_Mat: THREE.MeshBasicMaterial
   }
@@ -143,7 +137,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -162,51 +155,38 @@ export default function Model(
         <primitive object={nodes.Snap_Weapon2World} />
         <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Zoe_Base_IceCream_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Familiar_Mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Recall_Mat}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Zoe_Base_TennisRac_Mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Zoe_Base_Yoyo_Mat}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Zoe_Base_Jumprope_Mat}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Zoe_Base_Mat}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.Hair_VFX_Mat}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.Zoe_Base_Hair_Mat}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
+      <group position={[-264.66, -18.59, -211.91]} scale={0.03}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Zoe_Base_IceCream_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Familiar_Mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Recall_Mat}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Zoe_Base_Yoyo_Mat}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.Hair_VFX_Mat}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_5.geometry}
+          material={materials.Zoe_Base_Hair_Mat}
+          skeleton={nodes.mesh_0_5.skeleton}
+        />
+      </group>
     </group>
   )
 }

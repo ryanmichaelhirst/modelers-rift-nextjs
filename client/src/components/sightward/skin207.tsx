@@ -7,14 +7,10 @@ import { GLTF } from 'three-stdlib'
 type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
-    mesh_0_1: THREE.SkinnedMesh
-    mesh_0_2: THREE.SkinnedMesh
     Root: THREE.Bone
   }
   materials: {
     Dragonmancer_Ward_Sphere_MAT: THREE.MeshBasicMaterial
-    Dragonmancer_Ward_Tail_MAT: THREE.MeshBasicMaterial
-    Dragonmancer_Ward_Body_MAT: THREE.MeshBasicMaterial
   }
 }
 
@@ -27,7 +23,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -37,16 +32,8 @@ export default function Model(
         geometry={nodes.mesh_0.geometry}
         material={materials.Dragonmancer_Ward_Sphere_MAT}
         skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Dragonmancer_Ward_Tail_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Dragonmancer_Ward_Body_MAT}
-        skeleton={nodes.mesh_0_2.skeleton}
+        position={[-36.5, -0.18, -46.83]}
+        scale={0.01}
       />
     </group>
   )

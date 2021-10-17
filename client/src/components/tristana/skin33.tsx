@@ -8,9 +8,6 @@ type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
-    mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Cstm_Healthbar_Loc: THREE.Bone
     C_Buffbone_Glb_Overhead_Loc: THREE.Bone
@@ -24,9 +21,6 @@ type GLTFResult = GLTF & {
   materials: {
     Tristana_Driver_MAT: THREE.MeshBasicMaterial
     Tristana_Base_MAT: THREE.MeshBasicMaterial
-    Tristana_Tooth_MAT: THREE.MeshBasicMaterial
-    Tristana_Glass_MAT: THREE.MeshBasicMaterial
-    Tristana_Penguin_MAT: THREE.MeshBasicMaterial
   }
 }
 
@@ -75,7 +69,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -89,31 +82,18 @@ export default function Model(
         <primitive object={nodes.Buffbone_Glb_Channel_Loc} />
         <primitive object={nodes.Recall01_Penguin_Root} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Tristana_Driver_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Tristana_Base_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Tristana_Tooth_MAT}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Tristana_Glass_MAT}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Tristana_Penguin_MAT}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
+      <group position={[-61.69, -1.04, -82.89]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Tristana_Driver_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Tristana_Base_MAT}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+      </group>
     </group>
   )
 }

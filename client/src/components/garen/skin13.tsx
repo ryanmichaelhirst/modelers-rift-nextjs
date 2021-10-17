@@ -9,7 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
     Root: THREE.Bone
     Snap_Weapon2World: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
@@ -23,7 +22,6 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Garen_Sword_MAT: THREE.MeshBasicMaterial
-    Garen_Skin13_Mat: THREE.MeshBasicMaterial
     Throne_mat: THREE.MeshBasicMaterial
     Garen_Skin13_lion_mat: THREE.MeshBasicMaterial
   }
@@ -82,7 +80,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -97,26 +94,23 @@ export default function Model(
         <primitive object={nodes.Throne} />
         <primitive object={nodes.Lion_Root} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Garen_Sword_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Garen_Skin13_Mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Throne_mat}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Garen_Skin13_lion_mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
+      <group position={[-140.43, -2.29, -245.08]} scale={0.03}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Garen_Sword_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Throne_mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Garen_Skin13_lion_mat}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

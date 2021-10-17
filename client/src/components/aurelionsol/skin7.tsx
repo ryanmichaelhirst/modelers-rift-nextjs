@@ -97,7 +97,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -111,16 +110,18 @@ export default function Model(
         <primitive object={nodes.Snap2World_Star1} />
         <primitive object={nodes.Ship_Root} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.AurelionSol_Mecha_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.AurelionSolMotherShip}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
+      <group position={[-110.34, -34.85, -423.46]} scale={0.04}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.AurelionSol_Mecha_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.AurelionSolMotherShip}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+      </group>
     </group>
   )
 }

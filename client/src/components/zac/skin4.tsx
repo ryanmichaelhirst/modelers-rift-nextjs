@@ -9,8 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
     BotSplitter_Skn: THREE.Bone
     TopSplitter_Follow_Skn: THREE.Bone
     Ult_Root: THREE.Bone
@@ -43,8 +41,6 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Zac_base_lower_mat: THREE.MeshBasicMaterial
-    Zac_base_body_mat: THREE.MeshBasicMaterial
-    Zac_base_tail_mat: THREE.MeshBasicMaterial
     Zac_base_puddle_mat: THREE.MeshBasicMaterial
     Zac_base_ult_mat: THREE.MeshBasicMaterial
   }
@@ -117,7 +113,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -151,31 +146,23 @@ export default function Model(
         <primitive object={nodes.R_Buffbone_Glb_Hand_Loc} />
         <primitive object={nodes.C_Buffbone_Glb_Select_Loc} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Zac_base_lower_mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Zac_base_body_mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Zac_base_tail_mat}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Zac_base_puddle_mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Zac_base_ult_mat}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
+      <group position={[-144.17, -0.3, -122.96]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Zac_base_lower_mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Zac_base_puddle_mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Zac_base_ult_mat}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

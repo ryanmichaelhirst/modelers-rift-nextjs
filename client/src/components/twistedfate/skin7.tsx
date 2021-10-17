@@ -7,7 +7,6 @@ import { GLTF } from 'three-stdlib'
 type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
-    mesh_0_1: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Glb_Overhead_Loc: THREE.Bone
     Buffbone_Glb_Channel_Loc: THREE.Bone
@@ -17,7 +16,6 @@ type GLTFResult = GLTF & {
   }
   materials: {
     twistedfate_underworld_MD_PROXY_blinn4: THREE.MeshBasicMaterial
-    twistedfate_underworld_MD_PROXY_ALPHA_arm1: THREE.MeshBasicMaterial
   }
 }
 
@@ -77,7 +75,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -92,11 +89,8 @@ export default function Model(
         geometry={nodes.mesh_0.geometry}
         material={materials.twistedfate_underworld_MD_PROXY_blinn4}
         skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.twistedfate_underworld_MD_PROXY_ALPHA_arm1}
-        skeleton={nodes.mesh_0_1.skeleton}
+        position={[-80.24, 1.38, -33.16]}
+        scale={0.01}
       />
     </group>
   )

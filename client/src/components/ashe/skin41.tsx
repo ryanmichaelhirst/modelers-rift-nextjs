@@ -9,15 +9,8 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
-    R_Arm_Socket: THREE.Bone
-    L_Arm_Socket: THREE.Bone
     Cape_Master: THREE.Bone
     Buffbone_Cstm_Healthbar: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
@@ -31,16 +24,13 @@ type GLTFResult = GLTF & {
     Recall_altar_hip: THREE.Bone
     Recall_base_VFXbone: THREE.Bone
     Recall_bird_Root: THREE.Bone
+    R_Arm_Socket: THREE.Bone
+    L_Arm_Socket: THREE.Bone
   }
   materials: {
     Cape: THREE.MeshBasicMaterial
-    Body: THREE.MeshBasicMaterial
     Arrow: THREE.MeshBasicMaterial
     Raven: THREE.MeshBasicMaterial
-    CloseWing: THREE.MeshBasicMaterial
-    Recall: THREE.MeshBasicMaterial
-    Raven2: THREE.MeshBasicMaterial
-    CloseWing2: THREE.MeshBasicMaterial
   }
 }
 
@@ -81,14 +71,11 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
         <primitive object={nodes.Root} />
         <primitive object={nodes.C_Buffbone_Glb_Center_Loc} />
-        <primitive object={nodes.R_Arm_Socket} />
-        <primitive object={nodes.L_Arm_Socket} />
         <primitive object={nodes.Cape_Master} />
         <primitive object={nodes.Buffbone_Cstm_Healthbar} />
         <primitive object={nodes.C_Buffbone_Glb_Layout_Loc} />
@@ -102,47 +89,26 @@ export default function Model(
         <primitive object={nodes.Recall_altar_hip} />
         <primitive object={nodes.Recall_base_VFXbone} />
         <primitive object={nodes.Recall_bird_Root} />
+        <primitive object={nodes.R_Arm_Socket} />
+        <primitive object={nodes.L_Arm_Socket} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Cape}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Body}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Arrow}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Raven}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.CloseWing}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Recall}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Raven2}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.CloseWing2}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
+      <group position={[-143.18, -0.11, -42]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Cape}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Arrow}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Raven}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

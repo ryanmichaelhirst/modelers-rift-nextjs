@@ -9,7 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Tail1_Grnd: THREE.Bone
     R_TailB1_Grnd: THREE.Bone
@@ -23,7 +22,6 @@ type GLTFResult = GLTF & {
     Stairs: THREE.Bone
     Throne: THREE.Bone
     Weapon_Oriented: THREE.Bone
-    True_World: THREE.Bone
     R_TailA1_Grnd: THREE.Bone
     L_TailA1_Grnd: THREE.Bone
     L_TailB1_Grnd: THREE.Bone
@@ -33,12 +31,12 @@ type GLTFResult = GLTF & {
     R_Arm_Socket: THREE.Bone
     c_buffbone_glb_center_loc: THREE.Bone
     buffbone_glb_healthbar_loc: THREE.Bone
+    True_World: THREE.Bone
   }
   materials: {
     Body: THREE.MeshBasicMaterial
     Tails: THREE.MeshBasicMaterial
     Stairs: THREE.MeshBasicMaterial
-    Props: THREE.MeshBasicMaterial
   }
 }
 
@@ -79,7 +77,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -96,7 +93,6 @@ export default function Model(
         <primitive object={nodes.Stairs} />
         <primitive object={nodes.Throne} />
         <primitive object={nodes.Weapon_Oriented} />
-        <primitive object={nodes.True_World} />
         <primitive object={nodes.R_TailA1_Grnd} />
         <primitive object={nodes.L_TailA1_Grnd} />
         <primitive object={nodes.L_TailB1_Grnd} />
@@ -106,27 +102,25 @@ export default function Model(
         <primitive object={nodes.R_Arm_Socket} />
         <primitive object={nodes.c_buffbone_glb_center_loc} />
         <primitive object={nodes.buffbone_glb_healthbar_loc} />
+        <primitive object={nodes.True_World} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Body}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Tails}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Stairs}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Props}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
+      <group position={[-123.26, -9.76, -109.5]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Body}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Tails}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Stairs}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

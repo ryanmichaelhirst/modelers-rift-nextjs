@@ -11,7 +11,6 @@ type GLTFResult = GLTF & {
     mesh_0_2: THREE.SkinnedMesh
     mesh_0_3: THREE.SkinnedMesh
     mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
     C_Buffbone_Glb_Overhead_Loc: THREE.Bone
@@ -27,7 +26,6 @@ type GLTFResult = GLTF & {
   materials: {
     Neeko_Skin01_Mat: THREE.MeshBasicMaterial
     Neeko_Skin01_Crystal_Mat: THREE.MeshBasicMaterial
-    Neeko_Skin01_FX_Mat: THREE.MeshBasicMaterial
     Neeko_Skin01_Recall_Pond_Mat: THREE.MeshBasicMaterial
     Neeko_Skin01_Recall_Panel_Mat: THREE.MeshBasicMaterial
     Neeko_Skin01_Butterfly_Mat: THREE.MeshBasicMaterial
@@ -88,7 +86,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -104,36 +101,33 @@ export default function Model(
         <primitive object={nodes.Tree_Root} />
         <primitive object={nodes.Pond} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Neeko_Skin01_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Neeko_Skin01_Crystal_Mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Neeko_Skin01_FX_Mat}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Neeko_Skin01_Recall_Pond_Mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Neeko_Skin01_Recall_Panel_Mat}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Neeko_Skin01_Butterfly_Mat}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
+      <group position={[-67.61, -5.26, -256.11]} scale={0.04}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Neeko_Skin01_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Neeko_Skin01_Crystal_Mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Neeko_Skin01_Recall_Pond_Mat}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Neeko_Skin01_Recall_Panel_Mat}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.Neeko_Skin01_Butterfly_Mat}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
+      </group>
     </group>
   )
 }

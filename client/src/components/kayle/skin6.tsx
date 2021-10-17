@@ -15,9 +15,6 @@ type GLTFResult = GLTF & {
     mesh_0_6: THREE.SkinnedMesh
     mesh_0_7: THREE.SkinnedMesh
     mesh_0_8: THREE.SkinnedMesh
-    mesh_0_9: THREE.SkinnedMesh
-    mesh_0_10: THREE.SkinnedMesh
-    mesh_0_11: THREE.SkinnedMesh
     Root: THREE.Bone
     Sword: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
@@ -33,11 +30,8 @@ type GLTFResult = GLTF & {
   materials: {
     body_lvl1: THREE.MeshBasicMaterial
     wings_lvl1: THREE.MeshBasicMaterial
-    sword_combined_lvl1: THREE.MeshBasicMaterial
     body_lvl6: THREE.MeshBasicMaterial
     wings_lvl6: THREE.MeshBasicMaterial
-    sword_combined_lvl6: THREE.MeshBasicMaterial
-    sword_split_lvl6: THREE.MeshBasicMaterial
     body_lvl11: THREE.MeshBasicMaterial
     wings_lvl11: THREE.MeshBasicMaterial
     body_lvl16: THREE.MeshBasicMaterial
@@ -151,7 +145,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -167,66 +160,53 @@ export default function Model(
         <primitive object={nodes.L_Wing_Front_Snap} />
         <primitive object={nodes.R_Wing_Front_Snap} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.body_lvl1}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.wings_lvl1}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.sword_combined_lvl1}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.body_lvl6}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.wings_lvl6}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.sword_combined_lvl6}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.sword_split_lvl6}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.body_lvl11}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.wings_lvl11}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_9.geometry}
-        material={materials.body_lvl16}
-        skeleton={nodes.mesh_0_9.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_10.geometry}
-        material={materials.wings_lvl16}
-        skeleton={nodes.mesh_0_10.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_11.geometry}
-        material={materials.recall}
-        skeleton={nodes.mesh_0_11.skeleton}
-      />
+      <group position={[-133.16, -27.25, -47.14]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.body_lvl1}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.wings_lvl1}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.body_lvl6}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.wings_lvl6}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.body_lvl11}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_5.geometry}
+          material={materials.wings_lvl11}
+          skeleton={nodes.mesh_0_5.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_6.geometry}
+          material={materials.body_lvl16}
+          skeleton={nodes.mesh_0_6.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_7.geometry}
+          material={materials.wings_lvl16}
+          skeleton={nodes.mesh_0_7.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_8.geometry}
+          material={materials.recall}
+          skeleton={nodes.mesh_0_8.skeleton}
+        />
+      </group>
     </group>
   )
 }

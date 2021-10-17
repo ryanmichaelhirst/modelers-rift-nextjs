@@ -10,19 +10,6 @@ type GLTFResult = GLTF & {
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
     mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
-    mesh_0_9: THREE.SkinnedMesh
-    mesh_0_10: THREE.SkinnedMesh
-    mesh_0_11: THREE.SkinnedMesh
-    mesh_0_12: THREE.SkinnedMesh
-    mesh_0_13: THREE.SkinnedMesh
-    mesh_0_14: THREE.SkinnedMesh
-    mesh_0_15: THREE.SkinnedMesh
-    mesh_0_16: THREE.SkinnedMesh
     Root: THREE.Bone
     L_Shuriken_World: THREE.Bone
     R_Shuriken_World: THREE.Bone
@@ -42,19 +29,6 @@ type GLTFResult = GLTF & {
   materials: {
     Skin13_Mat: THREE.MeshBasicMaterial
     Passive_Mat: THREE.MeshBasicMaterial
-    WeaponA_MAT: THREE.MeshBasicMaterial
-    WeaponD_MAT: THREE.MeshBasicMaterial
-    WeaponC_MAT: THREE.MeshBasicMaterial
-    WeaponB_MAT: THREE.MeshBasicMaterial
-    Weapon2_MAT: THREE.MeshBasicMaterial
-    Blob_MAT: THREE.MeshBasicMaterial
-    Weapon1_MAT: THREE.MeshBasicMaterial
-    Weapon0_MAT: THREE.MeshBasicMaterial
-    Suit_MAT: THREE.MeshBasicMaterial
-    Head_MAT: THREE.MeshBasicMaterial
-    Body_MAT: THREE.MeshBasicMaterial
-    Hands_Mat: THREE.MeshBasicMaterial
-    Shuriken_Mat: THREE.MeshBasicMaterial
     Joke_Props_Mat: THREE.MeshBasicMaterial
     Boombox_Mat: THREE.MeshBasicMaterial
   }
@@ -140,7 +114,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -160,91 +133,28 @@ export default function Model(
         <primitive object={nodes.Bug} />
         <primitive object={nodes.Boombox} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Skin13_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Passive_Mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.WeaponA_MAT}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.WeaponD_MAT}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.WeaponC_MAT}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.WeaponB_MAT}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Weapon2_MAT}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.Blob_MAT}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.Weapon1_MAT}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_9.geometry}
-        material={materials.Weapon0_MAT}
-        skeleton={nodes.mesh_0_9.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_10.geometry}
-        material={materials.Suit_MAT}
-        skeleton={nodes.mesh_0_10.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_11.geometry}
-        material={materials.Head_MAT}
-        skeleton={nodes.mesh_0_11.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_12.geometry}
-        material={materials.Body_MAT}
-        skeleton={nodes.mesh_0_12.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_13.geometry}
-        material={materials.Hands_Mat}
-        skeleton={nodes.mesh_0_13.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_14.geometry}
-        material={materials.Shuriken_Mat}
-        skeleton={nodes.mesh_0_14.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_15.geometry}
-        material={materials.Joke_Props_Mat}
-        skeleton={nodes.mesh_0_15.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_16.geometry}
-        material={materials.Boombox_Mat}
-        skeleton={nodes.mesh_0_16.skeleton}
-      />
+      <group position={[-183.76, -245.72, -110.89]} scale={0.05}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Skin13_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Passive_Mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Joke_Props_Mat}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Boombox_Mat}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+      </group>
     </group>
   )
 }

@@ -9,8 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
     ROOT: THREE.Bone
     Buffbone_Glb_Ground_Loc: THREE.Bone
     C_Buffbone_Glb_Overhead_Loc: THREE.Bone
@@ -26,8 +24,6 @@ type GLTFResult = GLTF & {
     Malhazar_Skin06_MAT: THREE.MeshBasicMaterial
     cape: THREE.MeshBasicMaterial
     Voidling1_Mat: THREE.MeshBasicMaterial
-    Voidling2_Mat: THREE.MeshBasicMaterial
-    Voidling3_Mat: THREE.MeshBasicMaterial
   }
 }
 
@@ -46,7 +42,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -61,31 +56,23 @@ export default function Model(
         <primitive object={nodes.Voidling2_Voidling_Root} />
         <primitive object={nodes.Voidling3_Voidling_Root} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Malhazar_Skin06_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.cape}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Voidling1_Mat}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Voidling2_Mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Voidling3_Mat}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
+      <group position={[-90.81, -0.06, -83.21]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Malhazar_Skin06_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.cape}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Voidling1_Mat}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

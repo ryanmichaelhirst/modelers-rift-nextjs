@@ -9,9 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
     Root: THREE.Bone
     Main_Arrow: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
@@ -34,11 +31,8 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Ashe_Skin09_MAT: THREE.MeshBasicMaterial
-    Ashe_Skin09_Tassles_MAT: THREE.MeshBasicMaterial
-    Ashe_Skin09_Bow_MAT: THREE.MeshBasicMaterial
     Ashe_Skin09_Recall_MAT: THREE.MeshBasicMaterial
     Skin09_Arrow_MAT: THREE.MeshBasicMaterial
-    Skin09_Recall_Arrows_MAT: THREE.MeshBasicMaterial
   }
 }
 
@@ -79,7 +73,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -103,36 +96,23 @@ export default function Model(
         <primitive object={nodes.Recall_Arrow6} />
         <primitive object={nodes.Recall_Arrow7} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Ashe_Skin09_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Ashe_Skin09_Tassles_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Ashe_Skin09_Bow_MAT}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Ashe_Skin09_Recall_MAT}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Skin09_Arrow_MAT}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Skin09_Recall_Arrows_MAT}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
+      <group position={[-120.09, -2.73, -66.33]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Ashe_Skin09_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Ashe_Skin09_Recall_MAT}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Skin09_Arrow_MAT}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

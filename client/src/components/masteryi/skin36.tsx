@@ -7,12 +7,6 @@ import { GLTF } from 'three-stdlib'
 type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
-    mesh_0_1: THREE.SkinnedMesh
-    mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
@@ -29,18 +23,12 @@ type GLTFResult = GLTF & {
     Facemask: THREE.Bone
     R_Robe_Base_grnd: THREE.Bone
     L_Robe_Base_grnd: THREE.Bone
-    Buffbone_Cstm_HealthBar: THREE.Bone
     L_Arm_Socket: THREE.Bone
     R_Arm_Socket: THREE.Bone
+    Buffbone_Cstm_HealthBar: THREE.Bone
   }
   materials: {
     Body: THREE.MeshBasicMaterial
-    Head: THREE.MeshBasicMaterial
-    Jacket: THREE.MeshBasicMaterial
-    Hair: THREE.MeshBasicMaterial
-    Mask: THREE.MeshBasicMaterial
-    Hood: THREE.MeshBasicMaterial
-    Weapon: THREE.MeshBasicMaterial
   }
 }
 
@@ -86,7 +74,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -106,44 +93,16 @@ export default function Model(
         <primitive object={nodes.Facemask} />
         <primitive object={nodes.R_Robe_Base_grnd} />
         <primitive object={nodes.L_Robe_Base_grnd} />
-        <primitive object={nodes.Buffbone_Cstm_HealthBar} />
         <primitive object={nodes.L_Arm_Socket} />
         <primitive object={nodes.R_Arm_Socket} />
+        <primitive object={nodes.Buffbone_Cstm_HealthBar} />
       </group>
       <skinnedMesh
         geometry={nodes.mesh_0.geometry}
         material={materials.Body}
         skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Head}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Jacket}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Hair}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Mask}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Hood}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Weapon}
-        skeleton={nodes.mesh_0_6.skeleton}
+        position={[-60.93, 0.49, -85.19]}
+        scale={0.01}
       />
     </group>
   )

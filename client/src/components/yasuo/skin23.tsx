@@ -10,8 +10,6 @@ type GLTFResult = GLTF & {
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
     mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
     Root_Upper: THREE.Bone
     Root_Lower: THREE.Bone
     Sword_World: THREE.Bone
@@ -26,8 +24,6 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Yasuo_Arcade_MAT: THREE.MeshBasicMaterial
-    Yasuo_Base_Weapon_Mat: THREE.MeshBasicMaterial
-    Yasuo_Arcade_MAT1: THREE.MeshBasicMaterial
     Instrument: THREE.MeshBasicMaterial
     pet: THREE.MeshBasicMaterial
     CorruptedPoro_MAT: THREE.MeshBasicMaterial
@@ -88,7 +84,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -104,36 +99,28 @@ export default function Model(
         <primitive object={nodes.Effects_Root} />
         <primitive object={nodes.Base_Recall_Root} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Yasuo_Arcade_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Yasuo_Base_Weapon_Mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Yasuo_Arcade_MAT1}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Instrument}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.pet}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.CorruptedPoro_MAT}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
+      <group position={[-63.2, -1.85, -178.47]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Yasuo_Arcade_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Instrument}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.pet}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.CorruptedPoro_MAT}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+      </group>
     </group>
   )
 }

@@ -8,9 +8,6 @@ type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
-    mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
     Root: THREE.Bone
     L_TailA1_Grnd: THREE.Bone
     R_TailA1_Grnd: THREE.Bone
@@ -26,9 +23,6 @@ type GLTFResult = GLTF & {
   materials: {
     Evelynn_Skin08_MAT: THREE.MeshBasicMaterial
     Skin08_Cookie_MAT: THREE.MeshBasicMaterial
-    Skin08_Cookie1_MAT: THREE.MeshBasicMaterial
-    Skin08_CookieFace_MAT: THREE.MeshBasicMaterial
-    Skin08_Cookie1Face_MAT: THREE.MeshBasicMaterial
   }
 }
 
@@ -102,7 +96,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -118,31 +111,18 @@ export default function Model(
         <primitive object={nodes.Cookie_Root} />
         <primitive object={nodes.Cookie1_Root} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Evelynn_Skin08_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Skin08_Cookie_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Skin08_Cookie1_MAT}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Skin08_CookieFace_MAT}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Skin08_Cookie1Face_MAT}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
+      <group position={[-65.35, -0.22, -314.43]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Evelynn_Skin08_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Skin08_Cookie_MAT}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+      </group>
     </group>
   )
 }

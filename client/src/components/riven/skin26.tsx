@@ -11,16 +11,16 @@ type GLTFResult = GLTF & {
     mesh_0_2: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
-    R_Arm_Socket: THREE.Bone
-    L_Arm_Socket: THREE.Bone
     Buffbone_Cstm_Healthbar: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
     Buffbone_Glb_Ground_Loc: THREE.Bone
-    C_Buffbone_Glb_Overhead_Loc: THREE.Bone
     Buffbone_Glb_Channel_Loc: THREE.Bone
-    true_World: THREE.Bone
     Weapon_Snap: THREE.Bone
     Flower_Root: THREE.Bone
+    R_Arm_Socket: THREE.Bone
+    L_Arm_Socket: THREE.Bone
+    C_Buffbone_Glb_Overhead_Loc: THREE.Bone
+    true_World: THREE.Bone
   }
   materials: {
     Body_MAT: THREE.MeshBasicMaterial
@@ -83,38 +83,39 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
         <primitive object={nodes.Root} />
         <primitive object={nodes.C_Buffbone_Glb_Center_Loc} />
-        <primitive object={nodes.R_Arm_Socket} />
-        <primitive object={nodes.L_Arm_Socket} />
         <primitive object={nodes.Buffbone_Cstm_Healthbar} />
         <primitive object={nodes.C_Buffbone_Glb_Layout_Loc} />
         <primitive object={nodes.Buffbone_Glb_Ground_Loc} />
-        <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
         <primitive object={nodes.Buffbone_Glb_Channel_Loc} />
-        <primitive object={nodes.true_World} />
         <primitive object={nodes.Weapon_Snap} />
         <primitive object={nodes.Flower_Root} />
+        <primitive object={nodes.R_Arm_Socket} />
+        <primitive object={nodes.L_Arm_Socket} />
+        <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
+        <primitive object={nodes.true_World} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Body_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.sword_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.flower}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
+      <group position={[-43.8, -11.27, -19.36]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Body_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.sword_MAT}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.flower}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

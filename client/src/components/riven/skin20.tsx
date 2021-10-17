@@ -7,17 +7,11 @@ import { GLTF } from 'three-stdlib'
 type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
-    mesh_0_1: THREE.SkinnedMesh
-    mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
     Weapon_Snap: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
     Buffbone_Glb_Ground_Loc: THREE.Bone
-    C_Buffbone_Glb_Overhead_Loc: THREE.Bone
     Buffbone_Glb_Channel_Loc: THREE.Bone
     Buffbone_Cstm_Healthbar: THREE.Bone
     BigSword1_A: THREE.Bone
@@ -25,14 +19,10 @@ type GLTFResult = GLTF & {
     BigSword1_C: THREE.Bone
     BigSword1_D: THREE.Bone
     BigSword1_E: THREE.Bone
+    C_Buffbone_Glb_Overhead_Loc: THREE.Bone
   }
   materials: {
     Riven_Immortal_Jorney_MD_Riven_Immortal_Jorney_MAT: THREE.MeshBasicMaterial
-    sword_MAT: THREE.MeshBasicMaterial
-    BigSword1_MAT: THREE.MeshBasicMaterial
-    BigSword2_MAT: THREE.MeshBasicMaterial
-    BigSword3_MAT: THREE.MeshBasicMaterial
-    BigSword4_MAT: THREE.MeshBasicMaterial
   }
 }
 
@@ -94,7 +84,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -103,7 +92,6 @@ export default function Model(
         <primitive object={nodes.Weapon_Snap} />
         <primitive object={nodes.C_Buffbone_Glb_Layout_Loc} />
         <primitive object={nodes.Buffbone_Glb_Ground_Loc} />
-        <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
         <primitive object={nodes.Buffbone_Glb_Channel_Loc} />
         <primitive object={nodes.Buffbone_Cstm_Healthbar} />
         <primitive object={nodes.BigSword1_A} />
@@ -111,36 +99,14 @@ export default function Model(
         <primitive object={nodes.BigSword1_C} />
         <primitive object={nodes.BigSword1_D} />
         <primitive object={nodes.BigSword1_E} />
+        <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
       </group>
       <skinnedMesh
         geometry={nodes.mesh_0.geometry}
         material={materials.Riven_Immortal_Jorney_MD_Riven_Immortal_Jorney_MAT}
         skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.sword_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.BigSword1_MAT}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.BigSword2_MAT}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.BigSword3_MAT}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.BigSword4_MAT}
-        skeleton={nodes.mesh_0_5.skeleton}
+        position={[-43.86, -31.98, -43.37]}
+        scale={0.01}
       />
     </group>
   )

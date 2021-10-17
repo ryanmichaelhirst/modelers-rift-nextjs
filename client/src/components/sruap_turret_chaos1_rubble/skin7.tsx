@@ -20,22 +20,23 @@ export default function Model(
 ) {
   const ref = useRef<THREE.Group>()
   const { nodes, materials } = useGLTF(props.glb) as GLTFResult
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
         <primitive object={nodes.root} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.SRUAP_ChaosTurret1_Rubble_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.SRUAP_ChaosTurret1_Mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
+      <group position={[-135.8, -227.24, -135.8]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.SRUAP_ChaosTurret1_Rubble_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.SRUAP_ChaosTurret1_Mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+      </group>
     </group>
   )
 }

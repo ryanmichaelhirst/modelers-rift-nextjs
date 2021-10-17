@@ -8,10 +8,6 @@ type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
-    mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
     Buffbone_Glb_Channel_Loc: THREE.Bone
@@ -22,11 +18,7 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Khazix_DeathBlossom_MAT: THREE.MeshBasicMaterial
-    Khazix_Skin03_MD_Khazix_DeathBlossom_MAT: THREE.MeshBasicMaterial
-    Evolved_Arms: THREE.MeshBasicMaterial
-    Arms: THREE.MeshBasicMaterial
     RecallFlower: THREE.MeshBasicMaterial
-    aWings: THREE.MeshBasicMaterial
   }
 }
 
@@ -86,7 +78,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -98,36 +89,18 @@ export default function Model(
         <primitive object={nodes.Buffbone_Glb_Ground_Loc} />
         <primitive object={nodes.Root_Flower} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Khazix_DeathBlossom_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Khazix_Skin03_MD_Khazix_DeathBlossom_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Evolved_Arms}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Arms}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.RecallFlower}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.aWings}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
+      <group position={[-373.6, -27.32, -438.4]} scale={0.05}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Khazix_DeathBlossom_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.RecallFlower}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+      </group>
     </group>
   )
 }

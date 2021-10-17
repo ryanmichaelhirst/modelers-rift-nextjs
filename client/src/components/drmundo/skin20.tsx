@@ -10,18 +10,6 @@ type GLTFResult = GLTF & {
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
     mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
-    mesh_0_9: THREE.SkinnedMesh
-    mesh_0_10: THREE.SkinnedMesh
-    mesh_0_11: THREE.SkinnedMesh
-    mesh_0_12: THREE.SkinnedMesh
-    mesh_0_13: THREE.SkinnedMesh
-    mesh_0_14: THREE.SkinnedMesh
-    mesh_0_15: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Glb_Overhead_Loc: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
@@ -41,21 +29,9 @@ type GLTFResult = GLTF & {
   }
   materials: {
     BodyNormal: THREE.MeshBasicMaterial
-    TieNormal: THREE.MeshBasicMaterial
-    Tongue: THREE.MeshBasicMaterial
     BodyUlt: THREE.MeshBasicMaterial
-    TieUlt: THREE.MeshBasicMaterial
-    Body: THREE.MeshBasicMaterial
     Car: THREE.MeshBasicMaterial
     Tie2: THREE.MeshBasicMaterial
-    Tie3: THREE.MeshBasicMaterial
-    Tie4: THREE.MeshBasicMaterial
-    Money: THREE.MeshBasicMaterial
-    Board: THREE.MeshBasicMaterial
-    Phone: THREE.MeshBasicMaterial
-    Weapon: THREE.MeshBasicMaterial
-    WeaponUlt: THREE.MeshBasicMaterial
-    PhoneUlt: THREE.MeshBasicMaterial
   }
 }
 
@@ -134,7 +110,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -155,86 +130,28 @@ export default function Model(
         <primitive object={nodes.Tie2_1} />
         <primitive object={nodes.Board_Root} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.BodyNormal}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.TieNormal}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Tongue}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.BodyUlt}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.TieUlt}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Body}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Car}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.Tie2}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.Tie3}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_9.geometry}
-        material={materials.Tie4}
-        skeleton={nodes.mesh_0_9.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_10.geometry}
-        material={materials.Money}
-        skeleton={nodes.mesh_0_10.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_11.geometry}
-        material={materials.Board}
-        skeleton={nodes.mesh_0_11.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_12.geometry}
-        material={materials.Phone}
-        skeleton={nodes.mesh_0_12.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_13.geometry}
-        material={materials.Weapon}
-        skeleton={nodes.mesh_0_13.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_14.geometry}
-        material={materials.WeaponUlt}
-        skeleton={nodes.mesh_0_14.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_15.geometry}
-        material={materials.PhoneUlt}
-        skeleton={nodes.mesh_0_15.skeleton}
-      />
+      <group position={[-466.42, -28.02, -86.12]} scale={0.04}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.BodyNormal}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.BodyUlt}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Car}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Tie2}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+      </group>
     </group>
   )
 }

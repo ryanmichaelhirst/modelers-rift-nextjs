@@ -10,15 +10,6 @@ type GLTFResult = GLTF & {
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
     mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
-    mesh_0_9: THREE.SkinnedMesh
-    mesh_0_10: THREE.SkinnedMesh
-    mesh_0_11: THREE.SkinnedMesh
-    mesh_0_12: THREE.SkinnedMesh
     Weapon: THREE.Bone
     Root: THREE.Bone
     Buffbone_Glb_Channel_Loc: THREE.Bone
@@ -42,17 +33,8 @@ type GLTFResult = GLTF & {
   materials: {
     Body: THREE.MeshBasicMaterial
     Blade: THREE.MeshBasicMaterial
-    WeaponSmear: THREE.MeshBasicMaterial
     Joke_WaterTower: THREE.MeshBasicMaterial
-    Joke_Kaiju: THREE.MeshBasicMaterial
-    Joke_Egg: THREE.MeshBasicMaterial
-    EscapePod: THREE.MeshBasicMaterial
-    Airship: THREE.MeshBasicMaterial
     RecallProps: THREE.MeshBasicMaterial
-    Engine: THREE.MeshBasicMaterial
-    Engine_Level6: THREE.MeshBasicMaterial
-    Wings: THREE.MeshBasicMaterial
-    Thrusters: THREE.MeshBasicMaterial
   }
 }
 
@@ -133,7 +115,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -157,71 +138,28 @@ export default function Model(
         <primitive object={nodes.L_Wing_Snap} />
         <primitive object={nodes.Airship_Grnd_Root} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Body}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Blade}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.WeaponSmear}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Joke_WaterTower}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Joke_Kaiju}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Joke_Egg}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.EscapePod}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.Airship}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.RecallProps}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_9.geometry}
-        material={materials.Engine}
-        skeleton={nodes.mesh_0_9.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_10.geometry}
-        material={materials.Engine_Level6}
-        skeleton={nodes.mesh_0_10.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_11.geometry}
-        material={materials.Wings}
-        skeleton={nodes.mesh_0_11.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_12.geometry}
-        material={materials.Thrusters}
-        skeleton={nodes.mesh_0_12.skeleton}
-      />
+      <group position={[-80.1, -15.75, -117.72]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Body}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Blade}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Joke_WaterTower}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.RecallProps}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+      </group>
     </group>
   )
 }

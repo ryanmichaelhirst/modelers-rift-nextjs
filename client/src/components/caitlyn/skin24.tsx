@@ -13,15 +13,6 @@ type GLTFResult = GLTF & {
     mesh_0_4: THREE.SkinnedMesh
     mesh_0_5: THREE.SkinnedMesh
     mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
-    mesh_0_9: THREE.SkinnedMesh
-    mesh_0_10: THREE.SkinnedMesh
-    mesh_0_11: THREE.SkinnedMesh
-    mesh_0_12: THREE.SkinnedMesh
-    mesh_0_13: THREE.SkinnedMesh
-    mesh_0_14: THREE.SkinnedMesh
-    mesh_0_15: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
     C_Buffbone_Glb_Overhead_Loc: THREE.Bone
@@ -45,20 +36,11 @@ type GLTFResult = GLTF & {
   materials: {
     Body_Mat: THREE.MeshBasicMaterial
     Gun_Mat: THREE.MeshBasicMaterial
-    Gun_T2_Mat: THREE.MeshBasicMaterial
     Gun_T3_Mat: THREE.MeshBasicMaterial
-    Gun_Eyeball_Mat: THREE.MeshBasicMaterial
     Props_Mat: THREE.MeshBasicMaterial
-    Prop_Spoon_Mat: THREE.MeshBasicMaterial
     Spells_Mat: THREE.MeshBasicMaterial
     Target_01_Mat: THREE.MeshBasicMaterial
-    Target_Destroyed_01_Mat: THREE.MeshBasicMaterial
-    Target_02_Mat: THREE.MeshBasicMaterial
-    Target_Destroyed_02_Mat: THREE.MeshBasicMaterial
-    Target_03_Mat: THREE.MeshBasicMaterial
-    Target_Destroyed_03_Mat: THREE.MeshBasicMaterial
     Center_Stage_Mat: THREE.MeshBasicMaterial
-    Stage_Mat: THREE.MeshBasicMaterial
   }
 }
 
@@ -111,7 +93,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -135,86 +116,43 @@ export default function Model(
         <primitive object={nodes.Destroyed_03} />
         <primitive object={nodes.Stage} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Body_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Gun_Mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Gun_T2_Mat}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Gun_T3_Mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Gun_Eyeball_Mat}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Props_Mat}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Prop_Spoon_Mat}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.Spells_Mat}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.Target_01_Mat}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_9.geometry}
-        material={materials.Target_Destroyed_01_Mat}
-        skeleton={nodes.mesh_0_9.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_10.geometry}
-        material={materials.Target_02_Mat}
-        skeleton={nodes.mesh_0_10.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_11.geometry}
-        material={materials.Target_Destroyed_02_Mat}
-        skeleton={nodes.mesh_0_11.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_12.geometry}
-        material={materials.Target_03_Mat}
-        skeleton={nodes.mesh_0_12.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_13.geometry}
-        material={materials.Target_Destroyed_03_Mat}
-        skeleton={nodes.mesh_0_13.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_14.geometry}
-        material={materials.Center_Stage_Mat}
-        skeleton={nodes.mesh_0_14.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_15.geometry}
-        material={materials.Stage_Mat}
-        skeleton={nodes.mesh_0_15.skeleton}
-      />
+      <group position={[-116.82, -70.87, -113.11]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Body_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Gun_Mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Gun_T3_Mat}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Props_Mat}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.Spells_Mat}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_5.geometry}
+          material={materials.Target_01_Mat}
+          skeleton={nodes.mesh_0_5.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_6.geometry}
+          material={materials.Center_Stage_Mat}
+          skeleton={nodes.mesh_0_6.skeleton}
+        />
+      </group>
     </group>
   )
 }

@@ -12,10 +12,10 @@ type GLTFResult = GLTF & {
     Buffbone_Glb_Ground_Loc: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
-    C_Buffbone_Glb_Overhead_Loc: THREE.Bone
     C_Recall3: THREE.Bone
     C_Recall2: THREE.Bone
     C_Recall1: THREE.Bone
+    C_Buffbone_Glb_Overhead_Loc: THREE.Bone
   }
   materials: {
     Karma_Dawnbringer_MAT: THREE.MeshBasicMaterial
@@ -54,7 +54,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -63,15 +62,17 @@ export default function Model(
         <primitive object={nodes.Buffbone_Glb_Ground_Loc} />
         <primitive object={nodes.C_Buffbone_Glb_Center_Loc} />
         <primitive object={nodes.C_Buffbone_Glb_Layout_Loc} />
-        <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
         <primitive object={nodes.C_Recall3} />
         <primitive object={nodes.C_Recall2} />
         <primitive object={nodes.C_Recall1} />
+        <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
       </group>
       <skinnedMesh
         geometry={nodes.mesh_0.geometry}
         material={materials.Karma_Dawnbringer_MAT}
         skeleton={nodes.mesh_0.skeleton}
+        position={[-51.89, 0, -37.86]}
+        scale={0.01}
       />
     </group>
   )

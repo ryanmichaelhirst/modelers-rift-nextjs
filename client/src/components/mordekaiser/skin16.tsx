@@ -16,12 +16,6 @@ type GLTFResult = GLTF & {
     mesh_0_7: THREE.SkinnedMesh
     mesh_0_8: THREE.SkinnedMesh
     mesh_0_9: THREE.SkinnedMesh
-    mesh_0_10: THREE.SkinnedMesh
-    mesh_0_11: THREE.SkinnedMesh
-    mesh_0_12: THREE.SkinnedMesh
-    mesh_0_13: THREE.SkinnedMesh
-    mesh_0_14: THREE.SkinnedMesh
-    mesh_0_15: THREE.SkinnedMesh
     Skin03_Guitar: THREE.Bone
     Mace: THREE.Bone
     Root: THREE.Bone
@@ -40,18 +34,12 @@ type GLTFResult = GLTF & {
     Mace: THREE.MeshBasicMaterial
     Cape: THREE.MeshBasicMaterial
     Body: THREE.MeshBasicMaterial
-    Hardlight: THREE.MeshBasicMaterial
-    Module: THREE.MeshBasicMaterial
     MaceFX: THREE.MeshBasicMaterial
     UltimateMace: THREE.MeshBasicMaterial
     UltimateCape: THREE.MeshBasicMaterial
     UltimateBody: THREE.MeshBasicMaterial
-    UltimateHardlight: THREE.MeshBasicMaterial
-    UltimateModule: THREE.MeshBasicMaterial
     UltimateMaceFX: THREE.MeshBasicMaterial
     UltimateCrown: THREE.MeshBasicMaterial
-    UltimateGodrays: THREE.MeshBasicMaterial
-    ExtraModule: THREE.MeshBasicMaterial
   }
 }
 
@@ -130,7 +118,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -147,86 +134,58 @@ export default function Model(
         <primitive object={nodes.C_Buffbone_Glb_Overhead_Loc} />
         <primitive object={nodes.Extra_Module_Root} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Guitar}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Mace}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Cape}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Body}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Hardlight}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Module}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.MaceFX}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.UltimateMace}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.UltimateCape}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_9.geometry}
-        material={materials.UltimateBody}
-        skeleton={nodes.mesh_0_9.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_10.geometry}
-        material={materials.UltimateHardlight}
-        skeleton={nodes.mesh_0_10.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_11.geometry}
-        material={materials.UltimateModule}
-        skeleton={nodes.mesh_0_11.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_12.geometry}
-        material={materials.UltimateMaceFX}
-        skeleton={nodes.mesh_0_12.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_13.geometry}
-        material={materials.UltimateCrown}
-        skeleton={nodes.mesh_0_13.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_14.geometry}
-        material={materials.UltimateGodrays}
-        skeleton={nodes.mesh_0_14.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_15.geometry}
-        material={materials.ExtraModule}
-        skeleton={nodes.mesh_0_15.skeleton}
-      />
+      <group position={[-197.74, -50.59, -181.02]} scale={0.03}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Guitar}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Mace}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Cape}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Body}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.MaceFX}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_5.geometry}
+          material={materials.UltimateMace}
+          skeleton={nodes.mesh_0_5.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_6.geometry}
+          material={materials.UltimateCape}
+          skeleton={nodes.mesh_0_6.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_7.geometry}
+          material={materials.UltimateBody}
+          skeleton={nodes.mesh_0_7.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_8.geometry}
+          material={materials.UltimateMaceFX}
+          skeleton={nodes.mesh_0_8.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_9.geometry}
+          material={materials.UltimateCrown}
+          skeleton={nodes.mesh_0_9.skeleton}
+        />
+      </group>
     </group>
   )
 }

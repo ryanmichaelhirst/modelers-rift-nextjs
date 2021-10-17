@@ -9,9 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
     Root_Upper: THREE.Bone
     Root_Lower: THREE.Bone
     Sword_World: THREE.Bone
@@ -24,10 +21,7 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Yasuo_Skin18_MAT: THREE.MeshBasicMaterial
-    Yasuo_Skin18_Sword_MAT: THREE.MeshBasicMaterial
-    armband: THREE.MeshBasicMaterial
     Yasuo_Skin18_WaterBottle_MAT: THREE.MeshBasicMaterial
-    Yasuo_Skin18_Instrument_Mat: THREE.MeshBasicMaterial
     Yasuo_Skin18_Recall_Mat: THREE.MeshBasicMaterial
   }
 }
@@ -89,7 +83,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -103,36 +96,23 @@ export default function Model(
         <primitive object={nodes.Buffbone_Glb_Channel_Loc} />
         <primitive object={nodes.Recall_Main} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Yasuo_Skin18_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Yasuo_Skin18_Sword_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.armband}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Yasuo_Skin18_WaterBottle_MAT}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Yasuo_Skin18_Instrument_Mat}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Yasuo_Skin18_Recall_Mat}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
+      <group position={[-143.46, -4.08, -175.98]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Yasuo_Skin18_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Yasuo_Skin18_WaterBottle_MAT}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Yasuo_Skin18_Recall_Mat}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

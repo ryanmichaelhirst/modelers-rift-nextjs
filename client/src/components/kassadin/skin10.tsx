@@ -8,7 +8,6 @@ type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
-    mesh_0_2: THREE.SkinnedMesh
     Root: THREE.Bone
     BUFFBONE_GLB_CHANNEL_LOC: THREE.Bone
     BUFFBONE_GLB_GROUND_LOC: THREE.Bone
@@ -26,7 +25,6 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Weapon_Mat: THREE.MeshBasicMaterial
-    Kassadin_Skin06_Mat: THREE.MeshBasicMaterial
     Recall_Coffin_MAT: THREE.MeshBasicMaterial
   }
 }
@@ -64,7 +62,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -83,21 +80,18 @@ export default function Model(
         <primitive object={nodes.C_Buffbone_Glb_Healthbar_Loc} />
         <primitive object={nodes.Coffin_Main} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Weapon_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Kassadin_Skin06_Mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Recall_Coffin_MAT}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
+      <group position={[-108.02, -17.05, -58.91]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Weapon_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Recall_Coffin_MAT}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+      </group>
     </group>
   )
 }

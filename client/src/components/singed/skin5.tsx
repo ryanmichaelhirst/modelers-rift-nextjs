@@ -50,7 +50,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -68,6 +67,8 @@ export default function Model(
         geometry={nodes.mesh_0.geometry}
         material={materials.singed_experiment_MD_singed_experiment_MD_Bane_Singed}
         skeleton={nodes.mesh_0.skeleton}
+        position={[-48.22, -1.74, -27.22]}
+        scale={0.01}
       />
     </group>
   )

@@ -10,13 +10,6 @@ type GLTFResult = GLTF & {
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
     mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
-    mesh_0_9: THREE.SkinnedMesh
-    mesh_0_10: THREE.SkinnedMesh
     BotSplitter_Skn: THREE.Bone
     TopSplitter_Follow_Skn: THREE.Bone
     C_Buffbone_Glb_Select_Loc: THREE.Bone
@@ -51,13 +44,6 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Orig_Helmet: THREE.MeshBasicMaterial
-    Orig_L_ArmGuard: THREE.MeshBasicMaterial
-    Orig_R_ArmGuard: THREE.MeshBasicMaterial
-    Zac_upperBody_mat: THREE.MeshBasicMaterial
-    Zac_Legs_mat: THREE.MeshBasicMaterial
-    Orig_L_LegGuard: THREE.MeshBasicMaterial
-    Orig_R_LegGuard: THREE.MeshBasicMaterial
-    Zac_base_tail_mat: THREE.MeshBasicMaterial
     Zac_base_puddle_mat: THREE.MeshBasicMaterial
     Zac_base_ult_mat: THREE.MeshBasicMaterial
     Zac_SKT_Recall: THREE.MeshBasicMaterial
@@ -129,7 +115,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -165,61 +150,28 @@ export default function Model(
         <primitive object={nodes.Recall_Jelly1} />
         <primitive object={nodes.Recall_Jelly2} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Orig_Helmet}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Orig_L_ArmGuard}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Orig_R_ArmGuard}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Zac_upperBody_mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Zac_Legs_mat}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Orig_L_LegGuard}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Orig_R_LegGuard}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.Zac_base_tail_mat}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.Zac_base_puddle_mat}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_9.geometry}
-        material={materials.Zac_base_ult_mat}
-        skeleton={nodes.mesh_0_9.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_10.geometry}
-        material={materials.Zac_SKT_Recall}
-        skeleton={nodes.mesh_0_10.skeleton}
-      />
+      <group position={[-144.17, -128.03, -122.96]} scale={0.03}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Orig_Helmet}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Zac_base_puddle_mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Zac_base_ult_mat}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Zac_SKT_Recall}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+      </group>
     </group>
   )
 }

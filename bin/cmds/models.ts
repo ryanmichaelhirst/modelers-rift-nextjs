@@ -60,7 +60,7 @@ export const generateGlb = async () => {
 }
 
 export const generateJsx = async () => {
-  const glbDir = path.join(__dirname, '../../../league_react_models')
+  const glbDir = path.join(__dirname, '../../../../league_react_models')
   console.time('generate-jsx')
 
   try {
@@ -93,7 +93,7 @@ export const generateJsx = async () => {
         })
 
         // pause when queue gets large
-        if (queue.size >= 50) await new Promise((resolve) => setTimeout(resolve, 100))
+        if (queue.size >= 100) await new Promise((resolve) => setTimeout(resolve, 100))
       }
 
       // wait until queue empties before next champ dir

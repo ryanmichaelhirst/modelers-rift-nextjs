@@ -18,7 +18,6 @@ export default function Model(
 ) {
   const ref = useRef<THREE.Group>()
   const { nodes, materials } = useGLTF(props.glb) as GLTFResult
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -28,6 +27,8 @@ export default function Model(
         geometry={nodes.mesh_0.geometry}
         material={materials.FizzDog_MAT}
         skeleton={nodes.mesh_0.skeleton}
+        position={[-25.68, -9.92, -31.59]}
+        scale={0}
       />
     </group>
   )

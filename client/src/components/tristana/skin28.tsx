@@ -10,10 +10,6 @@ type GLTFResult = GLTF & {
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
     mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
     Root: THREE.Bone
     Snap_Weapon2World: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
@@ -29,13 +25,9 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Tristana_Skin24_Mat: THREE.MeshBasicMaterial
-    Tristana_Skin24_Hair_Mat: THREE.MeshBasicMaterial
-    lambert1: THREE.MeshBasicMaterial
     Tristana_Skin24_Recall_DevilFace_Mat: THREE.MeshBasicMaterial
     Tristana_Skin24_Recall_DevilBody_Mat: THREE.MeshBasicMaterial
-    Tristana_Skin24_Recall_DevilDefaultFace_Mat: THREE.MeshBasicMaterial
     Tristana_Skin24_Recall_AngelBody_Mat: THREE.MeshBasicMaterial
-    Tristana_Skin24_Recall_AngelFace_Mat: THREE.MeshBasicMaterial
   }
 }
 
@@ -87,7 +79,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -104,46 +95,28 @@ export default function Model(
         <primitive object={nodes.Angel_Root} />
         <primitive object={nodes.Angel_Weapon} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Tristana_Skin24_Mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Tristana_Skin24_Hair_Mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.lambert1}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Tristana_Skin24_Recall_DevilFace_Mat}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Tristana_Skin24_Recall_DevilBody_Mat}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Tristana_Skin24_Recall_DevilDefaultFace_Mat}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Tristana_Skin24_Recall_AngelBody_Mat}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.Tristana_Skin24_Recall_AngelFace_Mat}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
+      <group position={[-57.82, -0.75, -90.09]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Tristana_Skin24_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Tristana_Skin24_Recall_DevilFace_Mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Tristana_Skin24_Recall_DevilBody_Mat}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Tristana_Skin24_Recall_AngelBody_Mat}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+      </group>
     </group>
   )
 }

@@ -9,8 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
     C_Surfboard: THREE.Bone
     Root: THREE.Bone
     Buffbone_Glb_Channel_Loc: THREE.Bone
@@ -27,8 +25,6 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Taliyah_base_RecallRock_mat: THREE.MeshBasicMaterial
-    Taliyah_base_SurfStone_mat: THREE.MeshBasicMaterial
-    Taliyah_base_TauntRock_mat: THREE.MeshBasicMaterial
     Taliyah_SamsungGalaxy_MAT: THREE.MeshBasicMaterial
     Taliyah_Skin02_Recall_MAT: THREE.MeshBasicMaterial
   }
@@ -101,7 +97,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -119,31 +114,23 @@ export default function Model(
         <primitive object={nodes.Stadium} />
         <primitive object={nodes.Stage} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Taliyah_base_RecallRock_mat}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Taliyah_base_SurfStone_mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Taliyah_base_TauntRock_mat}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Taliyah_SamsungGalaxy_MAT}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Taliyah_Skin02_Recall_MAT}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
+      <group position={[-104.82, -46.96, -133.67]} scale={0.04}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Taliyah_base_RecallRock_mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Taliyah_SamsungGalaxy_MAT}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Taliyah_Skin02_Recall_MAT}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

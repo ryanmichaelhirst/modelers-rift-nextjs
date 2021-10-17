@@ -9,10 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
-    mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
     RecallSkin8: THREE.Bone
     Root: THREE.Bone
     Snap_Weapon2World: THREE.Bone
@@ -29,11 +25,7 @@ type GLTFResult = GLTF & {
   materials: {
     Bard_Skin8_Recall_MAT: THREE.MeshBasicMaterial
     Bard_Skin08_MAT: THREE.MeshBasicMaterial
-    Weapon_MAT: THREE.MeshBasicMaterial
-    Glass_MAT: THREE.MeshBasicMaterial
     BardFollower_Skin8_MAT: THREE.MeshBasicMaterial
-    F1_BardFollower_Skin8_MAT: THREE.MeshBasicMaterial
-    F2_BardFollower_Skin8_MAT: THREE.MeshBasicMaterial
   }
 }
 
@@ -86,7 +78,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -103,41 +94,23 @@ export default function Model(
         <primitive object={nodes.F1_Follower_Root} />
         <primitive object={nodes.F2_Follower_Root} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Bard_Skin8_Recall_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Bard_Skin08_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Weapon_MAT}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Glass_MAT}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.BardFollower_Skin8_MAT}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.F1_BardFollower_Skin8_MAT}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.F2_BardFollower_Skin8_MAT}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
+      <group position={[-127.98, -0.8, -144.13]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Bard_Skin8_Recall_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Bard_Skin08_MAT}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.BardFollower_Skin8_MAT}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

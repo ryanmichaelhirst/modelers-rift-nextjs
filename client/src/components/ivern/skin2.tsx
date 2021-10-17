@@ -12,7 +12,6 @@ type GLTFResult = GLTF & {
     mesh_0_3: THREE.SkinnedMesh
     mesh_0_4: THREE.SkinnedMesh
     mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
     Root: THREE.Bone
     Snap_Sword2World: THREE.Bone
     Snap_Weapon2World: THREE.Bone
@@ -30,7 +29,6 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Ivern_Skin02_MD_Ivern_JungleBall_MAT: THREE.MeshBasicMaterial
-    Wristband_Mat: THREE.MeshBasicMaterial
     Basketball_MAT: THREE.MeshBasicMaterial
     Hoop_MAT: THREE.MeshBasicMaterial
     IvernApple_Mat: THREE.MeshBasicMaterial
@@ -105,7 +103,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -124,41 +121,38 @@ export default function Model(
         <primitive object={nodes.Sqr_root} />
         <primitive object={nodes.C_Grass_Root} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Ivern_Skin02_MD_Ivern_JungleBall_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Wristband_Mat}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Basketball_MAT}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Hoop_MAT}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.IvernApple_Mat}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.IvernSquirrel_mat}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Ivern_Wall_Of_Grass_Mat}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
+      <group position={[-118.53, -173.06, -120.21]} scale={0.03}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Ivern_Skin02_MD_Ivern_JungleBall_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Basketball_MAT}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Hoop_MAT}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.IvernApple_Mat}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.IvernSquirrel_mat}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_5.geometry}
+          material={materials.Ivern_Wall_Of_Grass_Mat}
+          skeleton={nodes.mesh_0_5.skeleton}
+        />
+      </group>
     </group>
   )
 }

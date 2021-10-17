@@ -8,8 +8,6 @@ type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
-    mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
     Root: THREE.Bone
     Buffbone_Glb_Weapon_1: THREE.Bone
     Snap_Weapon2World: THREE.Bone
@@ -25,9 +23,7 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Rakan_Skin01_MAT: THREE.MeshBasicMaterial
-    RakanSkin01_Hair_MAT: THREE.MeshBasicMaterial
     RakanSkin01_Cape_Mat: THREE.MeshBasicMaterial
-    Rakan_Skin01_Rose_MAT: THREE.MeshBasicMaterial
   }
 }
 
@@ -95,7 +91,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -112,26 +107,18 @@ export default function Model(
         <primitive object={nodes.Wing_B2_Ground} />
         <primitive object={nodes.Buffbone_Cstm_Healthbar} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Rakan_Skin01_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.RakanSkin01_Hair_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.RakanSkin01_Cape_Mat}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Rakan_Skin01_Rose_MAT}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
+      <group position={[-86.43, -6.45, -93.36]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Rakan_Skin01_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.RakanSkin01_Cape_Mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+      </group>
     </group>
   )
 }

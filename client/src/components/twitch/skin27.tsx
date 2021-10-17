@@ -9,8 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
-    mesh_0_4: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
     Buffbone_Cstm_Healthbar: THREE.Bone
@@ -28,10 +26,8 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Twitch_RPG_MAT: THREE.MeshBasicMaterial
-    Twitch_RPG_Weapon_MAT: THREE.MeshBasicMaterial
     Twitch_Cheese_Mat: THREE.MeshBasicMaterial
     RecallWeapons_MAT: THREE.MeshBasicMaterial
-    RecallWeapon2_MAT: THREE.MeshBasicMaterial
   }
 }
 
@@ -72,7 +68,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -91,31 +86,23 @@ export default function Model(
         <primitive object={nodes.RecallWeapon1} />
         <primitive object={nodes.RecallWeapon2} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Twitch_RPG_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Twitch_RPG_Weapon_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Twitch_Cheese_Mat}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.RecallWeapons_MAT}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.RecallWeapon2_MAT}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
+      <group position={[-64.27, -5.76, -179.75]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Twitch_RPG_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Twitch_Cheese_Mat}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.RecallWeapons_MAT}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+      </group>
     </group>
   )
 }

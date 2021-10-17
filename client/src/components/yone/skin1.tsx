@@ -14,14 +14,6 @@ type GLTFResult = GLTF & {
     mesh_0_5: THREE.SkinnedMesh
     mesh_0_6: THREE.SkinnedMesh
     mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
-    mesh_0_9: THREE.SkinnedMesh
-    mesh_0_10: THREE.SkinnedMesh
-    mesh_0_11: THREE.SkinnedMesh
-    mesh_0_12: THREE.SkinnedMesh
-    mesh_0_13: THREE.SkinnedMesh
-    mesh_0_14: THREE.SkinnedMesh
-    mesh_0_15: THREE.SkinnedMesh
     Root: THREE.Bone
     Buffbone_Cstm_Healthbar: THREE.Bone
     Buffbone_Glb_Channel_Loc: THREE.Bone
@@ -44,19 +36,11 @@ type GLTFResult = GLTF & {
   materials: {
     GhostKatana: THREE.MeshBasicMaterial
     Skirt: THREE.MeshBasicMaterial
-    Skirt_Inner: THREE.MeshBasicMaterial
-    Sheath: THREE.MeshBasicMaterial
-    Katana: THREE.MeshBasicMaterial
-    Body: THREE.MeshBasicMaterial
     Katana_Smear: THREE.MeshBasicMaterial
     GhostKatana_Smear: THREE.MeshBasicMaterial
     Sushi: THREE.MeshBasicMaterial
-    Fish: THREE.MeshBasicMaterial
-    Instrument: THREE.MeshBasicMaterial
-    Bow_Smear: THREE.MeshBasicMaterial
     Azakana: THREE.MeshBasicMaterial
     Recall_Sword: THREE.MeshBasicMaterial
-    Recall_Mask: THREE.MeshBasicMaterial
     flower: THREE.MeshBasicMaterial
   }
 }
@@ -154,7 +138,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -177,86 +160,48 @@ export default function Model(
         <primitive object={nodes.Stool} />
         <primitive object={nodes.Flower_Root} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.GhostKatana}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Skirt}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Skirt_Inner}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Sheath}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Katana}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Body}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Katana_Smear}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.GhostKatana_Smear}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.Sushi}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_9.geometry}
-        material={materials.Fish}
-        skeleton={nodes.mesh_0_9.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_10.geometry}
-        material={materials.Instrument}
-        skeleton={nodes.mesh_0_10.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_11.geometry}
-        material={materials.Bow_Smear}
-        skeleton={nodes.mesh_0_11.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_12.geometry}
-        material={materials.Azakana}
-        skeleton={nodes.mesh_0_12.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_13.geometry}
-        material={materials.Recall_Sword}
-        skeleton={nodes.mesh_0_13.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_14.geometry}
-        material={materials.Recall_Mask}
-        skeleton={nodes.mesh_0_14.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_15.geometry}
-        material={materials.flower}
-        skeleton={nodes.mesh_0_15.skeleton}
-      />
+      <group position={[-65.74, -3.71, -72.22]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.GhostKatana}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Skirt}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Katana_Smear}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.GhostKatana_Smear}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.Sushi}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_5.geometry}
+          material={materials.Azakana}
+          skeleton={nodes.mesh_0_5.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_6.geometry}
+          material={materials.Recall_Sword}
+          skeleton={nodes.mesh_0_6.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_7.geometry}
+          material={materials.flower}
+          skeleton={nodes.mesh_0_7.skeleton}
+        />
+      </group>
     </group>
   )
 }

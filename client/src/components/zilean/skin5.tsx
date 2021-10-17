@@ -7,22 +7,20 @@ import { GLTF } from 'three-stdlib'
 type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
-    mesh_0_1: THREE.SkinnedMesh
     root: THREE.Bone
     clock_b: THREE.Bone
     clock_g: THREE.Bone
     clock_f: THREE.Bone
     C_BUFFBONE_GLB_CENTER_LOC: THREE.Bone
-    C_BUFFBONE_GLB_OVERHEAD_LOC: THREE.Bone
     BUFFBONE_GLB_GROUND_LOC: THREE.Bone
     BUFFBONE_GLB_CHANNEL_LOC: THREE.Bone
-    C_BUFFBONE_GLB_LAYOUT_LOC: THREE.Bone
     R_Drumstick: THREE.Bone
     L_Drumstick: THREE.Bone
+    C_BUFFBONE_GLB_OVERHEAD_LOC: THREE.Bone
+    C_BUFFBONE_GLB_LAYOUT_LOC: THREE.Bone
   }
   materials: {
     lambert23: THREE.MeshBasicMaterial
-    Recall: THREE.MeshBasicMaterial
   }
 }
 
@@ -55,7 +53,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -64,22 +61,19 @@ export default function Model(
         <primitive object={nodes.clock_g} />
         <primitive object={nodes.clock_f} />
         <primitive object={nodes.C_BUFFBONE_GLB_CENTER_LOC} />
-        <primitive object={nodes.C_BUFFBONE_GLB_OVERHEAD_LOC} />
         <primitive object={nodes.BUFFBONE_GLB_GROUND_LOC} />
         <primitive object={nodes.BUFFBONE_GLB_CHANNEL_LOC} />
-        <primitive object={nodes.C_BUFFBONE_GLB_LAYOUT_LOC} />
         <primitive object={nodes.R_Drumstick} />
         <primitive object={nodes.L_Drumstick} />
+        <primitive object={nodes.C_BUFFBONE_GLB_OVERHEAD_LOC} />
+        <primitive object={nodes.C_BUFFBONE_GLB_LAYOUT_LOC} />
       </group>
       <skinnedMesh
         geometry={nodes.mesh_0.geometry}
         material={materials.lambert23}
         skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Recall}
-        skeleton={nodes.mesh_0_1.skeleton}
+        position={[-58.96, -5.53, -39.94]}
+        scale={0.01}
       />
     </group>
   )

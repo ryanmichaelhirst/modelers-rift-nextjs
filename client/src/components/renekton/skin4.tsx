@@ -49,7 +49,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -65,6 +64,8 @@ export default function Model(
         geometry={nodes.mesh_0.geometry}
         material={materials.renekton_rune_wars_MD_v01_renekton_base_MD_02_lambert4}
         skeleton={nodes.mesh_0.skeleton}
+        position={[-61.81, -53.72, -56.67]}
+        scale={0.01}
       />
     </group>
   )

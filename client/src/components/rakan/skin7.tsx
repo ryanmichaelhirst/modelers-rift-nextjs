@@ -12,14 +12,6 @@ type GLTFResult = GLTF & {
     mesh_0_3: THREE.SkinnedMesh
     mesh_0_4: THREE.SkinnedMesh
     mesh_0_5: THREE.SkinnedMesh
-    mesh_0_6: THREE.SkinnedMesh
-    mesh_0_7: THREE.SkinnedMesh
-    mesh_0_8: THREE.SkinnedMesh
-    mesh_0_9: THREE.SkinnedMesh
-    mesh_0_10: THREE.SkinnedMesh
-    mesh_0_11: THREE.SkinnedMesh
-    mesh_0_12: THREE.SkinnedMesh
-    mesh_0_13: THREE.SkinnedMesh
     Root: THREE.Bone
     Buffbone_Glb_Weapon_1: THREE.Bone
     Snap_Weapon2World: THREE.Bone
@@ -39,19 +31,11 @@ type GLTFResult = GLTF & {
   }
   materials: {
     Skin05_Body_MAT: THREE.MeshBasicMaterial
-    Skin05_Tail_MAT: THREE.MeshBasicMaterial
-    Skin05_Cape_MAT: THREE.MeshBasicMaterial
-    Skin05_Fur_MAT: THREE.MeshBasicMaterial
-    Skin05_Mirror_MAT: THREE.MeshBasicMaterial
     Skin05_Wing_MAT: THREE.MeshBasicMaterial
     Skin05_Familiar_MAT: THREE.MeshBasicMaterial
     Skin05_Crest_MAT: THREE.MeshBasicMaterial
     Skin05_Snack_MAT: THREE.MeshBasicMaterial
     Skin05_Ult_Cape_MAT: THREE.MeshBasicMaterial
-    Skin05_Ult_WingsA_MAT: THREE.MeshBasicMaterial
-    Skin05_Ult_WingsB_MAT: THREE.MeshBasicMaterial
-    Skin05_Ult_Tail_MAT: THREE.MeshBasicMaterial
-    Skin05_Ult_Addition_MAT: THREE.MeshBasicMaterial
   }
 }
 
@@ -143,7 +127,6 @@ export default function Model(
   const ref = useRef<THREE.Group>()
   const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
   useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
-
   return (
     <group ref={ref} {...props} dispose={null}>
       <group scale={[-1, 1, 1]}>
@@ -164,76 +147,38 @@ export default function Model(
         <primitive object={nodes.Familiar_Root} />
         <primitive object={nodes.Ult_Cape_Base} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Skin05_Body_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_1.geometry}
-        material={materials.Skin05_Tail_MAT}
-        skeleton={nodes.mesh_0_1.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_2.geometry}
-        material={materials.Skin05_Cape_MAT}
-        skeleton={nodes.mesh_0_2.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_3.geometry}
-        material={materials.Skin05_Fur_MAT}
-        skeleton={nodes.mesh_0_3.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_4.geometry}
-        material={materials.Skin05_Mirror_MAT}
-        skeleton={nodes.mesh_0_4.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_5.geometry}
-        material={materials.Skin05_Wing_MAT}
-        skeleton={nodes.mesh_0_5.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_6.geometry}
-        material={materials.Skin05_Familiar_MAT}
-        skeleton={nodes.mesh_0_6.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_7.geometry}
-        material={materials.Skin05_Crest_MAT}
-        skeleton={nodes.mesh_0_7.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_8.geometry}
-        material={materials.Skin05_Snack_MAT}
-        skeleton={nodes.mesh_0_8.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_9.geometry}
-        material={materials.Skin05_Ult_Cape_MAT}
-        skeleton={nodes.mesh_0_9.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_10.geometry}
-        material={materials.Skin05_Ult_WingsA_MAT}
-        skeleton={nodes.mesh_0_10.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_11.geometry}
-        material={materials.Skin05_Ult_WingsB_MAT}
-        skeleton={nodes.mesh_0_11.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_12.geometry}
-        material={materials.Skin05_Ult_Tail_MAT}
-        skeleton={nodes.mesh_0_12.skeleton}
-      />
-      <skinnedMesh
-        geometry={nodes.mesh_0_13.geometry}
-        material={materials.Skin05_Ult_Addition_MAT}
-        skeleton={nodes.mesh_0_13.skeleton}
-      />
+      <group position={[-75.56, -10.02, -217.41]} scale={0.02}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Skin05_Body_MAT}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Skin05_Wing_MAT}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Skin05_Familiar_MAT}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Skin05_Crest_MAT}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.Skin05_Snack_MAT}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_5.geometry}
+          material={materials.Skin05_Ult_Cape_MAT}
+          skeleton={nodes.mesh_0_5.skeleton}
+        />
+      </group>
     </group>
   )
 }
