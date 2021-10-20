@@ -69,8 +69,8 @@ export const generateJsx = async () => {
     for (const champDir of champDirs) {
       const files = fs.readdirSync(`${glbDir}/${champDir}`)
 
-      if (!fs.existsSync(`client/src/components/${champDir}`)) {
-        fs.mkdirSync(`client/src/components/${champDir}`)
+      if (!fs.existsSync(`client/src/components/models/${champDir}`)) {
+        fs.mkdirSync(`client/src/components/models/${champDir}`)
       }
 
       for (const file of files) {
@@ -82,9 +82,9 @@ export const generateJsx = async () => {
               console.log(`gltfjsx ${glbDir}/${champDir}/${file} -t > ${jsxFile}`)
               console.log(stdout)
               exec(
-                `mv ${jsxFile} client/src/components/${champDir}/${jsxFile}`,
+                `mv ${jsxFile} client/src/components/models/${champDir}/${jsxFile}`,
                 async (err, stdout, stderr) => {
-                  console.log(`mv ${jsxFile} client/src/components/${champDir}/${jsxFile} `)
+                  console.log(`mv ${jsxFile} client/src/components/models/${champDir}/${jsxFile} `)
                   resolve()
                 },
               )
