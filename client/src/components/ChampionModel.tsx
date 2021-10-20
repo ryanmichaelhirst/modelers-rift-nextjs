@@ -25,7 +25,7 @@ const ChampionModel = ({ name }: { name: string }) => {
     getData()
   }, [skin])
 
-  const Component = lazy(() => import(`./${name}/${skin}.tsx`))
+  const Component = lazy(() => import(`./models/${name}/${skin}.tsx`))
 
   return (
     <Canvas style={{ height: '70vh' }}>
