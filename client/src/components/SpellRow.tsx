@@ -14,17 +14,16 @@ const SpellRow = ({
   title,
   tooltip,
 }: {
-  spellKey: string
-  image: { src: string; h: string; w: string }
-  tooltip: string
+  spellKey?: string
+  image: { src?: string; h?: number; w?: number }
+  tooltip?: string
   title?: string
 }) => {
-  const semanticTemplates = tooltip.match(/(?=<).*?(?<=>)/gs)
+  const semanticTemplates = tooltip?.match(/(?=<).*?(?<=>)/gs)
   const spellStats = semanticTemplates
-    .filter((m) => STAT_SEMANTIC_TEMPLATES[m])
-    .map((m) => STAT_SEMANTIC_TEMPLATES[m])
-  const singleStat = spellStats.length >= 1 ? spellStats[0] : undefined
-  // console.log(semanticTemplates, spellStats)
+    ?.filter((m) => STAT_SEMANTIC_TEMPLATES[m])
+    ?.map((m) => STAT_SEMANTIC_TEMPLATES[m])
+  const singleStat = spellStats && spellStats?.length >= 1 ? spellStats[0] : undefined
 
   return (
     <div className='flex mb-3 bg-blue-100 h-14 rounded font-montserrat'>

@@ -23,6 +23,8 @@ import {
 const ChampionComparison = () => {
   const dispatch = useDispatch()
   const champions = useSelector(selectChampions)
+  console.log({ champions })
+
   const playerChampion = useSelector(selectPlayerChampion)
   const opponentChampion = useSelector(selectOpponentChampion)
   const multiLineData = useSelector(selectChampionMultiLineGraph)
@@ -39,7 +41,7 @@ const ChampionComparison = () => {
     if (selectedPatch) dispatch(fetchChampions())
   }, [selectedPatch])
 
-  const tooltipTitle = STAT_OPTIONS.find((s) => s.value === selectedStat).label
+  const tooltipTitle = STAT_OPTIONS.find((s) => s.value === selectedStat)?.label
   const tooltipTitles = [playerChampion?.name || '', opponentChampion?.name || '']
 
   const championOptions = Object.values(champions).map((c: any) => ({

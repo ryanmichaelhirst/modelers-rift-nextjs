@@ -1,19 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { SelectOption } from '../../types'
+import { ChampionState, SelectOption } from '../../types'
 import { AppThunk, RootState } from '../index'
-
-// TODO: add champion model // current skin selector
-// TODO: add PlayerState and OpponentState slices
-interface ChampionState {
-  loading: boolean
-  selectedStat: string
-  champions: Record<string, Record<string, any>>
-  playerChampion?: Record<string, any>
-  opponentChampion?: Record<string, any>
-  patches: string[]
-  selectedPatch?: string
-  loreLink?: string
-}
 
 const initialState: ChampionState = {
   loading: true,

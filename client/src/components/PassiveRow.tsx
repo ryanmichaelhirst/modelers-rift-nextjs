@@ -1,6 +1,5 @@
 import Tippy from '@tippyjs/react'
 import classNames from 'classnames'
-import React from 'react'
 
 const ellipsisStyle = {
   display: '-webkit-box',
@@ -14,10 +13,10 @@ const PassiveRow = ({
   title,
   tooltip,
 }: {
-  image: { src: string; h: string; w: string }
-  text: string
-  tooltip: string
-  title: string
+  image: { src?: string; h?: number; w?: number }
+  text?: string
+  tooltip?: string
+  title?: string
 }) => (
   <div className='mb-3 font-montserrat'>
     <div className='flex justify-end z-10 relative top-0.5'>

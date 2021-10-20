@@ -10,7 +10,7 @@ export const STAT_OPTIONS = [
   { label: 'Attack Speed', value: 'attackspeed' },
 ]
 
-export const STAT_SEMANTIC_TEMPLATES = {
+export const STAT_SEMANTIC_TEMPLATES: Record<string, string> = {
   '<physicalDamage>': 'Physical Damage',
   '<magicDamage>': 'Magic Damage',
   '<status>': 'Status',

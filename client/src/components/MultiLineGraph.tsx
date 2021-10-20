@@ -17,10 +17,10 @@ const MultiLineGraph = ({
   data: { [key: string]: string | number }[]
   xLabel: string
   yLabels: string[]
-  tooltipTitle: string
+  tooltipTitle?: string
   tooltipTitles: string[]
 }) => {
-  const chartRef = useRef(null)
+  const chartRef = useRef<am4charts.XYChart>()
 
   useLayoutEffect(() => {
     const chart = am4core.create(id, am4charts.XYChart)

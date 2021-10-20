@@ -2,12 +2,11 @@ import PassiveRow from '@components/PassiveRow'
 import SpellRow from '@components/SpellRow'
 import Tabs from '@components/Tabs'
 import { STAT_OPTIONS } from '@customtypes/constants'
-import React from 'react'
+import { LeagueChampion } from '@customtypes/index'
 
-const ChampionTabs = ({ champion }: { champion: any }) => {
+const ChampionTabs = ({ champion }: { champion: LeagueChampion }) => {
   const { passive, spells, stats, skins } = champion
 
-  // console.log(spells)
   const options = [
     {
       tab: 'Spells',
@@ -16,27 +15,27 @@ const ChampionTabs = ({ champion }: { champion: any }) => {
           <div className='flex mb-1'>
             <PassiveRow
               image={{
-                ...passive.image,
-                src: passive.image.full
+                ...passive?.image,
+                src: passive?.image?.full
                   ? `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/passive/${passive.image.full}`
-                  : null,
+                  : undefined,
               }}
-              text={passive.description}
-              tooltip={passive.description}
-              title={passive.name}
+              text={passive?.description}
+              tooltip={passive?.description}
+              title={passive?.name}
             />
           </div>
           <div>
-            {spells.map((s) => (
+            {spells?.map((s) => (
               <SpellRow
                 key={s.name}
-                spellKey={s.id.charAt(s.id.length - 1)}
+                spellKey={s?.id?.charAt(s?.id?.length - 1)}
                 image={{
                   ...s.image,
-                  src: `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/${s.image.full}`,
+                  src: `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/${s?.image?.full}`,
                 }}
-                tooltip={s.tooltip}
-                title={s.name}
+                tooltip={s?.tooltip}
+                title={s?.name}
               />
             ))}
           </div>
@@ -48,7 +47,7 @@ const ChampionTabs = ({ champion }: { champion: any }) => {
       content: STAT_OPTIONS.map((s) => (
         <div key={s.value}>
           <span className='mr-3'>{s.label}</span>
-          <span>{stats[s.value]}</span>
+          <span>{stats ? stats[s.value] : null}</span>
         </div>
       )),
     },
@@ -57,7 +56,7 @@ const ChampionTabs = ({ champion }: { champion: any }) => {
       content: (
         <>
           <div className='my-2 text-xs italic font-montserrat'>Hover for skin name</div>
-          {skins.map((s) => (
+          {skins?.map((s) => (
             <div className='inline-block mr-2 mb-2' key={s.id}>
               <img
                 className='h-28 rounded'
@@ -74,7 +73,7 @@ const ChampionTabs = ({ champion }: { champion: any }) => {
       tab: 'Tips',
       content: (
         <ul className='list-decimal list-inside'>
-          {champion.allytips.concat(champion.enemytips).map((t, idx) => (
+          {champion?.allytips?.concat(champion?.enemytips || []).map((t, idx) => (
             <li className='text-xs' key={`tip-${idx}`}>
               {t}
             </li>
