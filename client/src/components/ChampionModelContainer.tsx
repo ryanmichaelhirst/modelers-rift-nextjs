@@ -17,8 +17,6 @@ const ChampionModelContainer = () => {
     setLoadedChampion(champion?.name)
   }, [champion])
 
-  console.log({ skins, champion })
-
   return (
     <Card>
       {loadedChampion !== champion?.name ? (

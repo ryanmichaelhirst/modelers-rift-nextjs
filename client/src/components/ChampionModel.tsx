@@ -1,9 +1,7 @@
-import Aatrox from '@components/aatrox/index'
-import Ahri from '@components/ahri/index'
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { selectSkin } from '@store/slices/championSlice'
-import { Suspense, useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 const ChampionModel = ({ name }: { name: string }) => {
@@ -21,27 +19,20 @@ const ChampionModel = ({ name }: { name: string }) => {
       // 'https://league-glb-models.s3.amazonaws.com/aatrox/skin0.glb'
       setGlb(url)
       setLoadedSkin(model.name.replace('.glb', ''))
-      console.log({ res, model, glb, skin, url })
       console.timeEnd('get-model-req')
     }
 
     getData()
   }, [skin])
 
-  console.log({ loadedSkin, skin })
+  const Component = lazy(() => import(`./${name}/${skin}.tsx`))
 
   return (
     <Canvas style={{ height: '70vh' }}>
       <Suspense fallback={null}>
-        {loadedSkin !== skin ? null : name === 'ahri' ? (
-          <Ahri skin={skin} glb={glb} />
-        ) : (
-          <Aatrox skin={skin} glb={glb} />
-        )}
-        {/** @ts-ignore */}
+        {loadedSkin !== skin ? null : <Component name={name} skin={skin} glb={glb} />}
         <OrbitControls />
-        {/** @ts-ignore */}
-        <PerspectiveCamera makeDefault position={[300, 300, -500, 1000]} />
+        <PerspectiveCamera makeDefault position={[300, 300, -500]} />
       </Suspense>
     </Canvas>
   )
