@@ -101,7 +101,6 @@ export const chooseSkin = ({
   const awsUrl = `/api/getAwsObject/${champion}/${model.name}`
   // 'https://league-glb-models.s3.amazonaws.com/aatrox/skin0.glb'
 
-  console.log('chooseSkin', { file, champion, awsUrl })
   console.timeEnd('get-model-req')
 
   if (type === 'playerChampion') {
@@ -147,8 +146,6 @@ export const chooseChampion = (type: string, payload: { value: string }): AppThu
   const res = await (await fetch(`/api/getChampionModels/${name.toLowerCase()}`)).json()
   const model = res.models.find((m: any) => m.name === `skin0.glb`)
   const awsUrl = `/api/getAwsObject/${name.toLowerCase()}/${model.name}`
-
-  console.log({ data, test: state.champion.playerChampion })
 
   const playerChampion = {
     ...state.champion.playerChampion,
