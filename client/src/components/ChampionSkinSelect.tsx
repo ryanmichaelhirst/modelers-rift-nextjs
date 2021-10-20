@@ -1,10 +1,18 @@
-import { setSelectedSkin } from '@store/slices/championSlice'
+import { chooseSkin } from '@store/slices/championSlice'
 import { useDispatch } from 'react-redux'
 
-const ChampionSkinSelect = ({ skins }: { skins?: any[] }) => {
+const ChampionSkinSelect = ({
+  type,
+  name,
+  skins,
+}: {
+  type: string
+  name: string
+  skins?: any[]
+}) => {
   const dispatch = useDispatch()
 
-  const onClick = (src: string) => () => dispatch(setSelectedSkin(src))
+  const onClick = (file: string) => () => dispatch(chooseSkin({ type, champion: name, file }))
 
   return (
     <>

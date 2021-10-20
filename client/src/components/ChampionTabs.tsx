@@ -17,7 +17,9 @@ const ChampionTabs = ({ champion }: { champion: any }) => {
             <PassiveRow
               image={{
                 ...passive.image,
-                src: `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/passive/${passive.image.full}`,
+                src: passive.image.full
+                  ? `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/passive/${passive.image.full}`
+                  : null,
               }}
               text={passive.description}
               tooltip={passive.description}

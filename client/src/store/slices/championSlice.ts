@@ -13,7 +13,6 @@ interface ChampionState {
   patches: string[]
   selectedPatch?: string
   loreLink?: string
-  selectedSkin: string
 }
 
 const initialState: ChampionState = {
@@ -22,7 +21,24 @@ const initialState: ChampionState = {
   champions: {},
   patches: [],
   loreLink: 'https://universe.leagueoflegends.com/en_US/champion/brand/',
-  selectedSkin: 'skin0',
+  playerChampion: {
+    name: 'Aatrox',
+    model: {
+      file: 'skin0',
+      awsUrl: '/api/getAwsObject/aatrox/skin0.glb',
+    },
+    tags: [],
+    passive: {
+      image: {
+        full: '',
+      },
+    },
+    spells: [],
+    stats: [],
+    skins: [],
+    allytips: [],
+    enemytips: [],
+  },
 }
 
 export const championSlice = createSlice({
@@ -54,9 +70,6 @@ export const championSlice = createSlice({
       const { region, champion } = action.payload
       state.loreLink = `https://universe.leagueoflegends.com/${region}/champion/${champion}/`
     },
-    setSelectedSkin: (state, action: PayloadAction<string>) => {
-      state.selectedSkin = action.payload
-    },
   },
 })
 
@@ -69,8 +82,52 @@ export const {
   setSelectedPatch,
   setPatches,
   setLoreLink,
-  setSelectedSkin,
 } = championSlice.actions
+
+export const chooseSkin = ({
+  type,
+  champion,
+  file,
+}: {
+  type: string
+  champion: string
+  file: string
+}): AppThunk => async (dispatch, getState) => {
+  console.time('get-model-req')
+  const state = getState()
+
+  const res = await (await fetch(`/api/getChampionModels/${champion}`)).json()
+  const model = res.models.find((m: any) => m.name === `${file}.glb`)
+  const awsUrl = `/api/getAwsObject/${champion}/${model.name}`
+  // 'https://league-glb-models.s3.amazonaws.com/aatrox/skin0.glb'
+
+  console.log('chooseSkin', { file, champion, awsUrl })
+  console.timeEnd('get-model-req')
+
+  if (type === 'playerChampion') {
+    dispatch(
+      setPlayerChampion({
+        ...state.champion.playerChampion,
+        model: {
+          file,
+          awsUrl,
+        },
+      }),
+    )
+  }
+
+  if (type === 'opponentChampion') {
+    dispatch(
+      setOpponentChampion({
+        ...state.champion.opponentChampion,
+        model: {
+          file,
+          awsUrl,
+        },
+      }),
+    )
+  }
+}
 
 export const chooseChampion = (type: string, payload: { value: string }): AppThunk => async (
   dispatch,
@@ -80,13 +137,38 @@ export const chooseChampion = (type: string, payload: { value: string }): AppThu
   const state = getState()
   const { selectedPatch } = state.champion
 
+  // get champion info from league api
   const { data } = await fetch(
     `http://ddragon.leagueoflegends.com/cdn/${selectedPatch}/data/en_US/champion/${json.name}.json`,
   ).then((res) => res.json())
   const { name } = json
 
-  if (type === 'playerChampion') dispatch(setPlayerChampion(data[name]))
-  if (type === 'opponentChampion') dispatch(setOpponentChampion(data[name]))
+  // get model info from aws / prisma
+  const res = await (await fetch(`/api/getChampionModels/${name.toLowerCase()}`)).json()
+  const model = res.models.find((m: any) => m.name === `skin0.glb`)
+  const awsUrl = `/api/getAwsObject/${name.toLowerCase()}/${model.name}`
+
+  console.log({ data, test: state.champion.playerChampion })
+
+  const playerChampion = {
+    ...state.champion.playerChampion,
+    ...data[name],
+    model: {
+      file: 'skin0',
+      awsUrl,
+    },
+  }
+  const opponentChampion = {
+    ...state.champion.opponentChampion,
+    ...data[name],
+    model: {
+      file: 'skin0',
+      awsUrl,
+    },
+  }
+
+  if (type === 'playerChampion') dispatch(setPlayerChampion(playerChampion))
+  if (type === 'opponentChampion') dispatch(setOpponentChampion(opponentChampion))
 }
 
 export const fetchChampions = (): AppThunk => async (dispatch, getState) => {
@@ -150,6 +232,5 @@ export const selectChampionMultiLineGraph = (state: RootState) => {
 export const selectSelectedPatch = (state: RootState) => state.champion.selectedPatch
 export const selectPatches = (state: RootState) => state.champion.patches
 export const selectLoreLink = (state: RootState) => state.champion.loreLink
-export const selectSkin = (state: RootState) => state.champion.selectedSkin
 
 export default championSlice.reducer
