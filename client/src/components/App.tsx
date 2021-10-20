@@ -9,7 +9,7 @@ const App = () => (
     <Header />
 
     <div className='flex justify-center items-center'>
-      <ChampionModelContainer name='aatrox' />
+      <ChampionModelContainer />
     </div>
 
     <div className='m-5'>

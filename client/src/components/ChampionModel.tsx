@@ -1,4 +1,5 @@
 import Aatrox from '@components/aatrox/index'
+import Ahri from '@components/ahri/index'
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { selectSkin } from '@store/slices/championSlice'
@@ -32,7 +33,11 @@ const ChampionModel = ({ name }: { name: string }) => {
   return (
     <Canvas style={{ height: '70vh' }}>
       <Suspense fallback={null}>
-        {loadedSkin === skin && <Aatrox skin={skin} glb={glb} />}
+        {loadedSkin !== skin ? null : name === 'ahri' ? (
+          <Ahri skin={skin} glb={glb} />
+        ) : (
+          <Aatrox skin={skin} glb={glb} />
+        )}
         {/** @ts-ignore */}
         <OrbitControls />
         {/** @ts-ignore */}
