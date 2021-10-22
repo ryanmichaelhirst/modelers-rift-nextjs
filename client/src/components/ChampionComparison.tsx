@@ -1,12 +1,11 @@
 import Champion from '@components/Champion'
-import ChampionSelect from '@components/ChampionSelect'
 import ItemGrid from '@components/ItemGrid'
 import MultiLineGraph from '@components/MultiLineGraph'
 import PatchSelect from '@components/PatchSelect'
 import StatSelect from '@components/StatSelect'
 import { STAT_OPTIONS } from '@customtypes/constants'
 import { fetchItems } from '@store/slices/itemSlice'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   fetchChampions,
@@ -23,7 +22,6 @@ import {
 const ChampionComparison = () => {
   const dispatch = useDispatch()
   const champions = useSelector(selectChampions)
-  console.log({ champions })
 
   const playerChampion = useSelector(selectPlayerChampion)
   const opponentChampion = useSelector(selectOpponentChampion)
@@ -72,20 +70,6 @@ const ChampionComparison = () => {
         />
       </div>
       <div className='flex-1 ml-3'>
-        <div>
-          <ChampionSelect
-            value={playerChampion}
-            options={championOptions}
-            name='playerChampion'
-            placeholder='Select your champion'
-          />
-          <ChampionSelect
-            value={opponentChampion}
-            options={championOptions}
-            name='opponentChampion'
-            placeholder='Select opponent'
-          />
-        </div>
         <div className='flex'>
           <div>
             <Champion champion={playerChampion} />

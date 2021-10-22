@@ -1,6 +1,6 @@
 import { SelectOption } from '@customtypes/index'
 import { setSelectedPatch } from '@store/slices/championSlice'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Select from 'react-select'
 

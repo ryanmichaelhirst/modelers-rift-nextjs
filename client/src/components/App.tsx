@@ -1,20 +1,28 @@
 import SiteBackground from '@assets/site-bg.png'
 import ChampionComparison from '@components/ChampionComparison'
+import GridSelect from '@components/GridSelect'
 import Header from '@components/Header'
+import { selectChampions } from '@store/slices/championSlice'
+import { useSelector } from 'react-redux'
 import ChampionModelContainer from './ChampionModelContainer'
 
-const App = () => (
-  <div style={{ backgroundImage: `url(${SiteBackground})` }}>
-    <Header />
+const App = () => {
+  const champions = useSelector(selectChampions)
 
-    <div className='flex justify-center items-center'>
-      <ChampionModelContainer />
-    </div>
+  return (
+    <div style={{ backgroundImage: `url(${SiteBackground})` }}>
+      <Header />
 
-    <div className='m-5'>
-      <ChampionComparison />
+      <div className='flex justify-center items-center'>
+        <GridSelect items={Object.values(champions).map((val) => ({ ...val }))} />
+        <ChampionModelContainer />
+      </div>
+
+      <div className='m-5'>
+        <ChampionComparison />
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 export default App

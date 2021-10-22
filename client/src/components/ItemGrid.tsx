@@ -1,8 +1,7 @@
-import { IconOption, SingleOption } from '@components/ChampionSelect'
+import { IconOption, SingleOption } from '@components/Select'
 import { selectItems, selectSelectedItems, setSelectedItems } from '@store/slices/itemSlice'
 import Tippy from '@tippyjs/react'
 import classNames from 'classnames'
-import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Select from 'react-select'
 
