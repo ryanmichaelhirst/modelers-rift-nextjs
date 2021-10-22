@@ -16,7 +16,7 @@ const GridSelect = ({ items }: { items: any[] }) => {
   }, [items])
 
   const onClick = (item: Record<string, any>) => () => {
-    dispatch(chooseChampion('playerChampion', { value: item.name }))
+    dispatch(chooseChampion('playerChampion', item))
     setSelected(item)
   }
 

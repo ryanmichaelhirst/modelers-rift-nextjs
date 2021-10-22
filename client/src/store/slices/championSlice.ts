@@ -115,19 +115,18 @@ export const chooseSkin = ({
   }
 }
 
-export const chooseChampion = (type: string, payload: { value: string }): AppThunk => async (
+export const chooseChampion = (type: string, payload: Record<string, any>): AppThunk => async (
   dispatch,
   getState,
 ) => {
-  const json = JSON.parse(payload.value)
+  const { name } = payload
   const state = getState()
   const { selectedPatch } = state.champion
 
   // get champion info from league api
   const { data } = await fetch(
-    `http://ddragon.leagueoflegends.com/cdn/${selectedPatch}/data/en_US/champion/${json.name}.json`,
+    `http://ddragon.leagueoflegends.com/cdn/${selectedPatch}/data/en_US/champion/${name}.json`,
   ).then((res) => res.json())
-  const { name } = json
 
   // get model info from aws / prisma
   const res = await (await fetch(`/api/getChampionModels/${name.toLowerCase()}`)).json()
@@ -172,8 +171,8 @@ export const fetchChampions = (): AppThunk => async (dispatch, getState) => {
     }
   }, data)
 
-  dispatch(chooseChampion('playerChampion', { value: JSON.stringify(championsWithAssets.Aatrox) }))
-  dispatch(chooseChampion('opponentChampion', { value: JSON.stringify(championsWithAssets.Akali) }))
+  dispatch(chooseChampion('playerChampion', championsWithAssets.Aatrox))
+  dispatch(chooseChampion('opponentChampion', championsWithAssets.Akali))
   dispatch(setChampions(championsWithAssets))
   dispatch(setChampionLoading(false))
 }
