@@ -13,7 +13,7 @@ const SkinSelect = ({ items }: { items: any[] }) => {
 
   return (
     <div className='mb-4'>
-      <p>SkinSelect</p>
+      <p>Skins</p>
       <div className='h-40 overflow-y-auto'>
         {items.map((i) => (
           <div
@@ -26,6 +26,14 @@ const SkinSelect = ({ items }: { items: any[] }) => {
           </div>
         ))}
       </div>
+      <p>Chromas</p>
+      {Array.from(Array(19).keys())
+        .filter((k) => !items?.some((i) => i.num === k))
+        .map((num) => (
+          <span key={num} className='mr-2' onClick={onClick(`skin${num}`)}>
+            {num}
+          </span>
+        ))}
     </div>
   )
 }

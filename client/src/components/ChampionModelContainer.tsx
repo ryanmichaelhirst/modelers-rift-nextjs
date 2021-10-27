@@ -3,7 +3,6 @@ import { Canvas } from '@react-three/fiber'
 import { selectPlayerChampion } from '@store/slices/championSlice'
 import { lazy, Suspense } from 'react'
 import { useSelector } from 'react-redux'
-import ChampionSkinSelect from './ChampionSkinSelect'
 
 const ChampionModelContainer = () => {
   const champion = useSelector(selectPlayerChampion)
@@ -27,7 +26,6 @@ const ChampionModelContainer = () => {
           <PerspectiveCamera makeDefault position={[300, 300, -500]} />
         </Suspense>
       </Canvas>
-      <ChampionSkinSelect type={'playerChampion'} name={name} skins={skins} />
     </div>
   )
 }

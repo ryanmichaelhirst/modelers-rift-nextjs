@@ -13,7 +13,7 @@ const App = () => {
     <div style={{ backgroundImage: `url(${SiteBackground})` }}>
       <Header />
 
-      <div className='flex justify-center items-center'>
+      <div className='flex justify-center items-center py-20'>
         <GridSelect items={Object.values(champions).map((val) => ({ ...val }))} />
         <ChampionModelContainer />
       </div>
