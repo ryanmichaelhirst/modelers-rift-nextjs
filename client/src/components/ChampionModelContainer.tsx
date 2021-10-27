@@ -3,7 +3,6 @@ import { Canvas } from '@react-three/fiber'
 import { selectPlayerChampion } from '@store/slices/championSlice'
 import { lazy, Suspense } from 'react'
 import { useSelector } from 'react-redux'
-import Card from './Card'
 import ChampionSkinSelect from './ChampionSkinSelect'
 
 const ChampionModelContainer = () => {
@@ -20,7 +19,7 @@ const ChampionModelContainer = () => {
   const Component = lazy(() => import(`./models/${name}/${file}.tsx`))
 
   return (
-    <Card>
+    <div>
       <Canvas style={{ height: '70vh' }}>
         <Suspense fallback={null}>
           <Component name={name} skin={file} glb={awsUrl} />
@@ -29,7 +28,7 @@ const ChampionModelContainer = () => {
         </Suspense>
       </Canvas>
       <ChampionSkinSelect type={'playerChampion'} name={name} skins={skins} />
-    </Card>
+    </div>
   )
 }
 
