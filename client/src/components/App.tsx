@@ -14,7 +14,7 @@ const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(fetchPatches)
+    dispatch(fetchPatches())
   }, [])
 
   return (
