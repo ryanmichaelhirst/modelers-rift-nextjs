@@ -1,9 +1,8 @@
-import { IconOption, SingleOption } from '@components/Select'
-import { selectItems, selectSelectedItems, setSelectedItems } from '@store/slices/itemSlice'
+import Input from '@components/Input'
+import { selectItems, selectSelectedItems } from '@store/slices/itemSlice'
 import Tippy from '@tippyjs/react'
 import classNames from 'classnames'
 import { useDispatch, useSelector } from 'react-redux'
-import Select from 'react-select'
 
 const ItemTooltip = ({ name, description }: { name: string; description: string }) => (
   <div>
@@ -34,15 +33,16 @@ const ItemRow = ({ items, location }: { items: Record<string, any>[]; location: 
   </>
 )
 
-const ItemGrid = () => {
+export const ItemSelect = () => {
   const dispatch = useDispatch()
   const items = useSelector(selectItems)
   const selectedItems = useSelector(selectSelectedItems)
 
-  const onSelect = (value: any) => {
-    const obj = JSON.parse(value.value)
-    const newItems = { ...selectedItems, [obj.name]: obj }
-    dispatch(setSelectedItems(newItems))
+  const onInput = (value: any) => {
+    console.log(value)
+    // const obj = JSON.parse(value.value)
+    // const newItems = { ...selectedItems, [obj.name]: obj }
+    // dispatch(setSelectedItems(newItems))
   }
 
   const itemOptions = Object.values(items).map((i) => ({
@@ -52,15 +52,17 @@ const ItemGrid = () => {
   }))
 
   return (
-    <div className='mt-4'>
-      <Select
-        name='item-select'
-        components={{ Option: IconOption, SingleValue: SingleOption }}
-        options={itemOptions}
-        onChange={onSelect}
-        width='400px'
-        placeholder={'Select an item'}
-      />
+    <div>
+      <p>Choose your items</p>
+      <div className='mt-4'>
+        <Input
+          multiple
+          onChange={onInput}
+          classes='mb-4'
+          options={itemOptions.map((i) => i.label)}
+          label='Select your items'
+        />
+      </div>
       <div className='flex justify-center items-center'>
         <div className='flex flex-col shadow-2xl mt-4'>
           <div className=''>
@@ -74,5 +76,3 @@ const ItemGrid = () => {
     </div>
   )
 }
-
-export default ItemGrid

@@ -5,6 +5,7 @@ import Header from '@components/Header'
 import { selectChampions } from '@store/slices/championSlice'
 import { useSelector } from 'react-redux'
 import ChampionModelContainer from './ChampionModelContainer'
+import { ItemSelect } from './ItemSelect'
 
 const App = () => {
   const champions = useSelector(selectChampions)
@@ -13,9 +14,10 @@ const App = () => {
     <div style={{ backgroundImage: `url(${SiteBackground})` }}>
       <Header />
 
-      <div className='flex justify-center items-center py-20'>
+      <div className='flex justify-around py-20'>
         <GridSelect items={Object.values(champions).map((val) => ({ ...val }))} />
         <ChampionModelContainer />
+        <ItemSelect />
       </div>
 
       <div className='m-5'>

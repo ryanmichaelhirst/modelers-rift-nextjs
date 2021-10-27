@@ -1,5 +1,4 @@
 import Champion from '@components/Champion'
-import ItemGrid from '@components/ItemGrid'
 import MultiLineGraph from '@components/MultiLineGraph'
 import PatchSelect from '@components/PatchSelect'
 import StatSelect from '@components/StatSelect'
@@ -73,11 +72,9 @@ const ChampionComparison = () => {
         <div className='flex'>
           <div>
             <Champion champion={playerChampion} />
-            <ItemGrid />
           </div>
           <div>
             <Champion champion={opponentChampion} />
-            <ItemGrid />
           </div>
         </div>
       </div>
