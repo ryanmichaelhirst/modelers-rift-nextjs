@@ -39,8 +39,6 @@ const GridSelect = ({ items }: { items: any[] }) => {
       src: `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champion.name}_${s.num}.jpg`,
     })) || []
 
-  console.log(selected, skins)
-
   return (
     <div style={{ transform: 'perspective(450px) rotateY(15deg)' }}>
       {selected?.name && (

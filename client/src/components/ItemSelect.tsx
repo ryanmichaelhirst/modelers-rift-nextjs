@@ -1,7 +1,13 @@
 import Input from '@components/Input'
-import { selectItems, selectSelectedItems } from '@store/slices/itemSlice'
+import {
+  addSelectedItem,
+  removeSelectedItem,
+  selectItems,
+  selectSelectedItems,
+} from '@store/slices/itemSlice'
 import Tippy from '@tippyjs/react'
 import classNames from 'classnames'
+import { useSnackbar } from 'notistack'
 import { useDispatch, useSelector } from 'react-redux'
 
 const ItemTooltip = ({ name, description }: { name: string; description: string }) => (
@@ -37,12 +43,30 @@ export const ItemSelect = () => {
   const dispatch = useDispatch()
   const items = useSelector(selectItems)
   const selectedItems = useSelector(selectSelectedItems)
+  const { enqueueSnackbar } = useSnackbar()
 
-  const onInput = (value: any) => {
-    console.log(value)
-    // const obj = JSON.parse(value.value)
-    // const newItems = { ...selectedItems, [obj.name]: obj }
-    // dispatch(setSelectedItems(newItems))
+  const onInput = (e: React.SyntheticEvent<Element, Event>, values: any[], reason: string) => {
+    console.log({ reason, values })
+
+    if (Object.keys(selectedItems).length === 6 && reason === 'selectOption') {
+      enqueueSnackbar('You can only build 6 items. Remove one to add another', {
+        variant: 'error',
+        persist: false,
+      })
+
+      return
+    }
+
+    switch (reason) {
+      case 'selectOption':
+        dispatch(addSelectedItem(values))
+        break
+      case 'removeOption':
+        dispatch(removeSelectedItem(values))
+        break
+      default:
+        return
+    }
   }
 
   const itemOptions = Object.values(items).map((i) => ({
@@ -50,6 +74,8 @@ export const ItemSelect = () => {
     value: JSON.stringify(i),
     icon: `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/item/${i.image.full}`,
   }))
+
+  console.log({ selectedItems })
 
   return (
     <div>
