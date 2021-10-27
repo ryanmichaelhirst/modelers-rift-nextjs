@@ -1,41 +1,37 @@
-import { SelectOption } from '@customtypes/index'
-import { setSelectedPatch } from '@store/slices/championSlice'
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import Select from 'react-select'
+import Input from '@components/Input'
+import {
+  fetchChampions,
+  selectPatches,
+  selectSelectedPatch,
+  setSelectedPatch,
+} from '@store/slices/championSlice'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-const PatchSelect = ({
-  options,
-  name,
-  value,
-  placeholder,
-}: {
-  name: string
-  value: any
-  placeholder: string
-  options: SelectOption[]
-}) => {
+export const PatchSelect = () => {
   const dispatch = useDispatch()
-  const [selectValue, setSelectValue] = useState<SelectOption>()
+  const selectedPatch = useSelector(selectSelectedPatch)
+  const patches = useSelector(selectPatches)
 
   useEffect(() => {
-    const val = options.find((o) => o.value === value)
+    if (selectedPatch) dispatch(fetchChampions())
+  }, [selectedPatch])
 
-    if (val) setSelectValue(val)
-  }, [value])
-
-  const onSelect = (value: SelectOption) => dispatch(setSelectedPatch(value))
+  const onInput = (e: React.SyntheticEvent<Element, Event>, value: any, reason: string) =>
+    dispatch(setSelectedPatch(value))
 
   return (
-    <Select
-      name={name}
-      value={selectValue}
-      options={options}
-      onChange={onSelect}
-      width='400px'
-      placeholder={placeholder}
-    />
+    <div className='pl-6 mt-6'>
+      {selectedPatch && (
+        <Input
+          sx={{ width: 300 }}
+          onChange={onInput}
+          value={selectedPatch}
+          classes='mb-4'
+          options={patches}
+          label='Select patch'
+        />
+      )}
+    </div>
   )
 }
-
-export default PatchSelect

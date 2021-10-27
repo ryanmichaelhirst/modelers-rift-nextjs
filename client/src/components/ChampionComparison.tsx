@@ -1,6 +1,5 @@
 import Champion from '@components/Champion'
 import MultiLineGraph from '@components/MultiLineGraph'
-import PatchSelect from '@components/PatchSelect'
 import StatSelect from '@components/StatSelect'
 import { STAT_OPTIONS } from '@customtypes/constants'
 import { fetchItems } from '@store/slices/itemSlice'
@@ -12,7 +11,6 @@ import {
   selectChampionMultiLineGraph,
   selectChampions,
   selectOpponentChampion,
-  selectPatches,
   selectPlayerChampion,
   selectSelectedPatch,
   selectSelectedStat,
@@ -27,7 +25,6 @@ const ChampionComparison = () => {
   const multiLineData = useSelector(selectChampionMultiLineGraph)
   const selectedStat = useSelector(selectSelectedStat)
   const selectedPatch = useSelector(selectSelectedPatch)
-  const patches = useSelector(selectPatches)
 
   useEffect(() => {
     dispatch(fetchPatches())
@@ -46,17 +43,10 @@ const ChampionComparison = () => {
     label: c.name ? c.name : '',
     icon: c.square_asset,
   }))
-  const patchOptions = patches.map((c: any) => ({ label: c, value: c }))
 
   return (
     <div className='flex'>
       <div className='flex-1 mr-3'>
-        <PatchSelect
-          options={patchOptions}
-          value={selectedPatch}
-          name='selectedPatch'
-          placeholder='Select patch'
-        />
         <StatSelect options={STAT_OPTIONS} name='selectedStat' placeholder='Select stat' />
         <div className='mt-4' />
         <MultiLineGraph

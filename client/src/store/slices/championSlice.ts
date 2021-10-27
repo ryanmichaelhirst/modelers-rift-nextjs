@@ -50,8 +50,8 @@ export const championSlice = createSlice({
     setPatches: (state, action: PayloadAction<string[]>) => {
       state.patches = action.payload
     },
-    setSelectedPatch: (state, action: PayloadAction<SelectOption>) => {
-      state.selectedPatch = action.payload.value
+    setSelectedPatch: (state, action: PayloadAction<string>) => {
+      state.selectedPatch = action.payload
     },
     setLoreLink: (state, action: PayloadAction<{ region: string; champion: string }>) => {
       const { region, champion } = action.payload
@@ -182,10 +182,11 @@ export const fetchPatches = (): AppThunk => async (dispatch) => {
   const data = await fetch('https://ddragon.leagueoflegends.com/api/versions.json').then((res) =>
     res.json(),
   )
-  const patch = { label: data[0], value: data[0] }
+
+  console.log(data[0])
 
   dispatch(setPatches(data))
-  dispatch(setSelectedPatch(patch))
+  dispatch(setSelectedPatch(data[0]))
 }
 
 export const selectSelectedStat = (state: RootState) => state.champion.selectedStat
