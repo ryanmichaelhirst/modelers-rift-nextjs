@@ -1,5 +1,4 @@
 import { ItemSelect } from '@components/ItemSelect'
-import SpellRow from '@components/SpellRow'
 import LinearProgress from '@mui/material/LinearProgress'
 import { selectPlayerChampion } from '@store/slices/championSlice'
 import Tippy from '@tippyjs/react'
@@ -8,8 +7,6 @@ import { useSelector } from 'react-redux'
 export const Details = () => {
   const playerChampion = useSelector(selectPlayerChampion)
   const { passive, spells, stats, skins, tags, info } = playerChampion
-
-  console.log(playerChampion)
 
   return (
     <div>
@@ -32,7 +29,7 @@ export const Details = () => {
       <div>
         <div className='flex'>
           <img
-            className='shadow h-7 rounded-b bottom-1 rounder-tl border border-yellow-100'
+            className='shadow h-7 rounded-b rounder-tl'
             src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/passive/${passive?.image.full}`}
           />
           <p>{passive?.name}</p>
@@ -54,16 +51,14 @@ export const Details = () => {
       </div>
       <div>
         {spells?.map((s) => (
-          <SpellRow
-            key={s.name}
-            spellKey={s?.id?.charAt(s?.id?.length - 1)}
-            image={{
-              ...s.image,
-              src: `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/${s?.image?.full}`,
-            }}
-            tooltip={s?.tooltip}
-            title={s?.name}
-          />
+          <div key={s.name}>
+            <img
+              className='shadow h-7 rounded-b rounder-tl'
+              src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/${s?.image?.full}`}
+            />
+            <p>{s.name}</p>
+            <p className='text-xs overflow-y-auto h-7'>{s.tooltip}</p>
+          </div>
         ))}
       </div>
       <ItemSelect />

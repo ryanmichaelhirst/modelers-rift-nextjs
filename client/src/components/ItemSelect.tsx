@@ -46,8 +46,6 @@ export const ItemSelect = () => {
   const { enqueueSnackbar } = useSnackbar()
 
   const onInput = (e: React.SyntheticEvent<Element, Event>, values: any[], reason: string) => {
-    console.log({ reason, values })
-
     if (Object.keys(selectedItems).length === 6 && reason === 'selectOption') {
       enqueueSnackbar('You can only build 6 items. Remove one to add another', {
         variant: 'error',

@@ -184,8 +184,6 @@ export const fetchPatches = (): AppThunk => async (dispatch) => {
     res.json(),
   )
 
-  console.log(data[0])
-
   dispatch(setPatches(data))
   dispatch(setSelectedPatch(data[0]))
 }
