@@ -83,9 +83,10 @@ export const chooseSkin = ({
   console.time('get-model-req')
   const state = getState()
 
-  const res = await (await fetch(`/api/getChampionModels/${champion}`)).json()
+  // 'https://localhost:3000/api/getChampionModels/aatrox'
+  const res = await (await fetch(`/api/getChampionModels/${champion.toLowerCase()}`)).json()
   const model = res.models.find((m: any) => m.name === `${file}.glb`)
-  const awsUrl = `/api/getAwsObject/${champion}/${model.name}`
+  const awsUrl = `/api/getAwsObject/${champion.toLowerCase()}/${model.name}`
   // 'https://league-glb-models.s3.amazonaws.com/aatrox/skin0.glb'
 
   console.timeEnd('get-model-req')

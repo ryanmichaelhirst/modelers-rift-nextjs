@@ -1,10 +1,12 @@
 import Input from '@components/Input'
-import { chooseChampion } from '@store/slices/championSlice'
+import { chooseChampion, selectPlayerChampion } from '@store/slices/championSlice'
 import classNames from 'classnames'
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import SkinSelect from './SkinSelect'
 
 const GridSelect = ({ items }: { items: any[] }) => {
+  const champion = useSelector(selectPlayerChampion)
   const [selected, setSelected] = useState<Record<string, any>>()
   const dispatch = useDispatch()
 
@@ -31,7 +33,13 @@ const GridSelect = ({ items }: { items: any[] }) => {
     setSelected(item)
   }
 
-  console.log(selected)
+  const skins =
+    champion?.skins?.map((s: any) => ({
+      ...s,
+      src: `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champion.name}_${s.num}.jpg`,
+    })) || []
+
+  console.log(selected, skins)
 
   return (
     <div style={{ transform: 'perspective(450px) rotateY(15deg)' }}>
@@ -44,6 +52,7 @@ const GridSelect = ({ items }: { items: any[] }) => {
           label='Select your champion'
         />
       )}
+      <SkinSelect items={skins} />
       <div className='grid grid-flow-row grid-cols-3 gap-0.5 overflow-y-auto h-96'>
         {items.map((i, idx) => {
           const active = i.name === selected?.name
