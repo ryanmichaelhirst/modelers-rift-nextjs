@@ -1,30 +1,16 @@
-import PassiveRow from '@components/PassiveRow'
 import SpellRow from '@components/SpellRow'
 import Tabs from '@components/Tabs'
 import { STAT_OPTIONS } from '@customtypes/constants'
 import { LeagueChampion } from '@customtypes/index'
 
 const ChampionTabs = ({ champion }: { champion: LeagueChampion }) => {
-  const { passive, spells, stats, skins } = champion
+  const { spells, stats, skins } = champion
 
   const options = [
     {
       tab: 'Spells',
       content: (
         <>
-          <div className='flex mb-1'>
-            <PassiveRow
-              image={{
-                ...passive?.image,
-                src: passive?.image?.full
-                  ? `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/passive/${passive.image.full}`
-                  : undefined,
-              }}
-              text={passive?.description}
-              tooltip={passive?.description}
-              title={passive?.name}
-            />
-          </div>
           <div>
             {spells?.map((s) => (
               <SpellRow

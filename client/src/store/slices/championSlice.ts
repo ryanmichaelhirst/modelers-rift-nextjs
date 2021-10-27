@@ -25,6 +25,7 @@ const initialState: ChampionState = {
     skins: [],
     allytips: [],
     enemytips: [],
+    info: {},
   },
 }
 

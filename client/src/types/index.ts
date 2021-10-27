@@ -58,6 +58,7 @@ export interface LeagueChampion {
   skins?: { id?: number; name?: string; num?: number }[]
   allytips?: string[]
   enemytips?: string[]
+  info?: Record<string, number>
 }
 
 export interface ChampionState {

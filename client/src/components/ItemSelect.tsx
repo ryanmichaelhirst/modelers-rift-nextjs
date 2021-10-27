@@ -75,8 +75,6 @@ export const ItemSelect = () => {
     icon: `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/item/${i.image.full}`,
   }))
 
-  console.log({ selectedItems })
-
   return (
     <div>
       <p>Choose your items</p>

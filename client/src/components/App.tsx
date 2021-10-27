@@ -1,8 +1,8 @@
 import SiteBackground from '@assets/site-bg.png'
 import ChampionComparison from '@components/ChampionComparison'
+import { Details } from '@components/Details'
 import GridSelect from '@components/GridSelect'
 import Header from '@components/Header'
-import { ItemSelect } from '@components/ItemSelect'
 import { PatchSelect } from '@components/PatchSelect'
 import { fetchPatches, selectChampions } from '@store/slices/championSlice'
 import { useEffect } from 'react'
@@ -25,7 +25,7 @@ const App = () => {
       <div className='flex justify-around py-20'>
         <GridSelect items={Object.values(champions).map((val) => ({ ...val }))} />
         <ChampionModelContainer />
-        <ItemSelect />
+        <Details />
       </div>
 
       <div className='m-5'>
