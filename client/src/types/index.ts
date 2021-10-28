@@ -59,6 +59,7 @@ export interface LeagueChampion {
   allytips?: string[]
   enemytips?: string[]
   info?: Record<string, number>
+  image?: DataDragonImage
 }
 
 export interface ChampionState {

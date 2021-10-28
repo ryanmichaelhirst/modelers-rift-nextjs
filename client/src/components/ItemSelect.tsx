@@ -75,7 +75,6 @@ export const ItemSelect = () => {
 
   return (
     <div>
-      <p>Choose your items</p>
       <div className='mt-4'>
         <Input
           multiple

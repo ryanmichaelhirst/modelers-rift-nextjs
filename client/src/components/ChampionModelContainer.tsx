@@ -19,7 +19,7 @@ const ChampionModelContainer = () => {
 
   return (
     <div>
-      <Canvas style={{ height: '70vh', width: '400px' }}>
+      <Canvas style={{ height: '70vh' }}>
         <Suspense fallback={null}>
           <Component name={name} skin={file} glb={awsUrl} />
           <OrbitControls />

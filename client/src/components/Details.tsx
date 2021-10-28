@@ -8,8 +8,17 @@ export const Details = () => {
   const playerChampion = useSelector(selectPlayerChampion)
   const { passive, spells, stats, skins, tags, info } = playerChampion
 
+  console.log(playerChampion)
+
   return (
     <div>
+      <div className='flex items-center justify-center'>
+        <img
+          className='rounded-full h-24 w-24'
+          src={`http://ddragon.leagueoflegends.com/cdn/11.21.1/img/champion/${playerChampion.image?.full}`}
+        />
+      </div>
+
       <div className='text-center'>
         <p className='font-montserrat text-4xl uppercase'>{playerChampion.name}</p>
         <span className='text-gray-600'>{tags?.map((t) => `${t}, `)}</span>
@@ -26,41 +35,40 @@ export const Details = () => {
           </div>
         ))}
       </div>
-      <div>
-        <div className='flex'>
-          <img
-            className='shadow h-7 rounded-b rounder-tl'
-            src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/passive/${passive?.image.full}`}
-          />
-          <p>{passive?.name}</p>
-        </div>
-        <div>
-          <Tippy content={passive?.description} placement='right-start'>
-            <div
-              className='overflow-hidden'
-              style={{
-                display: '-webkit-box',
-                WebkitBoxOrient: 'vertical' as any,
-                WebkitLineClamp: 3,
-              }}
-            >
-              <p className='text-xs'>{passive?.description}</p>
-            </div>
-          </Tippy>
-        </div>
+      <div className='flex'>
+        <img
+          className='shadow h-7 rounded-b rounder-tl'
+          src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/passive/${passive?.image.full}`}
+        />
+        <p>{passive?.name}</p>
       </div>
       <div>
-        {spells?.map((s) => (
-          <div key={s.name}>
+        <Tippy content={passive?.description} placement='right-start'>
+          <div
+            className='overflow-hidden'
+            style={{
+              display: '-webkit-box',
+              WebkitBoxOrient: 'vertical' as any,
+              WebkitLineClamp: 3,
+            }}
+          >
+            <p className='text-xs'>{passive?.description}</p>
+          </div>
+        </Tippy>
+      </div>
+      {spells?.map((s) => (
+        <div key={s.name}>
+          <div className='flex'>
             <img
               className='shadow h-7 rounded-b rounder-tl'
               src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/${s?.image?.full}`}
             />
             <p>{s.name}</p>
-            <p className='text-xs overflow-y-auto h-7'>{s.tooltip}</p>
           </div>
-        ))}
-      </div>
+
+          <p className='text-xs overflow-y-auto h-7'>{s.tooltip}</p>
+        </div>
+      ))}
       <ItemSelect />
     </div>
   )
