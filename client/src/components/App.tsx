@@ -1,6 +1,5 @@
 import { Details } from '@components/Details'
 import GridSelect from '@components/GridSelect'
-import Header from '@components/Header'
 import { PatchSelect } from '@components/PatchSelect'
 import { fetchPatches, selectChampions } from '@store/slices/championSlice'
 import { useEffect } from 'react'
@@ -21,10 +20,9 @@ const App = () => {
         className='opacity-80 absolute left-0 top-0 h-full w-full'
         src='https://media.istockphoto.com/videos/4k-abstract-particle-wave-bokeh-background-blue-water-snow-beautiful-video-id1199496434?b=1&k=20&m=1199496434&s=640x640&h=uoWw2DWlWO-EqtWuvG-vmFgFh-mOKox8LE1LbqFLpw0='
       />
-      <Header />
       <PatchSelect />
 
-      <div className='grid grid-cols-3 grid-rows-1 gap-2 py-20 relative'>
+      <div className='grid grid-cols-3 grid-rows-1 gap-2 relative'>
         <GridSelect items={Object.values(champions).map((val) => ({ ...val }))} />
         <ChampionModelContainer />
         <Details />

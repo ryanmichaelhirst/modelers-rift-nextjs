@@ -21,6 +21,7 @@ export const Details = () => {
 
       <div className='text-center'>
         <p className='font-montserrat text-4xl uppercase'>{playerChampion.name}</p>
+        <p className='font-montserrat text-xl capitalize'>{playerChampion.title}</p>
         <span className='text-gray-600'>{tags?.map((t) => `${t}, `)}</span>
       </div>
       <div className='w-auto flex flex-col justify-center items-center mb-8'>

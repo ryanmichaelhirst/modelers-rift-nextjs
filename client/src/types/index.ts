@@ -60,6 +60,13 @@ export interface LeagueChampion {
   enemytips?: string[]
   info?: Record<string, number>
   image?: DataDragonImage
+  title?: string
+  recommended?: any[]
+  lore?: string
+  partype?: string
+  key?: string
+  id?: string
+  blurb?: string
 }
 
 export interface ChampionState {

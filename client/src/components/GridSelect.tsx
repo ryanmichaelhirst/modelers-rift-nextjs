@@ -40,7 +40,7 @@ const GridSelect = ({ items }: { items: any[] }) => {
     })) || []
 
   return (
-    <div style={{ transform: 'perspective(450px) rotateY(15deg)' }}>
+    <div className='p-14' style={{ transform: 'perspective(500px) rotateY(15deg)' }}>
       {selected?.name && (
         <Input
           onChange={onInput}
@@ -51,14 +51,14 @@ const GridSelect = ({ items }: { items: any[] }) => {
         />
       )}
       <SkinSelect items={skins} />
-      <div className='grid grid-flow-row grid-cols-3 gap-0.5 overflow-y-auto h-96'>
+      <div className='grid grid-flow-row grid-cols-4 gap-0.5 overflow-y-auto h-96'>
         {items.map((i, idx) => {
           const active = i.name === selected?.name
 
           return (
             <div
               key={idx}
-              className={classNames('bg-cover bg-center h-28 text-white', !active && 'opacity-70')}
+              className={classNames('bg-cover bg-center h-20 text-white', !active && 'opacity-70')}
               style={{
                 backgroundImage: `url(${i.square_asset})`,
               }}
