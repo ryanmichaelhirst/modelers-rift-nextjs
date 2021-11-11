@@ -1,4 +1,3 @@
-import SpellRow from '@components/SpellRow'
 import Tabs from '@components/Tabs'
 import { STAT_OPTIONS } from '@customtypes/constants'
 import { LeagueChampion } from '@customtypes/index'
@@ -13,16 +12,7 @@ const ChampionTabs = ({ champion }: { champion: LeagueChampion }) => {
         <>
           <div>
             {spells?.map((s) => (
-              <SpellRow
-                key={s.name}
-                spellKey={s?.id?.charAt(s?.id?.length - 1)}
-                image={{
-                  ...s.image,
-                  src: `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/${s?.image?.full}`,
-                }}
-                tooltip={s?.tooltip}
-                title={s?.name}
-              />
+              <div>{s.name}</div>
             ))}
           </div>
         </>

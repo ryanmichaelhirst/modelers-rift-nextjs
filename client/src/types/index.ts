@@ -41,6 +41,32 @@ interface DataDragonImage {
   sprite?: string
 }
 
+export interface Passive {
+  image?: DataDragonImage
+  description?: string
+  name?: string
+}
+
+export interface Spell extends Passive {
+  cooldown?: number[]
+  cooldownBurn?: string
+  cost?: number[]
+  costBurn?: string
+  costType?: string
+  datavalues: Record<string, any>
+  effect?: (null | number[])[]
+  effectBurn?: (string | null)[]
+  id?: string
+  leveltip?: Record<string, string[]>
+  maxammo?: string
+  maxrank?: number
+  range?: number[]
+  rangeBurn?: string
+  resource?: string
+  tooltip?: string
+  vars?: any[]
+}
+
 export interface LeagueChampion {
   name?: string
   model?: {
@@ -48,12 +74,8 @@ export interface LeagueChampion {
     awsUrl?: string
   }
   tags?: string[]
-  passive?: {
-    image: DataDragonImage
-    description?: string
-    name?: string
-  }
-  spells?: { name?: string; id?: string; image?: DataDragonImage; tooltip?: string }[]
+  passive?: Passive
+  spells?: Spell[]
   stats?: Record<string, any>
   skins?: { id?: number; name?: string; num?: number }[]
   allytips?: string[]
@@ -78,4 +100,15 @@ export interface ChampionState {
   patches: string[]
   selectedPatch: string | null
   loreLink?: string
+}
+
+// TODO: add this to @components/Tooltip
+export const isPassive = (value: any): value is Passive => {
+  if (typeof value === 'object' && value !== null) {
+    const hasTooltip = 'tooltip' in value
+
+    return !hasTooltip
+  }
+
+  return false
 }

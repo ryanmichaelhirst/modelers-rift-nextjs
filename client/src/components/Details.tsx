@@ -1,6 +1,6 @@
 import { Card } from '@components/Card'
 import { ItemSelect } from '@components/ItemSelect'
-import { Tooltip } from '@components/Tooltip'
+import { SpellTitle, Tooltip } from '@components/Tooltip'
 import LinearProgress from '@mui/material/LinearProgress'
 import { selectPlayerChampion } from '@store/slices/championSlice'
 import { useSelector } from 'react-redux'
@@ -25,20 +25,22 @@ export const Details = () => {
 
       <p>Spells</p>
       <div className='flex my-4'>
-        <Tooltip title={passive?.description || ''}>
+        <Tooltip title={<SpellTitle spell={passive as any} />}>
           <img
             className='shadow h-7 rounded-b rounder-tl mr-2'
-            src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/passive/${passive?.image.full}`}
+            src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/passive/${passive?.image?.full}`}
           />
         </Tooltip>
-        {spells?.map((s) => (
-          <Tooltip key={s.id} title={passive?.description || ''}>
-            <img
-              className='shadow h-7 rounded-b rounder-tl mr-2'
-              src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/${s?.image?.full}`}
-            />
-          </Tooltip>
-        ))}
+        {spells?.map((s) => {
+          return (
+            <Tooltip key={s.id} title={<SpellTitle spell={s} />}>
+              <img
+                className='shadow h-7 rounded-b rounder-tl mr-2'
+                src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/${s?.image?.full}`}
+              />
+            </Tooltip>
+          )
+        })}
       </div>
 
       <p>Stats</p>

@@ -38,6 +38,7 @@ export const championSlice = createSlice({
       state.champions = action.payload
     },
     setPlayerChampion: (state, action: PayloadAction<Record<string, any>>) => {
+      console.log(action.payload)
       state.playerChampion = action.payload
     },
     setOpponentChampion: (state, action: PayloadAction<Record<string, any>>) => {
