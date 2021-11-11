@@ -1,6 +1,5 @@
+import { Tooltip } from '@components/Tooltip'
 import { STAT_SEMANTIC_TEMPLATES } from '@customtypes/constants'
-import Tippy from '@tippyjs/react'
-import React from 'react'
 
 const ellipsisStyle = {
   display: '-webkit-box',
@@ -28,7 +27,7 @@ const SpellRow = ({
   return (
     <div className='flex mb-3 bg-blue-100 h-14 rounded font-montserrat'>
       <img className='mr-3 border-2 border-yellow-100 rounded shadow' src={image.src} />
-      <Tippy content={tooltip} placement='right-start'>
+      <Tooltip title={tooltip || ''}>
         <div className='overflow-hidden' style={{ ...ellipsisStyle }}>
           {title && <p className='text-lg text-yellow-300 font-semibold'>{title}</p>}
           <div className='flex text-xs'>
@@ -41,7 +40,7 @@ const SpellRow = ({
             </div>
           </div>
         </div>
-      </Tippy>
+      </Tooltip>
     </div>
   )
 }

@@ -1,43 +1,14 @@
 import Input from '@components/Input'
+import { Tooltip } from '@components/Tooltip'
 import {
   addSelectedItem,
   removeSelectedItem,
   selectItems,
   selectSelectedItems,
 } from '@store/slices/itemSlice'
-import Tippy from '@tippyjs/react'
 import classNames from 'classnames'
 import { useSnackbar } from 'notistack'
 import { useDispatch, useSelector } from 'react-redux'
-
-const ItemTooltip = ({ name, description }: { name: string; description: string }) => (
-  <div>
-    <p>{name}</p>
-    <p>{description}</p>
-  </div>
-)
-
-const ItemRow = ({ items, location }: { items: Record<string, any>[]; location: 't' | 'b' }) => (
-  <>
-    {items.map((item, ii) => (
-      <Tippy
-        key={item.name}
-        content={<ItemTooltip name={item.name} description={item.description} />}
-      >
-        <img
-          key={item.name}
-          className={classNames(
-            ii === 0 && `rounded-${location}l`,
-            ii === items.length - 1 && `rounded-${location}r`,
-            'inline-block',
-          )}
-          src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/item/${item.image.full}`}
-          alt={item.name}
-        />
-      </Tippy>
-    ))}
-  </>
-)
 
 export const ItemSelect = () => {
   const dispatch = useDispatch()
@@ -73,27 +44,33 @@ export const ItemSelect = () => {
     icon: `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/item/${i.image.full}`,
   }))
 
+  const selItems = Object.values(selectedItems)
+
   return (
-    <div>
+    <>
       <div className='mt-4'>
         <Input
+          disableClearable
           multiple
+          value={Object.keys(selectedItems).map((key) => key)}
           onChange={onInput}
           classes='mb-4'
           options={itemOptions.map((i) => i.label)}
           label='Select your items'
         />
       </div>
-      <div className='flex justify-center items-center'>
-        <div className='flex flex-col shadow-2xl mt-4'>
-          <div className=''>
-            <ItemRow items={Object.values(selectedItems).slice(0, 3)} location='t' />
-          </div>
-          <div className=''>
-            <ItemRow items={Object.values(selectedItems).slice(3, 6)} location='b' />
-          </div>
-        </div>
+      <div className='flex flex-wrap'>
+        {selItems.map((item, ii) => (
+          <Tooltip key={item.name} title={item.description}>
+            <img
+              key={item.name}
+              className={classNames('h-10')}
+              src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/item/${item.image.full}`}
+              alt={item.name}
+            />
+          </Tooltip>
+        ))}
       </div>
-    </div>
+    </>
   )
 }

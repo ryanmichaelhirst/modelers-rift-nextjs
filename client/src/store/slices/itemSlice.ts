@@ -48,8 +48,10 @@ export const itemSlice = createSlice({
 export const { setItems, setSelectedItems, addSelectedItem, removeSelectedItem } = itemSlice.actions
 
 export const fetchItems = (): AppThunk => async (dispatch, getState) => {
+  const state = getState()
+  const { selectedPatch } = state.champion
   const { data } = await fetch(
-    `http://ddragon.leagueoflegends.com/cdn/11.16.1/data/en_US/item.json`,
+    `http://ddragon.leagueoflegends.com/cdn/${selectedPatch}/data/en_US/item.json`,
   ).then<{ data: Items }>((res) => res.json())
   const itemsAsRecord = Object.values(data).reduce<any>((acc, value) => {
     acc[value.name] = value
@@ -63,7 +65,7 @@ export const fetchItems = (): AppThunk => async (dispatch, getState) => {
     else selected[key] = itemsAsRecord[key]
   }
 
-  // dispatch(setSelectedItems(selected))
+  dispatch(setSelectedItems(selected))
   dispatch(setItems(itemsAsRecord))
 }
 

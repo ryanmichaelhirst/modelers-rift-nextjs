@@ -23,37 +23,43 @@ export const Details = () => {
         </div>
       </div>
 
-      <div className='w-auto flex flex-col justify-center items-center mb-8'>
-        {Object.entries(info || {}).map(([key, value]) => (
-          <div key={key}>
-            <p className='capitalize'>{key}</p>
-            <LinearProgress
-              variant='determinate'
-              value={value * 10}
-              sx={{ width: 300, height: 10, borderRadius: 5, marginBottom: 1 }}
-            />
-          </div>
-        ))}
-      </div>
-      <div className='flex'></div>
-      <div className='flex justify-around'>
+      <p>Spells</p>
+      <div className='flex my-4'>
         <Tooltip title={passive?.description || ''}>
           <img
-            className='shadow h-7 rounded-b rounder-tl'
+            className='shadow h-7 rounded-b rounder-tl mr-2'
             src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/passive/${passive?.image.full}`}
           />
         </Tooltip>
         {spells?.map((s) => (
           <Tooltip key={s.id} title={passive?.description || ''}>
             <img
-              className='shadow h-7 rounded-b rounder-tl'
+              className='shadow h-7 rounded-b rounder-tl mr-2'
               src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/${s?.image?.full}`}
             />
           </Tooltip>
         ))}
       </div>
 
-      <ItemSelect />
+      <p>Stats</p>
+      <div className='flex flex-row'>
+        <div className='flex flex-col' style={{ flex: '0 0 50%' }}>
+          {Object.entries(info || {}).map(([key, value]) => (
+            <div key={key}>
+              <p className='capitalize'>{key}</p>
+              <LinearProgress
+                className='w-full rounded mb-2'
+                variant='determinate'
+                value={value * 10}
+                sx={{ height: '8px' }}
+              />
+            </div>
+          ))}
+        </div>
+        <div className='flex flex-col' style={{ flex: '0 0 50%' }}>
+          <ItemSelect />
+        </div>
+      </div>
     </Card>
   )
 }

@@ -2,18 +2,24 @@ import { Details } from '@components/Details'
 import GridSelect from '@components/GridSelect'
 import { MenuBar } from '@components/MenuBar'
 import { PatchSelect } from '@components/PatchSelect'
-import { fetchPatches, selectChampions } from '@store/slices/championSlice'
+import { fetchPatches, selectChampions, selectSelectedPatch } from '@store/slices/championSlice'
+import { fetchItems } from '@store/slices/itemSlice'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ChampionModelContainer from './ChampionModelContainer'
 
-const App = () => {
+export const App = () => {
   const champions = useSelector(selectChampions)
   const dispatch = useDispatch()
+  const selectedPatch = useSelector(selectSelectedPatch)
 
   useEffect(() => {
     dispatch(fetchPatches())
   }, [])
+
+  useEffect(() => {
+    if (selectedPatch) dispatch(fetchItems())
+  }, [selectedPatch])
 
   return (
     <div>
@@ -34,5 +40,3 @@ const App = () => {
     </div>
   )
 }
-
-export default App

@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import React from 'react'
 
 const Input = ({
-  value,
+  value = null,
   options,
   label,
   classes,
@@ -13,20 +13,27 @@ const Input = ({
   multiple,
   sx = {},
   variant = 'outlined',
+  size = 'small',
+  disableClearable = false,
 }: {
   multiple?: boolean
   options: any[]
   label: string
   classes?: string
-  value: string | null
+  value?: string | null | string[]
   sx?: any
+  size?: 'small' | 'medium'
   variant?: 'outlined' | 'filled' | 'standard'
+  disableClearable?: boolean
   onChange: (e: React.SyntheticEvent<Element, Event>, value: any, reason: string) => void
 }) => {
   return (
     <Stack spacing={2}>
       <Autocomplete
+        size={size}
+        limitTags={1}
         sx={sx}
+        disableClearable={disableClearable}
         multiple={multiple}
         onChange={onChange}
         className={classNames(classes)}

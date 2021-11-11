@@ -1,4 +1,4 @@
-import App from '@components/App'
+import { App } from '@components/App'
 import { store } from '@store/index'
 import { SnackbarProvider } from 'notistack'
 import ReactDOM from 'react-dom'
