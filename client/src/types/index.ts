@@ -76,6 +76,6 @@ export interface ChampionState {
   playerChampion: LeagueChampion
   opponentChampion?: LeagueChampion
   patches: string[]
-  selectedPatch?: string
+  selectedPatch: string | null
   loreLink?: string
 }

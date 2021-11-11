@@ -1,9 +1,11 @@
+import { Card } from '@components/Card'
 import Input from '@components/Input'
+import { Loader } from '@components/Loader'
+import SkinSelect from '@components/SkinSelect'
 import { chooseChampion, selectPlayerChampion } from '@store/slices/championSlice'
 import classNames from 'classnames'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import SkinSelect from './SkinSelect'
 
 const GridSelect = ({ items }: { items: any[] }) => {
   const champion = useSelector(selectPlayerChampion)
@@ -40,35 +42,47 @@ const GridSelect = ({ items }: { items: any[] }) => {
     })) || []
 
   return (
-    <div className='p-14' style={{ transform: 'perspective(500px) rotateY(15deg)' }}>
-      {selected?.name && (
-        <Input
-          onChange={onInput}
-          value={selected.name}
-          classes='mb-4'
-          options={items.map((i) => i.name)}
-          label='Select your champion'
-        />
-      )}
-      <SkinSelect items={skins} />
-      <div className='grid grid-flow-row grid-cols-4 gap-0.5 overflow-y-auto h-96'>
-        {items.map((i, idx) => {
-          const active = i.name === selected?.name
+    <div style={{ transform: 'perspective(500px) rotateY(15deg)' }}>
+      <Card>
+        {selected ? (
+          <Input
+            onChange={onInput}
+            value={selected.name}
+            classes='mb-4'
+            options={items.map((i) => i.name)}
+            label='Select your champion'
+          />
+        ) : (
+          <Loader />
+        )}
+        <div className='grid grid-flow-row grid-cols-4 gap-0.5 overflow-y-auto h-64'>
+          {items ? (
+            items.map((i, idx) => {
+              const active = i.name === selected?.name
 
-          return (
-            <div
-              key={idx}
-              className={classNames('bg-cover bg-center h-20 text-white', !active && 'opacity-70')}
-              style={{
-                backgroundImage: `url(${i.square_asset})`,
-              }}
-              onClick={onClick(i)}
-            >
-              <p>{i.name}</p>
-            </div>
-          )
-        })}
-      </div>
+              return (
+                <div
+                  key={idx}
+                  className={classNames(
+                    'bg-cover bg-center h-20 text-white',
+                    !active && 'opacity-70',
+                  )}
+                  style={{
+                    backgroundImage: `url(${i.square_asset})`,
+                  }}
+                  onClick={onClick(i)}
+                >
+                  <p>{i.name}</p>
+                </div>
+              )
+            })
+          ) : (
+            <Loader />
+          )}
+        </div>
+      </Card>
+
+      <Card style={{ marginTop: '15px' }}>{skins ? <SkinSelect items={skins} /> : <Loader />}</Card>
     </div>
   )
 }

@@ -8,17 +8,19 @@ const Input = ({
   value,
   options,
   label,
-  classes = '',
+  classes,
   onChange,
   multiple,
   sx = {},
+  variant = 'outlined',
 }: {
   multiple?: boolean
   options: any[]
   label: string
   classes?: string
-  value?: string
+  value: string | null
   sx?: any
+  variant?: 'outlined' | 'filled' | 'standard'
   onChange: (e: React.SyntheticEvent<Element, Event>, value: any, reason: string) => void
 }) => {
   return (
@@ -31,14 +33,7 @@ const Input = ({
         options={options}
         value={value}
         renderInput={(params) => (
-          <TextField
-            {...params}
-            label={label}
-            InputProps={{
-              ...params.InputProps,
-              type: 'search',
-            }}
-          />
+          <TextField {...params} label={label} className='font-zen' variant={variant} />
         )}
       />
     </Stack>

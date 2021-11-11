@@ -17,21 +17,21 @@ export const PatchSelect = () => {
     if (selectedPatch) dispatch(fetchChampions())
   }, [selectedPatch])
 
-  const onInput = (e: React.SyntheticEvent<Element, Event>, value: any, reason: string) =>
+  const onInput = (e: React.SyntheticEvent<Element, Event>, value: any, reason: string) => {
     dispatch(setSelectedPatch(value))
+  }
 
   return (
-    <div className='pl-6 mt-6'>
-      {selectedPatch && (
-        <Input
-          sx={{ width: 300 }}
-          onChange={onInput}
-          value={selectedPatch}
-          classes='mb-4'
-          options={patches}
-          label='Select patch'
-        />
-      )}
+    <div className='m-6 flex justify-end'>
+      <Input
+        sx={{ width: 300 }}
+        onChange={onInput}
+        value={selectedPatch}
+        classes='mb-4'
+        options={patches}
+        label='Select patch'
+        variant='standard'
+      />
     </div>
   )
 }

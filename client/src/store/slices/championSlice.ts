@@ -27,6 +27,7 @@ const initialState: ChampionState = {
     enemytips: [],
     info: {},
   },
+  selectedPatch: null,
 }
 
 export const championSlice = createSlice({

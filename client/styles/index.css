@@ -6,6 +6,10 @@
   font-family: 'Roboto';
 }
 
+.font-zen {
+  font-family: 'Zen Kaku Gothic Antique';
+}
+
 pre {
   white-space: -moz-pre-wrap; /* Mozilla, supported since 1999 */
   white-space: -pre-wrap; /* Opera */
