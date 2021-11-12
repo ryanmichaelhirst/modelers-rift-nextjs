@@ -6,13 +6,13 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   // client @ http://localhost:3000/client/src/index.html
   // is this worth?
-  build: {
-    rollupOptions: {
-      input: {
-        main: path.resolve(__dirname, 'client/src/index.html'),
-      },
-    },
-  },
+  // build: {
+  //   rollupOptions: {
+  //     input: {
+  //       main: path.resolve(__dirname, 'client/src/index.html'),
+  //     },
+  //   },
+  // },
   server: {
     fs: {
       allow: ['client', 'node_modules'],
