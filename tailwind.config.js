@@ -23,6 +23,7 @@ module.exports = {
       cursor: ['disabled'],
       backgroundColor: ['disabled'],
       boxShadow: ['disabled'],
+      animation: ['hover'],
     },
   },
   plugins: [],

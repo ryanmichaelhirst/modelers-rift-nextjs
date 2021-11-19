@@ -36,7 +36,7 @@ export const MenuBar = () => {
       <Grid container spacing={0}>
         <Grid item xs={2} className='bg-gray-600'>
           <div className='flex items-center h-full px-3 py-2 border-l border-t border-white'>
-            <p className='text-lg text-white'>Logo</p>
+            <p className='text-lg text-white'>League of Legends</p>
           </div>
         </Grid>
         <Grid item xs={10} className='bg-gray-600 border border-white'>

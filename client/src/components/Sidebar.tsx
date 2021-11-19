@@ -1,12 +1,9 @@
 import { AddReaction, Backpack, MenuBook, Videocam } from '@mui/icons-material'
-import { Grid } from '@mui/material'
+import { Grid, Skeleton } from '@mui/material'
+import { selectPlayerChampion } from '@store/slices/championSlice'
+import { useSelector } from 'react-redux'
 
-const items = [
-  {
-    label: 'Champion',
-    value: 'Aatrox',
-    icon: AddReaction,
-  },
+const staticItems = [
   {
     label: 'Items',
     value: 'Ruby Crystal',
@@ -24,22 +21,38 @@ const items = [
   },
 ]
 
-export const Sidebar = () => (
-  <div className='bg-gray-800 h-full border border-white'>
-    {items.map((i) => {
-      const Icon = i.icon
+export const Sidebar = () => {
+  const playerChampion = useSelector(selectPlayerChampion)
 
-      return (
-        <Grid container xs={12} key={i.label} className='border-b border-gray-600 p-4'>
-          <Grid item xs={4}>
-            <Icon style={{ color: '#ffffff' }} />
+  const items = [
+    {
+      label: 'Champion',
+      value: playerChampion?.id,
+      icon: AddReaction,
+    },
+  ].concat(staticItems)
+
+  return (
+    <div className='bg-gray-800 h-full border border-white text-gray-300'>
+      {items.map((i) => {
+        const Icon = i.icon
+
+        return (
+          <Grid container xs={12} key={i.label} className='border-b border-gray-600 p-4'>
+            <Grid item xs={4}>
+              <Icon style={{ color: '#fff' }} />
+            </Grid>
+            <Grid item xs={8}>
+              <div>{i.label}</div>
+              {i.value ? (
+                <div className='text-lg'>{i.value}</div>
+              ) : (
+                <Skeleton style={{ backgroundColor: '#fff' }} />
+              )}
+            </Grid>
           </Grid>
-          <Grid item xs={8}>
-            <div>{i.label}</div>
-            <div className='text-lg'>{i.value}</div>
-          </Grid>
-        </Grid>
-      )
-    })}
-  </div>
-)
+        )
+      })}
+    </div>
+  )
+}

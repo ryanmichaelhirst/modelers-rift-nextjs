@@ -1,19 +1,32 @@
 import Input from '@components/Input'
 import { Layout } from '@components/Layout'
 import { LinearProgress } from '@mui/material'
-import { selectChampions } from '@store/slices/championSlice'
-import { useSelector } from 'react-redux'
+import {
+  selectChampions,
+  selectPlayerChampion,
+  setPlayerChampion,
+} from '@store/slices/championSlice'
+import classNames from 'classnames'
+import { useDispatch, useSelector } from 'react-redux'
 
 export const Interactive = () => {
   const champions = useSelector(selectChampions)
+  const playerChampion = useSelector(selectPlayerChampion)
+  const dispatch = useDispatch()
 
   const onInput = () => {}
 
   const items = Object.values(champions).map((val) => ({ ...val }))
 
+  const onClick = (value: any) => () => {
+    const champion = champions[value.id]
+    console.log(value)
+    dispatch(setPlayerChampion(champion))
+  }
+
   return (
     <Layout>
-      <div className='bg-black p-4 h-full'>
+      <div className='bg-gray-900 p-4 h-full'>
         <div className='w-1/4'>
           <Input
             onChange={onInput}
@@ -26,12 +39,19 @@ export const Interactive = () => {
 
         <div className='flex flex-wrap'>
           {items.map((c) => (
-            <div className='rounded shadow border border-white w-80 mr-4 mb-4'>
+            <div
+              key={c.id}
+              onClick={onClick(c)}
+              className={classNames(
+                'rounded shadow w-80 mr-4 mb-4 hover:animate-bounce',
+                c.id !== playerChampion.id && 'border border-white',
+                c.id === playerChampion.id && 'border-blue-500 border-4',
+              )}
+            >
               <div
-                className='h-16 relative'
+                className='h-20 relative rounded-t bg-center bg-cover'
                 style={{
-                  background: `url(http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${c.name}_0.jpg)`,
-                  backgroundSize: 'cover !important',
+                  backgroundImage: `url(http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${c.name}_0.jpg)`,
                 }}
               >
                 <img
