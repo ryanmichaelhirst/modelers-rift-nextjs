@@ -1,3 +1,4 @@
+import { execSync } from 'child_process'
 import dotenv from 'dotenv'
 import fs from 'fs'
 import PQueue from 'p-queue'
@@ -30,7 +31,26 @@ export const generateVoiceLines = async ({
       for (const sdir of skinDirs) {
         const filesPath = path.join(skinDirPath, sdir)
         const files = fs.readdirSync(filesPath)
-        console.log(files)
+
+        const execPath = path.join(process.env.APP_HOME, 'bin/executables/bnk-extract.exe')
+
+        const binFile = sdir === 'base' ? 'skin0' : sdir
+        const binPath = path.resolve(inputDir, 'data/characters/', cdir, `skins/${binFile}.bin`)
+        const audioPath = path.join(filesPath, `${cdir}_base_vo_audio.wpk`)
+        const eventPath = path.join(filesPath, `${cdir}_base_vo_events.bnk`)
+        const outputPath = path.join(outputDir, cdir)
+
+        // console.log({ binPath, audioPath, eventPath })
+
+        if (!cdir.includes('aatrox')) continue
+
+        try {
+          execSync(
+            `${execPath} --audio ${audioPath} --bin ${binPath} --events ${eventPath} -o ${outputPath} --oggs-only`,
+          )
+        } catch (err) {
+          throw new Error('Could not run bnk-extract')
+        }
       }
     }
   } catch (err) {
