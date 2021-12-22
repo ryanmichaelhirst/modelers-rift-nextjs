@@ -33,7 +33,7 @@ export const Sidebar = () => {
   ].concat(staticItems)
 
   return (
-    <div className='bg-gray-800 h-full border border-white text-gray-300'>
+    <div className='bg-space-800 h-full border border-white text-gray-300'>
       {items.map((i) => {
         const Icon = i.icon
 

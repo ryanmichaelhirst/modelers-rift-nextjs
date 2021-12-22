@@ -3,6 +3,16 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      colors: {
+        space: {
+          100: '#fff',
+          200: '#838383',
+          600: '#272424',
+          700: '#3d3d3d',
+          800: '#232323',
+          900: '#000',
+        },
+      },
       height: {
         screen: '100vh',
       },
@@ -24,6 +34,7 @@ module.exports = {
       backgroundColor: ['disabled'],
       boxShadow: ['disabled'],
       animation: ['hover'],
+      borderWidth: ['hover'],
     },
   },
   plugins: [],

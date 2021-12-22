@@ -34,12 +34,12 @@ export const MenuBar = () => {
   return (
     <>
       <Grid container spacing={0}>
-        <Grid item xs={2} className='bg-gray-600'>
+        <Grid item xs={2} className='bg-space-700'>
           <div className='flex items-center h-full px-3 py-2 border-l border-t border-white'>
             <p className='text-lg text-white'>League of Legends</p>
           </div>
         </Grid>
-        <Grid item xs={10} className='bg-gray-600 border border-white'>
+        <Grid item xs={10} className='bg-space-800 border border-white'>
           <div className='flex justify-between items-center px-3 py-2'>
             <div className='flex text-white'>
               {['Dashboard', 'Animations', 'Item Builder'].map((item) => (

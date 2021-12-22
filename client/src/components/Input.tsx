@@ -42,6 +42,9 @@ const Input = ({
         renderInput={(params) => (
           <TextField {...params} label={label} className='font-zen' variant={variant} />
         )}
+        classes={{
+          input: 'text-white',
+        }}
       />
     </Stack>
   )

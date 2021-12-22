@@ -26,12 +26,12 @@ export const Interactive = () => {
 
   return (
     <Layout>
-      <div className='bg-gray-900 p-4 h-full'>
+      <div className='bg-space-900 p-4 h-full'>
         <div className='w-1/4'>
           <Input
             onChange={onInput}
             value={null}
-            classes='mb-4 bg-gray-600'
+            classes='mb-4 bg-space-700'
             options={items.map((i) => i.name)}
             label='Select a champion'
           />
@@ -43,9 +43,8 @@ export const Interactive = () => {
               key={c.id}
               onClick={onClick(c)}
               className={classNames(
-                'rounded shadow w-80 mr-4 mb-4 hover:animate-bounce',
-                c.id !== playerChampion.id && 'border border-white',
-                c.id === playerChampion.id && 'border-blue-500 border-4',
+                'bg-space-600 rounded shadow w-80 mr-4 mb-4 border-2 border-transparent hover:border-blue-400',
+                c.id === playerChampion.id && 'border-blue-500',
               )}
             >
               <div

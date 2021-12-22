@@ -1,4 +1,5 @@
 import { App } from '@components/App'
+import { Theme } from '@components/Theme'
 import { store } from '@store/index'
 import { SnackbarProvider } from 'notistack'
 import ReactDOM from 'react-dom'
@@ -11,7 +12,9 @@ ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <SnackbarProvider maxSnack={3}>
-        <App />
+        <Theme>
+          <App />
+        </Theme>
       </SnackbarProvider>
     </BrowserRouter>
   </Provider>,
