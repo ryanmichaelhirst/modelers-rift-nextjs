@@ -2,6 +2,13 @@
 
 Web app to explore champion stats, item builds, and lane match-ups.
 
+### How to generate assets
+
+If you would like to use `npm run bin -- -c={some-command}` you will need to create an /input and /output folder.
+
+You will need to extract all champion wad files using LeagueBulkConvert for 3D models (gltf / glb files).
+You will need to extract all champion wad files using Obsidian for voice lines and sound effects (ogg / wav files).
+
 ### Bulk Generate GLTF Models
 
 https://github.com/Jochem-W/LeagueBulkConvert
