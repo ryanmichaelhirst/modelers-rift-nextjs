@@ -17,8 +17,8 @@ export const generateVoiceLines = async ({
   output?: string
   region?: string
 }) => {
-  const inputDir = input || path.resolve(process.env.APP_HOME, 'input')
-  const outputDir = output || path.resolve(process.env.APP_HOME, 'output')
+  const inputDir = input || path.join(process.env.APP_HOME, 'input')
+  const outputDir = output || path.join(process.env.APP_HOME, 'output')
 
   try {
     const champDirPath = path.join(inputDir, `assets/sounds/wwise2016/vo/${region}/characters`)
@@ -34,11 +34,18 @@ export const generateVoiceLines = async ({
 
         const execPath = path.join(process.env.APP_HOME, 'bin/executables/bnk-extract.exe')
 
-        const binFile = sdir === 'base' ? 'skin0' : sdir
-        const binPath = path.resolve(inputDir, 'data/characters/', cdir, `skins/${binFile}.bin`)
-        const audioPath = path.join(filesPath, `${cdir}_base_vo_audio.wpk`)
-        const eventPath = path.join(filesPath, `${cdir}_base_vo_events.bnk`)
-        const outputPath = path.join(outputDir, cdir)
+        let binFile = sdir === 'base' ? 'skin0' : 'skin'
+
+        // converts input/assets/characters/aatrox/skins/skin01 into skin1.bin
+        if (sdir !== 'base') {
+          const parts = sdir.split('skin')
+          binFile += parts[1].replace(/^0+/, '')
+        }
+
+        const binPath = path.join(inputDir, 'data/characters/', cdir, `skins/${binFile}.bin`)
+        const audioPath = path.join(filesPath, `${cdir}_${sdir}_vo_audio.wpk`)
+        const eventPath = path.join(filesPath, `${cdir}_${sdir}_vo_events.bnk`)
+        const outputPath = path.join(outputDir, cdir, binFile)
 
         // console.log({ binPath, audioPath, eventPath })
 
