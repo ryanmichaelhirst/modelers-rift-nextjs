@@ -6,7 +6,7 @@ import path from 'path'
 
 dotenv.config()
 
-const queue = new PQueue({ concurrency: 300 })
+const queue = new PQueue({ concurrency: 50 })
 
 export const generateVoiceLines = async ({
   input,
@@ -48,43 +48,43 @@ export const generateVoiceLines = async ({
     const champDirs = fs.readdirSync(champDirPath)
 
     for (const cdir of champDirs) {
-      // find all skin folders for each champion
-      const skinDirPath = path.join(champDirPath, cdir, 'skins')
-      const skinDirs = fs.readdirSync(skinDirPath)
+      queue.add(() => {
+        // find all skin folders for each champion
+        const skinDirPath = path.join(champDirPath, cdir, 'skins')
+        const skinDirs = fs.readdirSync(skinDirPath)
 
-      for (const sdir of skinDirs) {
-        // get all sound files for each skin folder
-        const filesPath = path.join(skinDirPath, sdir)
-        const files = fs.readdirSync(filesPath)
+        for (const sdir of skinDirs) {
+          // get all sound files for each skin folder
+          const filesPath = path.join(skinDirPath, sdir)
+          const files = fs.readdirSync(filesPath)
 
-        const execPath = path.join(process.env.APP_HOME, 'bin/executables/bnk-extract.exe')
+          const execPath = path.join(process.env.APP_HOME, 'bin/executables/bnk-extract.exe')
 
-        let binFile = sdir === 'base' ? 'skin0' : 'skin'
+          let binFile = sdir === 'base' ? 'skin0' : 'skin'
 
-        // converts input/assets/characters/aatrox/skins/skin01 into skin1.bin
-        if (sdir !== 'base') {
-          const parts = sdir.split('skin')
-          binFile += parts[1].replace(/^0+/, '')
-        }
+          // converts input/assets/characters/aatrox/skins/skin01 into skin1.bin
+          if (sdir !== 'base') {
+            const parts = sdir.split('skin')
+            binFile += parts[1].replace(/^0+/, '')
+          }
 
-        const binPath = path.join(inputDir, 'data/characters/', cdir, `skins/${binFile}.bin`)
-        const audioPath = path.join(filesPath, `${cdir}_${sdir}_vo_audio.wpk`)
-        const eventPath = path.join(filesPath, `${cdir}_${sdir}_vo_events.bnk`)
-        const outputPath = path.join(outputDir, cdir, binFile)
+          const binPath = path.join(inputDir, 'data/characters/', cdir, `skins/${binFile}.bin`)
+          const audioPath = path.join(filesPath, `${cdir}_${sdir}_vo_audio.wpk`)
+          const eventPath = path.join(filesPath, `${cdir}_${sdir}_vo_events.bnk`)
+          const outputPath = path.join(outputDir, cdir, binFile)
 
-        // extract .ogg files from bnk sound files
-        try {
-          queue.add(() => {
+          // extract .ogg files from bnk sound files
+          try {
             exec(
               `${execPath} --audio ${audioPath} --bin ${binPath} --events ${eventPath} -o ${outputPath} --oggs-only`,
             )
-          })
-        } catch (err) {
-          console.error(`Could not run bnk-extract for ${outputPath}`)
+          } catch (err) {
+            console.error(`Could not run bnk-extract for ${outputPath}`)
+          }
         }
-      }
 
-      console.log(`Extracted voice lines for ${cdir}`)
+        console.log(`Extracted voice lines for ${cdir}`)
+      })
     }
 
     // wait until queue empties before completing script
