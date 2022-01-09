@@ -27,51 +27,55 @@ const extractBnkContent = async ({
     soundType === 'sfx'
       ? path.join(inputDir, `assets/sounds/wwise2016/${soundType}/characters`)
       : path.join(inputDir, `assets/sounds/wwise2016/${soundType}/${region}/characters`)
-  const champDirs = fs.readdirSync(champDirPath)
 
-  for (const cdir of champDirs) {
-    if (cdir !== 'aatrox' && cdir !== 'ahri') continue
+  return new Promise((resolve, reject) => {
+    fs.readdir(champDirPath, (err, champDirs) => {
+      for (let ii = 0; ii < champDirs.length; ii++) {
+        const cdir = champDirs[ii]
 
-    queue.add(() => {
-      // find all skin folders for each champion
-      const skinDirPath = path.join(champDirPath, cdir, 'skins')
-      const skinDirs = fs.readdirSync(skinDirPath)
+        // find all skin folders for each champion
+        const skinDirPath = path.join(champDirPath, cdir, 'skins')
+        fs.readdir(skinDirPath, (err, skinDirs) => {
+          for (let jj = 0; jj < skinDirs.length; jj++) {
+            const sdir = skinDirs[jj]
+            // get all sound files for each skin folder
+            const filesPath = path.join(skinDirPath, sdir)
+            let binFile = sdir === 'base' ? 'skin0' : 'skin'
 
-      for (const sdir of skinDirs) {
-        // get all sound files for each skin folder
-        const filesPath = path.join(skinDirPath, sdir)
+            // converts input/assets/characters/aatrox/skins/skin01 into skin1.bin
+            if (sdir !== 'base') {
+              const parts = sdir.split('skin')
+              binFile += parts[1].replace(/^0+/, '')
+            }
 
-        let binFile = sdir === 'base' ? 'skin0' : 'skin'
+            const binPath = path.join(inputDir, 'data/characters/', cdir, `skins/${binFile}.bin`)
+            const audioPath =
+              soundType === 'sfx'
+                ? path.join(filesPath, `${cdir}_${sdir}_${soundType}_audio.bnk`)
+                : path.join(filesPath, `${cdir}_${sdir}_${soundType}_audio.wpk`)
+            const eventPath = path.join(filesPath, `${cdir}_${sdir}_${soundType}_events.bnk`)
+            const outputPath = path.join(outputDir, cdir, soundType, binFile)
+            const bnkExe = path.join(process.env.APP_HOME, 'bin/executables/bnk-extract.exe')
+            const extractCmd = `${bnkExe} --audio ${audioPath} --bin ${binPath} --events ${eventPath} -o ${outputPath} --oggs-only`
 
-        // converts input/assets/characters/aatrox/skins/skin01 into skin1.bin
-        if (sdir !== 'base') {
-          const parts = sdir.split('skin')
-          binFile += parts[1].replace(/^0+/, '')
-        }
+            // extract .ogg files from bnk sound files
+            exec(extractCmd, (extractErr) => {
+              if (extractErr) {
+                console.error(`Could not run bnk-extract for ${outputPath}`)
+              }
 
-        const binPath = path.join(inputDir, 'data/characters/', cdir, `skins/${binFile}.bin`)
-        const audioPath =
-          soundType === 'sfx'
-            ? path.join(filesPath, `${cdir}_${sdir}_${soundType}_audio.bnk`)
-            : path.join(filesPath, `${cdir}_${sdir}_${soundType}_audio.wpk`)
-        const eventPath = path.join(filesPath, `${cdir}_${sdir}_${soundType}_events.bnk`)
-        const outputPath = path.join(outputDir, cdir, soundType, binFile)
-        const bnkExe = path.join(process.env.APP_HOME, 'bin/executables/bnk-extract.exe')
-        const extractCmd = `${bnkExe} --audio ${audioPath} --bin ${binPath} --events ${eventPath} -o ${outputPath} --oggs-only`
+              console.log(`Extracted ${soundType} for ${cdir}@${sdir}`)
 
-        // extract .ogg files from bnk sound files
-        try {
-          exec(extractCmd)
-        } catch (err) {
-          console.error(`Could not run bnk-extract for ${outputPath}`)
-        }
+              // complete after last file is extracted
+              if (ii === champDirs.length - 1 && jj === skinDirs.length - 1) {
+                resolve('completed')
+              }
+            })
+          }
+        })
       }
-
-      console.log(`Extracted ${soundType} for ${cdir}`)
     })
-  }
-
-  await queue.onIdle()
+  })
 }
 
 const createOrWipeDir = (dirPath: string) => {
@@ -107,12 +111,8 @@ const extractSounds = async ({
   createOrWipeDir(outputDir)
 
   for (const soundType of soundTypes) {
-    try {
-      extractBnkContent({ inputDir, outputDir, region, soundType })
-      console.log(`Finished extracting ${soundType} files`)
-    } catch (err) {
-      throw new Error(`Could not extract ${soundType} files`)
-    }
+    await extractBnkContent({ inputDir, outputDir, region, soundType })
+    console.log(`queued extraction for ${soundType} files`)
   }
 
   console.timeEnd('extract-sounds')
@@ -130,6 +130,10 @@ export const generateSounds = async ({
 }) => {
   // extract voice lines from extracted Obsidian assets
   await extractSounds({ input, output, region })
+
+  console.log('done with extraction')
+
+  return
 
   console.time('generate-sounds')
 
