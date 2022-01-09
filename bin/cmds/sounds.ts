@@ -90,7 +90,7 @@ const createOrWipeDir = (dirPath: string) => {
   }
 }
 
-export const extractVoiceLines = async ({
+const extractSounds = async ({
   input,
   output,
   region = 'en_us',
@@ -99,7 +99,7 @@ export const extractVoiceLines = async ({
   output?: string
   region?: string
 }) => {
-  console.time('extract-voice-lines')
+  console.time('extract-sounds')
 
   const inputDir = input || path.join(process.env.APP_HOME, 'input')
   const outputDir = output || path.join(process.env.APP_HOME, 'output/extracted')
@@ -115,9 +115,10 @@ export const extractVoiceLines = async ({
     }
   }
 
-  console.timeEnd('extract-voice-lines')
+  console.timeEnd('extract-sounds')
 }
 
+// TODO: switch this to use async read / write callbacks
 export const generateVoiceLines = async ({
   input,
   output,
@@ -128,7 +129,7 @@ export const generateVoiceLines = async ({
   region?: string
 }) => {
   // extract voice lines from extracted Obsidian assets
-  await extractVoiceLines({ input, output, region })
+  await extractSounds({ input, output, region })
 
   console.time('generate-voice-lines')
 
