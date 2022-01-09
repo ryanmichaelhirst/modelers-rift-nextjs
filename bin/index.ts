@@ -1,7 +1,6 @@
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
-import { createDb, generateGlb, generateJsx, seedAws, seedDb } from './cmds'
-import { generateVoiceLines } from './cmds/sounds'
+import { createDb, generateGlb, generateJsx, generateSounds, seedAws, seedDb } from './cmds'
 
 const run = async () => {
   // Parse flags
@@ -47,8 +46,8 @@ const run = async () => {
     case 'generate-jsx':
       generateJsx()
       break
-    case 'generate-voice-lines':
-      generateVoiceLines({ input, output, region })
+    case 'generate-sounds':
+      generateSounds({ input, output, region })
       break
     case 'copy-assets':
       throw new Error('copy-assets cmd is not deprecated. GLB files will be hosted on aws s3.')

@@ -119,7 +119,7 @@ const extractSounds = async ({
 }
 
 // TODO: switch this to use async read / write callbacks
-export const generateVoiceLines = async ({
+export const generateSounds = async ({
   input,
   output,
   region,
@@ -131,7 +131,7 @@ export const generateVoiceLines = async ({
   // extract voice lines from extracted Obsidian assets
   await extractSounds({ input, output, region })
 
-  console.time('generate-voice-lines')
+  console.time('generate-sounds')
 
   // get all champion directories
   const inputDir = output || path.join(process.env.APP_HOME, 'output/extracted')
@@ -201,7 +201,7 @@ export const generateVoiceLines = async ({
   }
 
   await queue.onIdle()
-  console.timeEnd('generate-voice-lines')
+  console.timeEnd('generate-sounds')
 }
 
 const formatVoiceLineFileName = ({ cdir, soundDir }: { cdir: string; soundDir: string }) => {
