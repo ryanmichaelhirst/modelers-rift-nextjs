@@ -28,13 +28,16 @@ const extractBnkContent = async ({
       ? path.join(inputDir, `assets/sounds/wwise2016/${soundType}/characters`)
       : path.join(inputDir, `assets/sounds/wwise2016/${soundType}/${region}/characters`)
 
-  return new Promise((resolve, reject) => {
-    fs.readdir(champDirPath, (err, champDirs) => {
-      for (let ii = 0; ii < champDirs.length; ii++) {
-        const cdir = champDirs[ii]
+  const champDirs = fs.readdirSync(champDirPath)
 
-        // find all skin folders for each champion
-        const skinDirPath = path.join(champDirPath, cdir, 'skins')
+  for (let ii = 0; ii < champDirs.length; ii++) {
+    queue.add(async () => {
+      const cdir = champDirs[ii]
+
+      // find all skin folders for each champion
+      const skinDirPath = path.join(champDirPath, cdir, 'skins')
+
+      await new Promise((resolve) => {
         fs.readdir(skinDirPath, (err, skinDirs) => {
           for (let jj = 0; jj < skinDirs.length; jj++) {
             const sdir = skinDirs[jj]
@@ -60,22 +63,20 @@ const extractBnkContent = async ({
 
             // extract .ogg files from bnk sound files
             exec(extractCmd, (extractErr) => {
-              if (extractErr) {
-                console.error(`Could not run bnk-extract for ${outputPath}`)
-              }
-
-              console.log(`Extracted ${soundType} for ${cdir}@${sdir}`)
+              if (extractErr) console.error(`Could not run bnk-extract for ${outputPath}`)
+              else console.log(`Extracted ${soundType} for ${cdir}@${sdir}`)
 
               // complete after last file is extracted
-              if (ii === champDirs.length - 1 && jj === skinDirs.length - 1) {
+              if (jj === skinDirs.length - 1) {
+                console.log(`Completed ${soundType} for ${cdir}`)
                 resolve('completed')
               }
             })
           }
         })
-      }
+      })
     })
-  })
+  }
 }
 
 const createOrWipeDir = (dirPath: string) => {
@@ -111,9 +112,11 @@ const extractSounds = async ({
   createOrWipeDir(outputDir)
 
   for (const soundType of soundTypes) {
-    await extractBnkContent({ inputDir, outputDir, region, soundType })
-    console.log(`queued extraction for ${soundType} files`)
+    console.log(`queued ${soundType} extraction`)
+    queue.add(async () => await extractBnkContent({ inputDir, outputDir, region, soundType }))
   }
+
+  await queue.onIdle()
 
   console.timeEnd('extract-sounds')
 }
@@ -131,10 +134,6 @@ export const generateSounds = async ({
   // extract voice lines from extracted Obsidian assets
   await extractSounds({ input, output, region })
 
-  console.log('done with extraction')
-
-  return
-
   console.time('generate-sounds')
 
   // get all champion directories
@@ -144,67 +143,86 @@ export const generateSounds = async ({
 
   createOrWipeDir(outputDir)
 
-  // iterate over each champion directory
+  // iterate over each champ directory
   for (const cdir of champDirs) {
     // iterate over sfx and vo directories
-    for (const soundType of soundTypes) {
+    for (let hh = 0; hh < soundTypes.length; hh++) {
+      const soundType = soundTypes[hh]
       const skinDirPath = path.join(inputDir, cdir, soundType)
-      const skinDirs = fs.readdirSync(skinDirPath)
 
-      // iterate over each skin directory
-      for (const sdir of skinDirs) {
-        queue.add(() => {
+      fs.readdir(skinDirPath, (err, skinDirs) => {
+        // iterate over each skin directory
+        for (let ii = 0; ii < skinDirs.length; ii++) {
+          const sdir = skinDirs[ii]
           const soundDirPath = path.join(skinDirPath, sdir)
-          const soundDirs = fs.readdirSync(soundDirPath)
-          let errorCount = 0
 
-          // iterate over each sound directory i.e. 'Play_vo_Aatrox_AatroxE_onCast'
-          for (const soundDir of soundDirs) {
-            const filesPath = path.join(soundDirPath, soundDir)
-            const makeDirCmd = `mkdir -p ${outputDir}/${cdir}/${soundType}/${sdir}`
+          fs.readdir(soundDirPath, (err, soundDirs) => {
+            let errorCount = 0
 
-            // contents can either be files or directories
-            try {
-              const files = fs.readdirSync(filesPath)
-              // rename each voice line file
-              for (let ii = 0; ii < files.length; ii++) {
-                const fileName = files[ii]
-                const formattedName = formatVoiceLineFileName({ cdir, soundDir })
-                const newFileName = ii === 0 ? formattedName : `${formattedName}_${ii}`
-                const newFilePath = `${outputDir}/${cdir}/${soundType}/${sdir}/${newFileName}.ogg`
-                const copyCmd = `cp ${filesPath}/${fileName} ${newFilePath}`
+            // iterate over each sound directory i.e. 'Play_vo_Aatrox_AatroxE_onCast'
+            for (let jj = 0; jj < soundDirs.length; jj++) {
+              const soundDir = soundDirs[jj]
+              const filesPath = path.join(soundDirPath, soundDir)
+              const makeDirCmd = `mkdir -p ${outputDir}/${cdir}/${soundType}/${sdir}`
 
-                console.log(copyCmd)
-                execSync(makeDirCmd)
-                execSync(copyCmd)
-              }
-            } catch (err) {
-              // TODO: this does not extract all the sound files
-              // i.e. "output\extracted\aatrox\skin0\Play_vo_Aatrox_MoveOrder2DLong\416336519"
-              console.error(`Could not read ${filesPath}, determing if it is a file`)
-              const fileStat = fs.lstatSync(filesPath)
-              const isFile = fileStat.isFile()
+              // contents can either be files or directories
+              fs.readdir(filesPath, (err, files) => {
+                try {
+                  // rename each voice line file
+                  for (let kk = 0; kk < files.length; kk++) {
+                    queue.add(async () => {
+                      await new Promise((resolve) => {
+                        const fileName = files[kk]
+                        const formattedName = formatVoiceLineFileName({ cdir, soundDir })
+                        const newFileName = kk === 0 ? formattedName : `${formattedName}_${kk}`
+                        const newFilePath = `${outputDir}/${cdir}/${soundType}/${sdir}/${newFileName}.ogg`
+                        const copyCmd = `cp ${filesPath}/${fileName} ${newFilePath}`
 
-              if (isFile) {
-                const newFileName = `unknown_${errorCount}`
-                const newFilePath = `${outputDir}/${cdir}/${soundType}/${sdir}/${newFileName}.ogg`
-                const unknownCopyCmd = `cp ${filesPath} ${newFilePath}`
+                        exec(`${makeDirCmd}; ${copyCmd}`, (cmdErr) => {
+                          if (cmdErr) console.log('Failed to copy file')
+                          else console.log(`Created ${newFilePath} for ${cdir}`)
 
-                console.log(unknownCopyCmd)
-                execSync(makeDirCmd)
-                execSync(unknownCopyCmd)
-                errorCount++
-              }
+                          resolve('Completed')
+                        })
+                      })
+                    })
+                  }
+                } catch (err) {
+                  queue.add(async () => {
+                    await new Promise((resolve) => {
+                      // TODO: this does not extract all the sound files
+                      // i.e. "output\extracted\aatrox\skin0\Play_vo_Aatrox_MoveOrder2DLong\416336519"
+                      console.error(`Could not read ${filesPath}, determing if it is a file`)
+
+                      fs.lstat(filesPath, (statErr, stats) => {
+                        if (stats.isFile()) {
+                          const newFileName = `unknown_${errorCount++}`
+                          const newFilePath = `${outputDir}/${cdir}/${soundType}/${sdir}/${newFileName}.ogg`
+                          const unknownCopyCmd = `cp ${filesPath} ${newFilePath}`
+
+                          exec(`${makeDirCmd}; ${unknownCopyCmd}`, (cmdErr) => {
+                            if (cmdErr) console.log('Failed to copy unknown file')
+                            else console.log(`Created ${newFilePath} for ${cdir}`)
+
+                            resolve('Completed')
+                          })
+                        }
+                      })
+                    })
+                  })
+                }
+              })
             }
-          }
-        })
-      }
-
-      if (queue.size >= 100) await new Promise((resolve) => resolve(100))
+          })
+        }
+      })
     }
   }
 
   await queue.onIdle()
+
+  console.log('DONE WITH GENERATION')
+
   console.timeEnd('generate-sounds')
 }
 
