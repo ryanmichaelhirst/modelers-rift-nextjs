@@ -1,5 +1,5 @@
 import { createDb, seedAws, seedDb } from './db'
-import { copyAssets, generateGlb, generateJsx } from './models'
+import { generateGlb, generateJsx } from './models'
 import { generateSounds } from './sounds'
 
-export { createDb, seedDb, generateGlb, generateJsx, copyAssets, seedAws, generateSounds }
+export { createDb, seedDb, generateGlb, generateJsx, seedAws, generateSounds }

@@ -1,4 +1,4 @@
-import { exec, execSync } from 'child_process'
+import { exec } from 'child_process'
 import fs from 'fs'
 import PQueue from 'p-queue'
 import path from 'path'
@@ -95,34 +95,4 @@ export const generateJsx = async () => {
   }
 
   console.timeEnd('generate-jsx')
-}
-
-/**
- * @deprecated no longer in use, assets are now uploaded to s3. use --c -seed-aws instead
- */
-export const copyAssets = async () => {
-  const assetDir = path.join(__dirname, '../../../league_react_models')
-
-  try {
-    const champDirs = fs.readdirSync(assetDir)
-    let counter = 0
-
-    for (const champDir of champDirs) {
-      if (counter >= 5) break
-      const files = fs.readdirSync(`${assetDir}/${champDir}`)
-
-      for (const file of files) {
-        if (file.includes('.glb')) {
-          if (!fs.existsSync(`client/src/assets/${champDir}`)) {
-            fs.mkdirSync(`client/src/assets/${champDir}`)
-          }
-
-          execSync(`cp ${assetDir}/${champDir}/${file} client/src/assets/${champDir}/${file}`)
-        }
-      }
-      counter++
-    }
-  } catch (err) {
-    throw new Error(`Could not read directory @ ${assetDir}`)
-  }
 }
