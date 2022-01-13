@@ -6,55 +6,46 @@ import path from 'path'
 const queue = new PQueue({ concurrency: 30 })
 
 export const generateGlb = async () => {
-  const gltfDir = path.join(__dirname, '../../../../league_raw_models')
-  const outDir = path.join(__dirname, '../../../../league_react_models')
+  const inputDir = path.join(process.env.APP_HOME, 'input/gltf_models')
+  const outputDir = path.join(process.env.APP_HOME, 'output/glb_models')
+
   console.time('generate-glb')
 
   try {
-    const champDirs = fs.readdirSync(gltfDir)
+    const champDirs = fs.readdirSync(inputDir)
 
     for (const cdir of champDirs) {
-      const skinDirs = fs.readdirSync(`${gltfDir}/${cdir}`)
+      fs.readdir(`${inputDir}/${cdir}`, async (err, skinDirs) => {
+        for (const sdir of skinDirs) {
+          fs.readdir(`${inputDir}/${cdir}/${sdir}`, async (err, files) => {
+            queue.add(async () => {
+              await new Promise<void>((resolve) => {
+                for (let ii = 0; ii < files.length; ii++) {
+                  const file = files[ii]
+                  const filename = path.parse(file).name
+                  const glbCmd = `npx gltf-pipeline -i ${inputDir}/${cdir}/${sdir}/${file} -o ${outputDir}/${cdir}/${filename}.glb`
+                  const compressCmd = `npx gltfpack -i ${outputDir}/${cdir}/${filename}.glb -o ${outputDir}/${cdir}/${filename}.glb`
 
-      for (const sdir of skinDirs) {
-        const files = fs.readdirSync(`${gltfDir}/${cdir}/${sdir}`)
+                  if (!file.includes('.gltf')) continue
 
-        for (const f of files) {
-          const filename = path.parse(f).name
+                  exec(`${glbCmd}; ${compressCmd}`, (err) => {
+                    if (err) console.error(err.message)
+                    else console.log(`Completed ${compressCmd}`)
 
-          if (!f.includes('.gltf')) continue
-
-          queue.add(() => {
-            exec(
-              `npx gltf-pipeline -i ${gltfDir}/${cdir}/${sdir}/${f} -o ${outDir}/${cdir}/${filename}.glb`,
-              (err, stdout, stderr) => {
-                console.log(
-                  `gltf-pipeline -i ${gltfDir}/${cdir}/${sdir}/${f} -o ${outDir}/${cdir}/${filename}.glb`,
-                )
-                console.log(stdout)
-
-                exec(
-                  `npx gltfpack -i ${outDir}/${cdir}/${filename}.glb -o ${outDir}/${cdir}/${filename}.glb`,
-                  (err, stdout, stderr) => {
-                    console.log(`compressed glb for ${outDir}/${cdir}/${filename}.glb`)
-                    console.log(stdout)
-                  },
-                )
-              },
-            )
+                    resolve()
+                  })
+                }
+              })
+            })
           })
         }
-
-        // pause when queue gets large
-        if (queue.size >= 100) await new Promise((resolve) => setTimeout(resolve, 100))
-      }
+      })
     }
-
-    // wait until queue empties before next champ dir
-    await queue.onIdle()
   } catch (err) {
-    throw new Error(`Could not read directory @ ${gltfDir}`)
+    throw new Error(`Could not read directory @ ${outputDir}`)
   }
+
+  await queue.onIdle()
 
   console.timeEnd('generate-glb')
 }
