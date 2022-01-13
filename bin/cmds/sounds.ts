@@ -150,71 +150,70 @@ export const generateSounds = async ({
       const soundType = soundTypes[hh]
       const skinDirPath = path.join(inputDir, cdir, soundType)
 
-      fs.readdir(skinDirPath, (err, skinDirs) => {
-        // iterate over each skin directory
-        for (let ii = 0; ii < skinDirs.length; ii++) {
-          const sdir = skinDirs[ii]
-          const soundDirPath = path.join(skinDirPath, sdir)
+      queue.add(async () => {
+        await new Promise((resolve) => {
+          fs.readdir(skinDirPath, async (err, skinDirs) => {
+            // iterate over each skin directory
+            for (let ii = 0; ii < skinDirs.length; ii++) {
+              const sdir = skinDirs[ii]
+              const soundDirPath = path.join(skinDirPath, sdir)
 
-          fs.readdir(soundDirPath, (err, soundDirs) => {
-            let errorCount = 0
+              await createDirectory(`${outputDir}/${cdir}/${soundType}/${sdir}`)
 
-            // iterate over each sound directory i.e. 'Play_vo_Aatrox_AatroxE_onCast'
-            for (let jj = 0; jj < soundDirs.length; jj++) {
-              const soundDir = soundDirs[jj]
-              const filesPath = path.join(soundDirPath, soundDir)
-              const makeDirCmd = `mkdir -p ${outputDir}/${cdir}/${soundType}/${sdir}`
+              fs.readdir(soundDirPath, (err, soundDirs) => {
+                let errorCount = 0
 
-              // contents can either be files or directories
-              fs.readdir(filesPath, (err, files) => {
-                try {
-                  // rename each voice line file
-                  for (let kk = 0; kk < files.length; kk++) {
-                    queue.add(async () => {
-                      await new Promise((resolve) => {
+                // iterate over each sound directory i.e. 'Play_vo_Aatrox_AatroxE_onCast'
+                for (let jj = 0; jj < soundDirs.length; jj++) {
+                  const soundDir = soundDirs[jj]
+                  const filesPath = path.join(soundDirPath, soundDir)
+
+                  // contents can either be files or directories
+                  fs.readdir(filesPath, async (err, files) => {
+                    try {
+                      // rename each voice line file
+                      for (let kk = 0; kk < files.length; kk++) {
                         const fileName = files[kk]
                         const formattedName = formatVoiceLineFileName({ cdir, soundDir })
                         const newFileName = kk === 0 ? formattedName : `${formattedName}_${kk}`
                         const newFilePath = `${outputDir}/${cdir}/${soundType}/${sdir}/${newFileName}.ogg`
-                        const copyCmd = `cp ${filesPath}/${fileName} ${newFilePath}`
 
-                        exec(`${makeDirCmd}; ${copyCmd}`, (cmdErr) => {
-                          if (cmdErr) console.log('Failed to copy file')
-                          else console.log(`Created ${newFilePath} for ${cdir}`)
+                        await copyFile({ src: `${filesPath}/${fileName}`, dest: newFilePath })
 
+                        if (
+                          ii === skinDirs.length - 1 &&
+                          jj === soundDirs.length - 1 &&
+                          kk === files.length - 1
+                        ) {
+                          console.log(`Completed for ${cdir} - try`)
                           resolve('Completed')
-                        })
-                      })
-                    })
-                  }
-                } catch (err) {
-                  queue.add(async () => {
-                    await new Promise((resolve) => {
+                        }
+                      }
+                    } catch (err) {
                       // TODO: this does not extract all the sound files
                       // i.e. "output\extracted\aatrox\skin0\Play_vo_Aatrox_MoveOrder2DLong\416336519"
                       console.error(`Could not read ${filesPath}, determing if it is a file`)
 
-                      fs.lstat(filesPath, (statErr, stats) => {
+                      fs.lstat(filesPath, async (statErr, stats) => {
                         if (stats.isFile()) {
                           const newFileName = `unknown_${errorCount++}`
                           const newFilePath = `${outputDir}/${cdir}/${soundType}/${sdir}/${newFileName}.ogg`
-                          const unknownCopyCmd = `cp ${filesPath} ${newFilePath}`
 
-                          exec(`${makeDirCmd}; ${unknownCopyCmd}`, (cmdErr) => {
-                            if (cmdErr) console.log('Failed to copy unknown file')
-                            else console.log(`Created ${newFilePath} for ${cdir}`)
+                          await copyFile({ src: filesPath, dest: newFilePath })
 
+                          if (ii === skinDirs.length - 1 && jj === soundDirs.length - 1) {
+                            console.log(`Completed for ${cdir} - catch`)
                             resolve('Completed')
-                          })
+                          }
                         }
                       })
-                    })
+                    }
                   })
                 }
               })
             }
           })
-        }
+        })
       })
     }
   }
@@ -241,4 +240,26 @@ const formatVoiceLineFileName = ({ cdir, soundDir }: { cdir: string; soundDir: s
     .replace(/[A-Z]/g, (letter, index) =>
       index === 0 ? letter.toLowerCase() : '_' + letter.toLowerCase(),
     )
+}
+
+const createDirectory = async (dir: string) => {
+  await new Promise<void>((resolve) => {
+    fs.mkdir(dir, { recursive: true }, (err) => {
+      if (err) console.log(`Failed to create ${dir}`)
+      else console.log(`Created ${dir}`)
+
+      resolve()
+    })
+  })
+}
+
+const copyFile = async ({ src, dest }: { src: string; dest: string }) => {
+  await new Promise<void>((resolve) => {
+    fs.copyFile(src, dest, (err) => {
+      if (err) console.error(`Failed to copy ${src} to ${dest}`)
+      else console.log(`Copied ${dest}`)
+
+      resolve()
+    })
+  })
 }
