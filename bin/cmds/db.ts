@@ -4,8 +4,8 @@ import { execSync } from 'child_process'
 import fs from 'fs'
 import PQueue from 'p-queue'
 import path from 'path'
-import { prisma } from '../../prisma/queries/index'
-import { BUCKET_NAME, getAwsChampionObject, s3 } from '../../server/aws'
+import { Asset, createAssets } from '../../prisma/queries/index'
+import { BUCKET_NAME, s3 } from '../../server/aws'
 import { soundTypes } from './sounds'
 
 const queue = new PQueue({ concurrency: 30 })
@@ -29,46 +29,8 @@ export const createDb = async ({ type }: { type: 'postgresql' | 'sqlite' }) => {
   execSync('npx prisma migrate dev --name init-db', { stdio: 'inherit' })
 }
 
-export const seedDb = async ({ readDir }: { readDir: string }) => {
+export const seedDb = async () => {
   console.time('seed-db')
-  const inputDir = path.join(process.env.APP_HOME, 'output/glb_models')
-
-  try {
-    const champDirs = fs.readdirSync(inputDir)
-
-    for (const champDir of champDirs) {
-      queue.add(async () => {
-        const { Contents } = await getAwsChampionObject({ name: champDir })
-
-        await prisma.champion.create({
-          data: {
-            name: champDir,
-            models: {
-              create: Contents.map((c) => ({
-                name: c.Key.split('/')[1],
-                url: `https://${BUCKET_NAME}.s3.amazonaws.com/${c.Key}`,
-              })),
-            },
-          },
-        })
-      })
-
-      console.log(`inserted ${champDir} data`)
-    }
-  } catch (err) {
-    throw new Error(`Could not read directory @ ${inputDir}`)
-  }
-
-  await queue.onIdle()
-
-  console.log('successfully seeded prisma db')
-
-  prisma.$disconnect()
-  console.timeEnd('seed-db')
-}
-
-export const seedAws = async () => {
-  console.time('seed-aws')
 
   // upload glb files
   await uploadModels()
@@ -80,7 +42,7 @@ export const seedAws = async () => {
 
   console.log('done with sounds')
 
-  console.timeEnd('seed-aws')
+  console.timeEnd('seed-db')
 }
 
 const uploadModels = async () => {
@@ -89,10 +51,17 @@ const uploadModels = async () => {
   const champDirs = fs.readdirSync(inputDir)
 
   for (const champDir of champDirs) {
+    if (champDir !== 'aatrox' && champDir !== 'ahri') continue
+
+    // TODO: there is a bug, not all assets are being processed
+    // fs.readFile() callback not completing for every file
     queue.add(async () => {
-      await new Promise<void>((resolve) => {
-        fs.readdir(`${inputDir}/${champDir}`, (filesErr, files) => {
-          if (filesErr) resolve()
+      // upload to s3
+      const assets = await new Promise<Asset[]>((resolve) => {
+        fs.readdir(`${inputDir}/${champDir}`, async (filesErr, files) => {
+          if (filesErr) resolve([])
+
+          const results = []
 
           for (let ii = 0; ii < files.length; ii++) {
             const file = files[ii]
@@ -110,18 +79,29 @@ const uploadModels = async () => {
                   Key: key,
                 })
                 await s3.send(command)
+
+                results.push({
+                  type: 'model',
+                  name: fileName,
+                  skin: fileName,
+                  path: key,
+                })
               } catch (uploadErr) {
                 console.error(uploadErr)
               } finally {
                 if (ii === files.length - 1) {
                   console.log(`uploaded ${champDir}/model files`)
-                  resolve()
+                  resolve(results)
                 }
               }
             })
           }
         })
       })
+
+      // TODO: with this line aws s3 errors no longer show? ("can't read byte length")
+      // add to db
+      await createAssets({ championName: champDir, assets })
     })
   }
 
@@ -136,22 +116,29 @@ const uploadSounds = async () => {
   const champDirs = fs.readdirSync(inputDir)
 
   for (const champDir of champDirs) {
+    if (champDir !== 'aatrox' && champDir !== 'ahri') continue
+
     for (const soundType of soundTypes) {
+      // TODO: there is a bug, not all assets are being processed
+      // fs.readFile() callback not completing for every file
       queue.add(async () => {
-        await new Promise<void>((resolve) => {
+        // upload to s3
+        const assets = await new Promise<Asset[]>((resolve) => {
           fs.readdir(`${inputDir}/${champDir}/${soundType}`, (skinErr, skinDirs) => {
-            if (skinErr || skinDirs.length === 0 || !skinDirs) resolve()
+            const results = []
+            if (skinErr || skinDirs.length === 0 || !skinDirs) resolve(results)
 
             for (let ii = 0; ii < skinDirs.length; ii++) {
               const skinDir = skinDirs[ii]
 
               fs.readdir(`${inputDir}/${champDir}/${soundType}/${skinDir}`, (fileErr, files) => {
-                if (fileErr || files.length === 0 || !files) resolve()
+                if (fileErr || files.length === 0 || !files) resolve(results)
 
                 for (let jj = 0; jj < files.length; jj++) {
                   const file = files[jj]
                   const key = `${champDir}/${soundType}/${skinDir}/${file}`
                   const filePath = `${inputDir}/${key}`
+                  const fileName = path.basename(filePath, '.glb')
 
                   fs.readFile(filePath, async (readErr, data) => {
                     if (readErr) return
@@ -163,12 +150,18 @@ const uploadSounds = async () => {
                         Key: key,
                       })
                       await s3.send(command)
+                      results.push({
+                        type: soundType,
+                        name: fileName,
+                        skin: skinDir,
+                        path: key,
+                      })
                     } catch (uploadErr) {
                       console.error(uploadErr)
                     } finally {
                       if (ii === skinDirs.length - 1 && jj === files.length - 1) {
                         console.log(`uploaded ${champDir}/${soundType} files`)
-                        resolve()
+                        resolve(results)
                       }
                     }
                   })
@@ -177,6 +170,10 @@ const uploadSounds = async () => {
             }
           })
         })
+
+        // TODO: with this line aws s3 errors no longer show? ("can't read byte length")
+        // add to db
+        await createAssets({ championName: champDir, assets })
       })
     }
   }

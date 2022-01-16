@@ -29,5 +29,4 @@ model Asset {
   name        String
   skin        String
   path        String
-  url         String
 }

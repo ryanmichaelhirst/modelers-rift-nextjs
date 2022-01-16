@@ -86,8 +86,8 @@ export const chooseSkin = ({
   console.time('get-model-req')
   const state = getState()
 
-  // 'https://localhost:3000/api/getChampionModels/aatrox'
-  const res = await (await fetch(`/api/getChampionModels/${champion.toLowerCase()}`)).json()
+  // 'https://localhost:3000/api/getChampionAssets/aatrox'
+  const res = await (await fetch(`/api/getChampionAssets/${champion.toLowerCase()}`)).json()
   const model = res.models.find((m: any) => m.name === `${file}.glb`)
   const awsUrl = `/api/getAwsObject/${champion.toLowerCase()}/${model.name}`
   // 'https://league-glb-models.s3.amazonaws.com/aatrox/skin0.glb'
@@ -133,7 +133,7 @@ export const chooseChampion = (type: string, payload: Record<string, any>): AppT
   ).then((res) => res.json())
 
   // get model info from aws / prisma
-  const res = await (await fetch(`/api/getChampionModels/${name.toLowerCase()}`)).json()
+  const res = await (await fetch(`/api/getChampionAssets/${name.toLowerCase()}`)).json()
   const model = res.models.find((m: any) => m.name === `skin0.glb`)
   const awsUrl = `/api/getAwsObject/${name.toLowerCase()}/${model.name}`
 

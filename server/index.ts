@@ -1,7 +1,7 @@
 import express from 'express'
 import { Readable } from 'stream'
 import { apolloServer } from '../graphql'
-import { getChampionModels, getChampions, getUsers } from '../prisma/queries'
+import { getChampionAssets, getChampions, getUsers } from '../prisma/queries'
 import { getAwsChampionObject, getAwsObject } from './aws'
 
 export default (async () => {
@@ -26,11 +26,11 @@ export default (async () => {
     res.send(champions)
   })
 
-  app.get('/api/getChampionModels/:name', async (req, res) => {
-    console.log('server /api/getChampionModels/:name')
+  app.get('/api/getChampionAssets/:name', async (req, res) => {
+    console.log('server /api/getChampionAssets/:name')
 
     const { name } = req.params
-    const models = await getChampionModels({
+    const models = await getChampionAssets({
       name,
     })
     const awsChampionObject = await getAwsChampionObject({ name })

@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
-import { createDb, generateGlb, generateJsx, generateSounds, seedAws, seedDb } from './cmds'
+import { createDb, generateGlb, generateJsx, generateSounds, seedDb } from './cmds'
 
 dotenv.config()
 
@@ -38,10 +38,7 @@ const run = async () => {
       createDb({ type: 'postgresql' })
       break
     case 'seed-db':
-      seedDb({ readDir: '' })
-      break
-    case 'seed-aws':
-      seedAws()
+      seedDb()
       break
     case 'generate-glb':
       generateGlb()
