@@ -1,6 +1,6 @@
 import { GetObjectCommand, ListObjectsV2Command, S3Client } from '@aws-sdk/client-s3'
 
-export const BUCKET_NAME = 'league-glb-models'
+export const BUCKET_NAME = 'league-of-legends-assets'
 
 export const s3 = new S3Client({
   region: 'us-east-1',

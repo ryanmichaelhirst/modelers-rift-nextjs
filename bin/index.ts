@@ -1,6 +1,17 @@
+import dotenv from 'dotenv'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
-import { createDb, generateGlb, generateJsx, generateSounds, seedAws, seedDb } from './cmds'
+import {
+  createDb,
+  generateGlb,
+  generateJsx,
+  generateSounds,
+  seedAws,
+  seedDb,
+  uploadSounds,
+} from './cmds'
+
+dotenv.config()
 
 const run = async () => {
   // Parse flags
@@ -49,8 +60,9 @@ const run = async () => {
     case 'generate-sounds':
       generateSounds({ input, output, region })
       break
-    case 'copy-assets':
-      throw new Error('copy-assets cmd is not deprecated. GLB files will be hosted on aws s3.')
+    case 'upload-sounds':
+      uploadSounds()
+      break
     default:
       throw new Error('command not recognized')
   }

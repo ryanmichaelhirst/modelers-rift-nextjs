@@ -1,14 +1,11 @@
 import { exec, execSync } from 'child_process'
-import dotenv from 'dotenv'
 import fs from 'fs'
 import PQueue from 'p-queue'
 import path from 'path'
 
-dotenv.config()
-
 type Sound = 'sfx' | 'vo'
 
-const soundTypes = ['sfx', 'vo'] as Sound[]
+export const soundTypes = ['sfx', 'vo'] as Sound[]
 const queue = new PQueue({ concurrency: 50 })
 
 const extractBnkContent = async ({

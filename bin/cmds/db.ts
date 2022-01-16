@@ -6,6 +6,7 @@ import PQueue from 'p-queue'
 import path from 'path'
 import { prisma } from '../../prisma/queries/index'
 import { BUCKET_NAME, getAwsChampionObject, s3 } from '../../server/aws'
+import { soundTypes } from './sounds'
 
 const queue = new PQueue({ concurrency: 30 })
 
@@ -29,10 +30,11 @@ export const createDb = async ({ type }: { type: 'postgresql' | 'sqlite' }) => {
 }
 
 export const seedDb = async ({ readDir }: { readDir: string }) => {
-  const glbDir = path.join(__dirname, '../../../../league_react_models')
+  console.time('seed-db')
+  const inputDir = path.join(process.env.APP_HOME, 'output/glb_models')
 
   try {
-    const champDirs = fs.readdirSync(glbDir)
+    const champDirs = fs.readdirSync(inputDir)
 
     for (const champDir of champDirs) {
       queue.add(async () => {
@@ -52,11 +54,9 @@ export const seedDb = async ({ readDir }: { readDir: string }) => {
       })
 
       console.log(`inserted ${champDir} data`)
-
-      if (queue.size >= 100) new Promise((resolve) => setTimeout(resolve, 300))
     }
   } catch (err) {
-    throw new Error(`Could not read directory @ ${glbDir}`)
+    throw new Error(`Could not read directory @ ${inputDir}`)
   }
 
   await queue.onIdle()
@@ -64,38 +64,91 @@ export const seedDb = async ({ readDir }: { readDir: string }) => {
   console.log('successfully seeded prisma db')
 
   prisma.$disconnect()
+  console.timeEnd('seed-db')
 }
 
 export const seedAws = async () => {
-  const glbDir = path.join(__dirname, '../../../../league_react_models')
+  console.time('seed-aws')
+  const inputDir = path.join(process.env.APP_HOME, 'output/glb_models')
 
   try {
-    const champDirs = fs.readdirSync(glbDir)
+    const champDirs = fs.readdirSync(inputDir)
 
     for (const champDir of champDirs) {
-      const files = fs.readdirSync(`${glbDir}/${champDir}`)
+      queue.add(async () => {
+        await new Promise<void>((resolve) => {
+          fs.readdir(`${inputDir}/${champDir}`, (err, files) => {
+            for (let ii = 0; ii < files.length; ii++) {
+              const file = files[ii]
 
-      for (const file of files) {
-        queue.add(async () => {
-          const data = fs.readFileSync(`${glbDir}/${champDir}/${file}`)
-          console.log(`reading file ${glbDir}/${champDir}/${file}`)
+              fs.readFile(`${inputDir}/${champDir}/${file}`, async (err, data) => {
+                console.log(`reading file ${inputDir}/${champDir}/${file}`)
 
-          const command = new PutObjectCommand({
-            Bucket: BUCKET_NAME,
-            Body: data,
-            Key: `${champDir}/${file}`,
+                const command = new PutObjectCommand({
+                  Bucket: BUCKET_NAME,
+                  Body: data,
+                  Key: `${champDir}/${file}`,
+                })
+
+                const response = await s3.send(command)
+                console.log(`uploaded ${champDir}/${file} to S3`, response)
+
+                if (ii === files.length - 1) resolve()
+              })
+            }
           })
-
-          const response = await s3.send(command)
-          console.log(`uploaded ${champDir}/${file} to S3`, response)
         })
-      }
-
-      if (queue.size >= 100) await new Promise((resolve) => setTimeout(resolve, 100))
+      })
     }
-
-    await queue.onIdle()
   } catch (err) {
     throw new Error(`Couldn't complete upload to aws s3`)
   }
+
+  await queue.onIdle()
+
+  console.timeEnd('seed-aws')
+}
+
+export const uploadSounds = async () => {
+  console.time('upload-sounds')
+  const inputDir = path.join(process.env.APP_HOME, 'output/generated')
+  const champDirs = fs.readdirSync(inputDir)
+
+  for (const champDir of champDirs) {
+    for (const soundType of soundTypes) {
+      queue.add(async () => {
+        await new Promise<void>((resolve) => {
+          fs.readdir(`${inputDir}/${champDir}/${soundType}`, (err, skinDirs) => {
+            for (let ii = 0; ii < skinDirs.length; ii++) {
+              const skinDir = skinDirs[ii]
+              fs.readdir(`${inputDir}/${champDir}/${soundType}/${skinDir}`, (err, files) => {
+                for (let jj = 0; jj < files.length; jj++) {
+                  const file = files[jj]
+                  const filePath = `${champDir}/${soundType}/${skinDir}/${file}`
+
+                  fs.readFile(`${inputDir}/${filePath}`, async (err, data) => {
+                    const command = new PutObjectCommand({
+                      Bucket: BUCKET_NAME,
+                      Body: data,
+                      Key: filePath,
+                    })
+                    await s3.send(command)
+
+                    if (ii === skinDirs.length - 1 && jj === files.length - 1) {
+                      console.log(`uploaded ${champDir}/${soundType} files`)
+                      resolve()
+                    }
+                  })
+                }
+              })
+            }
+          })
+        })
+      })
+    }
+  }
+
+  await queue.onIdle()
+
+  console.timeEnd('upload-sounds')
 }
