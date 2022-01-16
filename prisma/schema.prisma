@@ -27,6 +27,7 @@ model Asset {
   championId  Int
   type        String
   name        String
+  skin        String
   path        String
   url         String
 }
