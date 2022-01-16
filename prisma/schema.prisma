@@ -18,13 +18,15 @@ model User {
 model Champion {
   id     Int    @id @default(autoincrement())
   name   String
-  models Model[]
+  assets Asset[]
 }
 
-model Model {
+model Asset {
   id          Int      @id @default(autoincrement())
   champion    Champion @relation(fields: [championId], references: [id])
   championId  Int
+  type        String
   name        String
+  path        String
   url         String
 }

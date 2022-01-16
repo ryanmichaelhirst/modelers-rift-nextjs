@@ -39,6 +39,18 @@ https://github.com/Morilli/bnk-extract/releases/tag/v1.6
 
 ### Prisma
 
+To make changes to the database, create a draft migration
+
+`npx prisma migrate dev --name ${migration-name} --create-only`
+
+Modify the generated SQL file, then apply the migration
+
 `npx prisma migrate dev`
 
-`npx prisma migrate dev --name ${migration-name}`
+Generate the client
+
+`npx prisma generate`
+
+View your database
+
+`npx prisma studio`
