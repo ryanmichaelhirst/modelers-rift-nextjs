@@ -1,15 +1,7 @@
 import dotenv from 'dotenv'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
-import {
-  createDb,
-  generateGlb,
-  generateJsx,
-  generateSounds,
-  seedAws,
-  seedDb,
-  uploadSounds,
-} from './cmds'
+import { createDb, generateGlb, generateJsx, generateSounds, seedAws, seedDb } from './cmds'
 
 dotenv.config()
 
@@ -59,9 +51,6 @@ const run = async () => {
       break
     case 'generate-sounds':
       generateSounds({ input, output, region })
-      break
-    case 'upload-sounds':
-      uploadSounds()
       break
     default:
       throw new Error('command not recognized')
