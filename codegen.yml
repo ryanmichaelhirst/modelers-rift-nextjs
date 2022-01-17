@@ -2,6 +2,7 @@ overwrite: true
 generates:
   graphql/generated/types.ts:
     schema: 'graphql/generated/schema.graphql'
+    documents: ['graphql/queries/*.graphql']
     plugins:
       - 'typescript'
       - 'typescript-resolvers'
