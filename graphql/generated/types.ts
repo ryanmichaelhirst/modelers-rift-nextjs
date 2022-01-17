@@ -30,7 +30,7 @@ export type Champion = {
   __typename?: 'Champion';
   assets?: Maybe<Array<Maybe<Asset>>>;
   id?: Maybe<Scalars['ID']>;
-  name: Scalars['String'];
+  name?: Maybe<Scalars['String']>;
 };
 
 export type Query = {
@@ -42,11 +42,11 @@ export type Query = {
 
 export type User = {
   __typename?: 'User';
-  email: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
-  password: Scalars['String'];
-  username: Scalars['String'];
+  password?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
 };
 
 
@@ -154,7 +154,7 @@ export type AssetResolvers<ContextType = any, ParentType extends ResolversParent
 export type ChampionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Champion'] = ResolversParentTypes['Champion']> = {
   assets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Asset']>>>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -165,11 +165,11 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  password?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  username?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

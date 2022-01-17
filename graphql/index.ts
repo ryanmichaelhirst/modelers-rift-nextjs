@@ -1,17 +1,13 @@
 import { ApolloServer } from 'apollo-server-express'
-import { getUsers, prisma } from '../prisma/queries/index'
 import { Resolvers } from './generated/types'
-import { typeDefs } from './types/index'
+import { AssetsResolver, ChampionsResolver, UsersResolver } from './resolvers'
+import { typeDefs } from './typedefs/index'
 
 const resolvers: Resolvers = {
   Query: {
-    users: async () => await getUsers(),
-    champions: async (parent, args, ctx) => {
-      return await prisma.champion.findMany()
-    },
-    assets: async (parent, args, ctx) => {
-      return await prisma.asset.findMany()
-    },
+    users: UsersResolver,
+    champions: ChampionsResolver,
+    assets: AssetsResolver,
   },
 }
 

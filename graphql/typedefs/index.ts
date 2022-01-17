@@ -3,15 +3,15 @@ import { gql } from 'apollo-server-express'
 export const typeDefs = gql`
   type Champion {
     id: ID
-    name: String!
+    name: String
     assets: [Asset]
   }
 
   type User {
     id: Int
-    username: String!
-    password: String!
-    email: String!
+    username: String
+    password: String
+    email: String
     name: String
   }
 

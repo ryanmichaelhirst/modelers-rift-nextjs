@@ -2,14 +2,14 @@
 directive @specifiedBy("The URL that specifies the behaviour of this scalar." url: String!) on SCALAR
 type Champion {
   id: ID
-  name: String!
+  name: String
   assets: [Asset]
 }
 type User {
   id: Int
-  username: String!
-  password: String!
-  email: String!
+  username: String
+  password: String
+  email: String
   name: String
 }
 type Asset {
