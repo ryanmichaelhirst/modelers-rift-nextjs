@@ -1,6 +1,6 @@
 import express from 'express'
 import { Readable } from 'stream'
-import { apolloServer } from '../graphql'
+import { apolloServer } from '../graphql/resolvers/index'
 import { getChampionAssets, getChampions, getUsers } from '../prisma/queries'
 import { getAwsChampionObject, getAwsObject } from './aws'
 
@@ -41,7 +41,7 @@ export default (async () => {
   app.get('/api/getAwsObject/:folder/:file', async (req, res) => {
     console.log('server /api/getAwsObject/:folder/:file')
 
-    const key = `${req.params.folder}/${req.params.file}`
+    const key = `${req.params.folder}/model/${req.params.file}/default.glb`
     const { Body, ...response } = await getAwsObject({ key })
 
     if (Body instanceof Readable) {

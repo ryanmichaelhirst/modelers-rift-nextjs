@@ -1,5 +1,5 @@
-query ChampionsIndex {
-  champions {
+query ChampionsIndex($filter: ChampionsFilter) {
+  champions(filter: $filter) {
     id
     name
     assets {

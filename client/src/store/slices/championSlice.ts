@@ -12,7 +12,7 @@ const initialState: ChampionState = {
     name: 'Aatrox',
     model: {
       file: 'skin0',
-      awsUrl: '/api/getAwsObject/aatrox/skin0.glb',
+      awsUrl: '/api/getAwsObject/aatrox/skin0',
     },
     tags: [],
     passive: {
@@ -86,11 +86,11 @@ export const chooseSkin = ({
   console.time('get-model-req')
   const state = getState()
 
-  // 'https://localhost:3000/api/getChampionAssets/aatrox'
   const res = await (await fetch(`/api/getChampionAssets/${champion.toLowerCase()}`)).json()
-  const model = res.models.find((m: any) => m.name === `${file}.glb`)
+  const model = res.models.find(
+    (m: any) => m.path.includes(champion.toLowerCase()) && m.path.includes(file),
+  )
   const awsUrl = `/api/getAwsObject/${champion.toLowerCase()}/${model.name}`
-  // 'https://league-glb-models.s3.amazonaws.com/aatrox/skin0.glb'
 
   console.timeEnd('get-model-req')
 
@@ -134,8 +134,8 @@ export const chooseChampion = (type: string, payload: Record<string, any>): AppT
 
   // get model info from aws / prisma
   const res = await (await fetch(`/api/getChampionAssets/${name.toLowerCase()}`)).json()
-  const model = res.models.find((m: any) => m.name === `skin0.glb`)
-  const awsUrl = `/api/getAwsObject/${name.toLowerCase()}/${model.name}`
+  const asset = res.models.find((m: any) => m.name === `skin0`)
+  const awsUrl = `/api/getAwsObject/${name.toLowerCase()}/${asset.name}`
 
   const playerChampion = {
     ...state.champion.playerChampion,

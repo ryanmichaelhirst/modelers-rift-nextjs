@@ -1,5 +1,9 @@
 "Exposes a URL that specifies the behaviour of this scalar."
 directive @specifiedBy("The URL that specifies the behaviour of this scalar." url: String!) on SCALAR
+input ChampionsFilter {
+  nameCnt: String
+  includeAssets: Boolean
+}
 type Champion {
   id: ID
   name: String
@@ -23,6 +27,6 @@ type Asset {
 }
 type Query {
   users: [User]
-  champions: [Champion]
+  champions(filter: ChampionsFilter): [Champion]
   assets: [Asset]
 }

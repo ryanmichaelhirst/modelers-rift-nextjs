@@ -1,6 +1,11 @@
 import { gql } from 'apollo-server-express'
 
 export const typeDefs = gql`
+  input ChampionsFilter {
+    nameCnt: String
+    includeAssets: Boolean
+  }
+
   type Champion {
     id: ID
     name: String
@@ -27,7 +32,7 @@ export const typeDefs = gql`
 
   type Query {
     users: [User]
-    champions: [Champion]
+    champions(filter: ChampionsFilter): [Champion]
     assets: [Asset]
   }
 `

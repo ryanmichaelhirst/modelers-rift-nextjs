@@ -8,10 +8,23 @@ import {
 } from '@store/slices/championSlice'
 import classNames from 'classnames'
 import { useDispatch, useSelector } from 'react-redux'
+import { useChampionsIndexQuery } from '../../../graphql/generated/types'
 
 export const Interactive = () => {
   const champions = useSelector(selectChampions)
   const playerChampion = useSelector(selectPlayerChampion)
+
+  const { data, error, loading } = useChampionsIndexQuery({
+    variables: {
+      filter: {
+        nameCnt: '',
+        includeAssets: true,
+      },
+    },
+  })
+
+  console.log({ data, error, loading })
+
   const dispatch = useDispatch()
 
   const onInput = () => {}
