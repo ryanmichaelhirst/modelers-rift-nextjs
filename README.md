@@ -54,3 +54,25 @@ Generate the client
 View your database
 
 `npx prisma studio`
+
+### Graphql
+
+Install rover cli
+
+`curl -sSL https://rover.apollo.dev/nix/latest | sh`
+
+Configure rover with apollo studio
+
+`rover config auth`
+
+Generate schema.graphql (introspection)
+
+`rover graph introspect http://localhost:4000/graphql > graphql/generated/schema.graphql`
+
+Generate schema.graphql (schema definition language)
+
+`rover graph fetch My-Graph-yoeh8f > graphql/generated/schema.graphql`
+
+Generate schema.json
+
+`npx apollo schema:download --endpoint=http://localhost:4000/graphql schema.json`

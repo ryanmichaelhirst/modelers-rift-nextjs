@@ -1,0 +1,28 @@
+"Exposes a URL that specifies the behaviour of this scalar."
+directive @specifiedBy("The URL that specifies the behaviour of this scalar." url: String!) on SCALAR
+type Champion {
+  id: ID
+  name: String!
+  assets: [Asset]
+}
+type User {
+  id: Int
+  username: String!
+  password: String!
+  email: String!
+  name: String
+}
+type Asset {
+  id: ID
+  champion: Champion
+  championId: ID
+  type: String
+  name: String
+  skin: String
+  path: String
+}
+type Query {
+  users: [User]
+  champions: [Champion]
+  assets: [Asset]
+}

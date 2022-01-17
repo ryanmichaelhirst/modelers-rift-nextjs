@@ -1,0 +1,14 @@
+overwrite: true
+generates:
+  graphql/generated/types.ts:
+    schema: 'graphql/generated/schema.graphql'
+    plugins:
+      - 'typescript'
+      - 'typescript-resolvers'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+    config:
+      mapperTypeSuffix: Model
+      mappers:
+        Champion: '@prisma/client/index.d#Champion'
+        Asset: '@prisma/client/index.d#Asset'

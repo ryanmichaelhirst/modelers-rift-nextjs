@@ -1,0 +1,6 @@
+query UsersIndex {
+  users {
+    id
+    name
+  }
+}

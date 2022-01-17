@@ -1,23 +1,17 @@
-import { ApolloServer, gql } from 'apollo-server-express'
-import { getUsers } from '../prisma/queries'
+import { ApolloServer } from 'apollo-server-express'
+import { getUsers, prisma } from '../prisma/queries/index'
+import { Resolvers } from './generated/types'
+import { typeDefs } from './types/index'
 
-const typeDefs = gql`
-  type User {
-    id: Int
-    username: String!
-    password: String!
-    email: String!
-    name: String
-  }
-
-  type Query {
-    users: [User]
-  }
-`
-
-const resolvers = {
+const resolvers: Resolvers = {
   Query: {
     users: async () => await getUsers(),
+    champions: async (parent, args, ctx) => {
+      return await prisma.champion.findMany()
+    },
+    assets: async (parent, args, ctx) => {
+      return await prisma.asset.findMany()
+    },
   },
 }
 

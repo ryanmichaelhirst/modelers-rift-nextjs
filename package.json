@@ -9,10 +9,12 @@
     "server": "env-cmd nodemon --watch server --watch graphql --watch prisma server/index.ts",
     "docker-build": "docker-compose -f docker-compose.dev.yml build",
     "up": "docker-compose -f docker-compose.dev.yml up",
-    "bin": "ts-node --project tsconfig.node.json bin/index"
+    "bin": "ts-node --project tsconfig.node.json bin/index",
+    "generate": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@amcharts/amcharts4": "^4.10.22",
+    "@apollo/client": "^3.5.7",
     "@aws-sdk/client-s3": "^3.36.0",
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
@@ -33,9 +35,15 @@
     "three": "^0.132.2"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^2.3.1",
+    "@graphql-codegen/typescript": "^2.4.2",
+    "@graphql-codegen/typescript-operations": "^2.2.2",
+    "@graphql-codegen/typescript-react-apollo": "^3.2.4",
+    "@graphql-codegen/typescript-resolvers": "^2.4.3",
     "@leafac/sqlite": "^1.5.0",
     "@prisma/client": "^3.8.1",
     "@types/express": "^4.17.13",
+    "@types/graphql": "^14.5.0",
     "@types/node": "^14.14.35",
     "@types/react": "^17.0.19",
     "@types/react-dom": "^16.9.8",
@@ -45,6 +53,7 @@
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
     "@vitejs/plugin-react": "^1.0.4",
+    "apollo": "^2.33.9",
     "apollo-server-express": "^3.3.0",
     "autoprefixer": "^10.1.0",
     "concurrently": "^6.3.0",

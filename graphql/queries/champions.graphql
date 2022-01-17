@@ -1,0 +1,13 @@
+query ChampionsIndex {
+  champions {
+    id
+    name
+    assets {
+      id
+      type
+      name
+      skin
+      path
+    }
+  }
+}
