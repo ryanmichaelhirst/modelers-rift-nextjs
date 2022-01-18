@@ -2,20 +2,13 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 import { defineConfig } from 'vite'
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  // client @ http://localhost:3000/client/src/index.html
-  // is this worth?
-  // build: {
-  //   rollupOptions: {
-  //     input: {
-  //       main: path.resolve(__dirname, 'client/src/index.html'),
-  //     },
-  //   },
-  // },
   server: {
+    watch: {
+      ignored: ['**/output/**', '**/input/**'],
+    },
     fs: {
-      allow: ['client', 'node_modules'],
+      allow: ['client', 'node_modules', 'graphql'],
     },
     proxy: {
       '/api': 'http://localhost:4000',

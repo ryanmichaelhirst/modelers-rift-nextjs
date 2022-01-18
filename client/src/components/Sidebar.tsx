@@ -38,7 +38,7 @@ export const Sidebar = () => {
         const Icon = i.icon
 
         return (
-          <Grid container xs={12} key={i.label} className='border-b border-gray-600 p-4'>
+          <Grid item container xs={12} key={i.label} className='border-b border-gray-600 p-4'>
             <Grid item xs={4}>
               <Icon style={{ color: '#fff' }} />
             </Grid>
