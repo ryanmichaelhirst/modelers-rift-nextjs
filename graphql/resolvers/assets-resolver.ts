@@ -1,20 +1,28 @@
 import { prisma } from '../../prisma/queries/index'
 
 export const AssetsResolver = (parent, args, ctx) => {
+  console.log({ parent, args, ctx })
+
+  // championIds come in as string[]
+  const championIds = args?.filter?.championIdsIncludes
+
   return prisma.asset.findMany({
     where: {
+      name: {
+        contains: args?.filter?.nameCnt,
+      },
       championId: {
-        equals: args.filter.championId,
+        ...(championIds && { in: championIds.map((id) => parseInt(id)) }),
       },
     },
     select: {
-      id: args.select.id,
-      champion: args.select.champion,
+      id: true,
+      champion: true,
       championId: true,
-      type: args.select.type,
-      name: args.select.name,
-      skin: args.select.skin,
-      path: args.select.path,
+      type: true,
+      name: true,
+      skin: true,
+      path: true,
     },
   })
 }

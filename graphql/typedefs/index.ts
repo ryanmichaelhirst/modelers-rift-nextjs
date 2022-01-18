@@ -20,6 +20,11 @@ export const typeDefs = gql`
     name: String
   }
 
+  input AssetsFilter {
+    nameCnt: String
+    championIdsIncludes: [ID]
+  }
+
   type Asset {
     id: ID
     champion: Champion
@@ -33,6 +38,6 @@ export const typeDefs = gql`
   type Query {
     users: [User]
     champions(filter: ChampionsFilter): [Champion]
-    assets: [Asset]
+    assets(filter: AssetsFilter): [Asset]
   }
 `

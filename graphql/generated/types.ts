@@ -29,6 +29,11 @@ export type Asset = {
   type?: Maybe<Scalars['String']>;
 };
 
+export type AssetsFilter = {
+  championIdsIncludes?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  nameCnt?: InputMaybe<Scalars['String']>;
+};
+
 export type Champion = {
   __typename?: 'Champion';
   assets?: Maybe<Array<Maybe<Asset>>>;
@@ -46,6 +51,11 @@ export type Query = {
   assets?: Maybe<Array<Maybe<Asset>>>;
   champions?: Maybe<Array<Maybe<Champion>>>;
   users?: Maybe<Array<Maybe<User>>>;
+};
+
+
+export type QueryAssetsArgs = {
+  filter?: InputMaybe<AssetsFilter>;
 };
 
 
@@ -132,6 +142,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Asset: ResolverTypeWrapper<AssetModel>;
+  AssetsFilter: AssetsFilter;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Champion: ResolverTypeWrapper<ChampionModel>;
   ChampionsFilter: ChampionsFilter;
@@ -145,6 +156,7 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Asset: AssetModel;
+  AssetsFilter: AssetsFilter;
   Boolean: Scalars['Boolean'];
   Champion: ChampionModel;
   ChampionsFilter: ChampionsFilter;
@@ -174,7 +186,7 @@ export type ChampionResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  assets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Asset']>>>, ParentType, ContextType>;
+  assets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Asset']>>>, ParentType, ContextType, RequireFields<QueryAssetsArgs, never>>;
   champions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Champion']>>>, ParentType, ContextType, RequireFields<QueryChampionsArgs, never>>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
 };
@@ -196,7 +208,9 @@ export type Resolvers<ContextType = any> = {
 };
 
 
-export type AssetsIndexQueryVariables = Exact<{ [key: string]: never; }>;
+export type AssetsIndexQueryVariables = Exact<{
+  filter?: InputMaybe<AssetsFilter>;
+}>;
 
 
 export type AssetsIndexQuery = { __typename?: 'Query', assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, championId?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined } | null | undefined> | null | undefined };
@@ -215,8 +229,8 @@ export type UsersIndexQuery = { __typename?: 'Query', users?: Array<{ __typename
 
 
 export const AssetsIndexDocument = gql`
-    query AssetsIndex {
-  assets {
+    query AssetsIndex($filter: AssetsFilter) {
+  assets(filter: $filter) {
     id
     championId
     type
@@ -239,6 +253,7 @@ export const AssetsIndexDocument = gql`
  * @example
  * const { data, loading, error } = useAssetsIndexQuery({
  *   variables: {
+ *      filter: // value for 'filter'
  *   },
  * });
  */

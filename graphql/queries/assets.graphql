@@ -1,5 +1,5 @@
-query AssetsIndex {
-  assets {
+query AssetsIndex($filter: AssetsFilter) {
+  assets(filter: $filter) {
     id
     championId
     type
