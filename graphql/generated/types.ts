@@ -32,6 +32,7 @@ export type Asset = {
 export type AssetsFilter = {
   championIdsIncludes?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   nameCnt?: InputMaybe<Scalars['String']>;
+  typeEq?: InputMaybe<Scalars['String']>;
 };
 
 export type Champion = {

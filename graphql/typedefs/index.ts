@@ -27,6 +27,7 @@ export const typeDefs = gql`
 
   input AssetsFilter {
     nameCnt: String
+    typeEq: String
     championIdsIncludes: [ID]
   }
 

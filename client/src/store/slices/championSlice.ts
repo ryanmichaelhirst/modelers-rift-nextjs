@@ -77,22 +77,16 @@ export const {
 export const chooseSkin = ({
   type,
   champion,
-  file,
+
+  skin,
 }: {
   type: string
   champion: string
-  file: string
+  skin: any
 }): AppThunk => async (dispatch, getState) => {
-  console.time('get-model-req')
   const state = getState()
-
-  const res = await (await fetch(`/api/getChampionAssets/${champion.toLowerCase()}`)).json()
-  const model = res.models.find(
-    (m: any) => m.path.includes(champion.toLowerCase()) && m.path.includes(file),
-  )
-  const awsUrl = `/api/getAwsObject/${champion.toLowerCase()}/${model.name}`
-
-  console.timeEnd('get-model-req')
+  const file = skin?.name
+  const awsUrl = `/api/getAwsObject/${champion.toLowerCase()}/${file}`
 
   if (type === 'playerChampion') {
     dispatch(

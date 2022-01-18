@@ -11,6 +11,11 @@ export const AssetsResolver = (parent, args, ctx) => {
       name: {
         contains: args?.filter?.nameCnt,
       },
+      ...(args?.filter?.typeEq && {
+        type: {
+          equals: args?.filter?.typeEq,
+        },
+      }),
       championId: {
         ...(championIds && { in: championIds.map((id) => parseInt(id)) }),
       },

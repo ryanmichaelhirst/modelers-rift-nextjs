@@ -1,7 +1,7 @@
 import express from 'express'
 import { Readable } from 'stream'
 import { apolloServer } from '../graphql/resolvers/index'
-import { getChampionAssets, getChampions, getUsers } from '../prisma/queries'
+import { getChampionAssets } from '../prisma/queries'
 import { getAwsChampionObject, getAwsObject } from './aws'
 
 export default (async () => {
@@ -9,22 +9,6 @@ export default (async () => {
 
   await apolloServer.start()
   apolloServer.applyMiddleware({ app })
-
-  app.get('/api/getUsers', async (req, res) => {
-    console.log('proxy request made to /api/getUser')
-
-    const users = await getUsers()
-
-    res.send(users)
-  })
-
-  app.get('/api/getChampions', async (req, res) => {
-    console.log('proxy request made to /api/getChampions')
-
-    const champions = await getChampions()
-
-    res.send(champions)
-  })
 
   app.get('/api/getChampionAssets/:name', async (req, res) => {
     console.log('server /api/getChampionAssets/:name')

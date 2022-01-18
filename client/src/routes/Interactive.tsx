@@ -34,7 +34,6 @@ export const Interactive = () => {
     },
   })
   const { data: usersData, error: usersError, loading: usersLoading } = useUsersIndexQuery()
-  console.log({ usersData, usersError, usersLoading })
 
   const dispatch = useDispatch()
 
@@ -44,7 +43,6 @@ export const Interactive = () => {
 
   const onClick = (value: any) => () => {
     const champion = champions[value.id]
-    console.log(value)
     dispatch(setPlayerChampion(champion))
   }
 

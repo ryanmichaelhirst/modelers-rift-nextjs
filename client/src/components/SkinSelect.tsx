@@ -1,14 +1,29 @@
 import { chooseSkin, selectPlayerChampion } from '@store/slices/championSlice'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useAssetsIndexQuery } from '../../../graphql/generated/types'
 
 const SkinSelect = ({ items }: { items: any[] }) => {
   const champion = useSelector(selectPlayerChampion)
   const [selected, setSelected] = useState<Record<string, any>>()
+  const { data, error, loading } = useAssetsIndexQuery({
+    variables: {
+      filter: {
+        championIdsIncludes: ['27'],
+      },
+    },
+  })
+
   const dispatch = useDispatch()
 
   const onClick = (file: string) => () => {
-    dispatch(chooseSkin({ type: 'playerChampion', champion: champion?.name || '', file }))
+    dispatch(
+      chooseSkin({
+        type: 'playerChampion',
+        champion: champion?.name || '',
+        skin: data?.assets?.find((a) => a?.name === file),
+      }),
+    )
   }
 
   return (
