@@ -8,7 +8,11 @@ import {
 } from '@store/slices/championSlice'
 import classNames from 'classnames'
 import { useDispatch, useSelector } from 'react-redux'
-import { useAssetsIndexQuery, useChampionsIndexQuery } from '../../../graphql/generated/types'
+import {
+  useAssetsIndexQuery,
+  useChampionsIndexQuery,
+  useUsersIndexQuery,
+} from '../../../graphql/generated/types'
 
 export const Interactive = () => {
   const champions = useSelector(selectChampions)
@@ -29,7 +33,8 @@ export const Interactive = () => {
       },
     },
   })
-  console.log({ assetsData, assetsError, assetsLoading })
+  const { data: usersData, error: usersError, loading: usersLoading } = useUsersIndexQuery()
+  console.log({ usersData, usersError, usersLoading })
 
   const dispatch = useDispatch()
 

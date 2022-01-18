@@ -9,6 +9,10 @@ type Champion {
   name: String
   assets: [Asset]
 }
+input UsersFilter {
+  usernameCnt: String
+  nameCnt: String
+}
 type User {
   id: Int
   username: String
@@ -30,7 +34,7 @@ type Asset {
   path: String
 }
 type Query {
-  users: [User]
+  users(filter: UsersFilter): [User]
   champions(filter: ChampionsFilter): [Champion]
   assets(filter: AssetsFilter): [Asset]
 }

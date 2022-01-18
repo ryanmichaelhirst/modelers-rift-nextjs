@@ -63,6 +63,11 @@ export type QueryChampionsArgs = {
   filter?: InputMaybe<ChampionsFilter>;
 };
 
+
+export type QueryUsersArgs = {
+  filter?: InputMaybe<UsersFilter>;
+};
+
 export type User = {
   __typename?: 'User';
   email?: Maybe<Scalars['String']>;
@@ -70,6 +75,11 @@ export type User = {
   name?: Maybe<Scalars['String']>;
   password?: Maybe<Scalars['String']>;
   username?: Maybe<Scalars['String']>;
+};
+
+export type UsersFilter = {
+  nameCnt?: InputMaybe<Scalars['String']>;
+  usernameCnt?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -151,6 +161,7 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<User>;
+  UsersFilter: UsersFilter;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -165,6 +176,7 @@ export type ResolversParentTypes = {
   Query: {};
   String: Scalars['String'];
   User: User;
+  UsersFilter: UsersFilter;
 };
 
 export type AssetResolvers<ContextType = any, ParentType extends ResolversParentTypes['Asset'] = ResolversParentTypes['Asset']> = {
@@ -188,7 +200,7 @@ export type ChampionResolvers<ContextType = any, ParentType extends ResolversPar
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   assets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Asset']>>>, ParentType, ContextType, RequireFields<QueryAssetsArgs, never>>;
   champions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Champion']>>>, ParentType, ContextType, RequireFields<QueryChampionsArgs, never>>;
-  users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
+  users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType, RequireFields<QueryUsersArgs, never>>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -222,10 +234,12 @@ export type ChampionsIndexQueryVariables = Exact<{
 
 export type ChampionsIndexQuery = { __typename?: 'Query', champions?: Array<{ __typename?: 'Champion', id?: string | null | undefined, name?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined> | null | undefined };
 
-export type UsersIndexQueryVariables = Exact<{ [key: string]: never; }>;
+export type UsersIndexQueryVariables = Exact<{
+  filter?: InputMaybe<UsersFilter>;
+}>;
 
 
-export type UsersIndexQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', id?: number | null | undefined, name?: string | null | undefined } | null | undefined> | null | undefined };
+export type UsersIndexQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', id?: number | null | undefined, username?: string | null | undefined, email?: string | null | undefined, name?: string | null | undefined } | null | undefined> | null | undefined };
 
 
 export const AssetsIndexDocument = gql`
@@ -312,9 +326,11 @@ export type ChampionsIndexQueryHookResult = ReturnType<typeof useChampionsIndexQ
 export type ChampionsIndexLazyQueryHookResult = ReturnType<typeof useChampionsIndexLazyQuery>;
 export type ChampionsIndexQueryResult = Apollo.QueryResult<ChampionsIndexQuery, ChampionsIndexQueryVariables>;
 export const UsersIndexDocument = gql`
-    query UsersIndex {
-  users {
+    query UsersIndex($filter: UsersFilter) {
+  users(filter: $filter) {
     id
+    username
+    email
     name
   }
 }
@@ -332,6 +348,7 @@ export const UsersIndexDocument = gql`
  * @example
  * const { data, loading, error } = useUsersIndexQuery({
  *   variables: {
+ *      filter: // value for 'filter'
  *   },
  * });
  */

@@ -1,6 +1,8 @@
-query UsersIndex {
-  users {
+query UsersIndex($filter: UsersFilter) {
+  users(filter: $filter) {
     id
+    username
+    email
     name
   }
 }

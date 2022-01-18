@@ -1,17 +1,22 @@
 import { prisma } from '../../prisma/queries/index'
 
 export const UsersResolver = (parent, args, ctx) => {
+  console.log({ parent, args, ctx })
+
   return prisma.user.findMany({
     where: {
+      username: {
+        contains: args?.filter?.usernameCnt || '',
+      },
       name: {
-        contains: args.filter.nameCnt,
+        contains: args?.filter?.nameCnt || '',
       },
     },
     select: {
-      id: args.select.id,
-      email: args.select.email,
-      name: args.select.name,
-      username: args.select.username,
+      id: true,
+      username: true,
+      email: true,
+      name: true,
     },
   })
 }

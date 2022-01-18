@@ -12,6 +12,11 @@ export const typeDefs = gql`
     assets: [Asset]
   }
 
+  input UsersFilter {
+    usernameCnt: String
+    nameCnt: String
+  }
+
   type User {
     id: Int
     username: String
@@ -36,7 +41,7 @@ export const typeDefs = gql`
   }
 
   type Query {
-    users: [User]
+    users(filter: UsersFilter): [User]
     champions(filter: ChampionsFilter): [Champion]
     assets(filter: AssetsFilter): [Asset]
   }
