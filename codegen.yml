@@ -11,5 +11,5 @@ generates:
     config:
       mapperTypeSuffix: Model
       mappers:
-        Champion: '@prisma/client/index.d#Champion'
+        Character: '@prisma/client/index.d#Character'
         Asset: '@prisma/client/index.d#Asset'

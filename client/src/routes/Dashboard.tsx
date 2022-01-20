@@ -3,13 +3,12 @@ import { Details } from '@components/Details'
 import GridSelect from '@components/GridSelect'
 import { Layout } from '@components/Layout'
 import { PatchSelect } from '@components/PatchSelect'
-import { fetchPatches, selectChampions, selectSelectedPatch } from '@store/slices/championSlice'
+import { fetchPatches, selectSelectedPatch } from '@store/slices/championSlice'
 import { fetchItems } from '@store/slices/itemSlice'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 export const Dashboard = () => {
-  const champions = useSelector(selectChampions)
   const dispatch = useDispatch()
   const selectedPatch = useSelector(selectSelectedPatch)
 

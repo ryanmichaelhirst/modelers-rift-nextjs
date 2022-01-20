@@ -15,18 +15,19 @@ model User {
   password String
 }
 
-model Champion {
+model Character {
   id     Int    @id @default(autoincrement())
   name   String
+  type   String
   assets Asset[]
 }
 
 model Asset {
-  id          Int      @id @default(autoincrement())
-  champion    Champion @relation(fields: [championId], references: [id])
-  championId  Int
-  type        String
-  name        String
-  skin        String
-  path        String
+  id           Int      @id @default(autoincrement())
+  character    Character @relation(fields: [characterId], references: [id])
+  characterId  Int
+  type         String
+  name         String
+  skin         String
+  path         String
 }

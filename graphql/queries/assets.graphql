@@ -1,7 +1,7 @@
 query AssetsIndex($filter: AssetsFilter) {
   assets(filter: $filter) {
     id
-    championId
+    characterId
     type
     name
     skin

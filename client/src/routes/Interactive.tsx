@@ -2,13 +2,13 @@ import Input from '@components/Input'
 import { Layout } from '@components/Layout'
 import { LinearProgress } from '@mui/material'
 import classNames from 'classnames'
-import { useChampionsIndexQuery } from '../../../graphql/generated/types'
+import { useCharactersIndexQuery } from '../../../graphql/generated/types'
 import { useAppContext } from '../context'
 import { capitalizeWord } from '../utils'
 
 export const Interactive = () => {
   const [{ selectedChampion, lolChampionsData, selectedPatch }, dispatch] = useAppContext()
-  const { data, error, loading } = useChampionsIndexQuery({
+  const { data, error, loading } = useCharactersIndexQuery({
     variables: {
       filter: {
         nameCnt: '',
@@ -19,7 +19,7 @@ export const Interactive = () => {
 
   const onInput = () => {}
 
-  const champions = data?.champions || []
+  const characters = data?.characters || []
 
   const onClick = (value: any) => () => {
     // const champion = getChampion(selectedPatch, value.name)
@@ -34,13 +34,13 @@ export const Interactive = () => {
             onChange={onInput}
             value={null}
             classes='mb-4 bg-space-700'
-            options={champions.map((c) => c?.name)}
+            options={characters.map((c) => c?.name)}
             label='Select a champion'
           />
         </div>
 
         <div className='flex flex-wrap'>
-          {champions.map((c) => {
+          {characters.map((c) => {
             const capitalizedName = capitalizeWord(c?.name)
             const lolData = lolChampionsData[capitalizedName]
 

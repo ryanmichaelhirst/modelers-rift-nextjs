@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
-import { createDb, generateGlb, generateJsx, generateSounds, seedDb } from './cmds'
+import { createDb, generateGlb, generateJsx, generateSounds, seedDb, wipeDb } from './cmds'
 
 dotenv.config()
 
@@ -36,6 +36,9 @@ const run = async () => {
   switch (command) {
     case 'create-db':
       createDb({ type: 'postgresql' })
+      break
+    case 'wipe-db':
+      wipeDb()
       break
     case 'seed-db':
       seedDb()

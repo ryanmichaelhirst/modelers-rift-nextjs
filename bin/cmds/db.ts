@@ -4,7 +4,7 @@ import { execSync } from 'child_process'
 import fs from 'fs'
 import PQueue from 'p-queue'
 import path from 'path'
-import { Asset, createAssets } from '../../prisma/queries/index'
+import { Asset, createAssets, deleteAllTableData } from '../../prisma/utils'
 import { BUCKET_NAME, s3 } from '../../server/aws'
 import { soundTypes } from './sounds'
 
@@ -29,6 +29,13 @@ export const createDb = async ({ type }: { type: 'postgresql' | 'sqlite' }) => {
   execSync('npx prisma migrate dev --name init-db', { stdio: 'inherit' })
 }
 
+export const wipeDb = async () => {
+  console.time('wipe-db')
+  const result = await deleteAllTableData()
+  console.debug(result)
+  console.timeEnd('wipe-db')
+}
+
 export const seedDb = async () => {
   console.time('seed-db')
 
@@ -51,7 +58,7 @@ const uploadModels = async () => {
   const champDirs = fs.readdirSync(inputDir)
 
   for (const champDir of champDirs) {
-    if (champDir !== 'aatrox' && champDir !== 'ahri') continue
+    // if (champDir !== 'aatrox' && champDir !== 'ahri') continue
 
     // TODO: there is a bug, not all assets are being processed
     // fs.readFile() callback not completing for every file
@@ -101,7 +108,7 @@ const uploadModels = async () => {
 
       // TODO: with this line aws s3 errors no longer show? ("can't read byte length")
       // add to db
-      await createAssets({ championName: champDir, assets })
+      await createAssets({ characterName: champDir, assets })
     })
   }
 
@@ -116,7 +123,7 @@ const uploadSounds = async () => {
   const champDirs = fs.readdirSync(inputDir)
 
   for (const champDir of champDirs) {
-    if (champDir !== 'aatrox' && champDir !== 'ahri') continue
+    // if (champDir !== 'aatrox' && champDir !== 'ahri') continue
 
     for (const soundType of soundTypes) {
       // TODO: there is a bug, not all assets are being processed
@@ -173,7 +180,7 @@ const uploadSounds = async () => {
 
         // TODO: with this line aws s3 errors no longer show? ("can't read byte length")
         // add to db
-        await createAssets({ championName: champDir, assets })
+        await createAssets({ characterName: champDir, assets })
       })
     }
   }

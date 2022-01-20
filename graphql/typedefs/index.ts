@@ -1,12 +1,13 @@
 import { gql } from 'apollo-server-express'
 
 export const typeDefs = gql`
-  input ChampionsFilter {
+  input CharactersFilter {
     nameCnt: String
+    typeEq: String
     includeAssets: Boolean
   }
 
-  type Champion {
+  type Character {
     id: ID
     name: String
     assets: [Asset]
@@ -28,13 +29,13 @@ export const typeDefs = gql`
   input AssetsFilter {
     nameCnt: String
     typeEq: String
-    championIdsIncludes: [ID]
+    characterIdsIncludes: [ID]
   }
 
   type Asset {
     id: ID
-    champion: Champion
-    championId: ID
+    character: Character
+    characterId: ID
     type: String
     name: String
     skin: String
@@ -43,7 +44,7 @@ export const typeDefs = gql`
 
   type Query {
     users(filter: UsersFilter): [User]
-    champions(filter: ChampionsFilter): [Champion]
+    characters(filter: CharactersFilter): [Character]
     assets(filter: AssetsFilter): [Asset]
   }
 `

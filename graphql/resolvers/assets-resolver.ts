@@ -1,10 +1,10 @@
-import { prisma } from '../../prisma/queries/index'
+import { prisma } from '../../prisma/utils'
 
 export const AssetsResolver = (parent, args, ctx) => {
   console.debug({ parent, args, ctx })
 
   // championIds come in as string[]
-  const championIds = args?.filter?.championIdsIncludes
+  const characterIds = args?.filter?.characterIdsIncludes
 
   return prisma.asset.findMany({
     where: {
@@ -16,14 +16,14 @@ export const AssetsResolver = (parent, args, ctx) => {
           equals: args?.filter?.typeEq,
         },
       }),
-      championId: {
-        ...(championIds && { in: championIds.map((id) => parseInt(id)) }),
+      characterId: {
+        ...(characterIds && { in: characterIds.map((id) => parseInt(id)) }),
       },
     },
     select: {
       id: true,
-      champion: true,
-      championId: true,
+      character: true,
+      characterId: true,
       type: true,
       name: true,
       skin: true,

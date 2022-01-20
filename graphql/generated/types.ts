@@ -1,5 +1,5 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { Champion as ChampionModel, Asset as AssetModel } from '@prisma/client/index.d';
+import { Character as CharacterModel, Asset as AssetModel } from '@prisma/client/index.d';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -20,8 +20,8 @@ export type Scalars = {
 
 export type Asset = {
   __typename?: 'Asset';
-  champion?: Maybe<Champion>;
-  championId?: Maybe<Scalars['ID']>;
+  character?: Maybe<Character>;
+  characterId?: Maybe<Scalars['ID']>;
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
   path?: Maybe<Scalars['String']>;
@@ -30,27 +30,28 @@ export type Asset = {
 };
 
 export type AssetsFilter = {
-  championIdsIncludes?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  characterIdsIncludes?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   nameCnt?: InputMaybe<Scalars['String']>;
   typeEq?: InputMaybe<Scalars['String']>;
 };
 
-export type Champion = {
-  __typename?: 'Champion';
+export type Character = {
+  __typename?: 'Character';
   assets?: Maybe<Array<Maybe<Asset>>>;
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
 };
 
-export type ChampionsFilter = {
+export type CharactersFilter = {
   includeAssets?: InputMaybe<Scalars['Boolean']>;
   nameCnt?: InputMaybe<Scalars['String']>;
+  typeEq?: InputMaybe<Scalars['String']>;
 };
 
 export type Query = {
   __typename?: 'Query';
   assets?: Maybe<Array<Maybe<Asset>>>;
-  champions?: Maybe<Array<Maybe<Champion>>>;
+  characters?: Maybe<Array<Maybe<Character>>>;
   users?: Maybe<Array<Maybe<User>>>;
 };
 
@@ -60,8 +61,8 @@ export type QueryAssetsArgs = {
 };
 
 
-export type QueryChampionsArgs = {
-  filter?: InputMaybe<ChampionsFilter>;
+export type QueryCharactersArgs = {
+  filter?: InputMaybe<CharactersFilter>;
 };
 
 
@@ -155,8 +156,8 @@ export type ResolversTypes = {
   Asset: ResolverTypeWrapper<AssetModel>;
   AssetsFilter: AssetsFilter;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-  Champion: ResolverTypeWrapper<ChampionModel>;
-  ChampionsFilter: ChampionsFilter;
+  Character: ResolverTypeWrapper<CharacterModel>;
+  CharactersFilter: CharactersFilter;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Query: ResolverTypeWrapper<{}>;
@@ -170,8 +171,8 @@ export type ResolversParentTypes = {
   Asset: AssetModel;
   AssetsFilter: AssetsFilter;
   Boolean: Scalars['Boolean'];
-  Champion: ChampionModel;
-  ChampionsFilter: ChampionsFilter;
+  Character: CharacterModel;
+  CharactersFilter: CharactersFilter;
   ID: Scalars['ID'];
   Int: Scalars['Int'];
   Query: {};
@@ -181,8 +182,8 @@ export type ResolversParentTypes = {
 };
 
 export type AssetResolvers<ContextType = any, ParentType extends ResolversParentTypes['Asset'] = ResolversParentTypes['Asset']> = {
-  champion?: Resolver<Maybe<ResolversTypes['Champion']>, ParentType, ContextType>;
-  championId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  character?: Resolver<Maybe<ResolversTypes['Character']>, ParentType, ContextType>;
+  characterId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   path?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -191,7 +192,7 @@ export type AssetResolvers<ContextType = any, ParentType extends ResolversParent
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type ChampionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Champion'] = ResolversParentTypes['Champion']> = {
+export type CharacterResolvers<ContextType = any, ParentType extends ResolversParentTypes['Character'] = ResolversParentTypes['Character']> = {
   assets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Asset']>>>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -200,7 +201,7 @@ export type ChampionResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   assets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Asset']>>>, ParentType, ContextType, RequireFields<QueryAssetsArgs, never>>;
-  champions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Champion']>>>, ParentType, ContextType, RequireFields<QueryChampionsArgs, never>>;
+  characters?: Resolver<Maybe<Array<Maybe<ResolversTypes['Character']>>>, ParentType, ContextType, RequireFields<QueryCharactersArgs, never>>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType, RequireFields<QueryUsersArgs, never>>;
 };
 
@@ -215,7 +216,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type Resolvers<ContextType = any> = {
   Asset?: AssetResolvers<ContextType>;
-  Champion?: ChampionResolvers<ContextType>;
+  Character?: CharacterResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
@@ -226,14 +227,14 @@ export type AssetsIndexQueryVariables = Exact<{
 }>;
 
 
-export type AssetsIndexQuery = { __typename?: 'Query', assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, championId?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined } | null | undefined> | null | undefined };
+export type AssetsIndexQuery = { __typename?: 'Query', assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, characterId?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined } | null | undefined> | null | undefined };
 
-export type ChampionsIndexQueryVariables = Exact<{
-  filter?: InputMaybe<ChampionsFilter>;
+export type CharactersIndexQueryVariables = Exact<{
+  filter?: InputMaybe<CharactersFilter>;
 }>;
 
 
-export type ChampionsIndexQuery = { __typename?: 'Query', champions?: Array<{ __typename?: 'Champion', id?: string | null | undefined, name?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined> | null | undefined };
+export type CharactersIndexQuery = { __typename?: 'Query', characters?: Array<{ __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined> | null | undefined };
 
 export type UsersIndexQueryVariables = Exact<{
   filter?: InputMaybe<UsersFilter>;
@@ -247,7 +248,7 @@ export const AssetsIndexDocument = gql`
     query AssetsIndex($filter: AssetsFilter) {
   assets(filter: $filter) {
     id
-    championId
+    characterId
     type
     name
     skin
@@ -283,9 +284,9 @@ export function useAssetsIndexLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type AssetsIndexQueryHookResult = ReturnType<typeof useAssetsIndexQuery>;
 export type AssetsIndexLazyQueryHookResult = ReturnType<typeof useAssetsIndexLazyQuery>;
 export type AssetsIndexQueryResult = Apollo.QueryResult<AssetsIndexQuery, AssetsIndexQueryVariables>;
-export const ChampionsIndexDocument = gql`
-    query ChampionsIndex($filter: ChampionsFilter) {
-  champions(filter: $filter) {
+export const CharactersIndexDocument = gql`
+    query CharactersIndex($filter: CharactersFilter) {
+  characters(filter: $filter) {
     id
     name
     assets {
@@ -300,32 +301,32 @@ export const ChampionsIndexDocument = gql`
     `;
 
 /**
- * __useChampionsIndexQuery__
+ * __useCharactersIndexQuery__
  *
- * To run a query within a React component, call `useChampionsIndexQuery` and pass it any options that fit your needs.
- * When your component renders, `useChampionsIndexQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useCharactersIndexQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCharactersIndexQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useChampionsIndexQuery({
+ * const { data, loading, error } = useCharactersIndexQuery({
  *   variables: {
  *      filter: // value for 'filter'
  *   },
  * });
  */
-export function useChampionsIndexQuery(baseOptions?: Apollo.QueryHookOptions<ChampionsIndexQuery, ChampionsIndexQueryVariables>) {
+export function useCharactersIndexQuery(baseOptions?: Apollo.QueryHookOptions<CharactersIndexQuery, CharactersIndexQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ChampionsIndexQuery, ChampionsIndexQueryVariables>(ChampionsIndexDocument, options);
+        return Apollo.useQuery<CharactersIndexQuery, CharactersIndexQueryVariables>(CharactersIndexDocument, options);
       }
-export function useChampionsIndexLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ChampionsIndexQuery, ChampionsIndexQueryVariables>) {
+export function useCharactersIndexLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CharactersIndexQuery, CharactersIndexQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ChampionsIndexQuery, ChampionsIndexQueryVariables>(ChampionsIndexDocument, options);
+          return Apollo.useLazyQuery<CharactersIndexQuery, CharactersIndexQueryVariables>(CharactersIndexDocument, options);
         }
-export type ChampionsIndexQueryHookResult = ReturnType<typeof useChampionsIndexQuery>;
-export type ChampionsIndexLazyQueryHookResult = ReturnType<typeof useChampionsIndexLazyQuery>;
-export type ChampionsIndexQueryResult = Apollo.QueryResult<ChampionsIndexQuery, ChampionsIndexQueryVariables>;
+export type CharactersIndexQueryHookResult = ReturnType<typeof useCharactersIndexQuery>;
+export type CharactersIndexLazyQueryHookResult = ReturnType<typeof useCharactersIndexLazyQuery>;
+export type CharactersIndexQueryResult = Apollo.QueryResult<CharactersIndexQuery, CharactersIndexQueryVariables>;
 export const UsersIndexDocument = gql`
     query UsersIndex($filter: UsersFilter) {
   users(filter: $filter) {

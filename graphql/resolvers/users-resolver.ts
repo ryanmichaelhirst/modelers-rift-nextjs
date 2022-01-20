@@ -1,4 +1,4 @@
-import { prisma } from '../../prisma/queries/index'
+import { prisma } from '../../prisma/utils'
 
 export const UsersResolver = (parent, args, ctx) => {
   console.debug({ parent, args, ctx })
