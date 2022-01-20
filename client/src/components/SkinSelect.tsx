@@ -1,51 +1,43 @@
-import { chooseSkin, selectPlayerChampion } from '@store/slices/championSlice'
-import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useAssetsIndexQuery } from '../../../graphql/generated/types'
+import { SET_SELECTED_CHAMPION_SKIN, useAppContext } from '../context'
+import { capitalizeWord } from '../utils'
 
-const SkinSelect = ({ items }: { items: any[] }) => {
-  const champion = useSelector(selectPlayerChampion)
-  const [selected, setSelected] = useState<Record<string, any>>()
-  const { data, error, loading } = useAssetsIndexQuery({
-    variables: {
-      filter: {
-        championIdsIncludes: ['27'],
-      },
-    },
-  })
+const SkinSelect = () => {
+  const [{ selectedChampion }, dispatch] = useAppContext()
 
-  const dispatch = useDispatch()
-
-  const onClick = (file: string) => () => {
-    dispatch(
-      chooseSkin({
-        type: 'playerChampion',
-        champion: champion?.name || '',
-        skin: data?.assets?.find((a) => a?.name === file),
-      }),
-    )
+  const onClick = (num?: number) => () => {
+    const skinNum = `skin${num}`
+    dispatch({ type: SET_SELECTED_CHAMPION_SKIN, payload: skinNum })
   }
+
+  const championName = capitalizeWord(selectedChampion.basicInfo?.name)
+  const skins = selectedChampion.detailedInfo?.skins
 
   return (
     <div className='mb-4'>
       <p>Skins</p>
       <div className='h-40 overflow-y-auto'>
-        {items.map((i) => (
-          <div
-            key={i.num}
-            className='py-5 px-4 bg-cover'
-            style={{ backgroundImage: `url(${i.src})` }}
-            onClick={onClick(`skin${i.num}`)}
-          >
-            <span className='capitalize text-white'>{i.name}</span>
-          </div>
-        ))}
+        {skins?.map((skin) => {
+          const backgroundImage = `url(http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championName}_${skin.num}.jpg)`
+
+          return (
+            <div
+              key={skin?.id}
+              className='py-5 px-4 bg-cover'
+              style={{
+                backgroundImage,
+              }}
+              onClick={onClick(skin?.num)}
+            >
+              <span className='capitalize text-white'>{skin?.name}</span>
+            </div>
+          )
+        })}
       </div>
       <p>Chromas</p>
       {Array.from(Array(19).keys())
-        .filter((k) => !items?.some((i) => i.num === k))
+        .filter((k) => !skins?.some((i) => i.num === k))
         .map((num) => (
-          <span key={num} className='mr-2' onClick={onClick(`skin${num}`)}>
+          <span key={num} className='mr-2' onClick={onClick(num)}>
             {num}
           </span>
         ))}

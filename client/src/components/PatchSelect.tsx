@@ -1,21 +1,11 @@
 import Input from '@components/Input'
-import {
-  fetchChampions,
-  selectPatches,
-  selectSelectedPatch,
-  setSelectedPatch,
-} from '@store/slices/championSlice'
-import { useEffect } from 'react'
+import { selectPatches, selectSelectedPatch, setSelectedPatch } from '@store/slices/championSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
 export const PatchSelect = () => {
   const dispatch = useDispatch()
   const selectedPatch = useSelector(selectSelectedPatch)
   const patches = useSelector(selectPatches)
-
-  useEffect(() => {
-    if (selectedPatch) dispatch(fetchChampions())
-  }, [selectedPatch])
 
   const onInput = (e: React.SyntheticEvent<Element, Event>, value: any, reason: string) => {
     dispatch(setSelectedPatch(value))

@@ -1,13 +1,16 @@
 import { MenuBar } from '@components/MenuBar'
-import { fetchChampions, fetchPatches, selectSelectedPatch } from '@store/slices/championSlice'
-import { fetchItems } from '@store/slices/itemSlice'
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import type { RouteObject } from 'react-router-dom'
 import { useRoutes } from 'react-router-dom'
+import {
+  SET_LOL_CHAMPIONS_DATA,
+  SET_SELECTED_CHAMPION_BASIC_INFO,
+  SET_SELECTED_CHAMPION_DETAILED_INFO,
+  useAppContext,
+} from '../context'
 import { Dashboard } from '../routes/Dashboard'
 import { Interactive } from '../routes/Interactive'
-
+import { getChampion, getChampions } from '../utils'
 export const routes: RouteObject[] = [
   {
     path: '/',
@@ -24,18 +27,23 @@ export const routes: RouteObject[] = [
 
 export const App = () => {
   const element = useRoutes(routes)
-  const dispatch = useDispatch()
-  const selectedPatch = useSelector(selectSelectedPatch)
+  const [{ selectedPatch, lolChampionsData }, dispatch] = useAppContext()
 
   useEffect(() => {
-    dispatch(fetchPatches())
-  }, [])
+    // load detailed champion data from DDRAGON
+    const fetch = async () => {
+      if (selectedPatch && Object.keys(lolChampionsData).length === 0) {
+        const ddragonChampions = await getChampions(selectedPatch)
+        const basicInfo = ddragonChampions['Aatrox']
+        const detailedInfo = await getChampion(selectedPatch, basicInfo.name)
 
-  useEffect(() => {
-    if (selectedPatch) {
-      dispatch(fetchItems())
-      dispatch(fetchChampions())
+        dispatch({ type: SET_LOL_CHAMPIONS_DATA, payload: ddragonChampions })
+        dispatch({ type: SET_SELECTED_CHAMPION_BASIC_INFO, payload: basicInfo })
+        dispatch({ type: SET_SELECTED_CHAMPION_DETAILED_INFO, payload: detailedInfo })
+      }
     }
+
+    fetch()
   }, [selectedPatch])
 
   return <div className='h-screen'>{element}</div>

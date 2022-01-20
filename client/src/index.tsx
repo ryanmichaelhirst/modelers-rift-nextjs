@@ -9,18 +9,21 @@ import { BrowserRouter } from 'react-router-dom'
 import '../styles/index.css'
 import '../styles/tailwind.css'
 import { apolloClient } from './api/index'
+import { initialState, reducer, StoreProvider } from './context'
 
 ReactDOM.render(
   <ApolloProvider client={apolloClient}>
-    <Provider store={store}>
-      <BrowserRouter>
-        <SnackbarProvider maxSnack={3}>
-          <Theme>
-            <App />
-          </Theme>
-        </SnackbarProvider>
-      </BrowserRouter>
-    </Provider>
+    <StoreProvider initialState={initialState} reducer={reducer}>
+      <Provider store={store}>
+        <BrowserRouter>
+          <SnackbarProvider maxSnack={3}>
+            <Theme>
+              <App />
+            </Theme>
+          </SnackbarProvider>
+        </BrowserRouter>
+      </Provider>
+    </StoreProvider>
     ,
   </ApolloProvider>,
 

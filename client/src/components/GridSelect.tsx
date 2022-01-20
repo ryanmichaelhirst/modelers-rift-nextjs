@@ -2,87 +2,85 @@ import { Card } from '@components/Card'
 import Input from '@components/Input'
 import { Loader } from '@components/Loader'
 import SkinSelect from '@components/SkinSelect'
-import { chooseChampion, selectPlayerChampion } from '@store/slices/championSlice'
 import classNames from 'classnames'
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useChampionsIndexQuery } from '../../../graphql/generated/types'
+import {
+  SET_SELECTED_CHAMPION_BASIC_INFO,
+  SET_SELECTED_CHAMPION_DETAILED_INFO,
+  useAppContext,
+} from '../context'
+import { getChampion } from '../utils'
 
-const GridSelect = ({ items }: { items: any[] }) => {
-  const champion = useSelector(selectPlayerChampion)
-  const [selected, setSelected] = useState<Record<string, any>>()
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    if (!selected && items) {
-      const item = items[0]
-
-      setSelected(item)
-    }
-  }, [items])
+const GridSelect = () => {
+  const { data, loading } = useChampionsIndexQuery()
+  const [{ selectedChampion, selectedPatch, lolChampionsData }, dispatch] = useAppContext()
+  const champions = data?.champions || []
 
   const onInput = (e: React.SyntheticEvent<Element, Event>, value: any, reason: string) => {
     if (reason !== 'selectOption') return
 
-    const item = items.find((i) => i.name === value)
-    if (!item) return
+    const champ = champions.find((c) => c?.name === value)
+    if (!champ) return
 
-    dispatch(chooseChampion('playerChampion', item))
-    setSelected(item)
+    dispatch({ type: SET_SELECTED_CHAMPION_BASIC_INFO, payload: champ })
   }
 
-  const onClick = (item: Record<string, any>) => () => {
-    dispatch(chooseChampion('playerChampion', item))
-    setSelected(item)
-  }
+  const onClick = (name?: string | null) => async () => {
+    if (!name) return
 
-  const skins =
-    champion?.skins?.map((s: any) => ({
-      ...s,
-      src: `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champion.name}_${s.num}.jpg`,
-    })) || []
+    const detailedInfo = await getChampion(selectedPatch, name)
+    const basicInfo = lolChampionsData[name]
+
+    dispatch({ type: SET_SELECTED_CHAMPION_BASIC_INFO, payload: basicInfo })
+    dispatch({ type: SET_SELECTED_CHAMPION_DETAILED_INFO, payload: detailedInfo })
+  }
 
   return (
     <div style={{ transform: 'perspective(500px) rotateY(15deg)' }}>
       <Card>
-        {selected ? (
+        {selectedChampion ? (
           <Input
             onChange={onInput}
-            value={selected.name}
+            value={selectedChampion.basicInfo?.name?.toLowerCase()}
             classes='mb-4'
-            options={items.map((i) => i.name)}
+            options={champions.map((c) => c?.name || '')}
             label='Select your champion'
           />
         ) : (
           <Loader />
         )}
         <div className='grid grid-flow-row grid-cols-4 gap-0.5 overflow-y-auto h-64'>
-          {items ? (
-            items.map((i, idx) => {
-              const active = i.name === selected?.name
+          {loading ? (
+            <Loader />
+          ) : (
+            champions.map((c) => {
+              const active = c?.name === selectedChampion?.basicInfo?.name
+              const square_asset = lolChampionsData[c?.name || '']?.square_asset
+              const backgroundImage = `url(${square_asset})`
 
               return (
                 <div
-                  key={idx}
+                  key={c?.id}
                   className={classNames(
                     'bg-cover bg-center h-20 text-white',
                     !active && 'opacity-70',
                   )}
                   style={{
-                    backgroundImage: `url(${i.square_asset})`,
+                    backgroundImage,
                   }}
-                  onClick={onClick(i)}
+                  onClick={onClick(c?.name)}
                 >
-                  <p>{i.name}</p>
+                  <p>{c?.name}</p>
                 </div>
               )
             })
-          ) : (
-            <Loader />
           )}
         </div>
       </Card>
 
-      <Card style={{ marginTop: '15px' }}>{skins ? <SkinSelect items={skins} /> : <Loader />}</Card>
+      <Card style={{ marginTop: '15px' }}>
+        <SkinSelect />
+      </Card>
     </div>
   )
 }

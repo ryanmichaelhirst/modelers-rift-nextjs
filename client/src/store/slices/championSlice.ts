@@ -38,7 +38,6 @@ export const championSlice = createSlice({
       state.champions = action.payload
     },
     setPlayerChampion: (state, action: PayloadAction<Record<string, any>>) => {
-      console.log(action.payload)
       state.playerChampion = action.payload
     },
     setOpponentChampion: (state, action: PayloadAction<Record<string, any>>) => {
@@ -73,107 +72,6 @@ export const {
   setPatches,
   setLoreLink,
 } = championSlice.actions
-
-export const chooseSkin = ({
-  type,
-  champion,
-
-  skin,
-}: {
-  type: string
-  champion: string
-  skin: any
-}): AppThunk => async (dispatch, getState) => {
-  const state = getState()
-  const file = skin?.name
-  const awsUrl = `/api/getAwsObject/${champion.toLowerCase()}/${file}`
-
-  if (type === 'playerChampion') {
-    dispatch(
-      setPlayerChampion({
-        ...state.champion.playerChampion,
-        model: {
-          file,
-          awsUrl,
-        },
-      }),
-    )
-  }
-
-  if (type === 'opponentChampion') {
-    dispatch(
-      setOpponentChampion({
-        ...state.champion.opponentChampion,
-        model: {
-          file,
-          awsUrl,
-        },
-      }),
-    )
-  }
-}
-
-export const chooseChampion = (type: string, payload: Record<string, any>): AppThunk => async (
-  dispatch,
-  getState,
-) => {
-  const { name } = payload
-  const state = getState()
-  const { selectedPatch } = state.champion
-
-  // get champion info from league api
-  const { data } = await fetch(
-    `http://ddragon.leagueoflegends.com/cdn/${selectedPatch}/data/en_US/champion/${name}.json`,
-  ).then((res) => res.json())
-
-  // get model info from aws / prisma
-  const res = await (await fetch(`/api/getChampionAssets/${name.toLowerCase()}`)).json()
-  const asset = res.models.find((m: any) => m.name === `skin0`)
-  const awsUrl = `/api/getAwsObject/${name.toLowerCase()}/${asset.name}`
-
-  const playerChampion = {
-    ...state.champion.playerChampion,
-    ...data[name],
-    model: {
-      file: 'skin0',
-      awsUrl,
-    },
-  }
-  const opponentChampion = {
-    ...state.champion.opponentChampion,
-    ...data[name],
-    model: {
-      file: 'skin0',
-      awsUrl,
-    },
-  }
-
-  if (type === 'playerChampion') dispatch(setPlayerChampion(playerChampion))
-  if (type === 'opponentChampion') dispatch(setOpponentChampion(opponentChampion))
-}
-
-export const fetchChampions = (): AppThunk => async (dispatch, getState) => {
-  const state = getState()
-  const { selectedPatch } = state.champion
-
-  const { data } = await fetch(
-    `http://ddragon.leagueoflegends.com/cdn/${selectedPatch}/data/en_US/champion.json`,
-  ).then((res) => res.json())
-  const championsWithAssets = Object.keys(data).reduce((acc, cur) => {
-    return {
-      ...acc,
-      [cur]: {
-        ...acc[cur],
-        square_asset: `http://ddragon.leagueoflegends.com/cdn/${selectedPatch}/img/champion/${cur}.png`,
-      },
-    }
-  }, data)
-
-  dispatch(chooseChampion('playerChampion', championsWithAssets.Aatrox))
-  dispatch(chooseChampion('opponentChampion', championsWithAssets.Akali))
-  dispatch(setChampions(championsWithAssets))
-  dispatch(setChampionLoading(false))
-}
 
 export const fetchPatches = (): AppThunk => async (dispatch) => {
   const data = await fetch('https://ddragon.leagueoflegends.com/api/versions.json').then((res) =>

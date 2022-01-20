@@ -1,8 +1,7 @@
 import express from 'express'
 import { Readable } from 'stream'
 import { apolloServer } from '../graphql/resolvers/index'
-import { getChampionAssets } from '../prisma/queries'
-import { getAwsChampionObject, getAwsObject } from './aws'
+import { getAwsObject } from './aws'
 
 export default (async () => {
   const app = express()
@@ -10,35 +9,18 @@ export default (async () => {
   await apolloServer.start()
   apolloServer.applyMiddleware({ app })
 
-  app.get('/api/getChampionAssets/:name', async (req, res) => {
-    console.log('server /api/getChampionAssets/:name')
-
-    const { name } = req.params
-    const models = await getChampionAssets({
-      name,
-    })
-    const awsChampionObject = await getAwsChampionObject({ name })
-
-    res.send({ models, glbs: awsChampionObject.Contents })
-  })
-
   app.get('/api/getAwsObject/:folder/:file', async (req, res) => {
-    console.log('server /api/getAwsObject/:folder/:file')
+    console.debug('server /api/getAwsObject/:folder/:file')
 
     const key = `${req.params.folder}/model/${req.params.file}/default.glb`
     const { Body, ...response } = await getAwsObject({ key })
 
     if (Body instanceof Readable) {
-      console.log('body is type readable')
+      console.debug('body is type readable')
       Body.pipe(res)
-      // try {
-      //   Body.on('data', (data) => res.write(data))
-      //   Body.on('end', () => res.status(200).send())
-      // } catch (err) {
-      //   res.status(500).send('error writing stream from aws')
-      // }
     } else if (Body instanceof Blob) {
-      console.log('body is type blob')
+      console.debug('body is type blob')
+      res.status(501).send('blob type is unsupported')
     } else {
       res.status(501).send('error reading body from aws')
     }
@@ -46,5 +28,5 @@ export default (async () => {
 
   app.listen(4000)
 
-  console.log(`🚀 Server ready at http://localhost:4000${apolloServer.graphqlPath}`)
+  console.debug(`🚀 Server ready at http://localhost:4000${apolloServer.graphqlPath}`)
 })()

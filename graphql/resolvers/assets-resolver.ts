@@ -1,7 +1,7 @@
 import { prisma } from '../../prisma/queries/index'
 
 export const AssetsResolver = (parent, args, ctx) => {
-  console.log({ parent, args, ctx })
+  console.debug({ parent, args, ctx })
 
   // championIds come in as string[]
   const championIds = args?.filter?.championIdsIncludes

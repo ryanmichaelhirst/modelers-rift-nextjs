@@ -1,7 +1,7 @@
 import { prisma } from '../../prisma/queries/index'
 
 export const UsersResolver = (parent, args, ctx) => {
-  console.log({ parent, args, ctx })
+  console.debug({ parent, args, ctx })
 
   return prisma.user.findMany({
     where: {

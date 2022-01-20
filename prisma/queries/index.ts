@@ -17,8 +17,6 @@ export const prisma = new PrismaClient({
   rejectOnNotFound: false,
 })
 
-export const getUsers = async () => await prisma.user.findMany()
-
 const findOrCreateChampion = async (name: string) => {
   let champion = await prisma.champion.findFirst({
     where: { name },
@@ -49,27 +47,3 @@ export const createAssets = async ({
     })),
   })
 }
-
-export const getChampions = async () =>
-  await prisma.champion.findMany({
-    include: {
-      assets: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  })
-
-export const getChampionAssets = async ({ name }: { name: string }) =>
-  (
-    await prisma.champion.findFirst({
-      where: {
-        name,
-      },
-      include: {
-        assets: true,
-      },
-    })
-  ).assets
