@@ -3,21 +3,22 @@ import { Details } from '@components/Details'
 import GridSelect from '@components/GridSelect'
 import { Layout } from '@components/Layout'
 import { PatchSelect } from '@components/PatchSelect'
-import { fetchPatches, selectSelectedPatch } from '@store/slices/championSlice'
-import { fetchItems } from '@store/slices/itemSlice'
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { SET_LOL_ITEMS_DATA, useAppContext } from '../context'
+import { getItems } from '../utils'
 
 export const Dashboard = () => {
-  const dispatch = useDispatch()
-  const selectedPatch = useSelector(selectSelectedPatch)
+  const [{ selectedPatch, lolItemsData }, dispatch] = useAppContext()
 
   useEffect(() => {
-    dispatch(fetchPatches())
-  }, [])
+    const fetch = async () => {
+      if (!selectedPatch || lolItemsData) return
 
-  useEffect(() => {
-    if (selectedPatch) dispatch(fetchItems())
+      const lolItems = await getItems(selectedPatch)
+      dispatch({ type: SET_LOL_ITEMS_DATA, payload: lolItems })
+    }
+
+    fetch()
   }, [selectedPatch])
 
   return (

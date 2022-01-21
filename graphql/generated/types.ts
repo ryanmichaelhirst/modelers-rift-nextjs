@@ -38,6 +38,7 @@ export type AssetsFilter = {
 export type Character = {
   __typename?: 'Character';
   assets?: Maybe<Array<Maybe<Asset>>>;
+  displayName?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
 };
@@ -194,6 +195,7 @@ export type AssetResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type CharacterResolvers<ContextType = any, ParentType extends ResolversParentTypes['Character'] = ResolversParentTypes['Character']> = {
   assets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Asset']>>>, ParentType, ContextType>;
+  displayName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -234,7 +236,7 @@ export type CharactersIndexQueryVariables = Exact<{
 }>;
 
 
-export type CharactersIndexQuery = { __typename?: 'Query', characters?: Array<{ __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined> | null | undefined };
+export type CharactersIndexQuery = { __typename?: 'Query', characters?: Array<{ __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined> | null | undefined };
 
 export type UsersIndexQueryVariables = Exact<{
   filter?: InputMaybe<UsersFilter>;
@@ -289,6 +291,7 @@ export const CharactersIndexDocument = gql`
   characters(filter: $filter) {
     id
     name
+    displayName
     assets {
       id
       type

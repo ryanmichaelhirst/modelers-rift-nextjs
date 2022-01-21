@@ -46,9 +46,9 @@ export const championNames = [
   'Katarina',
   'Kayle',
   'Kennen',
-  'KhaZix',
+  'Khazix',
   "Kog'Maw",
-  'LeBlanc',
+  'Leblanc',
   'LeeSin',
   'Leona',
   'Lissandra',
@@ -171,8 +171,11 @@ export const determineType = (name: string) => {
 }
 
 // given 'tahmkench' returns 'Tahm Kench'
-export const getDisplayName = (name: string) =>
-  championNames
+export const getDisplayName = (name: string) => {
+  if (name.toLowerCase() === 'jarvaniv') return 'Jarvan IV'
+
+  return championNames
     .find((cn) => cn.toLowerCase() === name.toLowerCase())
     ?.split(/(?=[A-Z])/)
     .join(' ')
+}

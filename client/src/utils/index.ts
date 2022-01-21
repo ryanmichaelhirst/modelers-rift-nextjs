@@ -1,17 +1,21 @@
+import { ChampionBasicInfo, ChampionDetailedInfo, Item } from '@customtypes/index'
+
 export const getChampions = async (patch: string) => {
   const { data } = await fetch(
     `http://ddragon.leagueoflegends.com/cdn/${patch}/data/en_US/champion.json`,
-  ).then((res) => res.json())
+  ).then<{ data: Record<string, ChampionBasicInfo> }>((res) => res.json())
 
-  const championsWithAssets = Object.keys(data).reduce((acc, cur) => {
+  const championsWithAssets = Object.keys(data).reduce<Record<string, any>>((acc, cur) => {
+    const lowerCaseName = cur.toLowerCase()
+
     return {
       ...acc,
-      [cur.toLowerCase()]: {
-        ...acc[cur],
+      [lowerCaseName]: {
+        ...data[cur],
         square_asset: `http://ddragon.leagueoflegends.com/cdn/${patch}/img/champion/${cur}.png`,
       },
     }
-  }, data)
+  }, {})
 
   return championsWithAssets
 }
@@ -21,7 +25,7 @@ export const getChampion = async (selectedPatch: string, name: string) => {
   // get champion info from league api
   const { data } = await fetch(
     `http://ddragon.leagueoflegends.com/cdn/${selectedPatch}/data/en_US/champion/${capitalizedName}.json`,
-  ).then((res) => res.json())
+  ).then<{ data: Record<string, ChampionDetailedInfo> }>((res) => res.json())
 
   // i.e. { Aatrox: { allytips; blurb; etc etc } }
   const keys = Object.keys(data).map((key) => key)
@@ -36,3 +40,30 @@ export const capitalizeWord = (word?: string | null) => {
 
   return word.charAt(0).toUpperCase() + word.substring(1)
 }
+
+export const getItems = async (selectedPatch: string) => {
+  const { data } = await fetch(
+    `http://ddragon.leagueoflegends.com/cdn/${selectedPatch}/data/en_US/item.json`,
+  ).then<{ data: Record<string, Item> }>((res) => res.json())
+
+  return Object.values(data).reduce<any>((acc, value) => {
+    acc[value.name] = value
+
+    return acc
+  }, {})
+}
+
+export const getPatches = async () =>
+  await fetch('https://ddragon.leagueoflegends.com/api/versions.json').then<string[]>((res) =>
+    res.json(),
+  )
+
+export const getLoreLink = (region: string, name: string) =>
+  `https://universe.leagueoflegends.com/${region}/champion/${name}/`
+
+// expects name formatted as 'Tahm Kench'
+export const getSplashArtLink = (displayName: string, skinNum: number | string) =>
+  `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${displayName.replace(
+    ' ',
+    '',
+  )}_${skinNum}.jpg`

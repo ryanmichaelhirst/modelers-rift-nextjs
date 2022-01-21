@@ -1,9 +1,11 @@
 import Tabs from '@components/Tabs'
 import { STAT_OPTIONS } from '@customtypes/constants'
-import { LeagueChampion } from '@customtypes/index'
+import { SelectedChampion } from '@customtypes/index'
 
-const ChampionTabs = ({ champion }: { champion: LeagueChampion }) => {
-  const { spells, stats, skins } = champion
+const ChampionTabs = ({ champion }: { champion: SelectedChampion }) => {
+  if (!champion.detailedInfo) return null
+
+  const { spells, stats, skins, ally_tips, enemy_tips } = champion.detailedInfo
 
   const options = [
     {
@@ -23,6 +25,7 @@ const ChampionTabs = ({ champion }: { champion: LeagueChampion }) => {
       content: STAT_OPTIONS.map((s) => (
         <div key={s.value}>
           <span className='mr-3'>{s.label}</span>
+          {/* @ts-ignore */}
           <span>{stats ? stats[s.value] : null}</span>
         </div>
       )),
@@ -36,7 +39,7 @@ const ChampionTabs = ({ champion }: { champion: LeagueChampion }) => {
             <div className='inline-block mr-2 mb-2' key={s.id}>
               <img
                 className='h-28 rounded'
-                src={`http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.name}_${s.num}.jpg`}
+                src={`http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.basicInfo?.name}_${s.num}.jpg`}
                 title={s.name}
               />
             </div>
@@ -49,7 +52,7 @@ const ChampionTabs = ({ champion }: { champion: LeagueChampion }) => {
       tab: 'Tips',
       content: (
         <ul className='list-decimal list-inside'>
-          {champion?.allytips?.concat(champion?.enemytips || []).map((t, idx) => (
+          {ally_tips?.concat(enemy_tips || []).map((t, idx) => (
             <li className='text-xs' key={`tip-${idx}`}>
               {t}
             </li>

@@ -1,20 +1,20 @@
-import { ChampionBasicInfo, ChampionDetailedInfo } from '@customtypes/index'
+import { Item, SelectedChampion } from '@customtypes/index'
 import { createContext, FC, useContext, useReducer } from 'react'
 
 export const SET_SELECTED_PATCH = 'SET_SELECTED_PATCH'
+export const SET_PATCHES = 'SET_PATCHES'
 export const SET_SELECTED_CHAMPION_BASIC_INFO = 'SET_SELECTED_CHAMPION_BASIC_INFO'
 export const SET_SELECTED_CHAMPION_DETAILED_INFO = 'SET_SELECTED_CHAMPION_DETAILED_INFO'
 export const SET_SELECTED_CHAMPION_SKIN = 'SET_SELECTED_CHAMPION_SKIN'
 export const SET_LOL_CHAMPIONS_DATA = 'SET_LOL_CHAMPIONS_DATA'
+export const SET_LOL_ITEMS_DATA = 'SET_LOL_ITEMS_DATA'
 
 interface AppState {
-  selectedChampion: {
-    basicInfo?: ChampionBasicInfo
-    detailedInfo?: ChampionDetailedInfo
-    skin?: string
-  }
+  selectedChampion: SelectedChampion
+  patches: string[]
   selectedPatch: string
   lolChampionsData: Record<string, any>
+  lolItemsData: Record<string, Item>
 }
 
 type Action = {
@@ -24,7 +24,9 @@ type Action = {
     | typeof SET_SELECTED_CHAMPION_SKIN
     | typeof SET_SELECTED_PATCH
     | typeof SET_LOL_CHAMPIONS_DATA
-  payload: Record<string, any> | string
+    | typeof SET_LOL_ITEMS_DATA
+    | typeof SET_PATCHES
+  payload: Record<string, any> | string | string[]
 }
 
 // store hook & provider
@@ -45,8 +47,10 @@ export const StoreProvider: FC<{ initialState: AppState; reducer: any }> = ({
 // default state & reducer
 export const initialState: AppState = {
   selectedChampion: {},
+  patches: [],
   selectedPatch: '12.2.1',
   lolChampionsData: {},
+  lolItemsData: {},
 }
 
 export const reducer = (state: AppState, action: Action) => {
@@ -80,10 +84,20 @@ export const reducer = (state: AppState, action: Action) => {
         ...state,
         selectedPatch: action.payload,
       }
+    case SET_PATCHES:
+      return {
+        ...state,
+        patches: action.payload,
+      }
     case SET_LOL_CHAMPIONS_DATA:
       return {
         ...state,
         lolChampionsData: action.payload,
+      }
+    case SET_LOL_ITEMS_DATA:
+      return {
+        ...state,
+        lolItemsData: action.payload,
       }
     default:
       return state

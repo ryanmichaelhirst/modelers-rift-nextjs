@@ -8,6 +8,7 @@ input CharactersFilter {
 type Character {
   id: ID
   name: String
+  displayName: String
   assets: [Asset]
 }
 input UsersFilter {

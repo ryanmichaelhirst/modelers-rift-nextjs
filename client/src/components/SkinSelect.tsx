@@ -1,5 +1,5 @@
 import { SET_SELECTED_CHAMPION_SKIN, useAppContext } from '../context'
-import { capitalizeWord } from '../utils'
+import { capitalizeWord, getSplashArtLink } from '../utils'
 
 const SkinSelect = () => {
   const [{ selectedChampion }, dispatch] = useAppContext()
@@ -17,7 +17,7 @@ const SkinSelect = () => {
       <p>Skins</p>
       <div className='h-40 overflow-y-auto'>
         {skins?.map((skin) => {
-          const backgroundImage = `url(http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${championName}_${skin.num}.jpg)`
+          const backgroundImage = `url(${getSplashArtLink(championName, 0)})`
 
           return (
             <div

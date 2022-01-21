@@ -1,23 +1,18 @@
 import Input from '@components/Input'
 import { Tooltip } from '@components/Tooltip'
-import {
-  addSelectedItem,
-  removeSelectedItem,
-  selectItems,
-  selectSelectedItems,
-} from '@store/slices/itemSlice'
+import { Item } from '@customtypes/index'
 import classNames from 'classnames'
 import { useSnackbar } from 'notistack'
-import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
+import { useAppContext } from '../context'
 
 export const ItemSelect = () => {
-  const dispatch = useDispatch()
-  const items = useSelector(selectItems)
-  const selectedItems = useSelector(selectSelectedItems)
+  const [selectedItems, setSelectedItems] = useState<Item[]>([])
+  const [{ lolItemsData }] = useAppContext()
   const { enqueueSnackbar } = useSnackbar()
 
   const onInput = (e: React.SyntheticEvent<Element, Event>, values: any[], reason: string) => {
-    if (Object.keys(selectedItems).length === 6 && reason === 'selectOption') {
+    if (selectedItems.length === 6 && reason === 'selectOption') {
       enqueueSnackbar('You can only build 6 items. Remove one to add another', {
         variant: 'error',
         persist: false,
@@ -28,17 +23,21 @@ export const ItemSelect = () => {
 
     switch (reason) {
       case 'selectOption':
-        dispatch(addSelectedItem(values))
+        setSelectedItems((prevState) => {
+          return prevState.concat({} as Item)
+        })
         break
       case 'removeOption':
-        dispatch(removeSelectedItem(values))
+        setSelectedItems((prevState) => {
+          return prevState.filter((i) => i.name !== '')
+        })
         break
       default:
         return
     }
   }
 
-  const itemOptions = Object.values(items).map((i) => ({
+  const itemOptions = Object.values(lolItemsData).map((i) => ({
     label: i.name,
     value: JSON.stringify(i),
     icon: `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/item/${i.image.full}`,

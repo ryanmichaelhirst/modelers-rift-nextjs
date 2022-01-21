@@ -2,23 +2,25 @@ import { Card } from '@components/Card'
 import { ItemSelect } from '@components/ItemSelect'
 import { SpellTitle, Tooltip } from '@components/Tooltip'
 import LinearProgress from '@mui/material/LinearProgress'
-import { selectPlayerChampion } from '@store/slices/championSlice'
-import { useSelector } from 'react-redux'
+import { useAppContext } from '../context'
 
 export const Details = () => {
-  const playerChampion = useSelector(selectPlayerChampion)
-  const { passive, spells, stats, skins, tags, info } = playerChampion
+  const [{ selectedChampion }] = useAppContext()
+
+  if (!selectedChampion.detailedInfo) return <div>Loading...</div>
+
+  const { passive, spells, name, title, tags, info, image } = selectedChampion.detailedInfo
 
   return (
     <Card>
       <div className='flex items-center justify-around'>
         <img
           className='rounded-full h-24 w-24'
-          src={`http://ddragon.leagueoflegends.com/cdn/11.21.1/img/champion/${playerChampion.image?.full}`}
+          src={`http://ddragon.leagueoflegends.com/cdn/11.21.1/img/champion/${image?.full}`}
         />
         <div className='text-center'>
-          <p className='font-montserrat text-4xl uppercase'>{playerChampion.name}</p>
-          <p className='font-montserrat text-xl capitalize'>{playerChampion.title}</p>
+          <p className='font-montserrat text-4xl uppercase'>{name}</p>
+          <p className='font-montserrat text-xl capitalize'>{title}</p>
           <span className='text-gray-600'>{tags?.map((t) => `${t}, `)}</span>
         </div>
       </div>

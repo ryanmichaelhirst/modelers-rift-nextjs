@@ -53,54 +53,43 @@ export interface Spell extends Passive {
   cost?: number[]
   costBurn?: string
   costType?: string
-  datavalues: Record<string, any>
-  effect?: (null | number[])[]
-  effectBurn?: (string | null)[]
+  datavalues?: Record<string, unknown>
+  effect?: unknown[]
+  effectBurn?: (null | string)[]
   id?: string
-  leveltip?: Record<string, string[]>
+  leveltip?: Record<string, unknown>
   maxammo?: string
   maxrank?: number
   range?: number[]
   rangeBurn?: string
   resource?: string
   tooltip?: string
-  vars?: any[]
 }
 
-export interface LeagueChampion {
-  name?: string
-  model?: {
-    file?: string
-    awsUrl?: string
-  }
-  tags?: string[]
-  passive?: Passive
-  spells?: Spell[]
-  stats?: Record<string, any>
-  skins?: { id?: number; name?: string; num?: number }[]
-  allytips?: string[]
-  enemytips?: string[]
-  info?: Record<string, number>
-  image?: DataDragonImage
-  title?: string
-  recommended?: any[]
-  lore?: string
-  partype?: string
-  key?: string
-  id?: string
-  blurb?: string
+interface ChampionStats {
+  armor?: number
+  armorperlevel?: number
+  attackdamage?: number
+  attackdamageperlevel?: number
+  attackrange?: number
+  attackspeed?: number
+  attackspeedperlevel?: number
+  crit?: number
+  critperlevel?: number
+  hp?: number
+  hpperlevel?: number
+  hpregen?: number
+  hpregenperlevel?: number
+  movespeed?: number
+  mp?: number
+  mpperlevel?: number
+  mpregen?: number
+  mpregenperlevel?: number
+  spellblock?: number
+  spellblockperlevel?: number
 }
 
-export interface ChampionState {
-  loading: boolean
-  selectedStat: string
-  champions: Record<string, LeagueChampion>
-  playerChampion: LeagueChampion
-  opponentChampion?: LeagueChampion
-  patches: string[]
-  selectedPatch: string | null
-  loreLink?: string
-}
+export type ChampionStatsKey = keyof ChampionStats
 
 export interface ChampionBasicInfo {
   blurb?: string
@@ -111,28 +100,7 @@ export interface ChampionBasicInfo {
   name?: string
   partype?: string
   square_asset?: string
-  stats?: {
-    armor?: number
-    armorperlevel?: number
-    attackdamage?: number
-    attackdamageperlevel?: number
-    attackrange?: number
-    attackspeed?: number
-    attackspeedperlevel?: number
-    crit?: number
-    critperlevel?: number
-    hp?: number
-    hpperlevel?: number
-    hpregen?: number
-    hpregenperlevel?: number
-    movespeed?: number
-    mp?: number
-    mpperlevel?: number
-    mpregen?: number
-    mpregenperlevel?: number
-    spellblock?: number
-    spellblockperlevel?: number
-  }
+  stats?: ChampionStats
   tags?: string[]
   title?: string
   version?: string
@@ -145,27 +113,13 @@ export type ChampionDetailedInfo = Omit<ChampionBasicInfo, 'square_asset' | 'ver
   passive?: Passive
   recommended?: string[]
   skins?: { chromas?: boolean; id?: string; name?: string; num?: number }[]
-  spells?: {
-    cooldown?: number[]
-    cooldownBurn?: string
-    cost?: number[]
-    costBurn?: string
-    costType?: string
-    datavalues?: Record<string, unknown>
-    description?: string
-    effect?: unknown[]
-    effectBurn?: (null | string)[]
-    id?: string
-    image?: DataDragonImage
-    leveltip?: Record<string, unknown>
-    maxammo?: string
-    maxrank?: number
-    name?: string
-    range?: number[]
-    rangeBurn?: string
-    resource?: string
-    tooltip?: string
-  }[]
+  spells?: Spell[]
+}
+
+export interface SelectedChampion {
+  basicInfo?: ChampionBasicInfo
+  detailedInfo?: ChampionDetailedInfo
+  skin?: string
 }
 
 // TODO: add this to @components/Tooltip

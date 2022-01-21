@@ -1,15 +1,11 @@
 import Input from '@components/Input'
-import { selectPatches, selectSelectedPatch, setSelectedPatch } from '@store/slices/championSlice'
-import { useDispatch, useSelector } from 'react-redux'
+import { SET_SELECTED_PATCH, useAppContext } from '../context'
 
 export const PatchSelect = () => {
-  const dispatch = useDispatch()
-  const selectedPatch = useSelector(selectSelectedPatch)
-  const patches = useSelector(selectPatches)
+  const [{ patches, selectedPatch }, dispatch] = useAppContext()
 
-  const onInput = (e: React.SyntheticEvent<Element, Event>, value: any, reason: string) => {
-    dispatch(setSelectedPatch(value))
-  }
+  const onInput = (e: React.SyntheticEvent<Element, Event>, value: any, reason: string) =>
+    dispatch({ type: SET_SELECTED_PATCH, payload: value })
 
   return (
     <div className='m-6 flex justify-end'>

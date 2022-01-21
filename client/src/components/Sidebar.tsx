@@ -1,7 +1,6 @@
 import { AddReaction, Backpack, MenuBook, Videocam } from '@mui/icons-material'
 import { Grid, Skeleton } from '@mui/material'
-import { selectPlayerChampion } from '@store/slices/championSlice'
-import { useSelector } from 'react-redux'
+import { useAppContext } from '../context'
 
 const staticItems = [
   {
@@ -22,12 +21,12 @@ const staticItems = [
 ]
 
 export const Sidebar = () => {
-  const playerChampion = useSelector(selectPlayerChampion)
+  const [{ selectedChampion }, dispatch] = useAppContext()
 
   const items = [
     {
       label: 'Champion',
-      value: playerChampion?.id,
+      value: selectedChampion.basicInfo?.id,
       icon: AddReaction,
     },
   ].concat(staticItems)

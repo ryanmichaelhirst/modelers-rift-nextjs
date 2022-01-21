@@ -2,6 +2,7 @@ query CharactersIndex($filter: CharactersFilter) {
   characters(filter: $filter) {
     id
     name
+    displayName
     assets {
       id
       type

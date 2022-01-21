@@ -4,14 +4,14 @@ import { LinearProgress } from '@mui/material'
 import classNames from 'classnames'
 import { useCharactersIndexQuery } from '../../../graphql/generated/types'
 import { useAppContext } from '../context'
-import { capitalizeWord } from '../utils'
+import { getSplashArtLink } from '../utils'
 
 export const Interactive = () => {
   const [{ selectedChampion, lolChampionsData, selectedPatch }, dispatch] = useAppContext()
   const { data, error, loading } = useCharactersIndexQuery({
     variables: {
       filter: {
-        nameCnt: '',
+        typeEq: 'champion',
         includeAssets: true,
       },
     },
@@ -25,6 +25,8 @@ export const Interactive = () => {
     // const champion = getChampion(selectedPatch, value.name)
     // dispatch({ type: SET_SELECTED_CHAMPION_BASIC_INFO, payload: value })
   }
+
+  console.log(lolChampionsData)
 
   return (
     <Layout>
@@ -41,8 +43,10 @@ export const Interactive = () => {
 
         <div className='flex flex-wrap'>
           {characters.map((c) => {
-            const capitalizedName = capitalizeWord(c?.name)
-            const lolData = lolChampionsData[capitalizedName]
+            const displayName = c?.displayName
+            const lolData = lolChampionsData[c?.name || '']
+
+            if (!displayName) console.log(c)
 
             return (
               <div
@@ -56,7 +60,7 @@ export const Interactive = () => {
                 <div
                   className='h-20 relative rounded-t bg-center bg-cover'
                   style={{
-                    backgroundImage: `url(http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${capitalizedName}_0.jpg)`,
+                    backgroundImage: displayName ? `url(${getSplashArtLink(displayName, 0)})` : '',
                   }}
                 >
                   <img
@@ -65,7 +69,7 @@ export const Interactive = () => {
                   />
                 </div>
                 <div className='text-white p-4'>
-                  <p className='mb-4 text-xl'>{capitalizedName}</p>
+                  <p className='mb-4 text-xl'>{displayName}</p>
                   {Object.entries(lolData?.info || {})
                     .filter(([key, value]) => key !== 'difficulty')
                     .map(([key, value]) => (

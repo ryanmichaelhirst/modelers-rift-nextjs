@@ -1,38 +1,39 @@
 import Champion from '@components/Champion'
 import MultiLineGraph from '@components/MultiLineGraph'
 import { STAT_OPTIONS } from '@customtypes/constants'
-import { fetchItems } from '@store/slices/itemSlice'
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import {
-  selectChampionMultiLineGraph,
-  selectChampions,
-  selectOpponentChampion,
-  selectPlayerChampion,
-  selectSelectedStat,
-} from '../store/slices/championSlice'
+import { ChampionStatsKey } from '@customtypes/index'
+import { useMemo } from 'react'
+import { useAppContext } from '../context'
 
 const ChampionComparison = () => {
-  const dispatch = useDispatch()
-  const champions = useSelector(selectChampions)
+  const [{ selectedChampion }, dispatch] = useAppContext()
+  const statKey = 'armor'
 
-  const playerChampion = useSelector(selectPlayerChampion)
-  const opponentChampion = useSelector(selectOpponentChampion)
-  const multiLineData = useSelector(selectChampionMultiLineGraph)
-  const selectedStat = useSelector(selectSelectedStat)
+  const multiLineData = useMemo(() => {
+    if (!selectedChampion) return []
 
-  useEffect(() => {
-    dispatch(fetchItems())
-  }, [])
+    const championStats = selectedChampion.basicInfo?.stats
+    const levelKey = `${statKey}perlevel` as ChampionStatsKey
 
-  const tooltipTitle = STAT_OPTIONS.find((s) => s.value === selectedStat)?.label
-  const tooltipTitles = [playerChampion?.name || '', opponentChampion?.name || '']
+    if (!championStats) return []
+    const stat = championStats[statKey] || 0
+    const statPerLevel = championStats[levelKey] || 0
 
-  const championOptions = Object.values(champions).map((c: any) => ({
-    value: JSON.stringify(c),
-    label: c.name ? c.name : '',
-    icon: c.square_asset,
-  }))
+    return [...Array(18).keys()].map((level) => {
+      return {
+        level: level + 1,
+        ...(championStats && {
+          value1: level * statPerLevel + stat,
+        }),
+        ...(championStats && {
+          value2: level * statPerLevel + stat,
+        }),
+      }
+    })
+  }, [selectedChampion, statKey])
+
+  const tooltipTitle = STAT_OPTIONS.find((s) => s.value === statKey)?.label
+  const tooltipTitles = [selectedChampion?.basicInfo?.name || '', '']
 
   return (
     <div className='flex'>
@@ -50,11 +51,9 @@ const ChampionComparison = () => {
       <div className='flex-1 ml-3'>
         <div className='flex'>
           <div>
-            <Champion champion={playerChampion} />
+            <Champion champion={selectedChampion} />
           </div>
-          <div>
-            <Champion champion={opponentChampion} />
-          </div>
+          <div>{/* <Champion champion={opponentChampion} /> */}</div>
         </div>
       </div>
     </div>

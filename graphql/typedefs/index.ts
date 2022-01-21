@@ -10,6 +10,7 @@ export const typeDefs = gql`
   type Character {
     id: ID
     name: String
+    displayName: String
     assets: [Asset]
   }
 
