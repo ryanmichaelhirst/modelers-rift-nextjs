@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+import path from 'path'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 import { createDb, generateGlb, generateJsx, generateSounds, seedDb, wipeDb } from './cmds'
@@ -24,6 +25,11 @@ const run = async () => {
       alias: 'output',
       desc: 'Output directory to write files to',
     },
+    f: {
+      type: 'string',
+      alias: 'file',
+      desc: 'Name of script file to run',
+    },
     region: {
       type: 'string',
       alias: 'region',
@@ -31,7 +37,7 @@ const run = async () => {
     },
   }).argv
 
-  const { c: command, i: input, o: output, region } = argv
+  const { c: command, i: input, o: output, region, f: file } = argv
 
   switch (command) {
     case 'create-db':
@@ -51,6 +57,10 @@ const run = async () => {
       break
     case 'generate-sounds':
       generateSounds({ input, output, region })
+      break
+    case 'job':
+      const fn = require(path.join(__dirname, './jobs', file)).default
+      await fn()
       break
     default:
       throw new Error('command not recognized')

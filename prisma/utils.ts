@@ -54,3 +54,18 @@ export const deleteAllTableData = async () => {
 
   return { userCount, assetCount, characterCount }
 }
+
+export const updateCharacter = async ({
+  id,
+  data,
+}: {
+  id: number
+  data?: Record<string, unknown>
+}) => {
+  await prisma.character.update({
+    where: {
+      id,
+    },
+    data,
+  })
+}

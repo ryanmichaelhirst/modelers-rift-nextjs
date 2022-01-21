@@ -169,3 +169,10 @@ export const determineType = (name: string) => {
 
   return 'unknown'
 }
+
+// given 'tahmkench' returns 'Tahm Kench'
+export const getDisplayName = (name: string) =>
+  championNames
+    .find((cn) => cn.toLowerCase() === name.toLowerCase())
+    ?.split(/(?=[A-Z])/)
+    .join(' ')
