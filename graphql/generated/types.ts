@@ -7,6 +7,7 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
@@ -43,16 +44,30 @@ export type Character = {
   name?: Maybe<Scalars['String']>;
 };
 
+export type CharacterCollection = {
+  __typename?: 'CharacterCollection';
+  collection?: Maybe<Array<Maybe<Character>>>;
+  metadata?: Maybe<Metadata>;
+};
+
 export type CharactersFilter = {
   includeAssets?: InputMaybe<Scalars['Boolean']>;
   nameCnt?: InputMaybe<Scalars['String']>;
   typeEq?: InputMaybe<Scalars['String']>;
 };
 
+export type Metadata = {
+  __typename?: 'Metadata';
+  currentPage?: Maybe<Scalars['Int']>;
+  pageSize?: Maybe<Scalars['Int']>;
+  totalCount?: Maybe<Scalars['Int']>;
+  totalPages?: Maybe<Scalars['Int']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   assets?: Maybe<Array<Maybe<Asset>>>;
-  characters?: Maybe<Array<Maybe<Character>>>;
+  characters?: Maybe<CharacterCollection>;
   users?: Maybe<Array<Maybe<User>>>;
 };
 
@@ -64,6 +79,8 @@ export type QueryAssetsArgs = {
 
 export type QueryCharactersArgs = {
   filter?: InputMaybe<CharactersFilter>;
+  page?: InputMaybe<Scalars['Int']>;
+  pageSize?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -158,9 +175,11 @@ export type ResolversTypes = {
   AssetsFilter: AssetsFilter;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Character: ResolverTypeWrapper<CharacterModel>;
+  CharacterCollection: ResolverTypeWrapper<Omit<CharacterCollection, 'collection'> & { collection?: Maybe<Array<Maybe<ResolversTypes['Character']>>> }>;
   CharactersFilter: CharactersFilter;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
+  Metadata: ResolverTypeWrapper<Metadata>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<User>;
@@ -173,9 +192,11 @@ export type ResolversParentTypes = {
   AssetsFilter: AssetsFilter;
   Boolean: Scalars['Boolean'];
   Character: CharacterModel;
+  CharacterCollection: Omit<CharacterCollection, 'collection'> & { collection?: Maybe<Array<Maybe<ResolversParentTypes['Character']>>> };
   CharactersFilter: CharactersFilter;
   ID: Scalars['ID'];
   Int: Scalars['Int'];
+  Metadata: Metadata;
   Query: {};
   String: Scalars['String'];
   User: User;
@@ -201,9 +222,23 @@ export type CharacterResolvers<ContextType = any, ParentType extends ResolversPa
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type CharacterCollectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['CharacterCollection'] = ResolversParentTypes['CharacterCollection']> = {
+  collection?: Resolver<Maybe<Array<Maybe<ResolversTypes['Character']>>>, ParentType, ContextType>;
+  metadata?: Resolver<Maybe<ResolversTypes['Metadata']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MetadataResolvers<ContextType = any, ParentType extends ResolversParentTypes['Metadata'] = ResolversParentTypes['Metadata']> = {
+  currentPage?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  pageSize?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  totalCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  totalPages?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   assets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Asset']>>>, ParentType, ContextType, RequireFields<QueryAssetsArgs, never>>;
-  characters?: Resolver<Maybe<Array<Maybe<ResolversTypes['Character']>>>, ParentType, ContextType, RequireFields<QueryCharactersArgs, never>>;
+  characters?: Resolver<Maybe<ResolversTypes['CharacterCollection']>, ParentType, ContextType, RequireFields<QueryCharactersArgs, never>>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType, RequireFields<QueryUsersArgs, never>>;
 };
 
@@ -219,6 +254,8 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 export type Resolvers<ContextType = any> = {
   Asset?: AssetResolvers<ContextType>;
   Character?: CharacterResolvers<ContextType>;
+  CharacterCollection?: CharacterCollectionResolvers<ContextType>;
+  Metadata?: MetadataResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 };
@@ -233,10 +270,12 @@ export type AssetsIndexQuery = { __typename?: 'Query', assets?: Array<{ __typena
 
 export type CharactersIndexQueryVariables = Exact<{
   filter?: InputMaybe<CharactersFilter>;
+  page?: InputMaybe<Scalars['Int']>;
+  pageSize?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type CharactersIndexQuery = { __typename?: 'Query', characters?: Array<{ __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined> | null | undefined };
+export type CharactersIndexQuery = { __typename?: 'Query', characters?: { __typename?: 'CharacterCollection', collection?: Array<{ __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined> | null | undefined, metadata?: { __typename?: 'Metadata', totalCount?: number | null | undefined, totalPages?: number | null | undefined, currentPage?: number | null | undefined, pageSize?: number | null | undefined } | null | undefined } | null | undefined };
 
 export type UsersIndexQueryVariables = Exact<{
   filter?: InputMaybe<UsersFilter>;
@@ -287,17 +326,25 @@ export type AssetsIndexQueryHookResult = ReturnType<typeof useAssetsIndexQuery>;
 export type AssetsIndexLazyQueryHookResult = ReturnType<typeof useAssetsIndexLazyQuery>;
 export type AssetsIndexQueryResult = Apollo.QueryResult<AssetsIndexQuery, AssetsIndexQueryVariables>;
 export const CharactersIndexDocument = gql`
-    query CharactersIndex($filter: CharactersFilter) {
-  characters(filter: $filter) {
-    id
-    name
-    displayName
-    assets {
+    query CharactersIndex($filter: CharactersFilter, $page: Int, $pageSize: Int) {
+  characters(filter: $filter, page: $page, pageSize: $pageSize) {
+    collection {
       id
-      type
       name
-      skin
-      path
+      displayName
+      assets {
+        id
+        type
+        name
+        skin
+        path
+      }
+    }
+    metadata {
+      totalCount
+      totalPages
+      currentPage
+      pageSize
     }
   }
 }
@@ -316,6 +363,8 @@ export const CharactersIndexDocument = gql`
  * const { data, loading, error } = useCharactersIndexQuery({
  *   variables: {
  *      filter: // value for 'filter'
+ *      page: // value for 'page'
+ *      pageSize: // value for 'pageSize'
  *   },
  * });
  */

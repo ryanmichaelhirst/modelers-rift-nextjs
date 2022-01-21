@@ -3,8 +3,12 @@ import { Layout } from '@components/Layout'
 import { LinearProgress } from '@mui/material'
 import classNames from 'classnames'
 import { useCharactersIndexQuery } from '../../../graphql/generated/types'
-import { useAppContext } from '../context'
-import { getSplashArtLink } from '../utils'
+import {
+  SET_SELECTED_CHAMPION_BASIC_INFO,
+  SET_SELECTED_CHAMPION_DETAILED_INFO,
+  useAppContext,
+} from '../context'
+import { getChampion, getSplashArtLink } from '../utils'
 
 export const Interactive = () => {
   const [{ selectedChampion, lolChampionsData, selectedPatch }, dispatch] = useAppContext()
@@ -17,16 +21,21 @@ export const Interactive = () => {
     },
   })
 
+  console.log(data)
+
   const onInput = () => {}
 
-  const characters = data?.characters || []
+  const characters = data?.characters?.collection || []
 
-  const onClick = (value: any) => () => {
-    // const champion = getChampion(selectedPatch, value.name)
-    // dispatch({ type: SET_SELECTED_CHAMPION_BASIC_INFO, payload: value })
+  const onClick = (displayName: string) => async () => {
+    const upperCaseCamelName = displayName.replace(' ', '')
+    const lowerCaseName = upperCaseCamelName.toLowerCase()
+
+    const basicInfo = lolChampionsData[lowerCaseName]
+    const detailedInfo = await getChampion(selectedPatch, upperCaseCamelName)
+    dispatch({ type: SET_SELECTED_CHAMPION_BASIC_INFO, payload: basicInfo })
+    dispatch({ type: SET_SELECTED_CHAMPION_DETAILED_INFO, payload: detailedInfo })
   }
-
-  console.log(lolChampionsData)
 
   return (
     <Layout>
@@ -36,7 +45,7 @@ export const Interactive = () => {
             onChange={onInput}
             value={null}
             classes='mb-4 bg-space-700'
-            options={characters.map((c) => c?.name)}
+            options={characters.map((c) => c?.displayName)}
             label='Select a champion'
           />
         </div>
@@ -46,15 +55,13 @@ export const Interactive = () => {
             const displayName = c?.displayName
             const lolData = lolChampionsData[c?.name || '']
 
-            if (!displayName) console.log(c)
-
             return (
               <div
                 key={c?.name}
-                onClick={onClick(c)}
+                onClick={onClick(c?.displayName || '')}
                 className={classNames(
                   'bg-space-600 rounded shadow w-80 mr-4 mb-4 border-2 border-transparent hover:border-blue-400',
-                  c?.name === selectedChampion.basicInfo?.name && 'border-blue-500',
+                  c?.displayName === selectedChampion.basicInfo?.name && 'border-blue-500',
                 )}
               >
                 <div

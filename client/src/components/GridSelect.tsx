@@ -20,7 +20,7 @@ const GridSelect = () => {
     },
   })
   const [{ selectedChampion, selectedPatch, lolChampionsData }, dispatch] = useAppContext()
-  const characters = data?.characters || []
+  const characters = data?.characters?.collection || []
 
   const onInput = (e: React.SyntheticEvent<Element, Event>, value: any, reason: string) => {
     if (reason !== 'selectOption') return

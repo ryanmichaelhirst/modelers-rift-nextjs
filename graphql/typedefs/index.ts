@@ -14,6 +14,18 @@ export const typeDefs = gql`
     assets: [Asset]
   }
 
+  type Metadata {
+    totalCount: Int
+    totalPages: Int
+    currentPage: Int
+    pageSize: Int
+  }
+
+  type CharacterCollection {
+    collection: [Character]
+    metadata: Metadata
+  }
+
   input UsersFilter {
     usernameCnt: String
     nameCnt: String
@@ -45,7 +57,7 @@ export const typeDefs = gql`
 
   type Query {
     users(filter: UsersFilter): [User]
-    characters(filter: CharactersFilter): [Character]
+    characters(filter: CharactersFilter, page: Int, pageSize: Int): CharacterCollection
     assets(filter: AssetsFilter): [Asset]
   }
 `
