@@ -7,8 +7,10 @@ import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
+import { useJobsIndexQuery } from '../../../graphql/generated/types'
+import { Button } from './Button'
 
-const options = [
+const userOptions = [
   {
     Icon: LoginIcon,
     text: 'Login',
@@ -20,16 +22,33 @@ const options = [
 ]
 
 export const MenuBar = () => {
-  const [anchorEl, setAnchorEl] = useState(null)
-  const open = Boolean(anchorEl)
+  const [menus, setMenus] = useState({
+    user: null,
+    job: null,
+  })
+  const { data, error, loading } = useJobsIndexQuery()
 
-  const handleClick = (event: any) => {
-    setAnchorEl(event.currentTarget)
+  console.log({ data, error, loading })
+
+  const handleClick = (name: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
+    const value = event.currentTarget
+    console.log(value)
+
+    setMenus((prev) => ({
+      ...prev,
+      [name]: event.currentTarget,
+    }))
   }
 
-  const handleClose = () => {
-    setAnchorEl(null)
+  const handleClose = (name: string) => (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    setMenus((prev) => ({
+      ...prev,
+      [name]: null,
+    }))
   }
+
+  const userMenuOpen = Boolean(menus.user)
+  const jobMenuOpen = Boolean(menus.job)
 
   return (
     <>
@@ -40,7 +59,7 @@ export const MenuBar = () => {
           </div>
         </Grid>
         <Grid item xs={10} className='bg-space-800 border border-white'>
-          <div className='flex justify-between items-center px-3 py-2'>
+          <div className='flex justify-between items-center px-3 py-2 h-full'>
             <div className='flex text-white'>
               {['Dashboard', 'Animations', 'Item Builder'].map((item) => (
                 <p className='mr-4 text-xl' key={item}>
@@ -48,9 +67,25 @@ export const MenuBar = () => {
                 </p>
               ))}
             </div>
-            <div>
+            <div className='flex text-white items-center'>
+              <Button
+                classes={{
+                  root: 'mr-1',
+                }}
+                text='Jobs'
+                onClick={handleClick('job')}
+              />
+              <Menu anchorEl={menus.job} open={jobMenuOpen} onClose={handleClose('job')}>
+                {data?.jobs?.map((j) => (
+                  <MenuItem key={j?.name} onClick={handleClose('job')}>
+                    <div>
+                      <span className='ml-3'>{j?.name}</span>
+                    </div>
+                  </MenuItem>
+                ))}
+              </Menu>
               <IconButton
-                onClick={handleClick}
+                onClick={handleClick('user')}
                 sx={{
                   button: {
                     outline: 'none !important',
@@ -59,9 +94,9 @@ export const MenuBar = () => {
               >
                 <AccountCircleIcon style={{ color: 'white' }} />
               </IconButton>
-              <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-                {options.map(({ Icon, text }) => (
-                  <MenuItem key={text} onClick={handleClose}>
+              <Menu anchorEl={menus.user} open={userMenuOpen} onClose={handleClose('user')}>
+                {userOptions.map(({ Icon, text }) => (
+                  <MenuItem key={text} onClick={handleClose('user')}>
                     <div>
                       <Icon />
                       <span className='ml-3'>{text}</span>
