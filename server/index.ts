@@ -1,7 +1,10 @@
+import dotenv from 'dotenv'
 import express from 'express'
 import { Readable } from 'stream'
 import { apolloServer } from '../graphql/resolvers/index'
 import { getAwsObject } from './aws'
+
+dotenv.config()
 
 export default (async () => {
   const app = express()

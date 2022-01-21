@@ -56,6 +56,11 @@ export type CharactersFilter = {
   typeEq?: InputMaybe<Scalars['String']>;
 };
 
+export type Job = {
+  __typename?: 'Job';
+  name?: Maybe<Scalars['String']>;
+};
+
 export type Metadata = {
   __typename?: 'Metadata';
   currentPage?: Maybe<Scalars['Int']>;
@@ -68,6 +73,7 @@ export type Query = {
   __typename?: 'Query';
   assets?: Maybe<Array<Maybe<Asset>>>;
   characters?: Maybe<CharacterCollection>;
+  jobs?: Maybe<Array<Maybe<Job>>>;
   users?: Maybe<Array<Maybe<User>>>;
 };
 
@@ -179,6 +185,7 @@ export type ResolversTypes = {
   CharactersFilter: CharactersFilter;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
+  Job: ResolverTypeWrapper<Job>;
   Metadata: ResolverTypeWrapper<Metadata>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
@@ -196,6 +203,7 @@ export type ResolversParentTypes = {
   CharactersFilter: CharactersFilter;
   ID: Scalars['ID'];
   Int: Scalars['Int'];
+  Job: Job;
   Metadata: Metadata;
   Query: {};
   String: Scalars['String'];
@@ -228,6 +236,11 @@ export type CharacterCollectionResolvers<ContextType = any, ParentType extends R
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type JobResolvers<ContextType = any, ParentType extends ResolversParentTypes['Job'] = ResolversParentTypes['Job']> = {
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MetadataResolvers<ContextType = any, ParentType extends ResolversParentTypes['Metadata'] = ResolversParentTypes['Metadata']> = {
   currentPage?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   pageSize?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
@@ -239,6 +252,7 @@ export type MetadataResolvers<ContextType = any, ParentType extends ResolversPar
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   assets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Asset']>>>, ParentType, ContextType, RequireFields<QueryAssetsArgs, never>>;
   characters?: Resolver<Maybe<ResolversTypes['CharacterCollection']>, ParentType, ContextType, RequireFields<QueryCharactersArgs, never>>;
+  jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Job']>>>, ParentType, ContextType>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType, RequireFields<QueryUsersArgs, never>>;
 };
 
@@ -255,6 +269,7 @@ export type Resolvers<ContextType = any> = {
   Asset?: AssetResolvers<ContextType>;
   Character?: CharacterResolvers<ContextType>;
   CharacterCollection?: CharacterCollectionResolvers<ContextType>;
+  Job?: JobResolvers<ContextType>;
   Metadata?: MetadataResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
@@ -276,6 +291,11 @@ export type CharactersIndexQueryVariables = Exact<{
 
 
 export type CharactersIndexQuery = { __typename?: 'Query', characters?: { __typename?: 'CharacterCollection', collection?: Array<{ __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined> | null | undefined, metadata?: { __typename?: 'Metadata', totalCount?: number | null | undefined, totalPages?: number | null | undefined, currentPage?: number | null | undefined, pageSize?: number | null | undefined } | null | undefined } | null | undefined };
+
+export type JobsIndexQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type JobsIndexQuery = { __typename?: 'Query', jobs?: Array<{ __typename?: 'Job', name?: string | null | undefined } | null | undefined> | null | undefined };
 
 export type UsersIndexQueryVariables = Exact<{
   filter?: InputMaybe<UsersFilter>;
@@ -379,6 +399,40 @@ export function useCharactersIndexLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type CharactersIndexQueryHookResult = ReturnType<typeof useCharactersIndexQuery>;
 export type CharactersIndexLazyQueryHookResult = ReturnType<typeof useCharactersIndexLazyQuery>;
 export type CharactersIndexQueryResult = Apollo.QueryResult<CharactersIndexQuery, CharactersIndexQueryVariables>;
+export const JobsIndexDocument = gql`
+    query JobsIndex {
+  jobs {
+    name
+  }
+}
+    `;
+
+/**
+ * __useJobsIndexQuery__
+ *
+ * To run a query within a React component, call `useJobsIndexQuery` and pass it any options that fit your needs.
+ * When your component renders, `useJobsIndexQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useJobsIndexQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useJobsIndexQuery(baseOptions?: Apollo.QueryHookOptions<JobsIndexQuery, JobsIndexQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<JobsIndexQuery, JobsIndexQueryVariables>(JobsIndexDocument, options);
+      }
+export function useJobsIndexLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<JobsIndexQuery, JobsIndexQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<JobsIndexQuery, JobsIndexQueryVariables>(JobsIndexDocument, options);
+        }
+export type JobsIndexQueryHookResult = ReturnType<typeof useJobsIndexQuery>;
+export type JobsIndexLazyQueryHookResult = ReturnType<typeof useJobsIndexLazyQuery>;
+export type JobsIndexQueryResult = Apollo.QueryResult<JobsIndexQuery, JobsIndexQueryVariables>;
 export const UsersIndexDocument = gql`
     query UsersIndex($filter: UsersFilter) {
   users(filter: $filter) {

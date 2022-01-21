@@ -1,0 +1,5 @@
+query JobsIndex {
+  jobs {
+    name
+  }
+}

@@ -3,6 +3,7 @@ import { Resolvers } from '../generated/types'
 import { typeDefs } from '../typedefs/index'
 import { AssetsResolver } from './assets-resolver'
 import { CharactersResolver } from './characters-resolver'
+import { JobsResolver } from './jobs-resolver'
 import { UsersResolver } from './users-resolver'
 
 const resolvers: Resolvers = {
@@ -10,6 +11,7 @@ const resolvers: Resolvers = {
     users: UsersResolver,
     assets: AssetsResolver,
     characters: CharactersResolver,
+    jobs: JobsResolver,
   },
 }
 

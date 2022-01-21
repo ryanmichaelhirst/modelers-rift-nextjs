@@ -55,9 +55,14 @@ export const typeDefs = gql`
     path: String
   }
 
+  type Job {
+    name: String
+  }
+
   type Query {
     users(filter: UsersFilter): [User]
     characters(filter: CharactersFilter, page: Int, pageSize: Int): CharacterCollection
     assets(filter: AssetsFilter): [Asset]
+    jobs: [Job]
   }
 `
