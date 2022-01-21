@@ -3,6 +3,7 @@ import Input from '@components/Input'
 import { Loader } from '@components/Loader'
 import SkinSelect from '@components/SkinSelect'
 import classNames from 'classnames'
+import React, { useState } from 'react'
 import { useCharactersIndexQuery } from '../../../graphql/generated/types'
 import {
   SET_SELECTED_CHAMPION_BASIC_INFO,
@@ -12,15 +13,30 @@ import {
 import { getChampion } from '../utils'
 
 const GridSelect = () => {
+  const [pageSize, setPageSize] = useState(20)
   const { data, loading } = useCharactersIndexQuery({
     variables: {
       filter: {
         typeEq: 'champion',
       },
+      pageSize,
     },
   })
   const [{ selectedChampion, selectedPatch, lolChampionsData }, dispatch] = useAppContext()
   const characters = data?.characters?.collection || []
+
+  const onScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const bottom =
+      e.currentTarget.scrollHeight - e.currentTarget.scrollTop === e.currentTarget.clientHeight
+
+    if (bottom) {
+      setPageSize((prev) => {
+        if (pageSize >= 160) return prev
+
+        return prev + 20
+      })
+    }
+  }
 
   const onInput = (e: React.SyntheticEvent<Element, Event>, value: any, reason: string) => {
     if (reason !== 'selectOption') return
@@ -55,7 +71,10 @@ const GridSelect = () => {
         ) : (
           <Loader />
         )}
-        <div className='grid grid-flow-row grid-cols-4 gap-0.5 overflow-y-auto h-64'>
+        <div
+          onScroll={onScroll}
+          className='grid grid-flow-row grid-cols-4 gap-0.5 overflow-y-auto h-64'
+        >
           {loading ? (
             <Loader />
           ) : (

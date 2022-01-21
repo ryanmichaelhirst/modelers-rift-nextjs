@@ -5,7 +5,7 @@ export const CharactersResolver = async (parent, args, ctx) => {
 
   const page = args?.page ?? 1
   const pageSize = args?.pageSize ?? 10
-  const skip = (page - 1) * pageSize + 1
+  const skip = (page - 1) * pageSize
   const take = pageSize
 
   const where = {
