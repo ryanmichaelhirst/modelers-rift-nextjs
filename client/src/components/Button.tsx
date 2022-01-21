@@ -1,4 +1,5 @@
 import { Button as MuiButton } from '@mui/material'
+import classNames from 'classnames'
 
 export const Button: React.FC<{
   text: string
@@ -10,7 +11,14 @@ export const Button: React.FC<{
   }
   variant?: 'text' | 'contained' | 'outlined'
 }> = ({ text, onClick, classes, variant = 'text' }) => (
-  <MuiButton classes={classes} variant={variant} onClick={onClick}>
+  <MuiButton
+    classes={{
+      ...classes,
+      root: classNames(classes?.root, 'text-base'),
+    }}
+    variant={variant}
+    onClick={onClick}
+  >
     {text}
   </MuiButton>
 )

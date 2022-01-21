@@ -28,11 +28,8 @@ export const MenuBar = () => {
   })
   const { data, error, loading } = useJobsIndexQuery()
 
-  console.log({ data, error, loading })
-
   const handleClick = (name: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
     const value = event.currentTarget
-    console.log(value)
 
     setMenus((prev) => ({
       ...prev,
@@ -62,9 +59,13 @@ export const MenuBar = () => {
           <div className='flex justify-between items-center px-3 py-2 h-full'>
             <div className='flex text-white'>
               {['Dashboard', 'Animations', 'Item Builder'].map((item) => (
-                <p className='mr-4 text-xl' key={item}>
-                  {item}
-                </p>
+                <Button
+                  key={item}
+                  classes={{
+                    root: 'mr-2',
+                  }}
+                  text={item}
+                />
               ))}
             </div>
             <div className='flex text-white items-center'>

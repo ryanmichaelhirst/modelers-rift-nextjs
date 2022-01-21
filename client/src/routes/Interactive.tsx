@@ -21,8 +21,6 @@ export const Interactive = () => {
     },
   })
 
-  console.log(data)
-
   const onInput = () => {}
 
   const characters = data?.characters?.collection || []

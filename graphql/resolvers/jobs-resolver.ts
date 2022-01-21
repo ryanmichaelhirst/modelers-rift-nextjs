@@ -6,17 +6,13 @@ export const JobsResolver = (parent, args, ctx) => {
 
   return new Promise<{ name: string }[]>((resolve) => {
     fs.readdir(jobDir, (err, files) => {
-      console.log({ files })
-
       if (err) {
-        console.log({ err })
         resolve([{ name: 'No jobs created' }])
       }
 
       const jobs = files.map((file) => ({
         name: path.parse(file).name,
       }))
-      console.log({ jobs })
       resolve(jobs)
     })
   })
