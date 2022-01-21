@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import { useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import { useJobsIndexQuery } from '../../../graphql/generated/types'
 import { Button } from './Button'
 
@@ -26,6 +26,8 @@ export const MenuBar = () => {
     user: null,
     job: null,
   })
+  const navigate = useNavigate()
+
   const { data, error, loading } = useJobsIndexQuery()
 
   const handleClick = (name: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -58,8 +60,9 @@ export const MenuBar = () => {
         <Grid item xs={10} className='bg-space-800 border border-white'>
           <div className='flex justify-between items-center px-3 py-2 h-full'>
             <div className='flex text-white'>
-              {['Dashboard', 'Animations', 'Item Builder'].map((item) => (
+              {['Dashboard', 'Interactive', 'Item Builder'].map((item) => (
                 <Button
+                  onClick={() => navigate(`/${item.replace(' ', '_').toLowerCase()}`)}
                   key={item}
                   classes={{
                     root: 'mr-2',

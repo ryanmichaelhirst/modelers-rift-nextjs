@@ -1,6 +1,4 @@
-import { MenuBar } from '@components/MenuBar'
 import { useEffect } from 'react'
-import type { RouteObject } from 'react-router-dom'
 import { useRoutes } from 'react-router-dom'
 import {
   SET_LOL_CHAMPIONS_DATA,
@@ -10,22 +8,8 @@ import {
   SET_SELECTED_PATCH,
   useAppContext,
 } from '../context'
-import { Dashboard } from '../routes/Dashboard'
-import { Interactive } from '../routes/Interactive'
+import { routes } from '../routes'
 import { getChampion, getChampions, getPatches } from '../utils'
-export const routes: RouteObject[] = [
-  {
-    path: '/',
-    element: <MenuBar />,
-    children: [
-      { index: true, element: <Interactive /> },
-      {
-        path: '/dashboard',
-        element: <Dashboard />,
-      },
-    ],
-  },
-]
 
 export const App = () => {
   const element = useRoutes(routes)
