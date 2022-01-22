@@ -5,12 +5,12 @@ import SkinSelect from '@components/SkinSelect'
 import { FETCH_NEW_CHAMPION } from '@customtypes/index'
 import classNames from 'classnames'
 import React, { useState } from 'react'
-import { useCharactersIndexQuery } from '../../../graphql/generated/types'
+import { useCharactersQuery } from '../../../graphql/generated/types'
 import { useAppContext } from '../context'
 
 const GridSelect = () => {
   const [pageSize, setPageSize] = useState(20)
-  const { data, loading } = useCharactersIndexQuery({
+  const { data, loading } = useCharactersQuery({
     variables: {
       filter: {
         typeEq: 'champion',
@@ -18,6 +18,7 @@ const GridSelect = () => {
       pageSize,
     },
   })
+
   const [{ selectedChampion, selectedPatch, lolChampionsData }, dispatch] = useAppContext()
   const characters = data?.characters?.collection || []
 

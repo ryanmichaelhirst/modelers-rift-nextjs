@@ -3,6 +3,7 @@ import { ItemSelect } from '@components/ItemSelect'
 import { SpellTitle, Tooltip } from '@components/Tooltip'
 import LinearProgress from '@mui/material/LinearProgress'
 import { useAppContext } from '../context'
+import { AudioPlayer } from './audio-player'
 
 export const Details = () => {
   const [{ selectedChampion }] = useAppContext()
@@ -46,23 +47,24 @@ export const Details = () => {
       </div>
 
       <p>Stats</p>
-      <div className='flex flex-row'>
-        <div className='flex flex-col' style={{ flex: '0 0 50%' }}>
-          {Object.entries(info || {}).map(([key, value]) => (
-            <div key={key}>
-              <p className='capitalize'>{key}</p>
-              <LinearProgress
-                className='w-full rounded mb-2'
-                variant='determinate'
-                value={value * 10}
-                sx={{ height: '8px' }}
-              />
-            </div>
-          ))}
-        </div>
-        <div className='flex flex-col' style={{ flex: '0 0 50%' }}>
-          <ItemSelect />
-        </div>
+      <div className='flex flex-col'>
+        {Object.entries(info || {}).map(([key, value]) => (
+          <div key={key}>
+            <p className='capitalize'>{key}</p>
+            <LinearProgress
+              className='w-full rounded mb-2'
+              variant='determinate'
+              value={value * 10}
+              sx={{ height: '8px' }}
+            />
+          </div>
+        ))}
+      </div>
+      <div className='flex flex-col'>
+        <ItemSelect />
+      </div>
+      <div className='flex flex-col'>
+        <AudioPlayer />
       </div>
     </Card>
   )

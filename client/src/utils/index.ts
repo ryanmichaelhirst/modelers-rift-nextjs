@@ -62,7 +62,7 @@ export const getLoreLink = (region: string, name: string) =>
 
 // expects name formatted as 'Tahm Kench'
 export const getSplashArtLink = (displayName: string, skinNum: number | string) =>
-  `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${displayName.replace(
+  `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${displayName?.replace(
     ' ',
     '',
   )}_${skinNum}.jpg`

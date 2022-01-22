@@ -2,8 +2,10 @@
 directive @specifiedBy("The URL that specifies the behaviour of this scalar." url: String!) on SCALAR
 input CharactersFilter {
   nameCnt: String
+  nameEq: String
   typeEq: String
   includeAssets: Boolean
+  assetsTypeEq: String
 }
 type Character {
   id: ID

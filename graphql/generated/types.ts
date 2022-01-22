@@ -51,8 +51,10 @@ export type CharacterCollection = {
 };
 
 export type CharactersFilter = {
+  assetsTypeEq?: InputMaybe<Scalars['String']>;
   includeAssets?: InputMaybe<Scalars['Boolean']>;
   nameCnt?: InputMaybe<Scalars['String']>;
+  nameEq?: InputMaybe<Scalars['String']>;
   typeEq?: InputMaybe<Scalars['String']>;
 };
 

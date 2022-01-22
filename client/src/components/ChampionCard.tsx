@@ -1,6 +1,5 @@
 import ChampionTabs from '@components/ChampionTabs'
 import { SelectedChampion } from '@customtypes/index'
-import React from 'react'
 import { getSplashArtLink } from '../utils'
 
 const ChampionCard = ({ champion }: { champion: SelectedChampion }) => {

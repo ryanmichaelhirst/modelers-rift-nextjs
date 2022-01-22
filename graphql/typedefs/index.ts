@@ -3,8 +3,10 @@ import { gql } from 'apollo-server-express'
 export const typeDefs = gql`
   input CharactersFilter {
     nameCnt: String
+    nameEq: String
     typeEq: String
     includeAssets: Boolean
+    assetsTypeEq: String
   }
 
   type Character {

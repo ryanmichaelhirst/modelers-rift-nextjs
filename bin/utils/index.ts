@@ -183,7 +183,7 @@ export const getDisplayName = (name: string) => {
 // given 'aurelionsol' returns 'AurelionSol'
 export const getJsonName = (name: string) => {
   return championNames
-    .find((cn) => cn.toLowerCase() === name.replace(' ', '').toLowerCase())
+    .find((cn) => cn.toLowerCase() === name?.replace(' ', '').toLowerCase())
     ?.split(/(?=[A-Z])/)
     .join('')
 }

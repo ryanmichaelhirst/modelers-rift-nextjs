@@ -23,8 +23,6 @@ ReactDOM.render(
         </StyledEngineProvider>
       </BrowserRouter>
     </StoreProvider>
-    ,
   </ApolloProvider>,
-
   document.getElementById('app'),
 )

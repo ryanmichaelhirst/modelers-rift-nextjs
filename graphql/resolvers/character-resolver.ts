@@ -3,19 +3,23 @@ import { prisma } from '../../prisma/utils'
 export const CharacterResolver = async (parent, args, ctx) => {
   console.debug({ parent, args, ctx })
 
-  return prisma.character.findFirst({
+  return await prisma.character.findFirst({
     where: {
       name: {
-        contains: args?.filter?.nameCnt ?? '',
+        equals: args?.filter?.nameEq,
       },
-      ...(args?.filter?.typeEq && {
-        type: {
-          equals: args?.filter?.typeEq,
-        },
-      }),
+      type: {
+        equals: args?.filter?.typeEq,
+      },
     },
     include: {
-      assets: !!args?.filter?.includeAssets,
+      assets: {
+        where: {
+          type: {
+            equals: args?.filter?.assetsTypeEq,
+          },
+        },
+      },
     },
   })
 }

@@ -10,13 +10,11 @@ export const CharactersResolver = async (parent, args, ctx) => {
 
   const where = {
     name: {
-      contains: args?.filter?.nameCnt ?? '',
+      equals: args?.filter?.nameEq,
     },
-    ...(args?.filter?.typeEq && {
-      type: {
-        equals: args?.filter?.typeEq,
-      },
-    }),
+    type: {
+      equals: args?.filter?.typeEq,
+    },
   }
 
   const [characters, totalCount] = await prisma.$transaction([

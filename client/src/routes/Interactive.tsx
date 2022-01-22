@@ -3,13 +3,13 @@ import { Layout } from '@components/Layout'
 import { FETCH_NEW_CHAMPION } from '@customtypes/index'
 import { LinearProgress } from '@mui/material'
 import classNames from 'classnames'
-import { useCharactersIndexQuery } from '../../../graphql/generated/types'
+import { useCharactersQuery } from '../../../graphql/generated/types'
 import { useAppContext } from '../context'
 import { getSplashArtLink } from '../utils'
 
 export const Interactive = () => {
   const [{ selectedChampion, lolChampionsData, selectedPatch }, dispatch] = useAppContext()
-  const { data, error, loading } = useCharactersIndexQuery({
+  const { data, error, loading } = useCharactersQuery({
     variables: {
       filter: {
         typeEq: 'champion',
