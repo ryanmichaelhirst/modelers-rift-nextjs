@@ -1,12 +1,14 @@
-import { SET_SELECTED_CHAMPION_SKIN, useAppContext } from '../context'
-import { capitalizeWord, getSplashArtLink } from '../utils'
+import { SET_SELECTED_SKIN } from '@customtypes/index'
+import { capitalizeWord } from '../../../bin/utils'
+import { useAppContext } from '../context'
+import { getSplashArtLink } from '../utils'
 
 const SkinSelect = () => {
   const [{ selectedChampion }, dispatch] = useAppContext()
 
   const onClick = (num?: number) => () => {
     const skinNum = `skin${num}`
-    dispatch({ type: SET_SELECTED_CHAMPION_SKIN, payload: skinNum })
+    dispatch({ type: SET_SELECTED_SKIN, payload: skinNum })
   }
 
   const championName = capitalizeWord(selectedChampion.basicInfo?.name)
@@ -17,7 +19,7 @@ const SkinSelect = () => {
       <p>Skins</p>
       <div className='h-40 overflow-y-auto'>
         {skins?.map((skin) => {
-          const backgroundImage = `url(${getSplashArtLink(championName, 0)})`
+          const backgroundImage = `url(${getSplashArtLink(championName, skin.num || 0)})`
 
           return (
             <div

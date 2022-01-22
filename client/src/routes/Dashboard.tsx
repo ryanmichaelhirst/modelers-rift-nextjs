@@ -3,23 +3,16 @@ import { Details } from '@components/Details'
 import GridSelect from '@components/GridSelect'
 import { Layout } from '@components/Layout'
 import { PatchSelect } from '@components/PatchSelect'
+import { FETCH_LOL_ITEMS } from '@customtypes/index'
 import { useEffect } from 'react'
-import { SET_LOL_ITEMS_DATA, useAppContext } from '../context'
-import { getItems } from '../utils'
+import { useAppContext } from '../context'
 
 export const Dashboard = () => {
   const [{ selectedPatch, lolItemsData }, dispatch] = useAppContext()
 
   useEffect(() => {
-    const fetch = async () => {
-      if (!selectedPatch || lolItemsData) return
-
-      const lolItems = await getItems(selectedPatch)
-      dispatch({ type: SET_LOL_ITEMS_DATA, payload: lolItems })
-    }
-
-    fetch()
-  }, [selectedPatch])
+    dispatch({ type: FETCH_LOL_ITEMS, payload: selectedPatch })
+  }, [])
 
   return (
     <Layout>

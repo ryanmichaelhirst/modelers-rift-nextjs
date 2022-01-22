@@ -5,25 +5,25 @@ const theme = createTheme({
   components: {
     MuiAutocomplete: {
       styleOverrides: {
-        input: {
-          color: 'white !important',
-        },
-        popper: {
-          color: 'white !important',
-        },
+        // input: {
+        //   color: 'white !important',
+        // },
+        // popper: {
+        //   color: 'white !important',
+        // },
       },
     },
     MuiFormLabel: {
       styleOverrides: {
-        root: {
-          color: 'white !important',
-        },
+        // root: {
+        //   color: 'white !important',
+        // },
       },
     },
     MuiOutlinedInput: {
       styleOverrides: {
         notchedOutline: {
-          borderColor: 'white !important',
+          // borderColor: 'white !important',
         },
       },
     },

@@ -1,6 +1,6 @@
 import Input from '@components/Input'
-import { SET_SELECTED_PATCH, useAppContext } from '../context'
-
+import { SET_SELECTED_PATCH } from '@customtypes/index'
+import { useAppContext } from '../context'
 export const PatchSelect = () => {
   const [{ patches, selectedPatch }, dispatch] = useAppContext()
 

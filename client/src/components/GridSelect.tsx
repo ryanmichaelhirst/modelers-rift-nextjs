@@ -2,15 +2,11 @@ import { Card } from '@components/Card'
 import Input from '@components/Input'
 import { Loader } from '@components/Loader'
 import SkinSelect from '@components/SkinSelect'
+import { FETCH_NEW_CHAMPION } from '@customtypes/index'
 import classNames from 'classnames'
 import React, { useState } from 'react'
 import { useCharactersIndexQuery } from '../../../graphql/generated/types'
-import {
-  SET_SELECTED_CHAMPION_BASIC_INFO,
-  SET_SELECTED_CHAMPION_DETAILED_INFO,
-  useAppContext,
-} from '../context'
-import { getChampion } from '../utils'
+import { useAppContext } from '../context'
 
 const GridSelect = () => {
   const [pageSize, setPageSize] = useState(20)
@@ -41,20 +37,16 @@ const GridSelect = () => {
   const onInput = (e: React.SyntheticEvent<Element, Event>, value: any, reason: string) => {
     if (reason !== 'selectOption') return
 
-    const champ = characters.find((c) => c?.name === value)
+    const champ = characters.find((c) => c?.name?.toLowerCase() === value.toLowerCase())
     if (!champ) return
 
-    dispatch({ type: SET_SELECTED_CHAMPION_BASIC_INFO, payload: champ })
+    dispatch({ type: FETCH_NEW_CHAMPION, payload: { name: champ?.name } })
   }
 
   const onClick = (name?: string | null) => async () => {
     if (!name) return
 
-    const detailedInfo = await getChampion(selectedPatch, name)
-    const basicInfo = lolChampionsData[name]
-
-    dispatch({ type: SET_SELECTED_CHAMPION_BASIC_INFO, payload: basicInfo })
-    dispatch({ type: SET_SELECTED_CHAMPION_DETAILED_INFO, payload: detailedInfo })
+    dispatch({ type: FETCH_NEW_CHAMPION, payload: name })
   }
 
   return (
@@ -63,9 +55,9 @@ const GridSelect = () => {
         {selectedChampion ? (
           <Input
             onChange={onInput}
-            value={selectedChampion.basicInfo?.name?.toLowerCase()}
+            value={selectedChampion.basicInfo?.name}
             classes='mb-4'
-            options={characters.map((c) => c?.name || '')}
+            options={characters.map((c) => c?.displayName || '')}
             label='Select your champion'
           />
         ) : (
@@ -79,7 +71,7 @@ const GridSelect = () => {
             <Loader />
           ) : (
             characters.map((c) => {
-              const active = c?.name === selectedChampion?.basicInfo?.name
+              const active = c?.name === selectedChampion?.basicInfo?.name?.toLowerCase()
               const square_asset = lolChampionsData[c?.name || '']?.square_asset
               const backgroundImage = `url(${square_asset})`
 
@@ -93,9 +85,9 @@ const GridSelect = () => {
                   style={{
                     backgroundImage,
                   }}
-                  onClick={onClick(c?.name)}
+                  onClick={onClick(c?.displayName)}
                 >
-                  <p>{c?.name}</p>
+                  <p>{c?.displayName}</p>
                 </div>
               )
             })

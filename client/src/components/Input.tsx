@@ -43,7 +43,7 @@ const Input = ({
           <TextField {...params} label={label} className='font-zen' variant={variant} />
         )}
         classes={{
-          input: 'text-white',
+          input: 'text-black',
         }}
       />
     </Stack>

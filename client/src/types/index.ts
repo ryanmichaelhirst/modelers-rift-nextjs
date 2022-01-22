@@ -132,3 +132,65 @@ export const isPassive = (value: any): value is Passive => {
 
   return false
 }
+
+/**
+ * React Context
+ */
+export interface AppState {
+  selectedChampion: SelectedChampion
+  patches: string[]
+  selectedPatch: string
+  lolChampionsData: Record<string, any>
+  lolItemsData: Record<string, Item>
+}
+
+export const SET_SELECTED_PATCH = 'SET_SELECTED_PATCH'
+export const SET_PATCHES = 'SET_PATCHES'
+export const SET_SELECTED_CHAMPION = 'SET_SELECTED_CHAMPION'
+export const SET_SELECTED_SKIN = 'SET_SELECTED_SKIN'
+export const SET_CHAMPIONS = 'SET_CHAMPIONS'
+export const SET_ITEMS = 'SET_LOL_ITEMS'
+
+export type Action =
+  | {
+      type: typeof SET_SELECTED_PATCH
+      payload: string
+    }
+  | {
+      type: typeof SET_PATCHES
+      payload: string[]
+    }
+  | {
+      type: typeof SET_SELECTED_CHAMPION
+      payload: SelectedChampion
+    }
+  | {
+      type: typeof SET_SELECTED_SKIN
+      payload: string
+    }
+  | {
+      type: typeof SET_CHAMPIONS
+      payload: Record<string, ChampionBasicInfo>
+    }
+  | {
+      type: typeof SET_ITEMS
+      payload: Record<string, Item>
+    }
+
+export const FETCH_LOL_INFO = 'FETCH_LOL_INFO'
+export const FETCH_LOL_ITEMS = 'FETCH_LOL_ITEMS'
+export const FETCH_NEW_CHAMPION = 'FETCH_NEW_CHAMPION'
+
+export type AsyncAction =
+  | {
+      type: typeof FETCH_LOL_INFO
+      payload?: null
+    }
+  | {
+      type: typeof FETCH_LOL_ITEMS
+      payload: string
+    }
+  | {
+      type: typeof FETCH_NEW_CHAMPION
+      payload: string
+    }

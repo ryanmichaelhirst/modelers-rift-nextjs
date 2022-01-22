@@ -179,3 +179,17 @@ export const getDisplayName = (name: string) => {
     ?.split(/(?=[A-Z])/)
     .join(' ')
 }
+
+// given 'aurelionsol' returns 'AurelionSol'
+export const getJsonName = (name: string) => {
+  return championNames
+    .find((cn) => cn.toLowerCase() === name.replace(' ', '').toLowerCase())
+    ?.split(/(?=[A-Z])/)
+    .join('')
+}
+
+export const capitalizeWord = (word?: string | null) => {
+  if (!word) return ''
+
+  return word.charAt(0).toUpperCase() + word.substring(1)
+}

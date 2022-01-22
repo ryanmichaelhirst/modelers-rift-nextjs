@@ -7,7 +7,7 @@ const ChampionModelContainer = () => {
   const [{ selectedChampion }] = useAppContext()
 
   const skinNum = selectedChampion.skin || 'skin0'
-  const champName = selectedChampion.basicInfo?.name?.toLowerCase() || 'aatrox'
+  const champName = selectedChampion.basicInfo?.name?.toLowerCase().replace(' ', '') || 'aatrox'
   const awsUrl = `/api/getAwsObject/${champName}/${skinNum}`
 
   const Component = lazy(() => import(`./models/${champName}/${skinNum}.tsx`))

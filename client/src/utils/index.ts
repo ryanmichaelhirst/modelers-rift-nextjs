@@ -1,5 +1,7 @@
 import { ChampionBasicInfo, ChampionDetailedInfo, Item } from '@customtypes/index'
+import { getJsonName } from '../../../bin/utils/index'
 
+/* CHAMPIONS */
 export const getChampions = async (patch: string) => {
   const { data } = await fetch(
     `http://ddragon.leagueoflegends.com/cdn/${patch}/data/en_US/champion.json`,
@@ -21,10 +23,11 @@ export const getChampions = async (patch: string) => {
 }
 
 export const getChampion = async (selectedPatch: string, name: string) => {
-  const capitalizedName = capitalizeWord(name)
+  const jsonName = getJsonName(name)
+
   // get champion info from league api
   const { data } = await fetch(
-    `http://ddragon.leagueoflegends.com/cdn/${selectedPatch}/data/en_US/champion/${capitalizedName}.json`,
+    `http://ddragon.leagueoflegends.com/cdn/${selectedPatch}/data/en_US/champion/${jsonName}.json`,
   ).then<{ data: Record<string, ChampionDetailedInfo> }>((res) => res.json())
 
   // i.e. { Aatrox: { allytips; blurb; etc etc } }
@@ -35,12 +38,7 @@ export const getChampion = async (selectedPatch: string, name: string) => {
   return obj
 }
 
-export const capitalizeWord = (word?: string | null) => {
-  if (!word) return ''
-
-  return word.charAt(0).toUpperCase() + word.substring(1)
-}
-
+/* ITEMS */
 export const getItems = async (selectedPatch: string) => {
   const { data } = await fetch(
     `http://ddragon.leagueoflegends.com/cdn/${selectedPatch}/data/en_US/item.json`,
@@ -53,6 +51,7 @@ export const getItems = async (selectedPatch: string) => {
   }, {})
 }
 
+/* PATCHES */
 export const getPatches = async () =>
   await fetch('https://ddragon.leagueoflegends.com/api/versions.json').then<string[]>((res) =>
     res.json(),

@@ -1,14 +1,11 @@
 import Input from '@components/Input'
 import { Layout } from '@components/Layout'
+import { FETCH_NEW_CHAMPION } from '@customtypes/index'
 import { LinearProgress } from '@mui/material'
 import classNames from 'classnames'
 import { useCharactersIndexQuery } from '../../../graphql/generated/types'
-import {
-  SET_SELECTED_CHAMPION_BASIC_INFO,
-  SET_SELECTED_CHAMPION_DETAILED_INFO,
-  useAppContext,
-} from '../context'
-import { getChampion, getSplashArtLink } from '../utils'
+import { useAppContext } from '../context'
+import { getSplashArtLink } from '../utils'
 
 export const Interactive = () => {
   const [{ selectedChampion, lolChampionsData, selectedPatch }, dispatch] = useAppContext()
@@ -29,10 +26,7 @@ export const Interactive = () => {
     const upperCaseCamelName = displayName.replace(' ', '')
     const lowerCaseName = upperCaseCamelName.toLowerCase()
 
-    const basicInfo = lolChampionsData[lowerCaseName]
-    const detailedInfo = await getChampion(selectedPatch, upperCaseCamelName)
-    dispatch({ type: SET_SELECTED_CHAMPION_BASIC_INFO, payload: basicInfo })
-    dispatch({ type: SET_SELECTED_CHAMPION_DETAILED_INFO, payload: detailedInfo })
+    dispatch({ type: FETCH_NEW_CHAMPION, payload: lowerCaseName })
   }
 
   return (
