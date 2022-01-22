@@ -1,4 +1,4 @@
-query CharactersIndex($filter: CharactersFilter, $page: Int, $pageSize: Int) {
+query Characters($filter: CharactersFilter, $page: Int, $pageSize: Int) {
   characters(filter: $filter, page: $page, pageSize: $pageSize) {
     collection {
       id
@@ -17,6 +17,21 @@ query CharactersIndex($filter: CharactersFilter, $page: Int, $pageSize: Int) {
       totalPages
       currentPage
       pageSize
+    }
+  }
+}
+
+query Character($filter: CharactersFilter) {
+  character(filter: $filter) {
+    id
+    name
+    displayName
+    assets {
+      id
+      type
+      name
+      skin
+      path
     }
   }
 }

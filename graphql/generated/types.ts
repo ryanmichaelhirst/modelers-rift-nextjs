@@ -72,6 +72,7 @@ export type Metadata = {
 export type Query = {
   __typename?: 'Query';
   assets?: Maybe<Array<Maybe<Asset>>>;
+  character?: Maybe<Character>;
   characters?: Maybe<CharacterCollection>;
   jobs?: Maybe<Array<Maybe<Job>>>;
   users?: Maybe<Array<Maybe<User>>>;
@@ -80,6 +81,11 @@ export type Query = {
 
 export type QueryAssetsArgs = {
   filter?: InputMaybe<AssetsFilter>;
+};
+
+
+export type QueryCharacterArgs = {
+  filter?: InputMaybe<CharactersFilter>;
 };
 
 
@@ -251,6 +257,7 @@ export type MetadataResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   assets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Asset']>>>, ParentType, ContextType, RequireFields<QueryAssetsArgs, never>>;
+  character?: Resolver<Maybe<ResolversTypes['Character']>, ParentType, ContextType, RequireFields<QueryCharacterArgs, never>>;
   characters?: Resolver<Maybe<ResolversTypes['CharacterCollection']>, ParentType, ContextType, RequireFields<QueryCharactersArgs, never>>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Job']>>>, ParentType, ContextType>;
   users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType, RequireFields<QueryUsersArgs, never>>;
@@ -283,14 +290,21 @@ export type AssetsIndexQueryVariables = Exact<{
 
 export type AssetsIndexQuery = { __typename?: 'Query', assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, characterId?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined } | null | undefined> | null | undefined };
 
-export type CharactersIndexQueryVariables = Exact<{
+export type CharactersQueryVariables = Exact<{
   filter?: InputMaybe<CharactersFilter>;
   page?: InputMaybe<Scalars['Int']>;
   pageSize?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type CharactersIndexQuery = { __typename?: 'Query', characters?: { __typename?: 'CharacterCollection', collection?: Array<{ __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined> | null | undefined, metadata?: { __typename?: 'Metadata', totalCount?: number | null | undefined, totalPages?: number | null | undefined, currentPage?: number | null | undefined, pageSize?: number | null | undefined } | null | undefined } | null | undefined };
+export type CharactersQuery = { __typename?: 'Query', characters?: { __typename?: 'CharacterCollection', collection?: Array<{ __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined> | null | undefined, metadata?: { __typename?: 'Metadata', totalCount?: number | null | undefined, totalPages?: number | null | undefined, currentPage?: number | null | undefined, pageSize?: number | null | undefined } | null | undefined } | null | undefined };
+
+export type CharacterQueryVariables = Exact<{
+  filter?: InputMaybe<CharactersFilter>;
+}>;
+
+
+export type CharacterQuery = { __typename?: 'Query', character?: { __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
 export type JobsIndexQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -345,8 +359,8 @@ export function useAssetsIndexLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type AssetsIndexQueryHookResult = ReturnType<typeof useAssetsIndexQuery>;
 export type AssetsIndexLazyQueryHookResult = ReturnType<typeof useAssetsIndexLazyQuery>;
 export type AssetsIndexQueryResult = Apollo.QueryResult<AssetsIndexQuery, AssetsIndexQueryVariables>;
-export const CharactersIndexDocument = gql`
-    query CharactersIndex($filter: CharactersFilter, $page: Int, $pageSize: Int) {
+export const CharactersDocument = gql`
+    query Characters($filter: CharactersFilter, $page: Int, $pageSize: Int) {
   characters(filter: $filter, page: $page, pageSize: $pageSize) {
     collection {
       id
@@ -371,16 +385,16 @@ export const CharactersIndexDocument = gql`
     `;
 
 /**
- * __useCharactersIndexQuery__
+ * __useCharactersQuery__
  *
- * To run a query within a React component, call `useCharactersIndexQuery` and pass it any options that fit your needs.
- * When your component renders, `useCharactersIndexQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useCharactersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCharactersQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useCharactersIndexQuery({
+ * const { data, loading, error } = useCharactersQuery({
  *   variables: {
  *      filter: // value for 'filter'
  *      page: // value for 'page'
@@ -388,17 +402,61 @@ export const CharactersIndexDocument = gql`
  *   },
  * });
  */
-export function useCharactersIndexQuery(baseOptions?: Apollo.QueryHookOptions<CharactersIndexQuery, CharactersIndexQueryVariables>) {
+export function useCharactersQuery(baseOptions?: Apollo.QueryHookOptions<CharactersQuery, CharactersQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<CharactersIndexQuery, CharactersIndexQueryVariables>(CharactersIndexDocument, options);
+        return Apollo.useQuery<CharactersQuery, CharactersQueryVariables>(CharactersDocument, options);
       }
-export function useCharactersIndexLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CharactersIndexQuery, CharactersIndexQueryVariables>) {
+export function useCharactersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CharactersQuery, CharactersQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<CharactersIndexQuery, CharactersIndexQueryVariables>(CharactersIndexDocument, options);
+          return Apollo.useLazyQuery<CharactersQuery, CharactersQueryVariables>(CharactersDocument, options);
         }
-export type CharactersIndexQueryHookResult = ReturnType<typeof useCharactersIndexQuery>;
-export type CharactersIndexLazyQueryHookResult = ReturnType<typeof useCharactersIndexLazyQuery>;
-export type CharactersIndexQueryResult = Apollo.QueryResult<CharactersIndexQuery, CharactersIndexQueryVariables>;
+export type CharactersQueryHookResult = ReturnType<typeof useCharactersQuery>;
+export type CharactersLazyQueryHookResult = ReturnType<typeof useCharactersLazyQuery>;
+export type CharactersQueryResult = Apollo.QueryResult<CharactersQuery, CharactersQueryVariables>;
+export const CharacterDocument = gql`
+    query Character($filter: CharactersFilter) {
+  character(filter: $filter) {
+    id
+    name
+    displayName
+    assets {
+      id
+      type
+      name
+      skin
+      path
+    }
+  }
+}
+    `;
+
+/**
+ * __useCharacterQuery__
+ *
+ * To run a query within a React component, call `useCharacterQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCharacterQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCharacterQuery({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useCharacterQuery(baseOptions?: Apollo.QueryHookOptions<CharacterQuery, CharacterQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CharacterQuery, CharacterQueryVariables>(CharacterDocument, options);
+      }
+export function useCharacterLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CharacterQuery, CharacterQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CharacterQuery, CharacterQueryVariables>(CharacterDocument, options);
+        }
+export type CharacterQueryHookResult = ReturnType<typeof useCharacterQuery>;
+export type CharacterLazyQueryHookResult = ReturnType<typeof useCharacterLazyQuery>;
+export type CharacterQueryResult = Apollo.QueryResult<CharacterQuery, CharacterQueryVariables>;
 export const JobsIndexDocument = gql`
     query JobsIndex {
   jobs {

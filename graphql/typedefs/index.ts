@@ -62,6 +62,7 @@ export const typeDefs = gql`
   type Query {
     users(filter: UsersFilter): [User]
     characters(filter: CharactersFilter, page: Int, pageSize: Int): CharacterCollection
+    character(filter: CharactersFilter): Character
     assets(filter: AssetsFilter): [Asset]
     jobs: [Job]
   }
