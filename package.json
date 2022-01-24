@@ -80,6 +80,7 @@
     "ts-node": "^9.1.1",
     "typescript": "^4.5.5",
     "vite": "^2.6.7",
+    "vite-plugin-react-svg": "^0.2.0",
     "yargs": "^17.1.1"
   }
 }
