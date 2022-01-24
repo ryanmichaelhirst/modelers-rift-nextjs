@@ -1,6 +1,7 @@
 import react from '@vitejs/plugin-react'
 import path from 'path'
 import { defineConfig } from 'vite'
+import reactSvg from 'vite-plugin-react-svg'
 
 export default defineConfig({
   server: {
@@ -14,7 +15,7 @@ export default defineConfig({
       '/api': 'http://localhost:4000',
     },
   },
-  plugins: [react()],
+  plugins: [react(), reactSvg()],
   assetsInclude: ['**/*.glb'],
   resolve: {
     alias: {
