@@ -13,3 +13,12 @@
 /* Stop purging. */
 
 /* Your own custom utilities */
+
+@layer components {
+  .font-bruno {
+    font-family: 'Bruno Ace SC', sans-serif;
+  }
+  .font-nunito {
+    font-family: 'Nunito Sans', sans-serif;
+  }
+}
