@@ -1,6 +1,6 @@
 module.exports = {
   content: ['client/src/**/*.{js,ts,jsx,tsx}', 'client/src/*.{js,ts,jsx,tsx}'],
-  darkMode: 'media', // or 'media' or 'class'
+  darkMode: 'class', // 'media' or 'class'
   theme: {
     extend: {
       colors: {
@@ -11,6 +11,13 @@ module.exports = {
           700: '#3d3d3d',
           800: '#232323',
           900: '#000',
+        },
+        gum: {
+          100: 'rgba(255, 255, 255, 0.3)',
+          200: 'rgba(135, 115, 180)',
+          300: 'rgba(135, 115, 180, 0.10)',
+          400: 'rgba(251, 102, 78, 0.5)',
+          500: '#878DD9',
         },
       },
       height: {
