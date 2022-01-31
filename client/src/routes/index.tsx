@@ -1,4 +1,4 @@
-import { MenuBar } from '@components/MenuBar'
+import { MenuBar } from '@components/menu-bar'
 import type { RouteObject } from 'react-router-dom'
 import { Dashboard } from './Dashboard'
 import { Interactive } from './Interactive'
