@@ -1,14 +1,28 @@
-import Autocomplete from '@mui/material/Autocomplete'
-import Stack from '@mui/material/Stack'
-import TextField from '@mui/material/TextField'
+import {
+  Autocomplete,
+  AutocompleteClasses,
+  FilledInputClasses,
+  InputClasses,
+  InputLabelClasses,
+  OutlinedInputClasses,
+  Stack,
+  TextField,
+} from '@mui/material'
 import classNames from 'classnames'
 import React from 'react'
 
-const Input = ({
+type InputMuiClasses = {
+  autoComp?: Partial<AutocompleteClasses>
+  textField?: Partial<OutlinedInputClasses> & Partial<FilledInputClasses> & Partial<InputClasses>
+  label?: Partial<InputLabelClasses>
+}
+
+export const Input = ({
   value = null,
   options,
   label,
   classes,
+  muiClasses,
   onChange,
   multiple,
   sx = {},
@@ -20,6 +34,7 @@ const Input = ({
   options: any[]
   label: string
   classes?: string
+  muiClasses?: InputMuiClasses
   value?: string | null | string[]
   sx?: any
   size?: 'small' | 'medium'
@@ -40,10 +55,25 @@ const Input = ({
         options={options}
         value={value}
         renderInput={(params) => (
-          <TextField {...params} label={label} className='font-zen' variant={variant} />
+          <TextField
+            {...params}
+            label={label}
+            className='font-zen'
+            variant={variant}
+            InputProps={{
+              classes: {
+                ...(muiClasses?.textField ?? {}),
+              },
+            }}
+            InputLabelProps={{
+              classes: {
+                ...(muiClasses?.label ?? {}),
+              },
+            }}
+          />
         )}
         classes={{
-          input: 'text-black',
+          ...(muiClasses?.autoComp ?? {}),
         }}
       />
     </Stack>

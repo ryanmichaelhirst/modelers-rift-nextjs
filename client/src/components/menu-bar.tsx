@@ -1,8 +1,9 @@
 // @ts-ignore
 import Shen from '@assets/shen.svg?component'
+import { Button } from '@components/Button'
+import { SearchBar } from '@components/search-bar'
 import { Grid } from '@mui/material'
 import { Outlet, useNavigate } from 'react-router-dom'
-import { Button } from './Button'
 
 export const MenuBar = () => {
   const navigate = useNavigate()
@@ -10,7 +11,7 @@ export const MenuBar = () => {
   return (
     <>
       <Grid container spacing={0}>
-        <Grid item xs={12} className=' dark:bg-space-800 border dark:border-white'>
+        <Grid item xs={12}>
           <div className='flex justify-between items-center px-4 py-5 h-full'>
             <div className='flex items-center'>
               <Shen />
@@ -39,6 +40,9 @@ export const MenuBar = () => {
               />
             </div>
           </div>
+        </Grid>
+        <Grid item xs={12}>
+          <SearchBar />
         </Grid>
       </Grid>
       <Outlet />
