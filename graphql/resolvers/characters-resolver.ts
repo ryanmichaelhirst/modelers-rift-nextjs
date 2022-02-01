@@ -23,7 +23,7 @@ export const CharactersResolver = async (parent, args, ctx) => {
       take,
       where,
       include: {
-        assets: !!args?.filter?.includeAssets,
+        assets: args.includeAssets,
       },
       orderBy: {
         name: 'asc',

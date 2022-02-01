@@ -15,6 +15,7 @@ const GridSelect = () => {
       filter: {
         typeEq: 'champion',
       },
+      includeAssets: true,
       pageSize,
     },
   })

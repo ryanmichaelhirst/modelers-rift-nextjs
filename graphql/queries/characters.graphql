@@ -1,10 +1,10 @@
-query Characters($filter: CharactersFilter, $page: Int, $pageSize: Int) {
-  characters(filter: $filter, page: $page, pageSize: $pageSize) {
+query Characters($filter: CharactersFilter, $page: Int, $pageSize: Int, $includeAssets: Boolean!) {
+  characters(filter: $filter, page: $page, pageSize: $pageSize, includeAssets: $includeAssets) {
     collection {
       id
       name
       displayName
-      assets {
+      assets @include(if: $includeAssets) {
         id
         type
         name

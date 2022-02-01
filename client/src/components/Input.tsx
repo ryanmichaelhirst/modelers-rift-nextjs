@@ -61,11 +61,13 @@ export const Input = ({
             className='font-zen'
             variant={variant}
             InputProps={{
+              ...params.InputProps,
               classes: {
                 ...(muiClasses?.textField ?? {}),
               },
             }}
             InputLabelProps={{
+              ...params.InputLabelProps,
               classes: {
                 ...(muiClasses?.label ?? {}),
               },

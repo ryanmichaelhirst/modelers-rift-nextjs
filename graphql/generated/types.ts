@@ -52,7 +52,6 @@ export type CharacterCollection = {
 
 export type CharactersFilter = {
   assetsTypeEq?: InputMaybe<Scalars['String']>;
-  includeAssets?: InputMaybe<Scalars['Boolean']>;
   nameCnt?: InputMaybe<Scalars['String']>;
   nameEq?: InputMaybe<Scalars['String']>;
   typeEq?: InputMaybe<Scalars['String']>;
@@ -93,6 +92,7 @@ export type QueryCharacterArgs = {
 
 export type QueryCharactersArgs = {
   filter?: InputMaybe<CharactersFilter>;
+  includeAssets?: InputMaybe<Scalars['Boolean']>;
   page?: InputMaybe<Scalars['Int']>;
   pageSize?: InputMaybe<Scalars['Int']>;
 };
@@ -296,6 +296,7 @@ export type CharactersQueryVariables = Exact<{
   filter?: InputMaybe<CharactersFilter>;
   page?: InputMaybe<Scalars['Int']>;
   pageSize?: InputMaybe<Scalars['Int']>;
+  includeAssets: Scalars['Boolean'];
 }>;
 
 
@@ -362,13 +363,18 @@ export type AssetsIndexQueryHookResult = ReturnType<typeof useAssetsIndexQuery>;
 export type AssetsIndexLazyQueryHookResult = ReturnType<typeof useAssetsIndexLazyQuery>;
 export type AssetsIndexQueryResult = Apollo.QueryResult<AssetsIndexQuery, AssetsIndexQueryVariables>;
 export const CharactersDocument = gql`
-    query Characters($filter: CharactersFilter, $page: Int, $pageSize: Int) {
-  characters(filter: $filter, page: $page, pageSize: $pageSize) {
+    query Characters($filter: CharactersFilter, $page: Int, $pageSize: Int, $includeAssets: Boolean!) {
+  characters(
+    filter: $filter
+    page: $page
+    pageSize: $pageSize
+    includeAssets: $includeAssets
+  ) {
     collection {
       id
       name
       displayName
-      assets {
+      assets @include(if: $includeAssets) {
         id
         type
         name
@@ -401,10 +407,11 @@ export const CharactersDocument = gql`
  *      filter: // value for 'filter'
  *      page: // value for 'page'
  *      pageSize: // value for 'pageSize'
+ *      includeAssets: // value for 'includeAssets'
  *   },
  * });
  */
-export function useCharactersQuery(baseOptions?: Apollo.QueryHookOptions<CharactersQuery, CharactersQueryVariables>) {
+export function useCharactersQuery(baseOptions: Apollo.QueryHookOptions<CharactersQuery, CharactersQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<CharactersQuery, CharactersQueryVariables>(CharactersDocument, options);
       }

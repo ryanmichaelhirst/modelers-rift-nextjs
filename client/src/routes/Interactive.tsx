@@ -13,8 +13,8 @@ export const Interactive = () => {
     variables: {
       filter: {
         typeEq: 'champion',
-        includeAssets: true,
       },
+      includeAssets: true,
     },
   })
 
