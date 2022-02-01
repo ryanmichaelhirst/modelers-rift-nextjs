@@ -10,10 +10,10 @@ export const AudioPlayer = () => {
     variables: {
       filter: {
         nameEq: selectedChampion?.basicInfo?.id?.toLowerCase(),
-        includeAssets: true,
         typeEq: 'champion',
         assetsTypeEq: 'sfx',
       },
+      includeAssets: true,
     },
     fetchPolicy: 'network-only', // Used for first execution
     nextFetchPolicy: 'cache-first', // Used for subsequent executions
@@ -25,8 +25,6 @@ export const AudioPlayer = () => {
       audio.play()
     })
   }
-
-  console.log(data, selectedChampion?.basicInfo?.id?.toLowerCase())
 
   return (
     <div>

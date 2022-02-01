@@ -1,7 +1,7 @@
 import { MenuBar } from '@components/menu-bar'
 import type { RouteObject } from 'react-router-dom'
 import { Dashboard } from './Dashboard'
-import { Home } from './Home'
+import { Home } from './home'
 import { Interactive } from './Interactive'
 import { ItemBuilder } from './ItemBuilder'
 import { Model } from './Model'

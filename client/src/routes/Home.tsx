@@ -41,7 +41,6 @@ export const Home = () => {
       .filter((a) => lowercaseChampionNames.find((name) => a?.name?.includes(name)))
       .map((a) => {
         const name = lowercaseChampionNames.find((name) => a?.name?.includes(name))
-        console.log(name)
 
         return name ?? ''
       }) ?? []
