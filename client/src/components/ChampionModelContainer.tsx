@@ -1,9 +1,9 @@
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
-import { lazy, Suspense } from 'react'
+import { FC, lazy, Suspense } from 'react'
 import { useAppContext } from '../context'
 
-const ChampionModelContainer = () => {
+const ChampionModelContainer: FC<{ canvasHeight?: string }> = ({ canvasHeight }) => {
   const [{ selectedChampion }] = useAppContext()
 
   const skinNum = selectedChampion.skin || 'skin0'
@@ -14,7 +14,7 @@ const ChampionModelContainer = () => {
 
   return (
     <div>
-      <Canvas style={{ height: '70vh' }}>
+      <Canvas style={{ ...(canvasHeight && { height: canvasHeight }) }}>
         <Suspense fallback={null}>
           <Component name={champName} skin={skinNum} glb={awsUrl} />
           <OrbitControls />

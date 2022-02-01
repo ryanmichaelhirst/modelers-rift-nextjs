@@ -3,7 +3,7 @@ import { capitalizeWord } from '../../../bin/utils'
 import { useAppContext } from '../context'
 import { getSplashArtLink } from '../utils'
 
-const SkinSelect = () => {
+export const SkinSelect = () => {
   const [{ selectedChampion }, dispatch] = useAppContext()
 
   const onClick = (num?: number) => () => {

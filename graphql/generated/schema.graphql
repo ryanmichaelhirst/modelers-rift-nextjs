@@ -53,7 +53,7 @@ type Job {
 type Query {
   users(filter: UsersFilter): [User]
   characters(filter: CharactersFilter, page: Int, pageSize: Int, includeAssets: Boolean): CharacterCollection
-  character(filter: CharactersFilter): Character
+  character(filter: CharactersFilter, includeAssets: Boolean): Character
   assets(filter: AssetsFilter): [Asset]
   jobs: [Job]
 }

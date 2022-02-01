@@ -87,6 +87,7 @@ export type QueryAssetsArgs = {
 
 export type QueryCharacterArgs = {
   filter?: InputMaybe<CharactersFilter>;
+  includeAssets?: InputMaybe<Scalars['Boolean']>;
 };
 
 
@@ -304,6 +305,7 @@ export type CharactersQuery = { __typename?: 'Query', characters?: { __typename?
 
 export type CharacterQueryVariables = Exact<{
   filter?: InputMaybe<CharactersFilter>;
+  includeAssets: Scalars['Boolean'];
 }>;
 
 
@@ -423,12 +425,12 @@ export type CharactersQueryHookResult = ReturnType<typeof useCharactersQuery>;
 export type CharactersLazyQueryHookResult = ReturnType<typeof useCharactersLazyQuery>;
 export type CharactersQueryResult = Apollo.QueryResult<CharactersQuery, CharactersQueryVariables>;
 export const CharacterDocument = gql`
-    query Character($filter: CharactersFilter) {
-  character(filter: $filter) {
+    query Character($filter: CharactersFilter, $includeAssets: Boolean!) {
+  character(filter: $filter, includeAssets: $includeAssets) {
     id
     name
     displayName
-    assets {
+    assets @include(if: $includeAssets) {
       id
       type
       name
@@ -452,10 +454,11 @@ export const CharacterDocument = gql`
  * const { data, loading, error } = useCharacterQuery({
  *   variables: {
  *      filter: // value for 'filter'
+ *      includeAssets: // value for 'includeAssets'
  *   },
  * });
  */
-export function useCharacterQuery(baseOptions?: Apollo.QueryHookOptions<CharacterQuery, CharacterQueryVariables>) {
+export function useCharacterQuery(baseOptions: Apollo.QueryHookOptions<CharacterQuery, CharacterQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<CharacterQuery, CharacterQueryVariables>(CharacterDocument, options);
       }

@@ -21,12 +21,12 @@ query Characters($filter: CharactersFilter, $page: Int, $pageSize: Int, $include
   }
 }
 
-query Character($filter: CharactersFilter) {
-  character(filter: $filter) {
+query Character($filter: CharactersFilter, $includeAssets: Boolean!) {
+  character(filter: $filter, includeAssets: $includeAssets) {
     id
     name
     displayName
-    assets {
+    assets @include(if: $includeAssets) {
       id
       type
       name

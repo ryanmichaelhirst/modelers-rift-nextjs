@@ -13,13 +13,7 @@ export const CharacterResolver = async (parent, args, ctx) => {
       },
     },
     include: {
-      assets: {
-        where: {
-          type: {
-            equals: args?.filter?.assetsTypeEq,
-          },
-        },
-      },
+      assets: args?.includeAssets,
     },
   })
 }

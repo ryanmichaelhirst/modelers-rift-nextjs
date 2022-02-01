@@ -16,7 +16,7 @@ export const App = () => {
   return (
     <div
       className='h-full min-h-screen bg-cover bg-center bg-no-repeat'
-      style={{ background: `url(${FuschiaSwirl})` }}
+      style={{ backgroundImage: `url(${FuschiaSwirl})` }}
     >
       {element}
     </div>

@@ -158,6 +158,8 @@ export const championNames = [
   'Vex',
 ]
 
+export const lowercaseChampionNames = championNames.map((name) => name.toLowerCase())
+
 export const determineType = (name: string) => {
   const championType = championNames.map((n) => n.toLowerCase()).includes(name.toLowerCase())
   const tftType = name.includes('tft')

@@ -68,7 +68,7 @@ export const typeDefs = gql`
       pageSize: Int
       includeAssets: Boolean
     ): CharacterCollection
-    character(filter: CharactersFilter): Character
+    character(filter: CharactersFilter, includeAssets: Boolean): Character
     assets(filter: AssetsFilter): [Asset]
     jobs: [Job]
   }
