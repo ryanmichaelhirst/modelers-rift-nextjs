@@ -1,6 +1,7 @@
 import ChampionModelContainer from '@components/ChampionModelContainer'
 import { GlassCard } from '@components/GlassCard'
 import { SkinSelect } from '@components/SkinSelect'
+import { SoundList } from '@components/sound-list'
 import { Grid } from '@mui/material'
 import { FC } from 'react'
 import { lowercaseChampionNames } from '../../../bin/utils'
@@ -9,7 +10,7 @@ import { useAppContext } from '../context'
 
 export const Home = () => {
   const [{ selectedChampion }, dispatch] = useAppContext()
-  const { data, loading, error } = useCharacterQuery({
+  const { data, loading: characterLoading, error } = useCharacterQuery({
     variables: {
       filter: {
         nameEq: selectedChampion.basicInfo?.name?.toLowerCase(),
@@ -70,11 +71,13 @@ export const Home = () => {
             <GlassCard classes={'mb-4 text-white'}>
               <div className='grid grid-flow-col auto-cols-max justify-evenly text-lg font-nunito'>
                 <div>
-                  {analytics.map((a) => (
-                    <div key={a.total} className='font-bold'>
-                      {Math.floor((a.total ?? 0) / 10) * 10}+
-                    </div>
-                  ))}
+                  {analytics
+                    .filter((a) => a.total)
+                    .map((a) => (
+                      <div key={a.total} className='font-bold'>
+                        {Math.floor((a.total ?? 0) / 10) * 10}+
+                      </div>
+                    ))}
                 </div>
                 <div>
                   {analytics.map((a) => (
@@ -99,17 +102,13 @@ export const Home = () => {
           <Grid item xs={4}>
             <GlassTitle>SFX</GlassTitle>
             <GlassCard classes='overflow-y-scroll h-32 text-white'>
-              {sfx?.map((s) => (
-                <div key={s?.path}>{s?.name}</div>
-              ))}
+              <SoundList options={sfx} />
             </GlassCard>
           </Grid>
           <Grid item xs={4}>
             <GlassTitle>VO</GlassTitle>
             <GlassCard classes='overflow-y-scroll h-32 text-white'>
-              {vo?.map((v) => (
-                <div key={v?.path}>{v?.name}</div>
-              ))}
+              <SoundList options={vo} />
             </GlassCard>
           </Grid>
           <Grid item xs={4}>

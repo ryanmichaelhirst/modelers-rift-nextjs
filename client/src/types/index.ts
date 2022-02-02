@@ -1,8 +1,18 @@
+import type { Asset as AssetType } from '../../../graphql/generated/types'
+
+/**
+ * Graphql
+ */
+export type Asset = AssetType | null | undefined
+
 export interface SelectOption {
   label: string
   value: string
 }
 
+/**
+ * DDragon
+ */
 export interface Item {
   colloq: string
   depth?: number
