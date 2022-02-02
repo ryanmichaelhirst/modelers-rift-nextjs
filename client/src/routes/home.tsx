@@ -27,12 +27,12 @@ export const Home = () => {
       total: models?.length,
     },
     {
-      text: 'sound effects',
-      total: sfx?.length,
-    },
-    {
       text: 'voice-overs',
       total: vo?.length,
+    },
+    {
+      text: 'sound effects',
+      total: sfx?.length,
     },
   ]
   const allInteractions =
@@ -68,12 +68,20 @@ export const Home = () => {
           <Grid item xs={4}>
             <GlassTitle>Analytics</GlassTitle>
             <GlassCard classes={'mb-4 text-white'}>
-              {analytics.map((a) => (
-                <div key={a.text} className='flex justify-around'>
-                  <span>{Math.floor(a.total ?? 0)}+</span>
-                  <span>{a.text}</span>
+              <div className='grid grid-flow-col auto-cols-max justify-evenly text-lg font-nunito'>
+                <div>
+                  {analytics.map((a) => (
+                    <div key={a.total} className='font-bold'>
+                      {Math.floor((a.total ?? 0) / 10) * 10}+
+                    </div>
+                  ))}
                 </div>
-              ))}
+                <div>
+                  {analytics.map((a) => (
+                    <div key={a.text}>{a.text}</div>
+                  ))}
+                </div>
+              </div>
             </GlassCard>
           </Grid>
         </Grid>
@@ -92,7 +100,7 @@ export const Home = () => {
             <GlassTitle>SFX</GlassTitle>
             <GlassCard classes='overflow-y-scroll h-32 text-white'>
               {sfx?.map((s) => (
-                <div>{s?.name}</div>
+                <div key={s?.path}>{s?.name}</div>
               ))}
             </GlassCard>
           </Grid>
@@ -100,7 +108,7 @@ export const Home = () => {
             <GlassTitle>VO</GlassTitle>
             <GlassCard classes='overflow-y-scroll h-32 text-white'>
               {vo?.map((v) => (
-                <div>{v?.name}</div>
+                <div key={v?.path}>{v?.name}</div>
               ))}
             </GlassCard>
           </Grid>
@@ -108,7 +116,7 @@ export const Home = () => {
             <GlassTitle>Interactions</GlassTitle>
             <GlassCard classes='overflow-y-scroll h-32 text-white'>
               {uniqueInteractions?.map((champ) => (
-                <div>{champ}</div>
+                <div key={champ}>{champ}</div>
               ))}
             </GlassCard>
           </Grid>

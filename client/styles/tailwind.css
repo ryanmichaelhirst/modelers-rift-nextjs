@@ -1,6 +1,11 @@
 @tailwind base;
 
 /* Write your own custom base styles here */
+::-webkit-scrollbar {
+  display: none;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 
 /* Start purging... */
 @tailwind components;
