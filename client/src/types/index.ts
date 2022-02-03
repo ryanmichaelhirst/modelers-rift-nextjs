@@ -132,6 +132,11 @@ export interface SelectedChampion {
   skin?: string
 }
 
+export interface ChampionAnimations {
+  selectedAnimation?: string
+  animations?: string[]
+}
+
 // TODO: add this to @components/Tooltip
 export const isPassive = (value: any): value is Passive => {
   if (typeof value === 'object' && value !== null) {
@@ -152,6 +157,7 @@ export interface AppState {
   selectedPatch: string
   lolChampionsData: Record<string, any>
   lolItemsData: Record<string, Item>
+  championAnimations: ChampionAnimations
 }
 
 export const SET_SELECTED_PATCH = 'SET_SELECTED_PATCH'
@@ -160,6 +166,8 @@ export const SET_SELECTED_CHAMPION = 'SET_SELECTED_CHAMPION'
 export const SET_SELECTED_SKIN = 'SET_SELECTED_SKIN'
 export const SET_CHAMPIONS = 'SET_CHAMPIONS'
 export const SET_ITEMS = 'SET_LOL_ITEMS'
+export const SET_SELECTED_ANIMATION = 'SET_SELECTED_ANIMATION'
+export const SET_ANIMATIONS = 'SET_ANIMATIONS'
 
 export type Action =
   | {
@@ -186,6 +194,14 @@ export type Action =
       type: typeof SET_ITEMS
       payload: Record<string, Item>
     }
+  | {
+      type: typeof SET_SELECTED_ANIMATION
+      payload: string
+    }
+  | {
+      type: typeof SET_ANIMATIONS
+      payload: string[]
+    }
 
 export const FETCH_LOL_INFO = 'FETCH_LOL_INFO'
 export const FETCH_LOL_ITEMS = 'FETCH_LOL_ITEMS'
@@ -204,3 +220,5 @@ export type AsyncAction =
       type: typeof FETCH_NEW_CHAMPION
       payload: string
     }
+
+export type ContextDispatch = React.Dispatch<AsyncAction | Action>

@@ -2,6 +2,9 @@ import {
   Action,
   AppState,
   AsyncAction,
+  ContextDispatch,
+  SET_ANIMATIONS,
+  SET_SELECTED_ANIMATION,
   SET_SELECTED_CHAMPION,
   SET_SELECTED_SKIN,
 } from '@customtypes/index'
@@ -16,9 +19,10 @@ export const initialState: AppState = {
   selectedPatch: '12.2.1',
   lolChampionsData: {},
   lolItemsData: {},
+  championAnimations: {},
 }
 
-const Store = createContext<[AppState, any]>([{} as AppState, () => {}])
+const Store = createContext<[AppState, ContextDispatch]>([{} as AppState, () => {}])
 
 export const useAppContext = () => useContext(Store)
 
@@ -27,11 +31,11 @@ export const StoreProvider: FC<{ initialState: AppState; reducer: any }> = ({
   initialState,
   reducer,
 }) => {
-  const [state, dispatch] = useReducerAsync<Reducer<AppState, Action>, AsyncAction, AsyncAction>(
-    reducer,
-    initialState,
-    asyncActionHandlers,
-  )
+  const [state, dispatch] = useReducerAsync<
+    Reducer<AppState, Action>,
+    AsyncAction,
+    AsyncAction | Action
+  >(reducer, initialState, asyncActionHandlers)
 
   return <Store.Provider value={[state, dispatch]}>{children}</Store.Provider>
 }
@@ -54,6 +58,22 @@ export const reducer: Reducer<AppState, Action> = (state, action) => {
         selectedChampion: {
           ...state.selectedChampion,
           skin: action.payload,
+        },
+      }
+    case SET_SELECTED_ANIMATION:
+      return {
+        ...state,
+        championAnimations: {
+          ...state.championAnimations,
+          selectedAnimation: action.payload,
+        },
+      }
+    case SET_ANIMATIONS:
+      return {
+        ...state,
+        championAnimations: {
+          ...state.championAnimations,
+          animations: action.payload,
         },
       }
     case SET_PATCHES:

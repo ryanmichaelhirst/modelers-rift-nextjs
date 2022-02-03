@@ -2,14 +2,16 @@ import ChampionModelContainer from '@components/ChampionModelContainer'
 import { GlassCard } from '@components/GlassCard'
 import { SkinSelect } from '@components/SkinSelect'
 import { SoundList } from '@components/sound-list'
+import { SET_SELECTED_ANIMATION } from '@customtypes/index'
 import { Grid } from '@mui/material'
+import classNames from 'classnames'
 import { FC } from 'react'
 import { lowercaseChampionNames } from '../../../bin/utils'
 import { useCharacterQuery } from '../../../graphql/generated/types'
 import { useAppContext } from '../context'
 
 export const Home = () => {
-  const [{ selectedChampion }, dispatch] = useAppContext()
+  const [{ selectedChampion, championAnimations }, dispatch] = useAppContext()
   const { data, loading: characterLoading, error } = useCharacterQuery({
     variables: {
       filter: {
@@ -51,6 +53,11 @@ export const Home = () => {
     <p className='text-2xl text-white font-nunito mb-4'>{children}</p>
   )
 
+  const onAnimationClick = (animation: string) => () => {
+    console.log({ animation })
+    dispatch({ type: SET_SELECTED_ANIMATION, payload: animation })
+  }
+
   return (
     <div className='min-h-screen mx-4'>
       <p className='mb-4 text-xl'>{selectedChampion.basicInfo?.name}</p>
@@ -58,11 +65,18 @@ export const Home = () => {
         <Grid container item direction='column' xs={4}>
           <Grid item xs={4}>
             <GlassTitle>Animations</GlassTitle>
-            <GlassCard classes={'mb-4 text-white'}>
-              <div>TODO</div>
-              <div>TODO</div>
-              <div>TODO</div>
-              <div>TODO</div>
+            <GlassCard classes={'mb-4 text-white overflow-y-scroll h-32'}>
+              {championAnimations.animations?.map((a) => (
+                <div
+                  key={a}
+                  className={classNames(
+                    a === championAnimations.selectedAnimation && 'text-blue-500',
+                  )}
+                  onClick={onAnimationClick(a)}
+                >
+                  {a}
+                </div>
+              ))}
             </GlassCard>
           </Grid>
 
@@ -89,10 +103,10 @@ export const Home = () => {
           </Grid>
         </Grid>
         <Grid container item direction='column' xs={4} spacing={0}>
-          <Grid item xs={3}>
-            <ChampionModelContainer canvasHeight='300px' />
+          <Grid item xs={4}>
+            <ChampionModelContainer canvasHeight={400} canvasWidth={300} />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             <GlassCard>
               <SkinSelect />
             </GlassCard>
