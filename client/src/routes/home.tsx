@@ -1,10 +1,10 @@
+import { AnimationList } from '@components/animation-list'
 import ChampionModelContainer from '@components/ChampionModelContainer'
 import { GlassCard } from '@components/GlassCard'
 import { SkinSelect } from '@components/SkinSelect'
 import { SoundList } from '@components/sound-list'
 import { SET_PLAY_ALL_ANIMATIONS, SET_SELECTED_ANIMATION } from '@customtypes/index'
 import { Grid } from '@mui/material'
-import classNames from 'classnames'
 import { FC, useEffect } from 'react'
 import { lowercaseChampionNames } from '../../../bin/utils'
 import { useCharacterQuery } from '../../../graphql/generated/types'
@@ -74,19 +74,11 @@ export const Home = () => {
         <Grid container item direction='column' xs={4}>
           <Grid item xs={4}>
             <GlassTitle>Animations</GlassTitle>
-            <GlassCard classes={'mb-4 text-white overflow-y-scroll h-32'}>
-              {championAnimations.animations?.map((a) => (
-                <div
-                  key={a}
-                  id={a}
-                  className={classNames(
-                    a === championAnimations.selectedAnimation && 'text-blue-500',
-                  )}
-                  onClick={onAnimationClick(a)}
-                >
-                  {a}
-                </div>
-              ))}
+            <GlassCard classes={'overflow-y-scroll h-32 text-white'}>
+              <AnimationList
+                championAnimations={championAnimations}
+                onAnimationClick={onAnimationClick}
+              />
             </GlassCard>
           </Grid>
 
@@ -112,16 +104,19 @@ export const Home = () => {
             </GlassCard>
           </Grid>
         </Grid>
+
         <Grid container item direction='column' xs={4} spacing={0}>
           <Grid item xs={4}>
             <ChampionModelContainer canvasHeight={400} canvasWidth={300} />
           </Grid>
+
           <Grid item xs={4}>
             <GlassCard>
               <SkinSelect />
             </GlassCard>
           </Grid>
         </Grid>
+
         <Grid container item direction='column' xs={4}>
           <Grid item xs={4}>
             <GlassTitle>SFX</GlassTitle>
@@ -129,12 +124,14 @@ export const Home = () => {
               <SoundList options={sfx} />
             </GlassCard>
           </Grid>
+
           <Grid item xs={4}>
             <GlassTitle>VO</GlassTitle>
             <GlassCard classes='overflow-y-scroll h-32 text-white'>
               <SoundList options={vo} />
             </GlassCard>
           </Grid>
+
           <Grid item xs={4}>
             <GlassTitle>Interactions</GlassTitle>
             <GlassCard classes='overflow-y-scroll h-32 text-white'>
