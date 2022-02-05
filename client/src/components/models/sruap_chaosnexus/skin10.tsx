@@ -1,6 +1,6 @@
-import useCycleAnimations from '@hooks/UseCycleAnimation'
-import { useGLTF } from '@react-three/drei'
-import React, { useRef } from 'react'
+import { AnimatedModelProps } from '@customtypes/index'
+import { useAnimations, useGLTF } from '@react-three/drei'
+import React, { FC, memo, useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
@@ -9,8 +9,8 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    base: THREE.Bone
     Root_break: THREE.Bone
+    base: THREE.Bone
   }
   materials: {
     Destroyed: THREE.MeshBasicMaterial
@@ -19,20 +19,34 @@ type GLTFResult = GLTF & {
   }
 }
 
-type ActionName = 'chaosnexus_urf'
+type ActionName = 'Death' | 'Idle1_Base' | 'Spawn_Hold' | 'Spawn' | 'IdleIn' | 'chaosnexus_urf'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
-export default function Model(
-  props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string },
-) {
-  const ref = useRef<THREE.Group>()
-  const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
-  useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
+// TODO: this isn't firing atm
+const areEqual = (prevProps: AnimatedModelProps, nextProps: AnimatedModelProps) => {
+  if (prevProps.timerLabel === nextProps.timerLabel) return true
+
+  return false
+}
+
+// TODO: this needs to only render once
+const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => {
+  const { nodes, materials, animations } = useGLTF(glbUrl) as GLTF & {
+    nodes: Record<string, THREE.SkinnedMesh>
+    materials: Record<string, THREE.MeshBasicMaterial>
+  }
+  const ref = useRef()
+  const { mixer, names, actions, clips } = useAnimations(animations, ref)
+
+  useEffect(() => {
+    onSetAnimationMixer({ mixer, names, actions, clips })
+  }, [])
+
   return (
-    <group ref={ref} {...props} dispose={null}>
+    <group ref={ref} dispose={null}>
       <group scale={[-1, 1, 1]}>
-        <primitive object={nodes.base} />
         <primitive object={nodes.Root_break} />
+        <primitive object={nodes.base} />
       </group>
       <group position={[-356.85, -1342.18, -377.74]} scale={0.11}>
         <skinnedMesh
@@ -53,4 +67,6 @@ export default function Model(
       </group>
     </group>
   )
-}
+}, areEqual)
+
+export default Model

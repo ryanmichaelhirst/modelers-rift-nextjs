@@ -1,6 +1,6 @@
-import useCycleAnimations from '@hooks/UseCycleAnimation'
-import { useGLTF } from '@react-three/drei'
-import React, { useRef } from 'react'
+import { AnimatedModelProps } from '@customtypes/index'
+import { useAnimations, useGLTF } from '@react-three/drei'
+import React, { FC, memo, useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
@@ -9,7 +9,6 @@ type GLTFResult = GLTF & {
     mesh_0: THREE.SkinnedMesh
     mesh_0_1: THREE.SkinnedMesh
     mesh_0_2: THREE.SkinnedMesh
-    mesh_0_3: THREE.SkinnedMesh
     Root: THREE.Bone
     C_Buffbone_Glb_Layout_Loc: THREE.Bone
     C_Buffbone_Glb_Center_Loc: THREE.Bone
@@ -26,7 +25,6 @@ type GLTFResult = GLTF & {
     Skin03_Spear: THREE.MeshBasicMaterial
     Skin03_Arrows: THREE.MeshBasicMaterial
     Skin03_Base: THREE.MeshBasicMaterial
-    Altar_Spear: THREE.MeshBasicMaterial
   }
 }
 
@@ -92,14 +90,28 @@ type ActionName =
   | 'Spell1_2Idle'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
-export default function Model(
-  props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string },
-) {
-  const ref = useRef<THREE.Group>()
-  const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
-  useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
+// TODO: this isn't firing atm
+const areEqual = (prevProps: AnimatedModelProps, nextProps: AnimatedModelProps) => {
+  if (prevProps.timerLabel === nextProps.timerLabel) return true
+
+  return false
+}
+
+// TODO: this needs to only render once
+const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => {
+  const { nodes, materials, animations } = useGLTF(glbUrl) as GLTF & {
+    nodes: Record<string, THREE.SkinnedMesh>
+    materials: Record<string, THREE.MeshBasicMaterial>
+  }
+  const ref = useRef()
+  const { mixer, names, actions, clips } = useAnimations(animations, ref)
+
+  useEffect(() => {
+    onSetAnimationMixer({ mixer, names, actions, clips })
+  }, [])
+
   return (
-    <group ref={ref} {...props} dispose={null}>
+    <group ref={ref} dispose={null}>
       <group scale={[-1, 1, 1]}>
         <primitive object={nodes.Root} />
         <primitive object={nodes.C_Buffbone_Glb_Layout_Loc} />
@@ -129,12 +141,9 @@ export default function Model(
           material={materials.Skin03_Base}
           skeleton={nodes.mesh_0_2.skeleton}
         />
-        <skinnedMesh
-          geometry={nodes.mesh_0_3.geometry}
-          material={materials.Altar_Spear}
-          skeleton={nodes.mesh_0_3.skeleton}
-        />
       </group>
     </group>
   )
-}
+}, areEqual)
+
+export default Model

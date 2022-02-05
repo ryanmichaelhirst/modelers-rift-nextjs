@@ -1,91 +1,142 @@
-import useCycleAnimations from '@hooks/UseCycleAnimation'
-import { useGLTF } from '@react-three/drei'
-import React, { useRef } from 'react'
+import { AnimatedModelProps } from '@customtypes/index'
+import { useAnimations, useGLTF } from '@react-three/drei'
+import React, { FC, memo, useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
   nodes: {
     mesh_0: THREE.SkinnedMesh
+    mesh_0_1: THREE.SkinnedMesh
     Root: THREE.Bone
-    C_BUFFBONE_GLB_CENTER_LOC: THREE.Bone
-    BUFFBONE_GLB_GROUND_LOC: THREE.Bone
-    BUFFBONE_GLB_CHANNEL_LOC: THREE.Bone
-    C_BUFFBONE_GLB_LAYOUT_LOC: THREE.Bone
-    Snap_Weapon2World: THREE.Bone
-    Snap_Weap_barrel2World: THREE.Bone
-    Snap_WeaponTip2World: THREE.Bone
-    recall_skin19_screen: THREE.Bone
-    recall_skin19_target: THREE.Bone
-    recall_skin19_teemo: THREE.Bone
-    recall_skin19_yasuo: THREE.Bone
-    recall_skin19_yasuo2: THREE.Bone
-    C_Buffbone_Glb_Healthbar_Loc: THREE.Bone
-    C_BUFFBONE_GLB_OVERHEAD_LOC: THREE.Bone
+    C_Buffbone_Glb_Center_Loc: THREE.Bone
+    Buffbone_Glb_Weapon_1: THREE.Bone
+    Teacup_Root: THREE.Bone
+    Flag_StickTip: THREE.Bone
+    Recall_Screen: THREE.Bone
+    Recall_Target: THREE.Bone
+    Recall_Teemo: THREE.Bone
+    Recall_Yasuo: THREE.Bone
+    Recall_Yasuo_2: THREE.Bone
+    C_Buffbone_Glb_Layout_Loc: THREE.Bone
+    Buffbone_Glb_Ground_Loc: THREE.Bone
+    Buffbone_Glb_Channel_Loc: THREE.Bone
+    Buffbone_Cstm_Healthbar: THREE.Bone
+    Rifle_World_Snap: THREE.Bone
   }
   materials: {
-    Caitlyn_Arcade_Body_MAT: THREE.MeshBasicMaterial
+    Body: THREE.MeshBasicMaterial
+    Flag: THREE.MeshBasicMaterial
   }
 }
 
 type ActionName =
   | 'Attack1'
   | 'Attack2'
-  | 'Channel'
+  | 'Channel_Loop'
   | 'Channel_Wndup'
   | 'Crit'
-  | 'Dance'
+  | 'Dance_Loop'
   | 'Death'
   | 'Idle1'
   | 'Idle2'
   | 'Idle3'
   | 'Joke'
   | 'Laugh'
-  | 'Run'
+  | 'run.caitlyn_art_sustainability_update'
   | 'Passive'
   | 'Spell1'
   | 'Spell2'
   | 'Spell3'
-  | 'Spell3B'
-  | 'Spell4'
+  | 'Spell4_0'
   | 'Taunt'
+  | 'Run_Homeguard'
+  | 'Spell2_To_Run'
+  | 'Spell4_To_Run'
+  | 'Spell3_To_Run'
+  | 'Spell3_To_Idle'
+  | 'run_fast.caitlyn_art_sustainability_update'
+  | 'Attack_to_run'
+  | 'Run_Haste'
+  | 'Attack1_To_Idle'
+  | 'passive_to_idle.caitlyn_art_sustainability_update'
+  | 'attack_to_run.caitlyn_art_sustainability_update'
+  | 'Attack2_To_Idle'
+  | 'Spell1_To_Idle'
+  | 'Spell1_To_Run'
+  | 'Spell4_To_Idle'
+  | 'Spell4_90'
+  | 'Spell4_-90'
+  | 'run_variant.caitlyn_art_sustainability_update'
+  | 'run_fast_variant.caitlyn_art_sustainability_update'
+  | 'Spell2_To_Idle'
+  | 'knockup_start.caitlyn_art_sustainability_update'
+  | 'KnockUp_Loop'
+  | 'Stunned'
+  | 'Spawn'
+  | 'Respawn'
+  | 'Dance_In'
   | 'Recall'
-  | 'Idle_In'
+  | 'run_variant2.caitlyn_art_sustainability_update'
   | 'Recall_Winddown'
+  | 'run_in.caitlyn_art_sustainability_update'
+  | 'run_in_90.caitlyn_art_sustainability_update'
+  | 'Idle_In'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
-export default function Model(
-  props: JSX.IntrinsicElements['group'] & { glb: any; timerLabel: string },
-) {
-  const ref = useRef<THREE.Group>()
-  const { nodes, materials, animations } = useGLTF(props.glb) as GLTFResult
-  useCycleAnimations<GLTFActions>({ animations, ref, timerLabel: props.timerLabel })
+// TODO: this isn't firing atm
+const areEqual = (prevProps: AnimatedModelProps, nextProps: AnimatedModelProps) => {
+  if (prevProps.timerLabel === nextProps.timerLabel) return true
+
+  return false
+}
+
+// TODO: this needs to only render once
+const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => {
+  const { nodes, materials, animations } = useGLTF(glbUrl) as GLTF & {
+    nodes: Record<string, THREE.SkinnedMesh>
+    materials: Record<string, THREE.MeshBasicMaterial>
+  }
+  const ref = useRef()
+  const { mixer, names, actions, clips } = useAnimations(animations, ref)
+
+  useEffect(() => {
+    onSetAnimationMixer({ mixer, names, actions, clips })
+  }, [])
+
   return (
-    <group ref={ref} {...props} dispose={null}>
+    <group ref={ref} dispose={null}>
       <group scale={[-1, 1, 1]}>
         <primitive object={nodes.Root} />
-        <primitive object={nodes.C_BUFFBONE_GLB_CENTER_LOC} />
-        <primitive object={nodes.BUFFBONE_GLB_GROUND_LOC} />
-        <primitive object={nodes.BUFFBONE_GLB_CHANNEL_LOC} />
-        <primitive object={nodes.C_BUFFBONE_GLB_LAYOUT_LOC} />
-        <primitive object={nodes.Snap_Weapon2World} />
-        <primitive object={nodes.Snap_Weap_barrel2World} />
-        <primitive object={nodes.Snap_WeaponTip2World} />
-        <primitive object={nodes.recall_skin19_screen} />
-        <primitive object={nodes.recall_skin19_target} />
-        <primitive object={nodes.recall_skin19_teemo} />
-        <primitive object={nodes.recall_skin19_yasuo} />
-        <primitive object={nodes.recall_skin19_yasuo2} />
-        <primitive object={nodes.C_Buffbone_Glb_Healthbar_Loc} />
-        <primitive object={nodes.C_BUFFBONE_GLB_OVERHEAD_LOC} />
+        <primitive object={nodes.C_Buffbone_Glb_Center_Loc} />
+        <primitive object={nodes.Buffbone_Glb_Weapon_1} />
+        <primitive object={nodes.Teacup_Root} />
+        <primitive object={nodes.Flag_StickTip} />
+        <primitive object={nodes.Recall_Screen} />
+        <primitive object={nodes.Recall_Target} />
+        <primitive object={nodes.Recall_Teemo} />
+        <primitive object={nodes.Recall_Yasuo} />
+        <primitive object={nodes.Recall_Yasuo_2} />
+        <primitive object={nodes.C_Buffbone_Glb_Layout_Loc} />
+        <primitive object={nodes.Buffbone_Glb_Ground_Loc} />
+        <primitive object={nodes.Buffbone_Glb_Channel_Loc} />
+        <primitive object={nodes.Buffbone_Cstm_Healthbar} />
+        <primitive object={nodes.Rifle_World_Snap} />
       </group>
-      <skinnedMesh
-        geometry={nodes.mesh_0.geometry}
-        material={materials.Caitlyn_Arcade_Body_MAT}
-        skeleton={nodes.mesh_0.skeleton}
-        position={[-36.99, 0.54, -54.6]}
-        scale={0.02}
-      />
+      <group position={[-60.39, -2.71, -86.23]} scale={0.01}>
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Body}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Flag}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
+      </group>
     </group>
   )
-}
+}, areEqual)
+
+export default Model
