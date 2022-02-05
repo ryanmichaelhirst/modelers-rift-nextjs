@@ -4,6 +4,7 @@ import {
   AsyncAction,
   ContextDispatch,
   SET_ANIMATIONS,
+  SET_PLAY_ALL_ANIMATIONS,
   SET_SELECTED_ANIMATION,
   SET_SELECTED_CHAMPION,
   SET_SELECTED_SKIN,
@@ -20,6 +21,7 @@ export const initialState: AppState = {
   lolChampionsData: {},
   lolItemsData: {},
   championAnimations: {},
+  playAllAnimations: true,
 }
 
 const Store = createContext<[AppState, ContextDispatch]>([{} as AppState, () => {}])
@@ -67,6 +69,11 @@ export const reducer: Reducer<AppState, Action> = (state, action) => {
           ...state.championAnimations,
           selectedAnimation: action.payload,
         },
+      }
+    case SET_PLAY_ALL_ANIMATIONS:
+      return {
+        ...state,
+        playAllAnimations: action.payload,
       }
     case SET_ANIMATIONS:
       return {

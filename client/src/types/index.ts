@@ -1,14 +1,30 @@
+import { useAnimations } from '@react-three/drei'
 import type { Asset as AssetType } from '../../../graphql/generated/types'
+
+/**
+ * Components
+ */
+export interface SelectOption {
+  label: string
+  value: string
+}
+export interface AnimationHooks {
+  cycleAnimations: () => void
+  playAnimation: (selectedAnimation: string) => void
+}
+
+export type useAnimationResult = Omit<ReturnType<typeof useAnimations>, 'ref'>
+
+export interface AnimatedModelProps {
+  glbUrl: string
+  timerLabel: string
+  onSetAnimationMixer: ({ mixer, names, actions, clips }: useAnimationResult) => void
+}
 
 /**
  * Graphql
  */
 export type Asset = AssetType | null | undefined
-
-export interface SelectOption {
-  label: string
-  value: string
-}
 
 /**
  * DDragon
@@ -158,6 +174,7 @@ export interface AppState {
   lolChampionsData: Record<string, any>
   lolItemsData: Record<string, Item>
   championAnimations: ChampionAnimations
+  playAllAnimations?: boolean
 }
 
 export const SET_SELECTED_PATCH = 'SET_SELECTED_PATCH'
@@ -168,6 +185,7 @@ export const SET_CHAMPIONS = 'SET_CHAMPIONS'
 export const SET_ITEMS = 'SET_LOL_ITEMS'
 export const SET_SELECTED_ANIMATION = 'SET_SELECTED_ANIMATION'
 export const SET_ANIMATIONS = 'SET_ANIMATIONS'
+export const SET_PLAY_ALL_ANIMATIONS = 'SET_PLAY_ALL_ANIMATIONS'
 
 export type Action =
   | {
@@ -196,11 +214,15 @@ export type Action =
     }
   | {
       type: typeof SET_SELECTED_ANIMATION
-      payload: string
+      payload?: string
     }
   | {
       type: typeof SET_ANIMATIONS
-      payload: string[]
+      payload?: string[]
+    }
+  | {
+      type: typeof SET_PLAY_ALL_ANIMATIONS
+      payload: boolean
     }
 
 export const FETCH_LOL_INFO = 'FETCH_LOL_INFO'

@@ -2,7 +2,7 @@ import ChampionModelContainer from '@components/ChampionModelContainer'
 import { GlassCard } from '@components/GlassCard'
 import { SkinSelect } from '@components/SkinSelect'
 import { SoundList } from '@components/sound-list'
-import { SET_SELECTED_ANIMATION } from '@customtypes/index'
+import { SET_PLAY_ALL_ANIMATIONS, SET_SELECTED_ANIMATION } from '@customtypes/index'
 import { Grid } from '@mui/material'
 import classNames from 'classnames'
 import { FC } from 'react'
@@ -54,8 +54,8 @@ export const Home = () => {
   )
 
   const onAnimationClick = (animation: string) => () => {
-    console.log({ animation })
     dispatch({ type: SET_SELECTED_ANIMATION, payload: animation })
+    dispatch({ type: SET_PLAY_ALL_ANIMATIONS, payload: false })
   }
 
   return (
