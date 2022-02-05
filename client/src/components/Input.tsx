@@ -58,7 +58,6 @@ export const Input = ({
           <TextField
             {...params}
             label={label}
-            className='font-zen'
             variant={variant}
             InputProps={{
               ...params.InputProps,

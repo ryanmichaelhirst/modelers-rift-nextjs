@@ -32,6 +32,11 @@ module.exports = {
       gridTemplateColumns: {
         '1/9': '1fr 9fr',
       },
+      fontFamily: {
+        nunito: ['Nunito Sans', 'sans-serif'],
+        bruno: ['Bruno Ace SC', 'sans-serif'],
+        montserrat: ['Montserrat'],
+      },
     },
   },
   variants: {
