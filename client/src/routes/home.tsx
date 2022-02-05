@@ -5,7 +5,7 @@ import { SoundList } from '@components/sound-list'
 import { SET_PLAY_ALL_ANIMATIONS, SET_SELECTED_ANIMATION } from '@customtypes/index'
 import { Grid } from '@mui/material'
 import classNames from 'classnames'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { lowercaseChampionNames } from '../../../bin/utils'
 import { useCharacterQuery } from '../../../graphql/generated/types'
 import { useAppContext } from '../context'
@@ -58,6 +58,15 @@ export const Home = () => {
     dispatch({ type: SET_PLAY_ALL_ANIMATIONS, payload: false })
   }
 
+  useEffect(() => {
+    if (!championAnimations.selectedAnimation) return
+
+    const el = window.document.getElementById(championAnimations.selectedAnimation)
+    // prevents whole page from scrolling
+    // https://stackoverflow.com/questions/11039885/scrollintoview-causing-the-whole-page-to-move/11041376
+    el?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
+  }, [championAnimations.selectedAnimation])
+
   return (
     <div className='min-h-screen mx-4'>
       <p className='mb-4 text-xl'>{selectedChampion.basicInfo?.name}</p>
@@ -69,6 +78,7 @@ export const Home = () => {
               {championAnimations.animations?.map((a) => (
                 <div
                   key={a}
+                  id={a}
                   className={classNames(
                     a === championAnimations.selectedAnimation && 'text-blue-500',
                   )}
