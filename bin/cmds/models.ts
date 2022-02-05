@@ -5,6 +5,7 @@ import path from 'path'
 
 const queue = new PQueue({ concurrency: 30 })
 
+// TODO: update this to follow other pattern in cmds
 export const generateGlb = async () => {
   const inputDir = path.join(process.env.APP_HOME, 'input/gltf_models')
   const outputDir = path.join(process.env.APP_HOME, 'output/glb_models')
@@ -51,14 +52,15 @@ export const generateGlb = async () => {
 }
 
 export const generateJsx = async () => {
-  const glbDir = path.join(__dirname, '../../../../league_react_models')
+  const inputDir = path.join(process.env.APP_HOME, 'output/glb_models')
+  const outputDir = path.join(process.env.APP_HOME, 'client/src/components/models')
   console.time('generate-jsx')
 
   try {
-    const champDirs = fs.readdirSync(glbDir)
+    const champDirs = fs.readdirSync(inputDir)
 
     for (const champDir of champDirs) {
-      const files = fs.readdirSync(`${glbDir}/${champDir}`)
+      const files = fs.readdirSync(`${inputDir}/${champDir}`)
 
       if (!fs.existsSync(`client/src/components/models/${champDir}`)) {
         fs.mkdirSync(`client/src/components/models/${champDir}`)
@@ -69,13 +71,13 @@ export const generateJsx = async () => {
 
         queue.add(async () => {
           await new Promise<void>((resolve) => {
-            exec(`npx gltfjsx ${glbDir}/${champDir}/${file} -t`, async (err, stdout, stderr) => {
-              console.log(`gltfjsx ${glbDir}/${champDir}/${file} -t > ${jsxFile}`)
+            exec(`npx gltfjsx ${inputDir}/${champDir}/${file} -t`, async (err, stdout, stderr) => {
+              console.log(`gltfjsx ${inputDir}/${champDir}/${file} -t > ${jsxFile}`)
               console.log(stdout)
               exec(
-                `mv ${jsxFile} client/src/components/models/${champDir}/${jsxFile}`,
+                `mv ${jsxFile} ${outputDir}/${champDir}/${jsxFile}`,
                 async (err, stdout, stderr) => {
-                  console.log(`mv ${jsxFile} client/src/components/models/${champDir}/${jsxFile} `)
+                  console.log(`mv ${jsxFile} ${outputDir}/${champDir}/${jsxFile} `)
                   resolve()
                 },
               )
@@ -91,7 +93,7 @@ export const generateJsx = async () => {
       await queue.onIdle()
     }
   } catch (err) {
-    throw new Error(`Could not read directory @ ${glbDir}`)
+    throw new Error(`Could not read directory @ ${inputDir}`)
   }
 
   console.timeEnd('generate-jsx')
