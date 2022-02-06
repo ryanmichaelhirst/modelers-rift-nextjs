@@ -31,4 +31,5 @@ model Asset {
   name         String
   skin         String
   path         String @unique
+  duration     Float?
 }
