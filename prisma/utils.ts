@@ -16,15 +16,12 @@ const findOrCreateCharacter = async (name: string) => {
   let character = await prisma.character.findFirst({
     where: { name },
   })
-
   if (character) return character
-
-  const type = determineType(name)
 
   return await prisma.character.create({
     data: {
       name,
-      type,
+      type: determineType(name),
     },
   })
 }
@@ -37,14 +34,16 @@ export const createAssets = async ({
   characterName: string
 }) => {
   const character = await findOrCreateCharacter(characterName)
-
-  // TODO: update this to find or create many
-  await prisma.asset.createMany({
-    data: assets.map((a) => ({
-      characterId: character.id,
-      ...a,
-    })),
-  })
+  const updates = assets.map((a) =>
+    prisma.asset.upsert({
+      where: { path: a.path },
+      update: {
+        ...a,
+      },
+      create: { ...a, characterId: character.id },
+    }),
+  )
+  await prisma.$transaction(updates)
 }
 
 export const deleteAllTableData = async () => {

@@ -1,11 +1,13 @@
 import { PutObjectCommand } from '@aws-sdk/client-s3'
 import { Database } from '@leafac/sqlite'
 import { execSync } from 'child_process'
+import { format } from 'date-fns'
 import fs from 'fs'
 import PQueue from 'p-queue'
 import path from 'path'
-import { Asset, createAssets, deleteAllTableData } from '../../prisma/utils'
+import { createAssets, deleteAllTableData } from '../../prisma/utils'
 import { BUCKET_NAME, s3 } from '../../server/aws'
+import { logToFile } from '../utils/job-helpers'
 import { soundTypes } from './sounds'
 
 const queue = new PQueue({ concurrency: 30 })
@@ -38,76 +40,57 @@ export const wipeDb = async () => {
 
 export const seedDb = async () => {
   console.time('seed-db')
-
   // upload glb files
   await uploadModels()
-
-  console.log('done with models')
-
   // upload sfx and vo files
   await uploadSounds()
-
-  console.log('done with sounds')
-
   console.timeEnd('seed-db')
 }
 
 const uploadModels = async () => {
   console.time('upload-models')
   const inputDir = path.join(process.env.APP_HOME, 'output/glb_models')
-  const champDirs = fs.readdirSync(inputDir)
+  const champDirs = await fs.promises.readdir(inputDir)
+  const timestamp = format(new Date(), 'yyyyMMdd_hhmmss_aaa')
+  const logFile = `logs/upload_models_${timestamp}.txt`
 
   for (const champDir of champDirs) {
-    // if (champDir !== 'aatrox' && champDir !== 'ahri') continue
+    if (champDir !== 'aatrox') continue
 
-    // TODO: there is a bug, not all assets are being processed
-    // fs.readFile() callback not completing for every file
     queue.add(async () => {
       // upload to s3
-      const assets = await new Promise<Asset[]>((resolve) => {
-        fs.readdir(`${inputDir}/${champDir}`, async (filesErr, files) => {
-          if (filesErr) resolve([])
+      const files = await fs.promises.readdir(`${inputDir}/${champDir}`)
+      const assets = []
 
-          const results = []
+      for (let ii = 0; ii < files.length; ii++) {
+        const file = files[ii]
+        const filePath = `${inputDir}/${champDir}/${file}`
+        const fileName = path.basename(filePath, '.glb')
+        const key = `${champDir}/model/${fileName}/default.glb`
 
-          for (let ii = 0; ii < files.length; ii++) {
-            const file = files[ii]
-            const filePath = `${inputDir}/${champDir}/${file}`
-            const fileName = path.basename(filePath, '.glb')
-            const key = `${champDir}/model/${fileName}/default.glb`
+        const data = await fs.promises.readFile(filePath)
 
-            fs.readFile(filePath, async (readErr, data) => {
-              if (readErr) return
+        try {
+          const command = new PutObjectCommand({
+            Bucket: BUCKET_NAME,
+            Body: data,
+            Key: key,
+          })
+          await s3.send(command)
 
-              try {
-                const command = new PutObjectCommand({
-                  Bucket: BUCKET_NAME,
-                  Body: data,
-                  Key: key,
-                })
-                await s3.send(command)
+          assets.push({
+            type: 'model',
+            name: fileName,
+            skin: fileName,
+            path: key,
+          })
+          logToFile({ log: `${fileName}:${key}`, filePath: logFile })
+        } catch (uploadErr) {
+          console.error(uploadErr)
+        }
+      }
 
-                results.push({
-                  type: 'model',
-                  name: fileName,
-                  skin: fileName,
-                  path: key,
-                })
-              } catch (uploadErr) {
-                console.error(uploadErr)
-              } finally {
-                if (ii === files.length - 1) {
-                  console.log(`uploaded ${champDir}/model files`)
-                  resolve(results)
-                }
-              }
-            })
-          }
-        })
-      })
-
-      // TODO: with this line aws s3 errors no longer show? ("can't read byte length")
-      // add to db
+      // add to postgres
       await createAssets({ characterName: champDir, assets })
     })
   }
@@ -120,67 +103,58 @@ const uploadModels = async () => {
 const uploadSounds = async () => {
   console.time('upload-sounds')
   const inputDir = path.join(process.env.APP_HOME, 'output/generated')
-  const champDirs = fs.readdirSync(inputDir)
+  const champDirs = await fs.promises.readdir(inputDir)
 
   for (const champDir of champDirs) {
-    // if (champDir !== 'aatrox' && champDir !== 'ahri') continue
+    if (champDir !== 'aatrox') continue
 
     for (const soundType of soundTypes) {
-      // TODO: there is a bug, not all assets are being processed
-      // fs.readFile() callback not completing for every file
       queue.add(async () => {
         // upload to s3
-        const assets = await new Promise<Asset[]>((resolve) => {
-          fs.readdir(`${inputDir}/${champDir}/${soundType}`, (skinErr, skinDirs) => {
-            const results = []
-            if (skinErr || skinDirs.length === 0 || !skinDirs) resolve(results)
+        try {
+          const skinDirs = await fs.promises.readdir(`${inputDir}/${champDir}/${soundType}`)
+          const assets = []
 
-            for (let ii = 0; ii < skinDirs.length; ii++) {
-              const skinDir = skinDirs[ii]
+          for (let ii = 0; ii < skinDirs.length; ii++) {
+            const skinDir = skinDirs[ii]
 
-              fs.readdir(`${inputDir}/${champDir}/${soundType}/${skinDir}`, (fileErr, files) => {
-                if (fileErr || files.length === 0 || !files) resolve(results)
+            try {
+              const files = await fs.promises.readdir(
+                `${inputDir}/${champDir}/${soundType}/${skinDir}`,
+              )
+              for (let jj = 0; jj < files.length; jj++) {
+                const file = files[jj]
+                const key = `${champDir}/${soundType}/${skinDir}/${file}`
+                const filePath = `${inputDir}/${key}`
+                const fileName = path.basename(filePath, '.glb')
 
-                for (let jj = 0; jj < files.length; jj++) {
-                  const file = files[jj]
-                  const key = `${champDir}/${soundType}/${skinDir}/${file}`
-                  const filePath = `${inputDir}/${key}`
-                  const fileName = path.basename(filePath, '.glb')
-
-                  fs.readFile(filePath, async (readErr, data) => {
-                    if (readErr) return
-
-                    try {
-                      const command = new PutObjectCommand({
-                        Bucket: BUCKET_NAME,
-                        Body: data,
-                        Key: key,
-                      })
-                      await s3.send(command)
-                      results.push({
-                        type: soundType,
-                        name: fileName,
-                        skin: skinDir,
-                        path: key,
-                      })
-                    } catch (uploadErr) {
-                      console.error(uploadErr)
-                    } finally {
-                      if (ii === skinDirs.length - 1 && jj === files.length - 1) {
-                        console.log(`uploaded ${champDir}/${soundType} files`)
-                        resolve(results)
-                      }
-                    }
+                try {
+                  const data = await fs.promises.readFile(filePath)
+                  const command = new PutObjectCommand({
+                    Bucket: BUCKET_NAME,
+                    Body: data,
+                    Key: key,
                   })
+                  await s3.send(command)
+                  assets.push({
+                    type: soundType,
+                    name: fileName,
+                    skin: skinDir,
+                    path: key,
+                  })
+                } catch (uploadErr) {
+                  console.error(uploadErr)
                 }
-              })
+              }
+            } catch (err) {
+              console.debug(err)
             }
-          })
-        })
+          }
 
-        // TODO: with this line aws s3 errors no longer show? ("can't read byte length")
-        // add to db
-        await createAssets({ characterName: champDir, assets })
+          await createAssets({ characterName: champDir, assets })
+        } catch (err) {
+          console.debug(err)
+        }
       })
     }
   }
