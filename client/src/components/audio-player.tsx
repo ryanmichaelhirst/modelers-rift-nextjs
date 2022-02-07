@@ -56,9 +56,13 @@ export const AudioPlayer: FC<{ sounds?: Asset[] }> = ({ sounds }) => {
 
   console.log({ currentSound, duration })
 
+  const sound = sounds?.find((s) => s?.path === currentSound)
+
   return (
     <GlassCard classes='text-white font-nunito'>
-      <div className='flex justify-center mb-2'>Current sound</div>
+      <div className='flex justify-center mb-2 capitalize'>
+        {sound ? sound.name?.replace(/_/g, ' ').replace('.ogg', '') : 'Pick a sound'}
+      </div>
       <div>
         <Slider aria-label='track-time' size='small' value={0} max={0} />
         <div className='flex justify-between'>
