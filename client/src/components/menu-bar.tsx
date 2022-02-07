@@ -14,8 +14,14 @@ export const MenuBar = () => {
         <Grid item xs={12}>
           <div className='flex justify-between items-center px-4 py-5 h-full'>
             <div className='flex items-center'>
-              <Shen />
-              <p className='text-black font-bruno text-xl mx-6'>Modeler's Rift</p>
+              {/* TODO: convert this react-component */}
+              <Shen className='cursor-pointer' onClick={() => navigate('/')} />
+              <p
+                className='text-black font-bruno text-xl mx-6 cursor-pointer'
+                onClick={() => navigate('/')}
+              >
+                Modeler's Rift
+              </p>
               <div>
                 {['Dashboard', 'Interactive', 'Item Builder'].map((item) => (
                   <Button

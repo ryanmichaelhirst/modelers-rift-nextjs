@@ -10,6 +10,7 @@ query Characters($filter: CharactersFilter, $page: Int, $pageSize: Int, $include
         name
         skin
         path
+        duration
       }
     }
     metadata {
@@ -32,6 +33,7 @@ query Character($filter: CharactersFilter, $includeAssets: Boolean!) {
       name
       skin
       path
+      duration
     }
   }
 }

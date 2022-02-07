@@ -1,4 +1,5 @@
 import { AnimationList } from '@components/animation-list'
+import { AudioPlayer } from '@components/audio-player'
 import ChampionModelContainer from '@components/ChampionModelContainer'
 import { GlassCard } from '@components/GlassCard'
 import { SkinSelect } from '@components/SkinSelect'
@@ -119,16 +120,13 @@ export const Home = () => {
 
         <Grid container item direction='column' xs={4}>
           <Grid item xs={4}>
-            <GlassTitle>SFX</GlassTitle>
-            <GlassCard classes='overflow-y-scroll h-32 text-white'>
-              <SoundList options={sfx} />
-            </GlassCard>
+            <GlassTitle>SFX / VO </GlassTitle>
+            <AudioPlayer sounds={sfx?.concat(vo ?? [])} />
           </Grid>
 
-          <Grid item xs={4}>
-            <GlassTitle>VO</GlassTitle>
+          <Grid item xs={3}>
             <GlassCard classes='overflow-y-scroll h-32 text-white'>
-              <SoundList options={vo} />
+              <SoundList options={sfx?.concat(vo ?? [])} />
             </GlassCard>
           </Grid>
 

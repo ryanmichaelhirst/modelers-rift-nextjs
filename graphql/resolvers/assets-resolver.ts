@@ -28,6 +28,7 @@ export const AssetsResolver = (parent, args, ctx) => {
       name: true,
       skin: true,
       path: true,
+      duration: true,
     },
   })
 }

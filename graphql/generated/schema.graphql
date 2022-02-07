@@ -46,7 +46,10 @@ type Asset {
   name: String
   skin: String
   path: String
+  duration: Float
 }
+"The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point)."
+scalar Float
 type Job {
   name: String
 }

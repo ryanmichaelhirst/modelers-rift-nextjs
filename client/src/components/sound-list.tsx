@@ -1,13 +1,16 @@
-import { Asset } from '@customtypes/index'
+import { Asset, SET_CURRENT_SOUND } from '@customtypes/index'
 import { PlayCircleOutline } from '@mui/icons-material'
+import classNames from 'classnames'
 import { FC } from 'react'
+import { useAppContext } from '../context'
 
 export const SoundList: FC<{ options?: Asset[] }> = ({ options }) => {
-  const onClick = (filePath?: string | null) => () => {
-    fetch(`/api/getAudio/${filePath}`).then((res) => {
-      const audio = new Audio(res.url)
-      audio.play()
-    })
+  const [{ currentSound }, dispatch] = useAppContext()
+
+  const onClick = (path?: string | null) => () => {
+    if (path === null) return
+
+    dispatch({ type: SET_CURRENT_SOUND, payload: path })
   }
 
   return (
@@ -15,7 +18,10 @@ export const SoundList: FC<{ options?: Asset[] }> = ({ options }) => {
       {options?.map((o) => (
         <div
           key={o?.path}
-          className='cursor-pointer flex justify-center items-center'
+          className={classNames(
+            'cursor-pointer flex justify-center items-center hover:text-gum-400',
+            currentSound === o?.path && 'text-gum-400',
+          )}
           onClick={onClick(o?.path)}
         >
           <PlayCircleOutline fontSize='small' />

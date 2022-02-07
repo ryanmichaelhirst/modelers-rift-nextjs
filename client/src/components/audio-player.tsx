@@ -1,41 +1,82 @@
-import { useCharacterQuery } from '../../../graphql/generated/types'
+import { GlassCard } from '@components/GlassCard'
+import { Asset, SET_CURRENT_SOUND } from '@customtypes/index'
+import { PauseCircleOutline, PlayArrow, SkipNext, SkipPrevious } from '@mui/icons-material'
+import { Slider } from '@mui/material'
+import { FC, useEffect, useState } from 'react'
 import { useAppContext } from '../context'
 
-export const AudioPlayer = () => {
-  const [{ selectedChampion }] = useAppContext()
+export const AudioPlayer: FC<{ sounds?: Asset[] }> = ({ sounds }) => {
+  const [{ currentSound }, dispatch] = useAppContext()
+  const [audio, setAudio] = useState<HTMLAudioElement>()
+  const duration = sounds?.find((s) => s?.path === currentSound)?.duration
 
-  // TODO: there is a bug here that causes the query to return null assets
-  // after the characters list expands in GridSelect
-  const { data, error, loading } = useCharacterQuery({
-    variables: {
-      filter: {
-        nameEq: selectedChampion?.basicInfo?.id?.toLowerCase(),
-        typeEq: 'champion',
-        assetsTypeEq: 'sfx',
-      },
-      includeAssets: true,
-    },
-    fetchPolicy: 'network-only', // Used for first execution
-    nextFetchPolicy: 'cache-first', // Used for subsequent executions
-  })
+  const isPlaying = false
 
-  const onClick = (filePath?: string | null) => () => {
-    fetch(`/api/getAudio/${filePath}`).then((res) => {
-      const audio = new Audio(res.url)
-      audio.play()
-    })
+  useEffect(() => {
+    if (currentSound) {
+      // pause previous audio
+      audio?.pause()
+      fetch(`/api/getAudio/${currentSound}`)
+        .then((res) => {
+          const htmlAudio = new Audio(res.url)
+          htmlAudio.play()
+          setAudio(htmlAudio)
+        })
+        .catch((err) => {
+          console.debug(`failed to play sound ${err}`)
+        })
+    }
+  }, [currentSound])
+
+  const onPrev = () => {
+    if (!currentSound || !sounds) return
+
+    const curIndex = sounds.findIndex((s) => s?.path === currentSound)
+    if (!curIndex) return
+
+    const prevIndex = curIndex === sounds.length - 1 ? 0 : curIndex - 1
+    const prevSound = sounds[prevIndex]
+    if (!prevSound?.path) return
+
+    dispatch({ type: SET_CURRENT_SOUND, payload: prevSound.path })
   }
 
+  const onNext = () => {
+    if (!currentSound || !sounds) return
+
+    const curIndex = sounds.findIndex((s) => s?.path === currentSound)
+    if (!curIndex) return
+
+    const nextIndex = curIndex === sounds.length - 1 ? 0 : curIndex + 1
+    const nextSound = sounds[nextIndex]
+    if (!nextSound?.path) return
+
+    dispatch({ type: SET_CURRENT_SOUND, payload: nextSound.path })
+  }
+
+  console.log({ currentSound, duration })
+
   return (
-    <div>
-      <p>Sound list</p>
-      <div className='overflow-y-auto h-64'>
-        {data?.character?.assets?.map((a) => (
-          <p key={a?.id} onClick={onClick(a?.path)}>
-            {a?.name}
-          </p>
-        ))}
+    <GlassCard classes='text-white font-nunito'>
+      <div className='flex justify-center mb-2'>Current sound</div>
+      <div>
+        <Slider aria-label='track-time' size='small' value={0} max={0} />
+        <div className='flex justify-between'>
+          {duration && <p>0</p>}
+          {/* TODO: use date-fns here */}
+          {duration && <p>{new Date(duration * 1000).toISOString().substr(14, 5)}</p>}
+        </div>
       </div>
-    </div>
+
+      <div className='flex justify-center'>
+        <SkipPrevious className='cursor-pointer hover:text-gum-400' onClick={onPrev} />
+        {isPlaying ? (
+          <PauseCircleOutline className='cursor-pointer mx-4 hover:text-gum-400' />
+        ) : (
+          <PlayArrow className='cursor-pointer mx-4 hover:text-gum-400' />
+        )}
+        <SkipNext className='cursor-pointer hover:text-gum-400' onClick={onNext} />
+      </div>
+    </GlassCard>
   )
 }

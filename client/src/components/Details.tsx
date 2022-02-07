@@ -3,7 +3,6 @@ import { ItemSelect } from '@components/ItemSelect'
 import { SpellTitle, Tooltip } from '@components/Tooltip'
 import LinearProgress from '@mui/material/LinearProgress'
 import { useAppContext } from '../context'
-import { AudioPlayer } from './audio-player'
 
 export const Details = () => {
   const [{ selectedChampion }] = useAppContext()
@@ -62,9 +61,6 @@ export const Details = () => {
       </div>
       <div className='flex flex-col'>
         <ItemSelect />
-      </div>
-      <div className='flex flex-col'>
-        <AudioPlayer />
       </div>
     </Card>
   )

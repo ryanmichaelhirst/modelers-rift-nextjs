@@ -6,5 +6,6 @@ query AssetsIndex($filter: AssetsFilter) {
     name
     skin
     path
+    duration
   }
 }

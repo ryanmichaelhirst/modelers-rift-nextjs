@@ -23,6 +23,7 @@ export type Asset = {
   __typename?: 'Asset';
   character?: Maybe<Character>;
   characterId?: Maybe<Scalars['ID']>;
+  duration?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
   path?: Maybe<Scalars['String']>;
@@ -192,6 +193,7 @@ export type ResolversTypes = {
   Character: ResolverTypeWrapper<CharacterModel>;
   CharacterCollection: ResolverTypeWrapper<Omit<CharacterCollection, 'collection'> & { collection?: Maybe<Array<Maybe<ResolversTypes['Character']>>> }>;
   CharactersFilter: CharactersFilter;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Job: ResolverTypeWrapper<Job>;
@@ -210,6 +212,7 @@ export type ResolversParentTypes = {
   Character: CharacterModel;
   CharacterCollection: Omit<CharacterCollection, 'collection'> & { collection?: Maybe<Array<Maybe<ResolversParentTypes['Character']>>> };
   CharactersFilter: CharactersFilter;
+  Float: Scalars['Float'];
   ID: Scalars['ID'];
   Int: Scalars['Int'];
   Job: Job;
@@ -223,6 +226,7 @@ export type ResolversParentTypes = {
 export type AssetResolvers<ContextType = any, ParentType extends ResolversParentTypes['Asset'] = ResolversParentTypes['Asset']> = {
   character?: Resolver<Maybe<ResolversTypes['Character']>, ParentType, ContextType>;
   characterId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  duration?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   path?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -291,7 +295,7 @@ export type AssetsIndexQueryVariables = Exact<{
 }>;
 
 
-export type AssetsIndexQuery = { __typename?: 'Query', assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, characterId?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined } | null | undefined> | null | undefined };
+export type AssetsIndexQuery = { __typename?: 'Query', assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, characterId?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined, duration?: number | null | undefined } | null | undefined> | null | undefined };
 
 export type CharactersQueryVariables = Exact<{
   filter?: InputMaybe<CharactersFilter>;
@@ -301,7 +305,7 @@ export type CharactersQueryVariables = Exact<{
 }>;
 
 
-export type CharactersQuery = { __typename?: 'Query', characters?: { __typename?: 'CharacterCollection', collection?: Array<{ __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined> | null | undefined, metadata?: { __typename?: 'Metadata', totalCount?: number | null | undefined, totalPages?: number | null | undefined, currentPage?: number | null | undefined, pageSize?: number | null | undefined } | null | undefined } | null | undefined };
+export type CharactersQuery = { __typename?: 'Query', characters?: { __typename?: 'CharacterCollection', collection?: Array<{ __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined, duration?: number | null | undefined } | null | undefined> | null | undefined } | null | undefined> | null | undefined, metadata?: { __typename?: 'Metadata', totalCount?: number | null | undefined, totalPages?: number | null | undefined, currentPage?: number | null | undefined, pageSize?: number | null | undefined } | null | undefined } | null | undefined };
 
 export type CharacterQueryVariables = Exact<{
   filter?: InputMaybe<CharactersFilter>;
@@ -309,7 +313,7 @@ export type CharacterQueryVariables = Exact<{
 }>;
 
 
-export type CharacterQuery = { __typename?: 'Query', character?: { __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+export type CharacterQuery = { __typename?: 'Query', character?: { __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined, duration?: number | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
 export type JobsIndexQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -333,6 +337,7 @@ export const AssetsIndexDocument = gql`
     name
     skin
     path
+    duration
   }
 }
     `;
@@ -382,6 +387,7 @@ export const CharactersDocument = gql`
         name
         skin
         path
+        duration
       }
     }
     metadata {
@@ -436,6 +442,7 @@ export const CharacterDocument = gql`
       name
       skin
       path
+      duration
     }
   }
 }

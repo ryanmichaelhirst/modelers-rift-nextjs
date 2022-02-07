@@ -1,5 +1,5 @@
 import { ChampionAnimations } from '@customtypes/index'
-import { Animation } from '@mui/icons-material'
+import { Videocam } from '@mui/icons-material'
 import classNames from 'classnames'
 import { FC } from 'react'
 
@@ -15,12 +15,12 @@ export const AnimationList: FC<{
           id={a}
           className={classNames(
             'flex items-center capitalize w-3/4 cursor-pointer hover:text-gum-400',
-            a === championAnimations.selectedAnimation && 'text-gum-200',
+            a === championAnimations.selectedAnimation && 'text-gum-400',
           )}
           title={a}
           onClick={onAnimationClick(a)}
         >
-          <Animation fontSize='small' />
+          <Videocam fontSize='small' />
           <p className='mx-2 truncate'>{a.replace(/_/g, ' ')}</p>
         </div>
       ))}

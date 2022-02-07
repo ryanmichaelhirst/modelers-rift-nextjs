@@ -54,6 +54,7 @@ export const typeDefs = gql`
     name: String
     skin: String
     path: String
+    duration: Float
   }
 
   type Job {

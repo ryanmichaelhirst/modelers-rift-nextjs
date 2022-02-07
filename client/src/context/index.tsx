@@ -4,6 +4,7 @@ import {
   AsyncAction,
   ContextDispatch,
   SET_ANIMATIONS,
+  SET_CURRENT_SOUND,
   SET_PLAY_ALL_ANIMATIONS,
   SET_SELECTED_ANIMATION,
   SET_SELECTED_CHAMPION,
@@ -83,6 +84,12 @@ export const reducer: Reducer<AppState, Action> = (state, action) => {
           animations: action.payload,
         },
       }
+    case SET_CURRENT_SOUND: {
+      return {
+        ...state,
+        currentSound: action.payload,
+      }
+    }
     case SET_PATCHES:
       return {
         ...state,
