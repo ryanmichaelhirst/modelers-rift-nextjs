@@ -4,6 +4,7 @@ import { PauseCircleOutline, PlayArrow, SkipNext, SkipPrevious } from '@mui/icon
 import { Slider } from '@mui/material'
 import { FC, useEffect, useState } from 'react'
 import { useAppContext } from '../context'
+import { getAssetDisplayName } from '../utils'
 
 export const AudioPlayer: FC<{ sounds?: Asset[] }> = ({ sounds }) => {
   const [{ currentSound }, dispatch] = useAppContext()
@@ -54,14 +55,12 @@ export const AudioPlayer: FC<{ sounds?: Asset[] }> = ({ sounds }) => {
     dispatch({ type: SET_CURRENT_SOUND, payload: nextSound.path })
   }
 
-  console.log({ currentSound, duration })
-
   const sound = sounds?.find((s) => s?.path === currentSound)
 
   return (
     <GlassCard classes='text-white font-nunito'>
-      <div className='flex justify-center mb-2 capitalize'>
-        {sound ? sound.name?.replace(/_/g, ' ').replace('.ogg', '') : 'Pick a sound'}
+      <div className='flex justify-center mb-2 capitalize w-full truncate'>
+        {sound ? getAssetDisplayName(sound.name) : 'Pick a sound'}
       </div>
       <div>
         <Slider aria-label='track-time' size='small' value={0} max={0} />

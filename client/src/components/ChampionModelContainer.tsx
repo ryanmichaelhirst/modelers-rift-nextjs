@@ -100,8 +100,6 @@ const ChampionModelContainer: FC<{ canvasHeight?: number; canvasWidth?: number }
   // React.useContext() does not work inside of suspense, so context is hoisted here
   const timerLabel = `${champName}-${skinNum}`
 
-  return null
-
   return (
     <CanvasContainer
       canvasHeight={canvasHeight}
