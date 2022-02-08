@@ -1,5 +1,5 @@
 import { Input } from '@components/Input'
-import { FETCH_NEW_CHAMPION, SET_ANIMATIONS, SET_SELECTED_ANIMATION } from '@customtypes/index'
+import { FETCH_NEW_CHAMPION, SET_ANIMATIONS, SET_CURRENT_ANIMATION } from '@customtypes/index'
 import { useState } from 'react'
 import { useCharactersQuery } from '../../../graphql/generated/types'
 import { useAppContext } from '../context'
@@ -22,7 +22,7 @@ export const SearchBar = () => {
     console.debug(e, value, reason)
     setSelected(value)
     dispatch({ type: FETCH_NEW_CHAMPION, payload: value })
-    dispatch({ type: SET_SELECTED_ANIMATION })
+    dispatch({ type: SET_CURRENT_ANIMATION })
     dispatch({ type: SET_ANIMATIONS })
   }
 

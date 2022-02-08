@@ -4,9 +4,9 @@ import {
   AsyncAction,
   ContextDispatch,
   SET_ANIMATIONS,
+  SET_CURRENT_ANIMATION,
   SET_CURRENT_SOUND,
   SET_PLAY_ALL_ANIMATIONS,
-  SET_SELECTED_ANIMATION,
   SET_SELECTED_CHAMPION,
   SET_SELECTED_SKIN,
 } from '@customtypes/index'
@@ -21,7 +21,6 @@ export const initialState: AppState = {
   selectedPatch: '12.2.1',
   lolChampionsData: {},
   lolItemsData: {},
-  championAnimations: {},
   playAllAnimations: true,
 }
 
@@ -63,13 +62,10 @@ export const reducer: Reducer<AppState, Action> = (state, action) => {
           skin: action.payload,
         },
       }
-    case SET_SELECTED_ANIMATION:
+    case SET_CURRENT_ANIMATION:
       return {
         ...state,
-        championAnimations: {
-          ...state.championAnimations,
-          selectedAnimation: action.payload,
-        },
+        currentAnimation: action.payload,
       }
     case SET_PLAY_ALL_ANIMATIONS:
       return {
@@ -79,10 +75,7 @@ export const reducer: Reducer<AppState, Action> = (state, action) => {
     case SET_ANIMATIONS:
       return {
         ...state,
-        championAnimations: {
-          ...state.championAnimations,
-          animations: action.payload,
-        },
+        animations: action.payload?.sort(),
       }
     case SET_CURRENT_SOUND: {
       return {

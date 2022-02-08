@@ -148,11 +148,6 @@ export interface SelectedChampion {
   skin?: string
 }
 
-export interface ChampionAnimations {
-  selectedAnimation?: string
-  animations?: string[]
-}
-
 // TODO: add this to @components/Tooltip
 export const isPassive = (value: any): value is Passive => {
   if (typeof value === 'object' && value !== null) {
@@ -173,9 +168,10 @@ export interface AppState {
   selectedPatch: string
   lolChampionsData: Record<string, any>
   lolItemsData: Record<string, Item>
-  championAnimations: ChampionAnimations
   playAllAnimations?: boolean
   currentSound?: string
+  currentAnimation?: string
+  animations?: string[]
 }
 
 export const SET_SELECTED_PATCH = 'SET_SELECTED_PATCH'
@@ -184,7 +180,7 @@ export const SET_SELECTED_CHAMPION = 'SET_SELECTED_CHAMPION'
 export const SET_SELECTED_SKIN = 'SET_SELECTED_SKIN'
 export const SET_CHAMPIONS = 'SET_CHAMPIONS'
 export const SET_ITEMS = 'SET_LOL_ITEMS'
-export const SET_SELECTED_ANIMATION = 'SET_SELECTED_ANIMATION'
+export const SET_CURRENT_ANIMATION = 'SET_CURRENT_ANIMATION'
 export const SET_ANIMATIONS = 'SET_ANIMATIONS'
 export const SET_PLAY_ALL_ANIMATIONS = 'SET_PLAY_ALL_ANIMATIONS'
 export const SET_CURRENT_SOUND = 'SET_CURRENT_SOUND'
@@ -215,7 +211,7 @@ export type Action =
       payload: Record<string, Item>
     }
   | {
-      type: typeof SET_SELECTED_ANIMATION
+      type: typeof SET_CURRENT_ANIMATION
       payload?: string
     }
   | {

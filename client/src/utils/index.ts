@@ -67,4 +67,5 @@ export const getSplashArtLink = (displayName: string, skinNum: number | string) 
     '',
   )}_${skinNum}.jpg`
 
-export const getAssetDisplayName = (name?: string) => name?.replace(/_/g, ' ').replace('.ogg', '')
+export const getAssetDisplayName = (name?: string | null) =>
+  name?.replace(/_/g, ' ').replace('.ogg', '')

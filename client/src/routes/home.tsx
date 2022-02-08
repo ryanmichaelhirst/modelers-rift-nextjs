@@ -1,10 +1,9 @@
-import { AnimationList } from '@components/animation-list'
+import { AnimationPlayer } from '@components/animation-player'
 import { AudioPlayer } from '@components/audio-player'
 import ChampionModelContainer from '@components/ChampionModelContainer'
 import { GlassCard } from '@components/GlassCard'
 import { SkinSelect } from '@components/SkinSelect'
-import { SoundList } from '@components/sound-list'
-import { SET_PLAY_ALL_ANIMATIONS, SET_SELECTED_ANIMATION } from '@customtypes/index'
+import { BarChartOutlined, QueueMusicOutlined, VideocamOutlined } from '@mui/icons-material'
 import { Grid } from '@mui/material'
 import { FC, useEffect } from 'react'
 import { lowercaseChampionNames } from '../../../bin/utils'
@@ -12,7 +11,7 @@ import { useCharacterQuery } from '../../../graphql/generated/types'
 import { useAppContext } from '../context'
 
 export const Home = () => {
-  const [{ selectedChampion, championAnimations }, dispatch] = useAppContext()
+  const [{ selectedChampion, currentAnimation, animations }, dispatch] = useAppContext()
   const { data, loading: characterLoading, error } = useCharacterQuery({
     variables: {
       filter: {
@@ -51,22 +50,17 @@ export const Home = () => {
   const uniqueInteractions = Array.from(new Set(allInteractions))
 
   const GlassTitle: FC = ({ children }) => (
-    <p className='text-2xl text-white font-nunito mb-4'>{children}</p>
+    <div className='flex items-center text-2xl text-white font-nunito mb-4'>{children}</div>
   )
 
-  const onAnimationClick = (animation: string) => () => {
-    dispatch({ type: SET_SELECTED_ANIMATION, payload: animation })
-    dispatch({ type: SET_PLAY_ALL_ANIMATIONS, payload: false })
-  }
-
   useEffect(() => {
-    if (!championAnimations.selectedAnimation) return
+    if (!currentAnimation) return
 
-    const el = window.document.getElementById(championAnimations.selectedAnimation)
+    const el = window.document.getElementById(currentAnimation)
     // prevents whole page from scrolling
     // https://stackoverflow.com/questions/11039885/scrollintoview-causing-the-whole-page-to-move/11041376
     el?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' })
-  }, [championAnimations.selectedAnimation])
+  }, [currentAnimation])
 
   return (
     <div className='min-h-screen mx-4'>
@@ -74,17 +68,26 @@ export const Home = () => {
       <Grid container spacing={2} className='min-h-screen'>
         <Grid container item direction='column' xs={4}>
           <Grid item xs={4}>
-            <GlassTitle>Animations</GlassTitle>
-            <GlassCard classes={'overflow-y-scroll h-32 text-white'}>
-              <AnimationList
-                championAnimations={championAnimations}
-                onAnimationClick={onAnimationClick}
-              />
-            </GlassCard>
+            <GlassTitle>
+              <VideocamOutlined fontSize='medium' />
+              <span className='ml-3'>Animations</span>
+            </GlassTitle>
+            <AnimationPlayer />
           </Grid>
 
           <Grid item xs={4}>
-            <GlassTitle>Analytics</GlassTitle>
+            <GlassTitle>
+              <QueueMusicOutlined fontSize='medium' />
+              <span className='ml-4'>SFX / VO</span>
+            </GlassTitle>
+            <AudioPlayer sounds={sfx?.concat(vo ?? [])} />
+          </Grid>
+
+          <Grid item xs={4}>
+            <GlassTitle>
+              <BarChartOutlined fontSize='medium' />
+              <span className='ml-4'>Analytics</span>
+            </GlassTitle>
             <GlassCard classes={'mb-4 text-white'}>
               <div className='grid grid-flow-col auto-cols-max justify-evenly text-lg font-nunito'>
                 <div>
@@ -106,36 +109,14 @@ export const Home = () => {
           </Grid>
         </Grid>
 
-        <Grid container item direction='column' xs={4} spacing={0}>
-          <Grid item xs={4}>
-            <ChampionModelContainer canvasHeight={400} canvasWidth={300} />
+        <Grid container item direction='column' xs={8} spacing={0}>
+          <Grid item xs={6}>
+            <ChampionModelContainer />
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item xs={6}>
             <GlassCard>
               <SkinSelect />
-            </GlassCard>
-          </Grid>
-        </Grid>
-
-        <Grid container item direction='column' xs={4}>
-          <Grid item xs={4}>
-            <GlassTitle>SFX / VO </GlassTitle>
-            <AudioPlayer sounds={sfx?.concat(vo ?? [])} />
-          </Grid>
-
-          <Grid item xs={3}>
-            <GlassCard classes='overflow-y-scroll h-32 text-white'>
-              <SoundList options={sfx?.concat(vo ?? [])} />
-            </GlassCard>
-          </Grid>
-
-          <Grid item xs={4}>
-            <GlassTitle>Interactions</GlassTitle>
-            <GlassCard classes='overflow-y-scroll h-32 text-white'>
-              {uniqueInteractions?.map((champ) => (
-                <div key={champ}>{champ}</div>
-              ))}
             </GlassCard>
           </Grid>
         </Grid>

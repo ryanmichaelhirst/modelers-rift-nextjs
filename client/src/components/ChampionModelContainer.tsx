@@ -1,7 +1,7 @@
 import {
   SET_ANIMATIONS,
+  SET_CURRENT_ANIMATION,
   SET_PLAY_ALL_ANIMATIONS,
-  SET_SELECTED_ANIMATION,
   useAnimationResult,
 } from '@customtypes/index'
 import usePlayAnimation from '@hooks/use-play-animation'
@@ -14,14 +14,7 @@ const ChampionModelContainer: FC<{ canvasHeight?: number; canvasWidth?: number }
   canvasHeight,
   canvasWidth,
 }) => {
-  const [
-    {
-      selectedChampion,
-      championAnimations: { selectedAnimation },
-      playAllAnimations,
-    },
-    dispatch,
-  ] = useAppContext()
+  const [{ selectedChampion, currentAnimation, playAllAnimations }, dispatch] = useAppContext()
   const [animationMixer, setAnimationMixer] = useState<useAnimationResult>()
 
   const playAnimation = usePlayAnimation({
@@ -38,23 +31,23 @@ const ChampionModelContainer: FC<{ canvasHeight?: number; canvasWidth?: number }
     if (!animationMixer?.names) return
 
     dispatch({ type: SET_ANIMATIONS, payload: animationMixer.names })
-    dispatch({ type: SET_SELECTED_ANIMATION })
+    dispatch({ type: SET_CURRENT_ANIMATION })
     dispatch({ type: SET_PLAY_ALL_ANIMATIONS, payload: true })
   }, [animationMixer])
 
   useEffect(() => {
     if (!animationMixer?.mixer || !animationMixer.names) return
 
-    dispatch({ type: SET_SELECTED_ANIMATION, payload: animationMixer.names[0] })
+    dispatch({ type: SET_CURRENT_ANIMATION, payload: animationMixer.names[0] })
   }, [playAllAnimations, animationMixer])
 
   useEffect(() => {
-    if (!selectedAnimation) return
+    if (!currentAnimation) return
 
     // play the animation after we set it through dispatch
     animationMixer?.mixer.stopAllAction()
-    playAnimation(selectedAnimation)
-  }, [selectedAnimation])
+    playAnimation(currentAnimation)
+  }, [currentAnimation])
 
   const onAnimationActionFinished = (e: THREE.Event) => {
     if (!animationMixer) return
@@ -68,7 +61,7 @@ const ChampionModelContainer: FC<{ canvasHeight?: number; canvasWidth?: number }
     }
 
     const nextAnimation = names[nextIdx]
-    dispatch({ type: SET_SELECTED_ANIMATION, payload: nextAnimation })
+    dispatch({ type: SET_CURRENT_ANIMATION, payload: nextAnimation })
   }
 
   useEffect(() => {
@@ -96,7 +89,6 @@ const ChampionModelContainer: FC<{ canvasHeight?: number; canvasWidth?: number }
     setAnimationMixer(value)
   }
 
-  // console.log('champion model render', championAnimations.selectedAnimation)
   // React.useContext() does not work inside of suspense, so context is hoisted here
   const timerLabel = `${champName}-${skinNum}`
 
