@@ -1,7 +1,6 @@
 import { Card } from '@components/Card'
 import Input from '@components/Input'
 import { Loader } from '@components/Loader'
-import SkinSelect from '@components/SkinSelect'
 import { FETCH_NEW_CHAMPION } from '@customtypes/index'
 import classNames from 'classnames'
 import React, { useState } from 'react'
@@ -95,10 +94,6 @@ const GridSelect = () => {
             })
           )}
         </div>
-      </Card>
-
-      <Card style={{ marginTop: '15px' }}>
-        <SkinSelect />
       </Card>
     </div>
   )

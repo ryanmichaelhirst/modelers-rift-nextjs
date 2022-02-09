@@ -36,7 +36,7 @@ export const AnimationPlayer = () => {
   }
 
   return (
-    <>
+    <div>
       <AssetPlayer
         asset={currentAnimation}
         placeholder={'Pick an animation'}
@@ -44,7 +44,7 @@ export const AnimationPlayer = () => {
         onNext={onNext}
         popupState={popupState}
       />
-      <Popper {...bindPopover(popupState)} transition>
+      <Popper {...bindPopover(popupState)} transition disablePortal>
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={350}>
             <Paper className='h-72 overflow-y-scroll p-4'>
@@ -56,6 +56,6 @@ export const AnimationPlayer = () => {
           </Fade>
         )}
       </Popper>
-    </>
+    </div>
   )
 }

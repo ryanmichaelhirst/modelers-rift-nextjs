@@ -56,7 +56,7 @@ export const AudioPlayer: FC<{ audios?: Asset[] }> = ({ audios }) => {
   const audio = audios?.find((a) => a?.path === currentSound)
 
   return (
-    <>
+    <div>
       <AssetPlayer
         asset={audio?.name}
         placeholder={'Pick a sound'}
@@ -64,7 +64,7 @@ export const AudioPlayer: FC<{ audios?: Asset[] }> = ({ audios }) => {
         onNext={onNext}
         popupState={popupState}
       />
-      <Popper {...bindPopover(popupState)} transition>
+      <Popper {...bindPopover(popupState)} transition disablePortal>
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={350}>
             <Paper className='h-72 overflow-y-scroll p-4'>
@@ -76,6 +76,6 @@ export const AudioPlayer: FC<{ audios?: Asset[] }> = ({ audios }) => {
           </Fade>
         )}
       </Popper>
-    </>
+    </div>
   )
 }

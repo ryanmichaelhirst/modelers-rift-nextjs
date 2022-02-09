@@ -2,8 +2,13 @@ import { AnimationPlayer } from '@components/animation-player'
 import { AudioPlayer } from '@components/audio-player'
 import ChampionModelContainer from '@components/ChampionModelContainer'
 import { GlassCard } from '@components/GlassCard'
-import { SkinSelect } from '@components/SkinSelect'
-import { BarChartOutlined, QueueMusicOutlined, VideocamOutlined } from '@mui/icons-material'
+import { SkinCarousel } from '@components/skin-carousel'
+import {
+  BarChartOutlined,
+  PaletteOutlined,
+  QueueMusicOutlined,
+  VideocamOutlined,
+} from '@mui/icons-material'
 import { Grid } from '@mui/material'
 import { FC, useEffect } from 'react'
 import { lowercaseChampionNames } from '../../../bin/utils'
@@ -64,28 +69,33 @@ export const Home = () => {
 
   return (
     <div className='min-h-screen mx-4'>
-      <p className='mb-4 text-xl'>{selectedChampion.basicInfo?.name}</p>
+      {/* TODO: fix this grid bullshit */}
       <Grid container spacing={2} className='min-h-screen'>
-        <Grid container item direction='column' xs={4} spacing={0}>
-          <Grid item xs={3}>
-            <GlassTitle>
-              <VideocamOutlined fontSize='medium' />
-              <span className='ml-3'>Animations</span>
-            </GlassTitle>
-            <AnimationPlayer />
+        <Grid container item direction='column' xs={5} spacing={0}>
+          <Grid container item xs={6}>
+            <Grid item xs={6}>
+              <GlassTitle>
+                <VideocamOutlined fontSize='medium' />
+                <span className='ml-3'>Animations</span>
+              </GlassTitle>
+              <AnimationPlayer />
+            </Grid>
+            <Grid item xs={6}>
+              <GlassTitle>
+                <QueueMusicOutlined fontSize='medium' />
+                <span className='ml-4'>SFX / VO</span>
+              </GlassTitle>
+              <AudioPlayer audios={sfx?.concat(vo ?? [])} />
+            </Grid>
           </Grid>
 
           <Grid item xs={3}>
             <GlassTitle>
-              <QueueMusicOutlined fontSize='medium' />
-              <span className='ml-4'>SFX / VO</span>
+              <PaletteOutlined fontSize='medium' />
+              <span className='ml-4'>Models</span>
             </GlassTitle>
-            <AudioPlayer audios={sfx?.concat(vo ?? [])} />
-          </Grid>
-
-          <Grid item xs={3}>
             <GlassCard>
-              <SkinSelect />
+              <SkinCarousel />
             </GlassCard>
           </Grid>
 
@@ -115,8 +125,10 @@ export const Home = () => {
           </Grid>
         </Grid>
 
-        <Grid item xs={8}>
-          <ChampionModelContainer />
+        <Grid container item xs={7}>
+          <Grid item xs={12}>
+            <ChampionModelContainer />
+          </Grid>
         </Grid>
       </Grid>
     </div>
