@@ -17,8 +17,6 @@ export const AnimationPlayer = () => {
     if (!currentAnimation || !animations) return
 
     const curIndex = animations.findIndex((a) => currentAnimation)
-    if (!curIndex) return
-
     const prevIndex = curIndex === animations.length - 1 ? 0 : curIndex - 1
     const prevAnimation = animations[prevIndex]
     if (!prevAnimation) return
@@ -30,8 +28,6 @@ export const AnimationPlayer = () => {
     if (!currentAnimation || !animations) return
 
     const curIndex = animations.findIndex((a) => a === currentAnimation)
-    if (!curIndex) return
-
     const nextIndex = curIndex === animations.length - 1 ? 0 : curIndex + 1
     const nextAnimation = animations[nextIndex]
     if (!nextAnimation) return

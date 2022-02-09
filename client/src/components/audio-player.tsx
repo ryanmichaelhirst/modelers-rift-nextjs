@@ -1,27 +1,29 @@
-import { GlassCard } from '@components/GlassCard'
+import { AssetPlayer } from '@components/asset-player'
 import { Asset, SET_CURRENT_SOUND } from '@customtypes/index'
-import { PauseCircleOutline, PlayArrow, SkipNext, SkipPrevious } from '@mui/icons-material'
-import { Slider } from '@mui/material'
+import { CloseOutlined } from '@mui/icons-material'
+import { Fade, Paper, Popper } from '@mui/material'
+import { bindPopover, bindToggle, usePopupState } from 'material-ui-popup-state/hooks'
 import { FC, useEffect, useState } from 'react'
 import { useAppContext } from '../context'
-import { getAssetDisplayName } from '../utils'
+import { SoundList } from './sound-list'
 
-export const AudioPlayer: FC<{ sounds?: Asset[] }> = ({ sounds }) => {
+export const AudioPlayer: FC<{ audios?: Asset[] }> = ({ audios }) => {
   const [{ currentSound }, dispatch] = useAppContext()
-  const [audio, setAudio] = useState<HTMLAudioElement>()
-  const duration = sounds?.find((s) => s?.path === currentSound)?.duration
-
-  const isPlaying = false
+  const [audioEl, setAudioEl] = useState<HTMLAudioElement>()
+  const popupState = usePopupState({
+    variant: 'popover',
+    popupId: 'animation-player-popup',
+  })
 
   useEffect(() => {
     if (currentSound) {
       // pause previous audio
-      audio?.pause()
+      audioEl?.pause()
       fetch(`/api/getAudio/${currentSound}`)
         .then((res) => {
           const htmlAudio = new Audio(res.url)
           htmlAudio.play()
-          setAudio(htmlAudio)
+          setAudioEl(htmlAudio)
         })
         .catch((err) => {
           console.debug(`failed to play sound ${err}`)
@@ -30,56 +32,50 @@ export const AudioPlayer: FC<{ sounds?: Asset[] }> = ({ sounds }) => {
   }, [currentSound])
 
   const onPrev = () => {
-    if (!currentSound || !sounds) return
+    if (!currentSound || !audios) return
 
-    const curIndex = sounds.findIndex((s) => s?.path === currentSound)
-    if (!curIndex) return
-
-    const prevIndex = curIndex === sounds.length - 1 ? 0 : curIndex - 1
-    const prevSound = sounds[prevIndex]
+    const curIndex = audios.findIndex((s) => s?.path === currentSound)
+    const prevIndex = curIndex === audios.length - 1 ? 0 : curIndex - 1
+    const prevSound = audios[prevIndex]
     if (!prevSound?.path) return
 
     dispatch({ type: SET_CURRENT_SOUND, payload: prevSound.path })
   }
 
   const onNext = () => {
-    if (!currentSound || !sounds) return
+    if (!currentSound || !audios) return
 
-    const curIndex = sounds.findIndex((s) => s?.path === currentSound)
-    if (!curIndex) return
-
-    const nextIndex = curIndex === sounds.length - 1 ? 0 : curIndex + 1
-    const nextSound = sounds[nextIndex]
+    const curIndex = audios.findIndex((s) => s?.path === currentSound)
+    const nextIndex = curIndex === audios.length - 1 ? 0 : curIndex + 1
+    const nextSound = audios[nextIndex]
     if (!nextSound?.path) return
 
     dispatch({ type: SET_CURRENT_SOUND, payload: nextSound.path })
   }
 
-  const sound = sounds?.find((s) => s?.path === currentSound)
+  const audio = audios?.find((a) => a?.path === currentSound)
 
   return (
-    <GlassCard classes='text-white font-nunito'>
-      <div className='flex justify-center mb-2 capitalize w-full truncate'>
-        {sound ? getAssetDisplayName(sound.name) : 'Pick a sound'}
-      </div>
-      <div>
-        <Slider aria-label='track-time' size='small' value={0} max={0} />
-        <div className='flex justify-between'>
-          {duration && <p>0</p>}
-          {/* TODO: use date-fns here */}
-          {duration && <p>{new Date(duration * 1000).toISOString().substr(14, 5)}</p>}
-        </div>
-      </div>
-
-      <div className='flex justify-center'>
-        <SkipPrevious className='cursor-pointer hover:text-gum-400' onClick={onPrev} />
-        {isPlaying ? (
-          <PauseCircleOutline className='cursor-pointer mx-4 hover:text-gum-400' />
-        ) : (
-          <PlayArrow className='cursor-pointer mx-4 hover:text-gum-400' />
+    <>
+      <AssetPlayer
+        asset={audio?.name}
+        placeholder={'Pick a sound'}
+        onPrev={onPrev}
+        onNext={onNext}
+        popupState={popupState}
+      />
+      <Popper {...bindPopover(popupState)} transition>
+        {({ TransitionProps }) => (
+          <Fade {...TransitionProps} timeout={350}>
+            <Paper className='h-72 overflow-y-scroll p-4'>
+              <div className='flex justify-end'>
+                <CloseOutlined className='cursor-pointer' {...bindToggle(popupState)} />
+              </div>
+              <SoundList audios={audios} />
+            </Paper>
+          </Fade>
         )}
-        <SkipNext className='cursor-pointer hover:text-gum-400' onClick={onNext} />
-      </div>
-    </GlassCard>
+      </Popper>
+    </>
   )
 }

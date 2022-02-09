@@ -6,7 +6,7 @@ import { FC } from 'react'
 import { getAssetDisplayName } from '../utils'
 
 export const AssetPlayer: FC<{
-  asset?: string
+  asset?: string | null
   durationEnabled?: boolean
   duration?: number
   onNext: () => void

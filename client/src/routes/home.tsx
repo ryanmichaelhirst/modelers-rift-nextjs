@@ -66,8 +66,8 @@ export const Home = () => {
     <div className='min-h-screen mx-4'>
       <p className='mb-4 text-xl'>{selectedChampion.basicInfo?.name}</p>
       <Grid container spacing={2} className='min-h-screen'>
-        <Grid container item direction='column' xs={4}>
-          <Grid item xs={4}>
+        <Grid container item direction='column' xs={4} spacing={0}>
+          <Grid item xs={3}>
             <GlassTitle>
               <VideocamOutlined fontSize='medium' />
               <span className='ml-3'>Animations</span>
@@ -75,15 +75,21 @@ export const Home = () => {
             <AnimationPlayer />
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item xs={3}>
             <GlassTitle>
               <QueueMusicOutlined fontSize='medium' />
               <span className='ml-4'>SFX / VO</span>
             </GlassTitle>
-            <AudioPlayer sounds={sfx?.concat(vo ?? [])} />
+            <AudioPlayer audios={sfx?.concat(vo ?? [])} />
           </Grid>
 
-          <Grid item xs={4}>
+          <Grid item xs={3}>
+            <GlassCard>
+              <SkinSelect />
+            </GlassCard>
+          </Grid>
+
+          <Grid item xs={3}>
             <GlassTitle>
               <BarChartOutlined fontSize='medium' />
               <span className='ml-4'>Analytics</span>
@@ -109,16 +115,8 @@ export const Home = () => {
           </Grid>
         </Grid>
 
-        <Grid container item direction='column' xs={8} spacing={0}>
-          <Grid item xs={6}>
-            <ChampionModelContainer />
-          </Grid>
-
-          <Grid item xs={6}>
-            <GlassCard>
-              <SkinSelect />
-            </GlassCard>
-          </Grid>
+        <Grid item xs={8}>
+          <ChampionModelContainer />
         </Grid>
       </Grid>
     </div>
