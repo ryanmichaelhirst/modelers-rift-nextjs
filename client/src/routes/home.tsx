@@ -69,10 +69,9 @@ export const Home = () => {
 
   return (
     <div className='min-h-screen mx-4'>
-      {/* TODO: fix this grid bullshit */}
       <Grid container spacing={2} className='min-h-screen'>
-        <Grid container item direction='column' xs={5} spacing={0}>
-          <Grid container item xs={6}>
+        <Grid container item direction='column' xs={5} rowSpacing={8}>
+          <Grid container item spacing={2}>
             <Grid item xs={6}>
               <GlassTitle>
                 <VideocamOutlined fontSize='medium' />
@@ -89,39 +88,43 @@ export const Home = () => {
             </Grid>
           </Grid>
 
-          <Grid item xs={3}>
-            <GlassTitle>
-              <PaletteOutlined fontSize='medium' />
-              <span className='ml-4'>Models</span>
-            </GlassTitle>
-            <GlassCard>
-              <SkinCarousel />
-            </GlassCard>
+          <Grid container item>
+            <Grid item xs={12}>
+              <GlassTitle>
+                <PaletteOutlined fontSize='medium' />
+                <span className='ml-4'>Models</span>
+              </GlassTitle>
+              <GlassCard>
+                <SkinCarousel />
+              </GlassCard>
+            </Grid>
           </Grid>
 
-          <Grid item xs={3}>
-            <GlassTitle>
-              <BarChartOutlined fontSize='medium' />
-              <span className='ml-4'>Analytics</span>
-            </GlassTitle>
-            <GlassCard classes={'mb-4 text-white'}>
-              <div className='grid grid-flow-col auto-cols-max justify-evenly text-lg font-nunito'>
-                <div>
-                  {analytics
-                    .filter((a) => a.total)
-                    .map((a) => (
-                      <div key={a.total} className='font-bold'>
-                        {Math.floor((a.total ?? 0) / 10) * 10}+
-                      </div>
+          <Grid container item spacing={2}>
+            <Grid item xs={6}>
+              <GlassTitle>
+                <BarChartOutlined fontSize='medium' />
+                <span className='ml-4'>Analytics</span>
+              </GlassTitle>
+              <GlassCard classes={'mb-4 text-white'}>
+                <div className='grid grid-flow-col auto-cols-max justify-evenly text-lg font-nunito'>
+                  <div>
+                    {analytics
+                      .filter((a) => a.total)
+                      .map((a) => (
+                        <div key={a.total} className='font-bold'>
+                          {Math.floor((a.total ?? 0) / 10) * 10}+
+                        </div>
+                      ))}
+                  </div>
+                  <div>
+                    {analytics.map((a) => (
+                      <div key={a.text}>{a.text}</div>
                     ))}
+                  </div>
                 </div>
-                <div>
-                  {analytics.map((a) => (
-                    <div key={a.text}>{a.text}</div>
-                  ))}
-                </div>
-              </div>
-            </GlassCard>
+              </GlassCard>
+            </Grid>
           </Grid>
         </Grid>
 
