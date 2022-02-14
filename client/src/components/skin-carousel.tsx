@@ -1,5 +1,11 @@
 import { SET_SELECTED_SKIN } from '@customtypes/index'
-import { ArrowBackIosNewOutlined, ArrowForwardIosOutlined } from '@mui/icons-material'
+import {
+  AddPhotoAlternate,
+  ArrowBackIosNewOutlined,
+  ArrowForwardIosOutlined,
+} from '@mui/icons-material'
+import { ButtonBack, ButtonNext, CarouselProvider, Slide, Slider } from 'pure-react-carousel'
+import 'pure-react-carousel/dist/react-carousel.es.css'
 import { capitalizeWord } from '../../../bin/utils'
 import { useAppContext } from '../context'
 import { getSplashArtLink } from '../utils'
@@ -15,36 +21,64 @@ export const SkinCarousel = () => {
   }
 
   const baseSkins = skins?.map((skin) => {
-    const backgroundImage = `url(${getSplashArtLink(championName, skin.num || 0)})`
-
     return (
-      <div
-        title={skin?.name}
-        key={skin?.id}
-        className='py-5 px-4 bg-cover mx-2 h-14 w-14 rounded hover:border-gum-400 hover:border-2'
-        style={{
-          backgroundImage,
-        }}
-        onClick={onClick(skin?.num)}
-      />
+      <div className='h-full'>
+        <div
+          title={skin?.name}
+          key={skin?.id}
+          className='cursor-pointer h-4/6 px-4 bg-cover mx-2 rounded'
+          style={{
+            backgroundImage: `url(${getSplashArtLink(championName, skin.num || 0)})`,
+          }}
+          onClick={onClick(skin?.num)}
+        />
+        <p className='text-center capitalize mt-2'>{skin?.name}</p>
+      </div>
     )
   })
   const chromas = Array.from(Array(19).keys())
     .filter((k) => !skins?.some((i) => i.num === k))
-    .map((num) => (
-      <span title={`Chroma #${num}`} key={num} className='mr-2' onClick={onClick(num)}>
-        {num}
-      </span>
+    .map((num, idx) => (
+      <div className='h-full mr-2'>
+        <div
+          title={`Add image suggestion`}
+          key={num}
+          className='h-4/6 flex items-center justify-center'
+        >
+          <AddPhotoAlternate className='h-4/6 w-1/2 text-white' />
+        </div>
+        <p className='text-center cursor-pointer' onClick={onClick(num)}>
+          Chroma #{idx}
+        </p>
+      </div>
     ))
   const skinOptions = baseSkins?.concat(chromas)
 
   return (
     <div id='carousel' className='overflow-x-hidden'>
-      <div className='flex justify-evenly items-center text-white'>
-        <ArrowBackIosNewOutlined className='cursor-pointer' fontSize='medium' />
-        <div className='flex justify-evenly items-center cursor-pointer'>{skinOptions}</div>
-        <ArrowForwardIosOutlined className='cursor-pointer' fontSize='medium' />
-      </div>
+      <CarouselProvider
+        naturalSlideHeight={60}
+        naturalSlideWidth={100}
+        totalSlides={skinOptions?.length || 0}
+        visibleSlides={3}
+        infinite
+      >
+        <Slider>
+          {skinOptions?.map((s, idx) => (
+            <Slide index={idx} key={s.key}>
+              {s}
+            </Slide>
+          ))}
+        </Slider>
+        <div className='flex justify-center items-center mt-2'>
+          <ButtonBack>
+            <ArrowBackIosNewOutlined className='cursor-pointer text-white' fontSize='medium' />
+          </ButtonBack>
+          <ButtonNext>
+            <ArrowForwardIosOutlined className='cursor-pointer text-white' fontSize='medium' />
+          </ButtonNext>
+        </div>
+      </CarouselProvider>
     </div>
   )
 }
