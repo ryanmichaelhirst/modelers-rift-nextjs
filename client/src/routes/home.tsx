@@ -1,7 +1,7 @@
 import { AnimationPlayer } from '@components/animation-player'
 import { AudioPlayer } from '@components/audio-player'
 import ChampionModelContainer from '@components/ChampionModelContainer'
-import { GlassCard } from '@components/GlassCard'
+import { GlassCard, GlassTitle } from '@components/GlassCard'
 import { SkinCarousel } from '@components/skin-carousel'
 import {
   BarChartOutlined,
@@ -10,7 +10,7 @@ import {
   VideocamOutlined,
 } from '@mui/icons-material'
 import { Grid } from '@mui/material'
-import { FC, useEffect } from 'react'
+import { useEffect } from 'react'
 import { lowercaseChampionNames } from '../../../bin/utils'
 import { useCharacterQuery } from '../../../graphql/generated/types'
 import { useAppContext } from '../context'
@@ -29,6 +29,16 @@ export const Home = () => {
   const sfx = data?.character?.assets?.filter((a) => a?.type === 'sfx')
   const vo = data?.character?.assets?.filter((a) => a?.type === 'vo')
   const models = data?.character?.assets?.filter((a) => a?.type === 'model')
+  const allInteractions =
+    sfx
+      ?.concat(vo)
+      .filter((a) => lowercaseChampionNames.find((name) => a?.name?.includes(name)))
+      .map((a) => {
+        const name = lowercaseChampionNames.find((name) => a?.name?.includes(name))
+
+        return name ?? ''
+      }) ?? []
+  const uniqueInteractions = Array.from(new Set(allInteractions))
   const analytics = [
     {
       text: 'models',
@@ -42,21 +52,11 @@ export const Home = () => {
       text: 'sound effects',
       total: sfx?.length,
     },
+    {
+      text: 'interactions',
+      total: uniqueInteractions.length,
+    },
   ]
-  const allInteractions =
-    sfx
-      ?.concat(vo)
-      .filter((a) => lowercaseChampionNames.find((name) => a?.name?.includes(name)))
-      .map((a) => {
-        const name = lowercaseChampionNames.find((name) => a?.name?.includes(name))
-
-        return name ?? ''
-      }) ?? []
-  const uniqueInteractions = Array.from(new Set(allInteractions))
-
-  const GlassTitle: FC = ({ children }) => (
-    <div className='flex items-center text-2xl text-white font-nunito mb-4'>{children}</div>
-  )
 
   useEffect(() => {
     if (!currentAnimation) return
@@ -101,27 +101,21 @@ export const Home = () => {
           </Grid>
 
           <Grid container item spacing={2}>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               <GlassTitle>
                 <BarChartOutlined fontSize='medium' />
                 <span className='ml-4'>Analytics</span>
               </GlassTitle>
-              <GlassCard classes={'mb-4 text-white'}>
-                <div className='grid grid-flow-col auto-cols-max justify-evenly text-lg font-nunito'>
-                  <div>
-                    {analytics
-                      .filter((a) => a.total)
-                      .map((a) => (
-                        <div key={a.total} className='font-bold'>
-                          {Math.floor((a.total ?? 0) / 10) * 10}+
-                        </div>
-                      ))}
-                  </div>
-                  <div>
-                    {analytics.map((a) => (
-                      <div key={a.text}>{a.text}</div>
+              <GlassCard classes={'mb-4 text-white font-nunito'}>
+                <div className='flex justify-evenly items-center'>
+                  {analytics
+                    .filter((a) => a.total)
+                    .map((a) => (
+                      <div key={a.text} className='text-center font-bold'>
+                        <p>{Math.floor((a.total ?? 0) / 10) * 10}+</p>
+                        <p className='capitalize'>{a.text}</p>
+                      </div>
                     ))}
-                  </div>
                 </div>
               </GlassCard>
             </Grid>

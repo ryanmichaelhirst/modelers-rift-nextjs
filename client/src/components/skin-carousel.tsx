@@ -22,7 +22,7 @@ export const SkinCarousel = () => {
 
   const baseSkins = skins?.map((skin) => {
     return (
-      <div className='h-full'>
+      <div className='h-full' key={skin.id}>
         <div
           title={skin?.name}
           key={skin?.id}
@@ -39,7 +39,7 @@ export const SkinCarousel = () => {
   const chromas = Array.from(Array(19).keys())
     .filter((k) => !skins?.some((i) => i.num === k))
     .map((num, idx) => (
-      <div className='h-full mr-2'>
+      <div key={num} className='h-full mr-2'>
         <div
           title={`Add image suggestion`}
           key={num}
@@ -52,7 +52,7 @@ export const SkinCarousel = () => {
         </p>
       </div>
     ))
-  const skinOptions = baseSkins?.concat(chromas)
+  const skinOptions = baseSkins?.concat(chromas).filter(Boolean)
 
   return (
     <div id='carousel' className='overflow-x-hidden'>
