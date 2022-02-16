@@ -1,7 +1,7 @@
-import { AnimatedModelProps } from '@customtypes/index'
-import { useAnimations, useGLTF } from '@react-three/drei'
-import React, { FC, memo, useEffect, useRef } from 'react'
 import * as THREE from 'three'
+import { useAnimationResult, AnimatedModelProps } from '@customtypes/index'
+import React, { FC, memo, useEffect, useRef } from 'react'
+import { useGLTF, useAnimations } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -82,14 +82,12 @@ type ActionName =
   | 'kayn_spell4_air'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
-// TODO: this isn't firing atm
 const areEqual = (prevProps: AnimatedModelProps, nextProps: AnimatedModelProps) => {
   if (prevProps.timerLabel === nextProps.timerLabel) return true
 
   return false
 }
 
-// TODO: this needs to only render once
 const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => {
   const { nodes, materials, animations } = useGLTF(glbUrl) as GLTF & {
     nodes: Record<string, THREE.SkinnedMesh>
@@ -117,11 +115,7 @@ const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => 
         <primitive object={nodes.True_World} />
       </group>
       <group position={[-67.2, -6.02, -151.97]} scale={0.02}>
-        <skinnedMesh
-          geometry={nodes.mesh_0.geometry}
-          material={materials.Body}
-          skeleton={nodes.mesh_0.skeleton}
-        />
+        <skinnedMesh geometry={nodes.mesh_0.geometry} material={materials.Body} skeleton={nodes.mesh_0.skeleton} />
         <skinnedMesh
           geometry={nodes.mesh_0_1.geometry}
           material={materials.SlayerBody}

@@ -15,7 +15,7 @@ https://github.com/Jochem-W/LeagueBulkConvert
 
 ### Convert GLTF -> GLB
 
-`npm run bin -c='generate-glb'`
+`npm run bin -- -c='generate-glb'`
 
 ### Convert GLB -> React Fiber JSX
 
@@ -23,7 +23,7 @@ https://gltf.pmnd.rs/
 
 https://stackoverflow.com/questions/58960077/how-to-check-if-a-strongly-typed-object-contains-a-given-key-in-typescript-witho
 
-`npm run bin -c='generate-glb'`
+`npm run bin -- -c='generate-jsx'`
 
 ### Bulk Generate BNK files
 

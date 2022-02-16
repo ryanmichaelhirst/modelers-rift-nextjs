@@ -1,7 +1,7 @@
-import { AnimatedModelProps } from '@customtypes/index'
-import { useAnimations, useGLTF } from '@react-three/drei'
-import React, { FC, memo, useEffect, useRef } from 'react'
 import * as THREE from 'three'
+import { useAnimationResult, AnimatedModelProps } from '@customtypes/index'
+import React, { FC, memo, useEffect, useRef } from 'react'
+import { useGLTF, useAnimations } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -49,14 +49,12 @@ type ActionName =
   | 'malzahar_skin18_idlewings.pie_c_11_5'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
-// TODO: this isn't firing atm
 const areEqual = (prevProps: AnimatedModelProps, nextProps: AnimatedModelProps) => {
   if (prevProps.timerLabel === nextProps.timerLabel) return true
 
   return false
 }
 
-// TODO: this needs to only render once
 const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => {
   const { nodes, materials, animations } = useGLTF(glbUrl) as GLTF & {
     nodes: Record<string, THREE.SkinnedMesh>
@@ -88,16 +86,8 @@ const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => 
         <primitive object={nodes.F3_HoneyPotRoot} />
       </group>
       <group position={[-88.94, -0.02, -45.9]} scale={0.01}>
-        <skinnedMesh
-          geometry={nodes.mesh_0.geometry}
-          material={materials.Body}
-          skeleton={nodes.mesh_0.skeleton}
-        />
-        <skinnedMesh
-          geometry={nodes.mesh_0_1.geometry}
-          material={materials.Honey}
-          skeleton={nodes.mesh_0_1.skeleton}
-        />
+        <skinnedMesh geometry={nodes.mesh_0.geometry} material={materials.Body} skeleton={nodes.mesh_0.skeleton} />
+        <skinnedMesh geometry={nodes.mesh_0_1.geometry} material={materials.Honey} skeleton={nodes.mesh_0_1.skeleton} />
         <skinnedMesh
           geometry={nodes.mesh_0_2.geometry}
           material={materials.RecallHoney}
@@ -108,11 +98,7 @@ const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => 
           material={materials.HoneyPot}
           skeleton={nodes.mesh_0_3.skeleton}
         />
-        <skinnedMesh
-          geometry={nodes.mesh_0_4.geometry}
-          material={materials.Bee}
-          skeleton={nodes.mesh_0_4.skeleton}
-        />
+        <skinnedMesh geometry={nodes.mesh_0_4.geometry} material={materials.Bee} skeleton={nodes.mesh_0_4.skeleton} />
       </group>
     </group>
   )

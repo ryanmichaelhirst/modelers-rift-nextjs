@@ -1,7 +1,7 @@
-import { AnimatedModelProps } from '@customtypes/index'
-import { useAnimations, useGLTF } from '@react-three/drei'
-import React, { FC, memo, useEffect, useRef } from 'react'
 import * as THREE from 'three'
+import { useAnimationResult, AnimatedModelProps } from '@customtypes/index'
+import React, { FC, memo, useEffect, useRef } from 'react'
+import { useGLTF, useAnimations } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -120,14 +120,12 @@ type ActionName =
   | 'Dance_Intro'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
-// TODO: this isn't firing atm
 const areEqual = (prevProps: AnimatedModelProps, nextProps: AnimatedModelProps) => {
   if (prevProps.timerLabel === nextProps.timerLabel) return true
 
   return false
 }
 
-// TODO: this needs to only render once
 const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => {
   const { nodes, materials, animations } = useGLTF(glbUrl) as GLTF & {
     nodes: Record<string, THREE.SkinnedMesh>
@@ -160,31 +158,11 @@ const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => 
         <primitive object={nodes.Chair1} />
       </group>
       <group position={[-106.09, -0.93, -108.39]} scale={0.01}>
-        <skinnedMesh
-          geometry={nodes.mesh_0.geometry}
-          material={materials.Pistols}
-          skeleton={nodes.mesh_0.skeleton}
-        />
-        <skinnedMesh
-          geometry={nodes.mesh_0_1.geometry}
-          material={materials.Body}
-          skeleton={nodes.mesh_0_1.skeleton}
-        />
-        <skinnedMesh
-          geometry={nodes.mesh_0_2.geometry}
-          material={materials.Stage}
-          skeleton={nodes.mesh_0_2.skeleton}
-        />
-        <skinnedMesh
-          geometry={nodes.mesh_0_3.geometry}
-          material={materials.Props}
-          skeleton={nodes.mesh_0_3.skeleton}
-        />
-        <skinnedMesh
-          geometry={nodes.mesh_0_4.geometry}
-          material={materials.Frog}
-          skeleton={nodes.mesh_0_4.skeleton}
-        />
+        <skinnedMesh geometry={nodes.mesh_0.geometry} material={materials.Pistols} skeleton={nodes.mesh_0.skeleton} />
+        <skinnedMesh geometry={nodes.mesh_0_1.geometry} material={materials.Body} skeleton={nodes.mesh_0_1.skeleton} />
+        <skinnedMesh geometry={nodes.mesh_0_2.geometry} material={materials.Stage} skeleton={nodes.mesh_0_2.skeleton} />
+        <skinnedMesh geometry={nodes.mesh_0_3.geometry} material={materials.Props} skeleton={nodes.mesh_0_3.skeleton} />
+        <skinnedMesh geometry={nodes.mesh_0_4.geometry} material={materials.Frog} skeleton={nodes.mesh_0_4.skeleton} />
         <skinnedMesh
           geometry={nodes.mesh_0_5.geometry}
           material={materials.VoidFrog}

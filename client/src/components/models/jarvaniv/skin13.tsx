@@ -1,7 +1,7 @@
-import { AnimatedModelProps } from '@customtypes/index'
-import { useAnimations, useGLTF } from '@react-three/drei'
-import React, { FC, memo, useEffect, useRef } from 'react'
 import * as THREE from 'three'
+import { useAnimationResult, AnimatedModelProps } from '@customtypes/index'
+import React, { FC, memo, useEffect, useRef } from 'react'
+import { useGLTF, useAnimations } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -56,14 +56,12 @@ type ActionName =
   | 'umbrella.pie_c_10_13'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
-// TODO: this isn't firing atm
 const areEqual = (prevProps: AnimatedModelProps, nextProps: AnimatedModelProps) => {
   if (prevProps.timerLabel === nextProps.timerLabel) return true
 
   return false
 }
 
-// TODO: this needs to only render once
 const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => {
   const { nodes, materials, animations } = useGLTF(glbUrl) as GLTF & {
     nodes: Record<string, THREE.SkinnedMesh>
@@ -92,21 +90,13 @@ const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => 
         <primitive object={nodes.Buffbone_Cstm_Healthbar} />
       </group>
       <group position={[-82.66, -2.94, -124.74]} scale={0.02}>
-        <skinnedMesh
-          geometry={nodes.mesh_0.geometry}
-          material={materials.Body_MAT}
-          skeleton={nodes.mesh_0.skeleton}
-        />
+        <skinnedMesh geometry={nodes.mesh_0.geometry} material={materials.Body_MAT} skeleton={nodes.mesh_0.skeleton} />
         <skinnedMesh
           geometry={nodes.mesh_0_1.geometry}
           material={materials.Coconut_MAT}
           skeleton={nodes.mesh_0_1.skeleton}
         />
-        <skinnedMesh
-          geometry={nodes.mesh_0_2.geometry}
-          material={materials.Crab}
-          skeleton={nodes.mesh_0_2.skeleton}
-        />
+        <skinnedMesh geometry={nodes.mesh_0_2.geometry} material={materials.Crab} skeleton={nodes.mesh_0_2.skeleton} />
       </group>
     </group>
   )
