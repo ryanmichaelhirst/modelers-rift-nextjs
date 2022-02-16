@@ -1,10 +1,9 @@
 import { AnimationList } from '@components/animation-list'
 import { AssetPlayer } from '@components/asset-player'
 import { SET_CURRENT_ANIMATION } from '@customtypes/index'
-import { CloseOutlined } from '@mui/icons-material'
-import { Fade, Paper, Popper } from '@mui/material'
-import { bindPopover, bindToggle, usePopupState } from 'material-ui-popup-state/hooks'
+import { usePopupState } from 'material-ui-popup-state/hooks'
 import { useAppContext } from '../context'
+import { EnhancedPopper } from './popper'
 
 export const AnimationPlayer = () => {
   const [{ currentAnimation, animations }, dispatch] = useAppContext()
@@ -44,18 +43,9 @@ export const AnimationPlayer = () => {
         onNext={onNext}
         popupState={popupState}
       />
-      <Popper {...bindPopover(popupState)} transition disablePortal>
-        {({ TransitionProps }) => (
-          <Fade {...TransitionProps} timeout={350}>
-            <Paper className='h-72 overflow-y-scroll p-4'>
-              <div className='flex justify-end'>
-                <CloseOutlined className='cursor-pointer' {...bindToggle(popupState)} />
-              </div>
-              <AnimationList />
-            </Paper>
-          </Fade>
-        )}
-      </Popper>
+      <EnhancedPopper popupState={popupState}>
+        <AnimationList />
+      </EnhancedPopper>
     </div>
   )
 }

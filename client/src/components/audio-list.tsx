@@ -5,7 +5,7 @@ import { FC } from 'react'
 import { useAppContext } from '../context'
 import { getAssetDisplayName } from '../utils'
 
-export const SoundList: FC<{ audios?: Asset[] }> = ({ audios }) => {
+export const AudioList: FC<{ audios?: Asset[] }> = ({ audios }) => {
   const [{ currentSound }, dispatch] = useAppContext()
 
   const onClick = (path?: string | null) => () => {

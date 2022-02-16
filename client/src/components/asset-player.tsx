@@ -1,5 +1,12 @@
 import { GlassCard } from '@components/GlassCard'
-import { PauseOutlined, PlayArrow, SkipNext, SkipPrevious } from '@mui/icons-material'
+import {
+  FilterList,
+  FormatListNumberedOutlined,
+  PauseOutlined,
+  PlayArrow,
+  SkipNext,
+  SkipPrevious,
+} from '@mui/icons-material'
 import { Slider } from '@mui/material'
 import { bindToggle, usePopupState } from 'material-ui-popup-state/hooks'
 import { FC } from 'react'
@@ -18,7 +25,7 @@ export const AssetPlayer: FC<{
 
   return (
     <GlassCard classes='text-white font-nunito'>
-      <div className='flex justify-center mb-2 capitalize w-full truncate'>
+      <div className='flex justify-center mb-2 w-full truncate'>
         {asset ? getAssetDisplayName(asset) : placeholder}
       </div>
       {durationEnabled && (
@@ -33,18 +40,18 @@ export const AssetPlayer: FC<{
       )}
 
       <div className='flex justify-center'>
-        <SkipPrevious className='cursor-pointer hover:text-gum-400' onClick={onPrev} />
+        <FilterList className='cursor-pointer mr-4 hover:text-gum-400' />
+        <SkipPrevious className='cursor-pointer mr-4 hover:text-gum-400' onClick={onPrev} />
         {isPlaying ? (
-          <PauseOutlined className='cursor-pointer mx-4 hover:text-gum-400' />
+          <PauseOutlined className='cursor-pointer mr-4 hover:text-gum-400' />
         ) : (
-          <PlayArrow className='cursor-pointer mx-4 hover:text-gum-400' />
+          <PlayArrow className='cursor-pointer mr-4 hover:text-gum-400' />
         )}
-        <SkipNext className='cursor-pointer hover:text-gum-400' onClick={onNext} />
-      </div>
-      <div className='flex'>
-        <p className='cursor-pointer' {...bindToggle(popupState)}>
-          View All
-        </p>
+        <SkipNext className='cursor-pointer mr-4 hover:text-gum-400' onClick={onNext} />
+        <FormatListNumberedOutlined
+          className='cursor-pointer hover:text-gum-400'
+          {...bindToggle(popupState)}
+        />
       </div>
     </GlassCard>
   )

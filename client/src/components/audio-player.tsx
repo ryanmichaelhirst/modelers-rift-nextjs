@@ -1,11 +1,10 @@
 import { AssetPlayer } from '@components/asset-player'
 import { Asset, SET_CURRENT_SOUND } from '@customtypes/index'
-import { CloseOutlined } from '@mui/icons-material'
-import { Fade, Paper, Popper } from '@mui/material'
-import { bindPopover, bindToggle, usePopupState } from 'material-ui-popup-state/hooks'
+import { usePopupState } from 'material-ui-popup-state/hooks'
 import { FC, useEffect, useState } from 'react'
 import { useAppContext } from '../context'
-import { SoundList } from './sound-list'
+import { AudioList } from './audio-list'
+import { EnhancedPopper } from './popper'
 
 export const AudioPlayer: FC<{ audios?: Asset[] }> = ({ audios }) => {
   const [{ currentSound }, dispatch] = useAppContext()
@@ -59,23 +58,14 @@ export const AudioPlayer: FC<{ audios?: Asset[] }> = ({ audios }) => {
     <div>
       <AssetPlayer
         asset={audio?.name}
-        placeholder={'Pick a sound'}
+        placeholder={'Pick an Audio'}
         onPrev={onPrev}
         onNext={onNext}
         popupState={popupState}
       />
-      <Popper {...bindPopover(popupState)} transition disablePortal>
-        {({ TransitionProps }) => (
-          <Fade {...TransitionProps} timeout={350}>
-            <Paper className='h-72 overflow-y-scroll p-4'>
-              <div className='flex justify-end'>
-                <CloseOutlined className='cursor-pointer' {...bindToggle(popupState)} />
-              </div>
-              <SoundList audios={audios} />
-            </Paper>
-          </Fade>
-        )}
-      </Popper>
+      <EnhancedPopper popupState={popupState}>
+        <AudioList audios={audios} />
+      </EnhancedPopper>
     </div>
   )
 }
