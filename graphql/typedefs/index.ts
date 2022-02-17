@@ -43,7 +43,8 @@ export const typeDefs = gql`
   input AssetsFilter {
     nameCnt: String
     typeEq: String
-    characterIdsIncludes: [ID]
+    typeIncludes: [String]
+    characterName: String
   }
 
   type Asset {

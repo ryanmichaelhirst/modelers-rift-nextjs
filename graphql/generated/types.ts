@@ -32,9 +32,10 @@ export type Asset = {
 };
 
 export type AssetsFilter = {
-  characterIdsIncludes?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  characterName?: InputMaybe<Scalars['String']>;
   nameCnt?: InputMaybe<Scalars['String']>;
   typeEq?: InputMaybe<Scalars['String']>;
+  typeIncludes?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type Character = {
@@ -290,12 +291,12 @@ export type Resolvers<ContextType = any> = {
 };
 
 
-export type AssetsIndexQueryVariables = Exact<{
+export type AssetsQueryVariables = Exact<{
   filter?: InputMaybe<AssetsFilter>;
 }>;
 
 
-export type AssetsIndexQuery = { __typename?: 'Query', assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, characterId?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined, duration?: number | null | undefined } | null | undefined> | null | undefined };
+export type AssetsQuery = { __typename?: 'Query', assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, characterId?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined, duration?: number | null | undefined } | null | undefined> | null | undefined };
 
 export type CharactersQueryVariables = Exact<{
   filter?: InputMaybe<CharactersFilter>;
@@ -328,8 +329,8 @@ export type UsersIndexQueryVariables = Exact<{
 export type UsersIndexQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', id?: number | null | undefined, username?: string | null | undefined, email?: string | null | undefined, name?: string | null | undefined } | null | undefined> | null | undefined };
 
 
-export const AssetsIndexDocument = gql`
-    query AssetsIndex($filter: AssetsFilter) {
+export const AssetsDocument = gql`
+    query Assets($filter: AssetsFilter) {
   assets(filter: $filter) {
     id
     characterId
@@ -343,32 +344,32 @@ export const AssetsIndexDocument = gql`
     `;
 
 /**
- * __useAssetsIndexQuery__
+ * __useAssetsQuery__
  *
- * To run a query within a React component, call `useAssetsIndexQuery` and pass it any options that fit your needs.
- * When your component renders, `useAssetsIndexQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useAssetsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAssetsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useAssetsIndexQuery({
+ * const { data, loading, error } = useAssetsQuery({
  *   variables: {
  *      filter: // value for 'filter'
  *   },
  * });
  */
-export function useAssetsIndexQuery(baseOptions?: Apollo.QueryHookOptions<AssetsIndexQuery, AssetsIndexQueryVariables>) {
+export function useAssetsQuery(baseOptions?: Apollo.QueryHookOptions<AssetsQuery, AssetsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<AssetsIndexQuery, AssetsIndexQueryVariables>(AssetsIndexDocument, options);
+        return Apollo.useQuery<AssetsQuery, AssetsQueryVariables>(AssetsDocument, options);
       }
-export function useAssetsIndexLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AssetsIndexQuery, AssetsIndexQueryVariables>) {
+export function useAssetsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AssetsQuery, AssetsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<AssetsIndexQuery, AssetsIndexQueryVariables>(AssetsIndexDocument, options);
+          return Apollo.useLazyQuery<AssetsQuery, AssetsQueryVariables>(AssetsDocument, options);
         }
-export type AssetsIndexQueryHookResult = ReturnType<typeof useAssetsIndexQuery>;
-export type AssetsIndexLazyQueryHookResult = ReturnType<typeof useAssetsIndexLazyQuery>;
-export type AssetsIndexQueryResult = Apollo.QueryResult<AssetsIndexQuery, AssetsIndexQueryVariables>;
+export type AssetsQueryHookResult = ReturnType<typeof useAssetsQuery>;
+export type AssetsLazyQueryHookResult = ReturnType<typeof useAssetsLazyQuery>;
+export type AssetsQueryResult = Apollo.QueryResult<AssetsQuery, AssetsQueryVariables>;
 export const CharactersDocument = gql`
     query Characters($filter: CharactersFilter, $page: Int, $pageSize: Int, $includeAssets: Boolean!) {
   characters(

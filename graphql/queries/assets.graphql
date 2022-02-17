@@ -1,4 +1,4 @@
-query AssetsIndex($filter: AssetsFilter) {
+query Assets($filter: AssetsFilter) {
   assets(filter: $filter) {
     id
     characterId

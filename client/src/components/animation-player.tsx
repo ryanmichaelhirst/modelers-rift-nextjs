@@ -7,9 +7,13 @@ import { EnhancedPopper } from './popper'
 
 export const AnimationPlayer = () => {
   const [{ currentAnimation, animations }, dispatch] = useAppContext()
-  const popupState = usePopupState({
+  const listPopupState = usePopupState({
     variant: 'popover',
     popupId: 'animation-player-popup',
+  })
+  const filterPopupState = usePopupState({
+    variant: 'popover',
+    popupId: 'animation-player-filter-popup',
   })
 
   const onPrev = () => {
@@ -41,9 +45,10 @@ export const AnimationPlayer = () => {
         placeholder={'Pick an animation'}
         onPrev={onPrev}
         onNext={onNext}
-        popupState={popupState}
+        listPopupState={listPopupState}
+        filterPopupState={filterPopupState}
       />
-      <EnhancedPopper popupState={popupState}>
+      <EnhancedPopper popupState={listPopupState}>
         <AnimationList />
       </EnhancedPopper>
     </div>

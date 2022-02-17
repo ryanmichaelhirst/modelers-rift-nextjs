@@ -1,18 +1,51 @@
 import { AssetPlayer } from '@components/asset-player'
-import { Asset, SET_CURRENT_SOUND } from '@customtypes/index'
+import { SET_CURRENT_SOUND } from '@customtypes/index'
 import { usePopupState } from 'material-ui-popup-state/hooks'
 import { FC, useEffect, useState } from 'react'
+import { ArrayParam, useQueryParams, withDefault } from 'use-query-params'
+import { lowercaseChampionNames } from '../../../bin/utils'
+import { useAssetsQuery } from '../../../graphql/generated/types'
 import { useAppContext } from '../context'
+import { AudioFilter } from './audio-filter'
 import { AudioList } from './audio-list'
 import { EnhancedPopper } from './popper'
 
-export const AudioPlayer: FC<{ audios?: Asset[] }> = ({ audios }) => {
-  const [{ currentSound }, dispatch] = useAppContext()
+export const AudioPlayer: FC = () => {
+  const [{ currentSound, selectedChampion }, dispatch] = useAppContext()
   const [audioEl, setAudioEl] = useState<HTMLAudioElement>()
-  const popupState = usePopupState({
+  const listPopupState = usePopupState({
     variant: 'popover',
     popupId: 'animation-player-popup',
   })
+  const filterPopupState = usePopupState({
+    variant: 'popover',
+    popupId: 'animation-player-filter-popup',
+  })
+  const [query, setQuery] = useQueryParams({
+    typeIncludes: withDefault(ArrayParam, ['sfx', 'vo']),
+    selectedInteractions: withDefault(ArrayParam, []),
+  })
+
+  const { data, loading, error } = useAssetsQuery({
+    variables: {
+      filter: {
+        characterName: selectedChampion.basicInfo?.name?.toLowerCase(),
+        typeIncludes: query.typeIncludes,
+      },
+    },
+  })
+  const allInteractions =
+    data?.assets
+      ?.filter((a) => lowercaseChampionNames.find((name) => a?.name?.includes(name)))
+      .map((a) => {
+        const name = lowercaseChampionNames.find((name) => a?.name?.includes(name))
+
+        return name ?? ''
+      }) ?? []
+  const uniqueInteractions = Array.from(new Set(allInteractions))
+  const audios = data?.assets
+
+  console.log(query, data)
 
   useEffect(() => {
     if (currentSound) {
@@ -52,6 +85,18 @@ export const AudioPlayer: FC<{ audios?: Asset[] }> = ({ audios }) => {
     dispatch({ type: SET_CURRENT_SOUND, payload: nextSound.path })
   }
 
+  const onFilter = ({
+    typeIncludes,
+    selectedInteractions,
+  }: {
+    typeIncludes: string[]
+    selectedInteractions: string[]
+  }) =>
+    setQuery({
+      typeIncludes,
+      selectedInteractions,
+    })
+
   const audio = audios?.find((a) => a?.path === currentSound)
 
   return (
@@ -61,10 +106,16 @@ export const AudioPlayer: FC<{ audios?: Asset[] }> = ({ audios }) => {
         placeholder={'Pick an Audio'}
         onPrev={onPrev}
         onNext={onNext}
-        popupState={popupState}
+        listPopupState={listPopupState}
+        filterPopupState={filterPopupState}
       />
-      <EnhancedPopper popupState={popupState}>
+      <EnhancedPopper popupState={listPopupState}>
+        {/* TODO: fix type */}
+        {/* @ts-ignore */}
         <AudioList audios={audios} />
+      </EnhancedPopper>
+      <EnhancedPopper popupState={filterPopupState}>
+        <AudioFilter interactions={uniqueInteractions} onFilter={onFilter} />
       </EnhancedPopper>
     </div>
   )

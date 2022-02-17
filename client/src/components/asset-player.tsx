@@ -19,8 +19,18 @@ export const AssetPlayer: FC<{
   onNext: () => void
   onPrev: () => void
   placeholder: string
-  popupState: ReturnType<typeof usePopupState>
-}> = ({ asset, duration, durationEnabled, onNext, onPrev, placeholder, popupState }) => {
+  listPopupState: ReturnType<typeof usePopupState>
+  filterPopupState: ReturnType<typeof usePopupState>
+}> = ({
+  asset,
+  duration,
+  durationEnabled,
+  onNext,
+  onPrev,
+  placeholder,
+  listPopupState,
+  filterPopupState,
+}) => {
   const isPlaying = asset
 
   return (
@@ -40,7 +50,10 @@ export const AssetPlayer: FC<{
       )}
 
       <div className='flex justify-center'>
-        <FilterList className='cursor-pointer mr-4 hover:text-gum-400' />
+        <FilterList
+          className='cursor-pointer mr-4 hover:text-gum-400'
+          {...bindToggle(filterPopupState)}
+        />
         <SkipPrevious className='cursor-pointer mr-4 hover:text-gum-400' onClick={onPrev} />
         {isPlaying ? (
           <PauseOutlined className='cursor-pointer mr-4 hover:text-gum-400' />
@@ -50,7 +63,7 @@ export const AssetPlayer: FC<{
         <SkipNext className='cursor-pointer mr-4 hover:text-gum-400' onClick={onNext} />
         <FormatListNumberedOutlined
           className='cursor-pointer hover:text-gum-400'
-          {...bindToggle(popupState)}
+          {...bindToggle(listPopupState)}
         />
       </div>
     </GlassCard>

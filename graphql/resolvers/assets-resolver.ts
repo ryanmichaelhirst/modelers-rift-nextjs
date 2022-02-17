@@ -1,24 +1,32 @@
 import { prisma } from '../../prisma/utils'
 
-export const AssetsResolver = (parent, args, ctx) => {
+export const AssetsResolver = async (parent, args, ctx) => {
   console.debug({ parent, args, ctx })
 
-  // championIds come in as string[]
-  const characterIds = args?.filter?.characterIdsIncludes
+  // get characterId by character name
+  const character = await prisma.character.findFirst({
+    where: {
+      name: args.filter.characterName.toLowerCase(),
+    },
+  })
+  const interactions = ['ornn']
+  const search = interactions.reduce((acc, cur) => {
+    if (acc === '') return cur
+    acc += ` | ${cur}`
+
+    return acc
+  }, '')
+  console.log({ search })
 
   return prisma.asset.findMany({
     where: {
-      name: {
-        contains: args?.filter?.nameCnt,
+      // name: {
+      //   search: 'ornn',
+      // },
+      type: {
+        in: args?.filter?.typeIncludes || [],
       },
-      ...(args?.filter?.typeEq && {
-        type: {
-          equals: args?.filter?.typeEq,
-        },
-      }),
-      characterId: {
-        ...(characterIds && { in: characterIds.map((id) => parseInt(id)) }),
-      },
+      characterId: character.id,
     },
     select: {
       id: true,

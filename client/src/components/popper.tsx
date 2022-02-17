@@ -7,7 +7,7 @@ export const EnhancedPopper: FC<{
   popupState: ReturnType<typeof usePopupState>
 }> = ({ children, popupState }) => {
   return (
-    <Popper {...bindPopover(popupState)} transition disablePortal className='z-10'>
+    <Popper {...bindPopover(popupState)} transition disablePortal className='z-10 w-96'>
       {({ TransitionProps }) => (
         <Fade {...TransitionProps} timeout={350}>
           <Paper className='h-72 overflow-y-scroll p-4'>

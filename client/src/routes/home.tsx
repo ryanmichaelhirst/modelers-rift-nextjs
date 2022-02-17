@@ -84,7 +84,7 @@ export const Home = () => {
                 <QueueMusicOutlined fontSize='medium' />
                 <span className='ml-4'>SFX / VO</span>
               </GlassTitle>
-              <AudioPlayer audios={sfx?.concat(vo ?? [])} />
+              <AudioPlayer />
             </Grid>
           </Grid>
 
