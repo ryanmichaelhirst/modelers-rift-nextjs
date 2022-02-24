@@ -1,0 +1,11 @@
+query Assets($filter: AssetsFilter) {
+  assets(filter: $filter) {
+    id
+    characterId
+    type
+    name
+    skin
+    path
+    duration
+  }
+}

@@ -1,0 +1,44 @@
+import { ApolloProvider } from '@apollo/client'
+import { MenuBar } from '@components/menu-bar'
+import { Theme } from '@components/theme'
+import { initialState, reducer, StoreProvider, useAppContext } from '@context/index'
+import { FETCH_LOL_INFO } from '@customtypes/index'
+import { StyledEngineProvider } from '@mui/material/styles'
+import 'abort-controller/polyfill'
+import Head from 'next/head'
+import { SnackbarProvider } from 'notistack'
+import React, { FC, useEffect } from 'react'
+import { apolloClient } from '../api/index'
+import '../styles/tailwind.css'
+
+const AppWrapper: FC<{ children: React.ReactElement<any, any> | null }> = ({ children }) => {
+  const [, dispatch] = useAppContext()
+
+  useEffect(() => {
+    dispatch({ type: FETCH_LOL_INFO })
+  }, [])
+
+  return <MenuBar>{children}</MenuBar>
+}
+
+export default function NextApp({ Component, pageProps }) {
+  return (
+    <ApolloProvider client={apolloClient}>
+      <StoreProvider initialState={initialState} reducer={reducer}>
+        <StyledEngineProvider injectFirst>
+          <SnackbarProvider maxSnack={3}>
+            <Head>
+              <title>Modeler's Rift</title>
+              <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+            </Head>
+            <AppWrapper>
+              <Theme>
+                <Component {...pageProps} />
+              </Theme>
+            </AppWrapper>
+          </SnackbarProvider>
+        </StyledEngineProvider>
+      </StoreProvider>
+    </ApolloProvider>
+  )
+}
