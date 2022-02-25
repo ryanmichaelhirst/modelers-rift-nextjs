@@ -1,4 +1,7 @@
-import { ApolloServer } from 'apollo-server-express'
+import { ApolloServer } from 'apollo-server-micro'
+import Cors from 'micro-cors'
+import { PageConfig } from 'next'
+import { createContext } from '../../graphql/context'
 import { Resolvers } from './generated/types'
 import {
   AssetsResolver,
@@ -8,6 +11,8 @@ import {
   UsersResolver,
 } from './resolvers'
 import { typeDefs } from './typedefs/index'
+
+const cors = Cors()
 
 const resolvers: Resolvers = {
   Query: {
@@ -19,14 +24,28 @@ const resolvers: Resolvers = {
   },
 }
 
-const apolloServer = new ApolloServer({ typeDefs, resolvers })
+const apolloServer = new ApolloServer({ typeDefs, resolvers, context: createContext })
+const startServer = apolloServer.start()
 
 export default async (req, res) => {
-  await apolloServer.start()
-  await apolloServer.createGraphQLServerOptions({ ...req, path: '/api/graphql' }, res)
+  res.setHeader('Access-Control-Allow-Credentials', 'true')
+  res.setHeader('Access-Control-Allow-Origin', 'https://studio.apollographql.com')
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+
+  if (req.method === 'OPTIONS') {
+    res.end()
+
+    return false
+  }
+
+  await startServer
+  await apolloServer.createHandler({
+    path: '/api/graphql',
+  })(req, res)
 }
 
-export const config = {
+// // Apollo Server Micro takes care of body parsing
+export const config: PageConfig = {
   api: {
     bodyParser: false,
   },

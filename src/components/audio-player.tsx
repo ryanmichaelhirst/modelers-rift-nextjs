@@ -46,8 +46,6 @@ export const AudioPlayer: FC = () => {
   const uniqueInteractions = Array.from(new Set(allInteractions))
   const audios = data?.assets
 
-  console.log(query, data)
-
   useEffect(() => {
     if (currentSound) {
       // pause previous audio
