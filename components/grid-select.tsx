@@ -2,9 +2,9 @@ import { Card } from '@components/card'
 import Input from '@components/input'
 import { Loader } from '@components/loader'
 import { FETCH_NEW_CHAMPION } from '@customtypes/index'
+import { useCharactersQuery } from '@graphql/generated/types'
 import classNames from 'classnames'
 import React, { useState } from 'react'
-import { useCharactersQuery } from '../../graphql/generated/types'
 import { useAppContext } from '../context'
 
 const GridSelect = () => {

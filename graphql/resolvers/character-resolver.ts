@@ -1,8 +1,7 @@
-import { prisma } from '../../prisma/utils'
+import { prisma } from '@utils/prisma'
 
+// @ts-ignore
 export const CharacterResolver = async (parent, args, ctx) => {
-  console.debug({ parent, args, ctx })
-
   return await prisma.character.findFirst({
     where: {
       name: {
@@ -17,3 +16,5 @@ export const CharacterResolver = async (parent, args, ctx) => {
     },
   })
 }
+
+export default CharacterResolver

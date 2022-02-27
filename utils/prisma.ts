@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { determineType } from '../bin/utils'
+import { determineType } from '@utils/index'
 
 export interface Asset {
   type: 'model' | 'sfx' | 'vo'
@@ -65,6 +65,7 @@ export const updateCharacter = async ({
     where: {
       id,
     },
+    // TODO: fix this
     data,
   })
 }

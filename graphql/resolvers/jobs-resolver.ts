@@ -1,8 +1,9 @@
 import fs from 'fs'
 import path from 'path'
 
+// @ts-ignore
 export const JobsResolver = (parent, args, ctx) => {
-  const jobDir = path.join(process.env.APP_HOME, 'bin/jobs')
+  const jobDir = path.join(process.env.APP_HOME || '', 'bin/jobs')
 
   return new Promise<{ name: string }[]>((resolve) => {
     fs.readdir(jobDir, (err, files) => {
@@ -17,3 +18,5 @@ export const JobsResolver = (parent, args, ctx) => {
     })
   })
 }
+
+export default JobsResolver

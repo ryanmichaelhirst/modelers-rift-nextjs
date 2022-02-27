@@ -4,6 +4,7 @@ import ChampionModelContainer from '@components/champion-model-container'
 import { GlassCard, GlassTitle } from '@components/glass-card'
 import { SkinCarousel } from '@components/skin-carousel'
 import { useAppContext } from '@context/index'
+import { useCharacterQuery } from '@graphql/generated/types'
 import {
   BarChartOutlined,
   PaletteOutlined,
@@ -11,11 +12,10 @@ import {
   VideocamOutlined,
 } from '@mui/icons-material'
 import { Grid } from '@mui/material'
+import { lowercaseChampionNames } from '@utils/index'
 import { useEffect } from 'react'
-import { lowercaseChampionNames } from '../../../bin/utils'
-import { useCharacterQuery } from '../../../graphql/generated/types'
 
-const Home = () => {
+export const Home = () => {
   const [{ selectedChampion, currentAnimation, animations }, dispatch] = useAppContext()
   const { data, loading: characterLoading, error } = useCharacterQuery({
     variables: {
@@ -131,5 +131,3 @@ const Home = () => {
     </div>
   )
 }
-
-export default Home

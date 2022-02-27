@@ -4,9 +4,9 @@ import {
   ArrowBackIosNewOutlined,
   ArrowForwardIosOutlined,
 } from '@mui/icons-material'
+import { capitalizeWord } from '@utils/index'
 import { ButtonBack, ButtonNext, CarouselProvider, Slide, Slider } from 'pure-react-carousel'
 import 'pure-react-carousel/dist/react-carousel.es.css'
-import { capitalizeWord } from '../../bin/utils'
 import { useAppContext } from '../context'
 import { getSplashArtLink } from '../utils'
 

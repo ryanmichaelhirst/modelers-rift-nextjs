@@ -1,6 +1,6 @@
+import { getChampion, getChampions, getItems, getJsonName, getPatches } from '@utils/index'
 import { Reducer } from 'react'
 import { AsyncActionHandlers } from 'use-reducer-async'
-import { getJsonName } from '../../bin/utils'
 import {
   Action,
   AppState,
@@ -13,7 +13,6 @@ import {
   SET_PATCHES,
   SET_SELECTED_CHAMPION,
 } from '../types'
-import { getChampion, getChampions, getItems, getPatches } from '../utils'
 
 export const asyncActionHandlers: AsyncActionHandlers<Reducer<AppState, Action>, AsyncAction> = {
   [FETCH_LOL_ITEMS]: ({ dispatch, getState }) => async (action) => {

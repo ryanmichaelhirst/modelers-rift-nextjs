@@ -5,8 +5,6 @@ export type Context = {
   prisma: PrismaClient
 }
 
-export async function createContext({ req, res }): Promise<Context> {
-  return {
-    prisma,
-  }
+export const createGraphqlContext = async (): Promise<Context> => {
+  return { prisma }
 }

@@ -1,18 +1,16 @@
-import { ApolloServer } from 'apollo-server-micro'
-import Cors from 'micro-cors'
-import { PageConfig } from 'next'
-import { createContext } from '../../graphql/context'
-import { Resolvers } from './generated/types'
+import { Resolvers } from '@graphql/generated/types'
 import {
   AssetsResolver,
   CharacterResolver,
   CharactersResolver,
   JobsResolver,
   UsersResolver,
-} from './resolvers'
-import { typeDefs } from './typedefs/index'
-
-const cors = Cors()
+} from '@graphql/resolvers'
+import { typeDefs } from '@graphql/typedefs/index'
+import { createGraphqlContext } from '@lib/graphql'
+import { ApolloServer } from 'apollo-server-micro'
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { PageConfig } from 'next'
 
 const resolvers: Resolvers = {
   Query: {
@@ -24,10 +22,10 @@ const resolvers: Resolvers = {
   },
 }
 
-const apolloServer = new ApolloServer({ typeDefs, resolvers, context: createContext })
+const apolloServer = new ApolloServer({ typeDefs, resolvers, context: createGraphqlContext })
 const startServer = apolloServer.start()
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   res.setHeader('Access-Control-Allow-Credentials', 'true')
   res.setHeader('Access-Control-Allow-Origin', 'https://studio.apollographql.com')
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')

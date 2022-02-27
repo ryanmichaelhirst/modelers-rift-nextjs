@@ -1,7 +1,7 @@
 import { Input } from '@components/input'
 import { FETCH_NEW_CHAMPION, SET_ANIMATIONS, SET_CURRENT_ANIMATION } from '@customtypes/index'
+import { useCharactersQuery } from '@graphql/generated/types'
 import { useState } from 'react'
-import { useCharactersQuery } from '../../graphql/generated/types'
 import { useAppContext } from '../context'
 
 export const SearchBar = () => {

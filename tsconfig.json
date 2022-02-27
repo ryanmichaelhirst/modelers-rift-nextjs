@@ -17,15 +17,17 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@components/*": ["src/components/*"],
+      "@components/*": ["components/*"],
       "@assets/*": ["public/*"],
-      "@hooks/*": ["src/hooks/*"],
-      "@context/*": ["src/context/*"],
-      "@customtypes/*": ["src/types/*"],
-      "@lib/*": ["src/lib/*"]
+      "@hooks/*": ["hooks/*"],
+      "@context/*": ["context/*"],
+      "@customtypes/*": ["types/*"],
+      "@lib/*": ["lib/*"],
+      "@graphql/*": ["graphql/*"],
+      "@utils/*": ["utils/*"]
     },
     "incremental": true
   },
-  "include": ["./src"],
-  "exclude": ["node_modules"]
+  "include": ["."],
+  "exclude": ["node_modules", "input", "output"]
 }
