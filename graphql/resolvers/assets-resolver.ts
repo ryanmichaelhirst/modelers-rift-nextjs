@@ -1,8 +1,8 @@
-import { prisma } from '../../prisma/utils'
+import { prisma } from '@utils/prisma'
 
+// TODO: type these resolvers
+// @ts-ignore
 export const AssetsResolver = async (parent, args, ctx) => {
-  console.debug({ parent, args, ctx })
-
   // get characterId by character name
   const character = await prisma.character.findFirst({
     where: {
@@ -16,7 +16,6 @@ export const AssetsResolver = async (parent, args, ctx) => {
 
     return acc
   }, '')
-  console.log({ search })
 
   return prisma.asset.findMany({
     where: {
@@ -26,7 +25,7 @@ export const AssetsResolver = async (parent, args, ctx) => {
       type: {
         in: args?.filter?.typeIncludes || [],
       },
-      characterId: character.id,
+      characterId: character?.id,
     },
     select: {
       id: true,
@@ -40,3 +39,5 @@ export const AssetsResolver = async (parent, args, ctx) => {
     },
   })
 }
+
+export default AssetsResolver

@@ -1,4 +1,4 @@
-export const championNames = [
+export const CHAMPION_NAMES = [
   'Aatrox',
   'Ahri',
   'Akali',
@@ -157,41 +157,3 @@ export const championNames = [
   'Akshan',
   'Vex',
 ]
-
-export const lowercaseChampionNames = championNames.map((name) => name.toLowerCase())
-
-export const determineType = (name: string) => {
-  const championType = championNames.map((n) => n.toLowerCase()).includes(name.toLowerCase())
-  const tftType = name.includes('tft')
-  const summonersRiftType = name.includes('sru')
-
-  if (championType) return 'champion'
-  if (tftType) return 'team_fight_tactics'
-  if (summonersRiftType) return 'summoners_rift'
-
-  return 'unknown'
-}
-
-// given 'tahmkench' returns 'Tahm Kench'
-export const getDisplayName = (name: string) => {
-  if (name.toLowerCase() === 'jarvaniv') return 'Jarvan IV'
-
-  return championNames
-    .find((cn) => cn.toLowerCase() === name.toLowerCase())
-    ?.split(/(?=[A-Z])/)
-    .join(' ')
-}
-
-// given 'aurelionsol' returns 'AurelionSol'
-export const getJsonName = (name: string) => {
-  return championNames
-    .find((cn) => cn.toLowerCase() === name?.replace(' ', '').toLowerCase())
-    ?.split(/(?=[A-Z])/)
-    .join('')
-}
-
-export const capitalizeWord = (word?: string | null) => {
-  if (!word) return ''
-
-  return word.charAt(0).toUpperCase() + word.substring(1)
-}
