@@ -1,5 +1,6 @@
 import Home from '@components/featuresets/home'
+import type { NextPage } from 'next'
 
-export default function Index() {
-  return <Home />
-}
+const Index: NextPage = () => <Home />
+
+export default Index

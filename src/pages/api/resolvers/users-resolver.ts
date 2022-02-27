@@ -1,8 +1,6 @@
 import { prisma } from '../../../../prisma/utils'
 
 export const UsersResolver = (parent, args, ctx) => {
-  console.debug({ parent, args, ctx })
-
   return prisma.user.findMany({
     where: {
       username: {

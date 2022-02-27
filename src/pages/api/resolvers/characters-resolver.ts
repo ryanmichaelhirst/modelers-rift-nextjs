@@ -1,8 +1,6 @@
 import { prisma } from '../../../../prisma/utils'
 
 export const CharactersResolver = async (parent, args, ctx) => {
-  console.debug({ parent, args, ctx })
-
   const page = args?.page ?? 1
   const pageSize = args?.pageSize ?? 10
   const skip = (page - 1) * pageSize

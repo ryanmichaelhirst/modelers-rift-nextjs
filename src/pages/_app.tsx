@@ -5,10 +5,12 @@ import { initialState, reducer, StoreProvider, useAppContext } from '@context/in
 import { FETCH_LOL_INFO } from '@customtypes/index'
 import { StyledEngineProvider } from '@mui/material/styles'
 import 'abort-controller/polyfill'
+import type { NextPage } from 'next'
+import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { SnackbarProvider } from 'notistack'
 import React, { FC, useEffect } from 'react'
-import { apolloClient } from '../api/index'
+import { apolloClient } from '../lib/apollo'
 import '../styles/tailwind.css'
 
 const AppWrapper: FC<{ children: React.ReactElement<any, any> | null }> = ({ children }) => {
@@ -21,7 +23,7 @@ const AppWrapper: FC<{ children: React.ReactElement<any, any> | null }> = ({ chi
   return <MenuBar>{children}</MenuBar>
 }
 
-export default function NextApp({ Component, pageProps }) {
+const NextApp: NextPage<AppProps> = ({ Component, pageProps }) => {
   return (
     <ApolloProvider client={apolloClient}>
       <StoreProvider initialState={initialState} reducer={reducer}>
@@ -42,3 +44,5 @@ export default function NextApp({ Component, pageProps }) {
     </ApolloProvider>
   )
 }
+
+export default NextApp

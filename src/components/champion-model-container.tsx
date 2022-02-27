@@ -10,10 +10,8 @@ import { Canvas } from '@react-three/fiber'
 import { FC, lazy, memo, Suspense, useEffect, useMemo, useState } from 'react'
 import { useAppContext } from '../context'
 
-const ChampionModelContainer: FC<{ canvasHeight?: number; canvasWidth?: number }> = ({
-  canvasHeight,
-  canvasWidth,
-}) => {
+const ChampionModelContainer: FC<{ canvasHeight?: number }> = ({ canvasHeight }) => {
+  // React.useContext() does not work inside of suspense, so context is hoisted here
   const [{ selectedChampion, currentAnimation, playAllAnimations }, dispatch] = useAppContext()
   const [animationMixer, setAnimationMixer] = useState<useAnimationResult>()
 
@@ -23,9 +21,22 @@ const ChampionModelContainer: FC<{ canvasHeight?: number; canvasWidth?: number }
     names: animationMixer?.names,
   })
 
-  const skinNum = selectedChampion.skin || 'skin0'
-  const champName = selectedChampion.basicInfo?.name?.toLowerCase().replace(' ', '') || 'aatrox'
-  const glbUrl = `/api/aws_objects/${champName}-${skinNum}`
+  const onAnimationActionFinished = (e: THREE.Event) => {
+    if (!animationMixer) return
+    const { names, mixer } = animationMixer
+    const curIdx = e ? names.indexOf(e?.action?.getClip()?.name) : 0
+    let nextIdx = e ? curIdx + 1 : curIdx
+
+    if (nextIdx >= names.length - 1) {
+      nextIdx = 0
+      mixer.setTime(0)
+    }
+
+    const nextAnimation = names[nextIdx]
+    dispatch({ type: SET_CURRENT_ANIMATION, payload: nextAnimation })
+  }
+
+  const onSetAnimationMixer = (value: useAnimationResult) => setAnimationMixer(value)
 
   useEffect(() => {
     if (!animationMixer?.names) return
@@ -49,21 +60,6 @@ const ChampionModelContainer: FC<{ canvasHeight?: number; canvasWidth?: number }
     playAnimation(currentAnimation)
   }, [currentAnimation])
 
-  const onAnimationActionFinished = (e: THREE.Event) => {
-    if (!animationMixer) return
-    const { names, mixer } = animationMixer
-    const curIdx = e ? names.indexOf(e?.action?.getClip()?.name) : 0
-    let nextIdx = e ? curIdx + 1 : curIdx
-
-    if (nextIdx >= names.length - 1) {
-      nextIdx = 0
-      mixer.setTime(0)
-    }
-
-    const nextAnimation = names[nextIdx]
-    dispatch({ type: SET_CURRENT_ANIMATION, payload: nextAnimation })
-  }
-
   useEffect(() => {
     if (!animationMixer?.mixer) return
     if (!playAllAnimations) {
@@ -79,18 +75,15 @@ const ChampionModelContainer: FC<{ canvasHeight?: number; canvasWidth?: number }
     }
   }, [animationMixer, playAllAnimations])
 
+  const skinNum = selectedChampion.skin || 'skin0'
+  const champName = selectedChampion.basicInfo?.name?.toLowerCase().replace(' ', '') || 'aatrox'
+  const glbUrl = `/api/aws_objects/${champName}-${skinNum}`
+  const timerLabel = `${champName}-${skinNum}`
   // dynamically import component
   const Component = useMemo(() => lazy(() => import(`./models/${champName}/${skinNum}.tsx`)), [
     champName,
     skinNum,
   ])
-
-  const onSetAnimationMixer = (value: useAnimationResult) => {
-    setAnimationMixer(value)
-  }
-
-  // React.useContext() does not work inside of suspense, so context is hoisted here
-  const timerLabel = `${champName}-${skinNum}`
 
   return (
     <CanvasContainer

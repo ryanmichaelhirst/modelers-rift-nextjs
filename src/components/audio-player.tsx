@@ -50,7 +50,7 @@ export const AudioPlayer: FC = () => {
     if (currentSound) {
       // pause previous audio
       audioEl?.pause()
-      fetch(`/api/getAudio/${currentSound}`)
+      fetch(`/api/audio/${currentSound}`)
         .then((res) => {
           const htmlAudio = new Audio(res.url)
           htmlAudio.play()

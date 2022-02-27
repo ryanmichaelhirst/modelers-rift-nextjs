@@ -1,8 +1,6 @@
 import { prisma } from '../../../../prisma/utils'
 
 export const AssetsResolver = async (parent, args, ctx) => {
-  console.debug({ parent, args, ctx })
-
   // get characterId by character name
   const character = await prisma.character.findFirst({
     where: {
@@ -16,7 +14,6 @@ export const AssetsResolver = async (parent, args, ctx) => {
 
     return acc
   }, '')
-  console.log({ search })
 
   return prisma.asset.findMany({
     where: {

@@ -1,6 +1,7 @@
+import type { NextPage } from 'next'
 import { Head, Html, Main, NextScript } from 'next/document'
 
-export default function Document() {
+const Document: NextPage = () => {
   return (
     <Html>
       <Head>
@@ -25,3 +26,5 @@ export default function Document() {
     </Html>
   )
 }
+
+export default Document
