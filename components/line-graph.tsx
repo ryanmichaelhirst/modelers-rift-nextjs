@@ -16,7 +16,7 @@ const LineGraph = ({
   xLabel: string
   yLabel: string
 }) => {
-  const chartRef = useRef(null)
+  const chartRef = useRef<am4charts.XYChart | null>(null)
 
   useLayoutEffect(() => {
     const chart = am4core.create(id, am4charts.XYChart)

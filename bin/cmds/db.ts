@@ -1,11 +1,11 @@
 import { PutObjectCommand } from '@aws-sdk/client-s3'
 import { Database } from '@leafac/sqlite'
+import { createAssets, deleteAllTableData } from '@utils/prisma'
 import { execSync } from 'child_process'
 import { format } from 'date-fns'
 import fs from 'fs'
 import PQueue from 'p-queue'
 import path from 'path'
-import { createAssets, deleteAllTableData } from '../../prisma/utils'
 import { BUCKET_NAME, s3 } from '../../server/aws'
 import { logToFile } from '../utils/job-helpers'
 import { soundTypes } from './sounds'
@@ -49,7 +49,7 @@ export const seedDb = async () => {
 
 const uploadModels = async () => {
   console.time('upload-models')
-  const inputDir = path.join(process.env.APP_HOME, 'output/glb_models')
+  const inputDir = path.join(process.env.APP_HOME || '', 'output/glb_models')
   const champDirs = await fs.promises.readdir(inputDir)
   const timestamp = format(new Date(), 'yyyyMMdd_hhmmss_aaa')
   const logFile = `logs/upload_models_${timestamp}.txt`
@@ -90,6 +90,7 @@ const uploadModels = async () => {
         }
       }
 
+      // @ts-ignore
       // add to postgres
       await createAssets({ characterName: champDir, assets })
     })
@@ -102,7 +103,7 @@ const uploadModels = async () => {
 
 const uploadSounds = async () => {
   console.time('upload-sounds')
-  const inputDir = path.join(process.env.APP_HOME, 'output/generated')
+  const inputDir = path.join(process.env.APP_HOME || '', 'output/generated')
   const champDirs = await fs.promises.readdir(inputDir)
 
   for (const champDir of champDirs) {

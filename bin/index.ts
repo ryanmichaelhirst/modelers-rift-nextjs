@@ -59,6 +59,7 @@ const run = async () => {
       generateSounds({ input, output, region })
       break
     case 'job':
+      if (!file) throw new Error('command requires file (-f) flag')
       const fn = require(path.join(__dirname, './jobs', file)).default
       await fn()
       break

@@ -39,9 +39,9 @@ const GridSelect = () => {
     if (reason !== 'selectOption') return
 
     const champ = characters.find((c) => c?.name?.toLowerCase() === value.toLowerCase())
-    if (!champ) return
+    if (!champ?.name) return
 
-    dispatch({ type: FETCH_NEW_CHAMPION, payload: { name: champ?.name } })
+    dispatch({ type: FETCH_NEW_CHAMPION, payload: champ?.name })
   }
 
   const onClick = (name?: string | null) => async () => {

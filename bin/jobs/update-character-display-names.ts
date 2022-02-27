@@ -1,5 +1,5 @@
-import { prisma, updateCharacter } from '../../prisma/utils'
-import { getDisplayName } from '../utils/index'
+import { getDisplayName } from '@utils/index'
+import { prisma, updateCharacter } from '@utils/prisma'
 
 export default async () => {
   const champions = await prisma.character.findMany({

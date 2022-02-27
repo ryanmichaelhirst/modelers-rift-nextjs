@@ -57,6 +57,7 @@ export const cycleAnimations = <T>({
     }
 
     const nextClipName = aniNames[nextIdx]
+    // @ts-ignore
     const animation = aniActions[nextClipName]
 
     animation.repetitions = 1

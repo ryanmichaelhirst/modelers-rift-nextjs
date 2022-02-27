@@ -55,7 +55,7 @@ const extractBnkContent = async ({
                 : path.join(filesPath, `${cdir}_${sdir}_${soundType}_audio.wpk`)
             const eventPath = path.join(filesPath, `${cdir}_${sdir}_${soundType}_events.bnk`)
             const outputPath = path.join(outputDir, cdir, soundType, binFile)
-            const bnkExe = path.join(process.env.APP_HOME, 'bin/executables/bnk-extract.exe')
+            const bnkExe = path.join(process.env.APP_HOME || '', 'bin/executables/bnk-extract.exe')
             const extractCmd = `${bnkExe} --audio ${audioPath} --bin ${binPath} --events ${eventPath} -o ${outputPath} --oggs-only`
 
             // extract .ogg files from bnk sound files
@@ -103,8 +103,8 @@ const extractSounds = async ({
 }) => {
   console.time('extract-sounds')
 
-  const inputDir = input || path.join(process.env.APP_HOME, 'input')
-  const outputDir = output || path.join(process.env.APP_HOME, 'output/extracted')
+  const inputDir = input || path.join(process.env.APP_HOME || '', 'input')
+  const outputDir = output || path.join(process.env.APP_HOME || '', 'output/extracted')
 
   createOrWipeDir(outputDir)
 
@@ -134,8 +134,8 @@ export const generateSounds = async ({
   console.time('generate-sounds')
 
   // get all champion directories
-  const inputDir = output || path.join(process.env.APP_HOME, 'output/extracted')
-  const outputDir = path.join(process.env.APP_HOME, 'output/generated')
+  const inputDir = output || path.join(process.env.APP_HOME || '', 'output/extracted')
+  const outputDir = path.join(process.env.APP_HOME || '', 'output/generated')
   const champDirs = fs.readdirSync(inputDir)
 
   createOrWipeDir(outputDir)

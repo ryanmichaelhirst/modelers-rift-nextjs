@@ -27,7 +27,7 @@
     "@emotion/styled": "^11.3.0",
     "@mui/icons-material": "^5.0.5",
     "@mui/material": "^5.0.4",
-    "@react-three/drei": "8.8.1",
+    "@react-three/drei": "8.11.0",
     "@react-three/fiber": "7.0.26",
     "abort-controller": "^3.0.0",
     "apollo-server-micro": "^3.6.3",
@@ -45,7 +45,7 @@
     "react-dom": "^17.0.2",
     "react-select": "^4.3.1",
     "swr": "^1.2.2",
-    "three": "0.137.5",
+    "three": "0.138.0",
     "use-query-params": "^1.2.3",
     "use-reducer-async": "^2.1.0"
   },

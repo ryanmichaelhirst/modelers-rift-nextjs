@@ -7,8 +7,8 @@ const queue = new PQueue({ concurrency: 30 })
 
 // TODO: update this to follow other pattern in cmds
 export const generateGlb = async () => {
-  const inputDir = path.join(process.env.APP_HOME, 'input/gltf_models')
-  const outputDir = path.join(process.env.APP_HOME, 'output/glb_models')
+  const inputDir = path.join(process.env.APP_HOME || '', 'input/gltf_models')
+  const outputDir = path.join(process.env.APP_HOME || '', 'output/glb_models')
 
   console.time('generate-glb')
 
@@ -52,8 +52,8 @@ export const generateGlb = async () => {
 }
 
 export const generateJsx = async () => {
-  const inputDir = path.join(process.env.APP_HOME, 'output/glb_models')
-  const outputDir = path.join(process.env.APP_HOME, 'client/src/components/models')
+  const inputDir = path.join(process.env.APP_HOME || '', 'output/glb_models')
+  const outputDir = path.join(process.env.APP_HOME || '', 'client/src/components/models')
   console.time('generate-jsx')
 
   try {

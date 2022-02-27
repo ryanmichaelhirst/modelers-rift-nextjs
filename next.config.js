@@ -3,7 +3,8 @@ module.exports = {
     // TODO: fix eslint errors
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
-    ignoreDuringBuilds: true,
+    // ignoreDuringBuilds: true,
+    dirs: ['components', 'pages', 'lib', 'utils'],
   },
   typescript: {
     // TODO: fix typescript errors

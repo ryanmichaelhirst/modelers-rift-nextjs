@@ -1,9 +1,9 @@
+import { prisma } from '@utils/prisma'
 import { format } from 'date-fns'
 import fs from 'fs'
 import { getAudioDurationInSeconds } from 'get-audio-duration'
 import PQueue from 'p-queue'
 import path from 'path'
-import { prisma } from '../../prisma/utils'
 import { soundTypes } from '../cmds/sounds'
 import { logToFile } from '../utils/job-helpers'
 
@@ -49,7 +49,7 @@ export const readAudioDirs = async ({
   const queue = new PQueue({ concurrency: 50 })
   const results: DurationResult[] = []
 
-  const inputDirPath = path.join(process.env.APP_HOME, 'output/generated')
+  const inputDirPath = path.join(process.env.APP_HOME || '', 'output/generated')
   const champDirs = await fs.promises.readdir(inputDirPath)
 
   // iterate over each champ directory
