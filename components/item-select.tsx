@@ -40,7 +40,7 @@ export const ItemSelect = () => {
   const itemOptions = Object.values(lolItemsData).map((i) => ({
     label: i.name,
     value: JSON.stringify(i),
-    icon: `http://ddragon.leagueoflegends.com/cdn/11.16.1/img/item/${i.image.full}`,
+    icon: `https://ddragon.leagueoflegends.com/cdn/11.16.1/img/item/${i.image.full}`,
   }))
 
   const selItems = Object.values(selectedItems)
@@ -64,7 +64,7 @@ export const ItemSelect = () => {
             <img
               key={item.name}
               className={classNames('h-10')}
-              src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/item/${item.image.full}`}
+              src={`https://ddragon.leagueoflegends.com/cdn/11.16.1/img/item/${item.image.full}`}
               alt={item.name}
             />
           </Tooltip>

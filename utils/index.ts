@@ -4,7 +4,7 @@ import { CHAMPION_NAMES } from '@utils/championNames'
 /* CHAMPIONS */
 export const getChampions = async (patch: string) => {
   const { data } = await fetch(
-    `http://ddragon.leagueoflegends.com/cdn/${patch}/data/en_US/champion.json`,
+    `https://ddragon.leagueoflegends.com/cdn/${patch}/data/en_US/champion.json`,
   ).then<{ data: Record<string, ChampionBasicInfo> }>((res) => res.json())
 
   const championsWithAssets = Object.keys(data).reduce<Record<string, any>>((acc, cur) => {
@@ -14,7 +14,7 @@ export const getChampions = async (patch: string) => {
       ...acc,
       [lowerCaseName]: {
         ...data[cur],
-        square_asset: `http://ddragon.leagueoflegends.com/cdn/${patch}/img/champion/${cur}.png`,
+        square_asset: `https://ddragon.leagueoflegends.com/cdn/${patch}/img/champion/${cur}.png`,
       },
     }
   }, {})
@@ -27,7 +27,7 @@ export const getChampion = async (selectedPatch: string, name: string) => {
 
   // get champion info from league api
   const { data } = await fetch(
-    `http://ddragon.leagueoflegends.com/cdn/${selectedPatch}/data/en_US/champion/${jsonName}.json`,
+    `https://ddragon.leagueoflegends.com/cdn/${selectedPatch}/data/en_US/champion/${jsonName}.json`,
   ).then<{ data: Record<string, ChampionDetailedInfo> }>((res) => res.json())
 
   // i.e. { Aatrox: { allytips; blurb; etc etc } }
@@ -77,7 +77,7 @@ export const capitalizeWord = (word?: string | null) => {
 /* ITEMS */
 export const getItems = async (selectedPatch: string) => {
   const { data } = await fetch(
-    `http://ddragon.leagueoflegends.com/cdn/${selectedPatch}/data/en_US/item.json`,
+    `https://ddragon.leagueoflegends.com/cdn/${selectedPatch}/data/en_US/item.json`,
   ).then<{ data: Record<string, Item> }>((res) => res.json())
 
   return Object.values(data).reduce<any>((acc, value) => {
@@ -98,7 +98,7 @@ export const getLoreLink = (region: string, name: string) =>
 
 // expects name formatted as 'Tahm Kench'
 export const getSplashArtLink = (displayName: string, skinNum: number | string) =>
-  `http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${displayName?.replace(
+  `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${displayName?.replace(
     ' ',
     '',
   )}_${skinNum}.jpg`

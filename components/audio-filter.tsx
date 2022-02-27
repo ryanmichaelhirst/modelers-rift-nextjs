@@ -45,7 +45,7 @@ export const AudioFilter = ({
               selectedInteractions.includes(i) && 'border-gum-500',
             )}
             style={{
-              backgroundImage: `url(http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${i
+              backgroundImage: `url(https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${i
                 .charAt(0)
                 .toUpperCase()}${i.substring(1)}_0.jpg)`,
             }}

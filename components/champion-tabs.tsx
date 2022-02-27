@@ -39,7 +39,7 @@ const ChampionTabs = ({ champion }: { champion: SelectedChampion }) => {
             <div className='inline-block mr-2 mb-2' key={s.id}>
               <img
                 className='h-28 rounded'
-                src={`http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.basicInfo?.name}_${s.num}.jpg`}
+                src={`https://ddragon.leagueoflegends.com/cdn/img/champion/loading/${champion.basicInfo?.name}_${s.num}.jpg`}
                 title={s.name}
               />
             </div>

@@ -16,7 +16,7 @@ export const Details = () => {
       <div className='flex items-center justify-around'>
         <img
           className='rounded-full h-24 w-24'
-          src={`http://ddragon.leagueoflegends.com/cdn/11.21.1/img/champion/${image?.full}`}
+          src={`https://ddragon.leagueoflegends.com/cdn/11.21.1/img/champion/${image?.full}`}
         />
         <div className='text-center'>
           <p className='font-montserrat text-4xl uppercase'>{name}</p>
@@ -30,7 +30,7 @@ export const Details = () => {
         <Tooltip title={<SpellTitle spell={passive as any} />}>
           <img
             className='shadow h-7 rounded-b rounder-tl mr-2'
-            src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/passive/${passive?.image?.full}`}
+            src={`https://ddragon.leagueoflegends.com/cdn/11.16.1/img/passive/${passive?.image?.full}`}
           />
         </Tooltip>
         {spells?.map((s) => {
@@ -38,7 +38,7 @@ export const Details = () => {
             <Tooltip key={s.id} title={<SpellTitle spell={s} />}>
               <img
                 className='shadow h-7 rounded-b rounder-tl mr-2'
-                src={`http://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/${s?.image?.full}`}
+                src={`https://ddragon.leagueoflegends.com/cdn/11.16.1/img/spell/${s?.image?.full}`}
               />
             </Tooltip>
           )
