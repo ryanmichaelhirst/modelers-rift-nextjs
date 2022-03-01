@@ -14,6 +14,21 @@ const ChampionModelContainer: FC<{ canvasHeight?: number }> = ({ canvasHeight })
   // React.useContext() does not work inside of suspense, so context is hoisted here
   const [{ selectedChampion, currentAnimation, playAllAnimations }, dispatch] = useAppContext()
   const [animationMixer, setAnimationMixer] = useState<useAnimationResult>()
+  const [presignedUrl, setPresignedUrl] = useState<string>()
+
+  useEffect(() => {
+    const getData = async () => {
+      setPresignedUrl(undefined)
+      const skinNum = selectedChampion.skin || 'skin0'
+      const champName = selectedChampion.basicInfo?.name?.toLowerCase().replace(' ', '') || 'aatrox'
+      const url = await fetch(`/api/aws_presigned_url/${champName}-${skinNum}`).then((res) =>
+        res.text(),
+      )
+      setPresignedUrl(url)
+    }
+
+    getData()
+  }, [selectedChampion])
 
   const playAnimation = usePlayAnimation({
     mixer: animationMixer?.mixer,
@@ -77,7 +92,6 @@ const ChampionModelContainer: FC<{ canvasHeight?: number }> = ({ canvasHeight })
 
   const skinNum = selectedChampion.skin || 'skin0'
   const champName = selectedChampion.basicInfo?.name?.toLowerCase().replace(' ', '') || 'aatrox'
-  const glbUrl = `/api/aws_objects/${champName}-${skinNum}`
   const timerLabel = `${champName}-${skinNum}`
   // dynamically import component
   const Component = useMemo(() => lazy(() => import(`./models/${champName}/${skinNum}.tsx`)), [
@@ -85,10 +99,12 @@ const ChampionModelContainer: FC<{ canvasHeight?: number }> = ({ canvasHeight })
     skinNum,
   ])
 
+  if (!presignedUrl) return null
+
   return (
     <CanvasContainer
       canvasHeight={canvasHeight}
-      glbUrl={glbUrl}
+      glbUrl={presignedUrl}
       timerLabel={timerLabel}
       component={Component}
       onSetAnimationMixer={onSetAnimationMixer}
