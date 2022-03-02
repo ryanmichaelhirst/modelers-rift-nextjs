@@ -1,8 +1,8 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 
-const prodGraphql = 'league-of-legends-champions-iw9alz663-rmbh4211995.vercel.app/api/graphql'
-
+const prodGraphql = '/api/graphql'
+const devGraphql = 'http://localhost:3000/api/graphql'
 export const apolloClient = new ApolloClient({
-  uri: process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api/graphql' : prodGraphql,
+  uri: process.env.NODE_ENV === 'development' ? devGraphql : prodGraphql,
   cache: new InMemoryCache(),
 })
