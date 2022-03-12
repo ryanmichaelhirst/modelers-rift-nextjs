@@ -33,19 +33,19 @@ export const SearchBar = () => {
         value={selected}
         classes='mb-4'
         options={data?.characters?.collection?.map((c) => c?.displayName || '') || []}
-        label='Choose a champion'
+        label='Search champions...'
         muiClasses={{
           autoComp: {
             root: 'bg-white/30 border-none py-2',
           },
           textField: {
-            root: 'text-gum-500 nunito text-lg',
+            root: 'text-sunset-900 nunito text-lg',
             notchedOutline: 'border-none',
           },
           label: {
-            root: 'text-gum-500 nunito text-lg',
+            root: 'text-sunset-900 nunito text-lg',
             // TODO: this is being override by mui label focused class
-            focused: 'text-gum-500',
+            focused: 'text-sunset-900',
           },
         }}
       />

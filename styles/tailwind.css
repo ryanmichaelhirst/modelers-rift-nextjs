@@ -46,6 +46,7 @@
   }
 
   .glass {
-    @apply glass-gradient shadow-lg backdrop-opacity-40 rounded-lg px-4 py-5;
+    /** @apply glass-gradient shadow-lg backdrop-opacity-40 rounded-lg px-4 py-5; **/
+    @apply glass-gradient shadow-lg;
   }
 }
