@@ -4,9 +4,10 @@ import { useAppContext } from '@context/index'
 import { useCharacterQuery } from '@graphql/generated/types'
 import { BarChartOutlined, HeadphonesOutlined, VideocamOutlined } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
+import { AssetTable } from './asset-table'
 
 const InteractiveCard = () => {
-  const [{ selectedChampion }] = useAppContext()
+  const [{ selectedChampion, currentSound }, dispatch] = useAppContext()
   const { data, loading: characterLoading, error } = useCharacterQuery({
     variables: {
       filter: {
@@ -16,8 +17,7 @@ const InteractiveCard = () => {
     },
   })
 
-  const sfx = data?.character?.assets?.filter((a) => a?.type === 'sfx')
-
+  const sfx = data?.character?.assets?.filter((a) => ['sfx', 'vo'].includes(a?.type || ''))
   console.log({ data, sfx, error })
 
   return (
@@ -38,31 +38,12 @@ const InteractiveCard = () => {
           rounded={false}
         >
           <div className='flex-initial'>
-            <div className='text-[#FF6BD0] bg-[#FECFEF] inline-block px-3 py-1 rounded-lg'>
+            <div className='text-[#FF6BD0] bg-[#FECFEF] inline-block px-4 py-1 rounded-xl text-sm font-semibold'>
               Audios
             </div>
           </div>
           <div className='mt-4 flex-auto overflow-y-auto max-h-60'>
-            <table className='w-full'>
-              <thead>
-                <tr>
-                  <td>#</td>
-                  <td>Title</td>
-                  <td>Type</td>
-                  <td>Time</td>
-                </tr>
-              </thead>
-              <tbody>
-                {sfx?.slice(0, 20).map((s, idx) => (
-                  <tr key={s?.path}>
-                    <td>{idx}</td>
-                    <td>{s?.name}</td>
-                    <td>{s?.type}</td>
-                    <td>{s?.duration}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <AssetTable data={sfx} />
           </div>
         </GlassCard>
         <div className='flex flex-[0_0_50px] items-center justify-start rounded-b-lg bg-white'>
