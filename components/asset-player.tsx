@@ -1,6 +1,6 @@
 import { GlassCard } from '@components/glass-card'
 import { useAppContext } from '@context/index'
-import { SET_CURRENT_SOUND } from '@customtypes/index'
+import { SET_CURRENT_ANIMATION, SET_CURRENT_SOUND } from '@customtypes/index'
 import type { Asset } from '@graphql/generated/types'
 import { PauseOutlined, PlayArrow, SkipNext, SkipPrevious } from '@mui/icons-material'
 import { Slider } from '@mui/material'
@@ -14,11 +14,11 @@ export const AssetPlayer: FC<{
   duration?: number
   placeholder: string
 }> = ({ assetType, assets, duration, durationEnabled, placeholder }) => {
-  const [{ currentSound, currentAnimation }, dispatch] = useAppContext()
+  const [{ currentSound, currentAnimation, animations }, dispatch] = useAppContext()
   const [audioEl, setAudioEl] = useState<HTMLAudioElement>()
 
   const asset = assetType === 'animation' ? currentAnimation : currentSound
-  const isPlaying = asset
+  const isPlaying = audioEl && !audioEl.paused
 
   useEffect(() => {
     if (currentSound) {
@@ -36,7 +36,18 @@ export const AssetPlayer: FC<{
     }
   }, [currentSound])
 
-  const onPrev = () => {
+  const onPrevAnimation = () => {
+    if (!currentAnimation || !animations) return
+
+    const curIndex = animations.findIndex((a) => a === currentAnimation)
+    const nextIndex = curIndex === animations.length - 1 ? 0 : curIndex + 1
+    const nextAnimation = animations[nextIndex]
+    if (!nextAnimation) return
+
+    dispatch({ type: SET_CURRENT_ANIMATION, payload: nextAnimation })
+  }
+
+  const onPrevAudio = () => {
     if (!asset || !assets) return
 
     const curIndex = assets.findIndex((s) => s?.path === asset)
@@ -47,7 +58,23 @@ export const AssetPlayer: FC<{
     dispatch({ type: SET_CURRENT_SOUND, payload: prevSound.path })
   }
 
-  const onNext = () => {
+  const onPrev = () => {
+    if (assetType === 'animation') onPrevAnimation()
+    if (assetType === 'audio') onPrevAudio()
+  }
+
+  const onNextAnimation = () => {
+    if (!currentAnimation || !animations) return
+
+    const curIndex = animations.findIndex((a) => a === currentAnimation)
+    const nextIndex = curIndex === animations.length - 1 ? 0 : curIndex + 1
+    const nextAnimation = animations[nextIndex]
+    if (!nextAnimation) return
+
+    dispatch({ type: SET_CURRENT_ANIMATION, payload: nextAnimation })
+  }
+
+  const onNextAudio = () => {
     if (!asset || !assets) return
 
     const curIndex = assets.findIndex((s) => s?.path === asset)
@@ -56,6 +83,21 @@ export const AssetPlayer: FC<{
     if (!nextSound?.path) return
 
     dispatch({ type: SET_CURRENT_SOUND, payload: nextSound.path })
+  }
+
+  const onNext = () => {
+    if (assetType === 'animation') onNextAnimation()
+    if (assetType === 'audio') onNextAudio()
+  }
+
+  const onPause = () => {
+    if (assetType !== 'audio') return
+    audioEl?.pause()
+  }
+
+  const onPlay = () => {
+    if (assetType !== 'audio') return
+    audioEl?.play()
   }
 
   return (
@@ -77,9 +119,9 @@ export const AssetPlayer: FC<{
       <div className='text-sunset-500 flex justify-center'>
         <SkipPrevious className='cursor-pointer mr-4 hover:text-sunset-900' onClick={onPrev} />
         {isPlaying ? (
-          <PauseOutlined className='cursor-pointer mr-4 hover:text-sunset-900' />
+          <PauseOutlined className='cursor-pointer mr-4 hover:text-sunset-900' onClick={onPause} />
         ) : (
-          <PlayArrow className='cursor-pointer mr-4 hover:text-sunset-900' />
+          <PlayArrow className='cursor-pointer mr-4 hover:text-sunset-900' onClick={onPlay} />
         )}
         <SkipNext className='cursor-pointer mr-4 hover:text-sunset-900' onClick={onNext} />
       </div>

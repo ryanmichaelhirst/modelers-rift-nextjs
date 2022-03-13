@@ -1,4 +1,3 @@
-import { AnimationPlayer } from '@components/animation-player'
 import ChampionModelContainer from '@components/champion-model-container'
 import { GlassCard, GlassTitle } from '@components/glass-card'
 import { SkinCarousel } from '@components/skin-carousel'
@@ -76,7 +75,6 @@ const Home = () => {
                 <VideocamOutlined fontSize='medium' />
                 <span className='ml-3'>Animations</span>
               </GlassTitle>
-              <AnimationPlayer />
             </Grid>
             <Grid item xs={6}>
               <GlassTitle>

@@ -28,7 +28,7 @@ export const AssetTable: React.FC<{ data?: (Asset | null | undefined)[] }> = ({ 
             key={s?.path}
             className={classNames(
               s?.path === currentSound ? 'text-sunset-900 font-semibold' : 'text-slate-400',
-              'text-lg',
+              'text-lg cursor-pointer',
             )}
           >
             <td className='py-1'>{idx}</td>
