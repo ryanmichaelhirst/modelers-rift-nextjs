@@ -1,14 +1,11 @@
-import { Sidebar } from '@components/sidebar'
-import { Grid } from '@mui/material'
+import { MenuBar } from '@components/menu-bar'
 import { FC } from 'react'
 
 export const Layout: FC<{}> = ({ children }) => (
-  <Grid container spacing={0} className='h-screen'>
-    <Grid item xs={2}>
-      <Sidebar />
-    </Grid>
-    <Grid item xs={10}>
-      {children}
-    </Grid>
-  </Grid>
+  <div className='flex flex-col bg-gradient-to-r from-sunset-500 to-sunset-100 min-h-0'>
+    <div className='flex-intial'>
+      <MenuBar />
+    </div>
+    <div className='flex-grow min-h-0'>{children}</div>
+  </div>
 )

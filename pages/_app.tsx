@@ -1,5 +1,5 @@
 import { ApolloProvider } from '@apollo/client'
-import { MenuBar } from '@components/menu-bar'
+import { Layout } from '@components/layout'
 import { Theme } from '@components/theme'
 import { initialState, reducer, StoreProvider, useAppContext } from '@context/index'
 import { FETCH_LOL_INFO } from '@customtypes/index'
@@ -21,7 +21,7 @@ const AppWrapper: FC<{ children: React.ReactElement<any, any> | null }> = ({ chi
     dispatch({ type: FETCH_LOL_INFO })
   }, [])
 
-  return <MenuBar>{children}</MenuBar>
+  return <Layout>{children}</Layout>
 }
 
 const NextApp: NextPage<AppProps> = ({ Component, pageProps }) => {
