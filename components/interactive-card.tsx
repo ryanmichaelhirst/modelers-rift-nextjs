@@ -6,9 +6,11 @@ import { useAppContext } from '@context/index'
 import { useCharacterQuery } from '@graphql/generated/types'
 import { BarChartOutlined, HeadphonesOutlined, VideocamOutlined } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
+import classNames from 'classnames'
+import { MouseEvent, useState } from 'react'
 
 const InteractiveCard = () => {
-  const [{ selectedChampion, currentSound }, dispatch] = useAppContext()
+  const [{ selectedChampion }] = useAppContext()
   const { data, loading: characterLoading, error } = useCharacterQuery({
     variables: {
       filter: {
@@ -17,9 +19,14 @@ const InteractiveCard = () => {
       includeAssets: true,
     },
   })
+  const [selectedIcon, setSelectedIcon] = useState('audio')
 
   const sfx = data?.character?.assets?.filter((a) => ['sfx', 'vo'].includes(a?.type || ''))
   console.log({ data, sfx, error })
+
+  const onIconClick = (e: MouseEvent<HTMLButtonElement>) => {
+    setSelectedIcon(e.currentTarget.value)
+  }
 
   return (
     <GlassCard classes='flex flex-col h-full' hasPadding={false}>
@@ -53,14 +60,35 @@ const InteractiveCard = () => {
           </div>
         </GlassCard>
         <div className='flex flex-[0_0_50px] items-center justify-start rounded-b-lg bg-white'>
-          <div>
-            <IconButton>
+          <div className='pl-4 py-3'>
+            <IconButton
+              className={classNames(
+                selectedIcon === 'audio' && 'bg-sunset-900 text-white hover:bg-sunset-900',
+              )}
+              value='audio'
+              onClick={onIconClick}
+              size='small'
+            >
               <HeadphonesOutlined />
             </IconButton>
-            <IconButton>
+            <IconButton
+              className={classNames(
+                selectedIcon === 'animation' && 'bg-sunset-900 text-white hover:bg-sunset-900',
+              )}
+              value='animation'
+              onClick={onIconClick}
+              size='small'
+            >
               <VideocamOutlined />
             </IconButton>
-            <IconButton>
+            <IconButton
+              className={classNames(
+                selectedIcon === 'analytics' && 'bg-sunset-900 text-white hover:bg-sunset-900',
+              )}
+              value='analytics'
+              onClick={onIconClick}
+              size='small'
+            >
               <BarChartOutlined />
             </IconButton>
           </div>
