@@ -62,10 +62,10 @@ export const SkinCarousel = () => {
         </Slider>
         <div className='flex justify-center items-center mt-2'>
           <ButtonBack>
-            <ArrowBackIosNewOutlined className='cursor-pointer text-white' fontSize='medium' />
+            <ArrowBackIosNewOutlined className='cursor-pointer text-sunset-900' fontSize='medium' />
           </ButtonBack>
           <ButtonNext>
-            <ArrowForwardIosOutlined className='cursor-pointer text-white' fontSize='medium' />
+            <ArrowForwardIosOutlined className='cursor-pointer text-sunset-900' fontSize='medium' />
           </ButtonNext>
         </div>
       </CarouselProvider>
