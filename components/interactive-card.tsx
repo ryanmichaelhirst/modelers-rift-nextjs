@@ -1,10 +1,11 @@
+import { AssetPlayer } from '@components/asset-player'
+import { AssetTable } from '@components/asset-table'
 import { GlassCard } from '@components/glass-card'
 import { SkinCarousel } from '@components/skin-carousel'
 import { useAppContext } from '@context/index'
 import { useCharacterQuery } from '@graphql/generated/types'
 import { BarChartOutlined, HeadphonesOutlined, VideocamOutlined } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
-import { AssetTable } from './asset-table'
 
 const InteractiveCard = () => {
   const [{ selectedChampion, currentSound }, dispatch] = useAppContext()
@@ -44,6 +45,11 @@ const InteractiveCard = () => {
           </div>
           <div className='mt-4 flex-auto overflow-y-auto max-h-60'>
             <AssetTable data={sfx} />
+          </div>
+          <div className='flex-auto flex items-end'>
+            <div className='flex-auto'>
+              <AssetPlayer assetType={'audio'} assets={sfx} placeholder={'Pick a sound'} />
+            </div>
           </div>
         </GlassCard>
         <div className='flex flex-[0_0_50px] items-center justify-start rounded-b-lg bg-white'>

@@ -1,41 +1,66 @@
 import { GlassCard } from '@components/glass-card'
-import {
-  FilterList,
-  FormatListNumberedOutlined,
-  PauseOutlined,
-  PlayArrow,
-  SkipNext,
-  SkipPrevious,
-} from '@mui/icons-material'
+import { useAppContext } from '@context/index'
+import { SET_CURRENT_SOUND } from '@customtypes/index'
+import type { Asset } from '@graphql/generated/types'
+import { PauseOutlined, PlayArrow, SkipNext, SkipPrevious } from '@mui/icons-material'
 import { Slider } from '@mui/material'
-import { bindToggle, usePopupState } from 'material-ui-popup-state/hooks'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { getAssetDisplayName } from '../utils'
 
 export const AssetPlayer: FC<{
-  asset?: string | null
+  assetType: 'animation' | 'audio'
+  assets?: (Asset | null | undefined)[]
   durationEnabled?: boolean
   duration?: number
-  onNext: () => void
-  onPrev: () => void
   placeholder: string
-  listPopupState: ReturnType<typeof usePopupState>
-  filterPopupState: ReturnType<typeof usePopupState>
-}> = ({
-  asset,
-  duration,
-  durationEnabled,
-  onNext,
-  onPrev,
-  placeholder,
-  listPopupState,
-  filterPopupState,
-}) => {
+}> = ({ assetType, assets, duration, durationEnabled, placeholder }) => {
+  const [{ currentSound, currentAnimation }, dispatch] = useAppContext()
+  const [audioEl, setAudioEl] = useState<HTMLAudioElement>()
+
+  const asset = assetType === 'animation' ? currentAnimation : currentSound
   const isPlaying = asset
 
+  useEffect(() => {
+    if (currentSound) {
+      // pause previous audio
+      audioEl?.pause()
+      fetch(`/api/audio/${currentSound}`)
+        .then((res) => {
+          const htmlAudio = new Audio(res.url)
+          htmlAudio.play()
+          setAudioEl(htmlAudio)
+        })
+        .catch((err) => {
+          console.debug(`failed to play sound ${err}`)
+        })
+    }
+  }, [currentSound])
+
+  const onPrev = () => {
+    if (!asset || !assets) return
+
+    const curIndex = assets.findIndex((s) => s?.path === asset)
+    const prevIndex = curIndex === assets.length - 1 ? 0 : curIndex - 1
+    const prevSound = assets[prevIndex]
+    if (!prevSound?.path) return
+
+    dispatch({ type: SET_CURRENT_SOUND, payload: prevSound.path })
+  }
+
+  const onNext = () => {
+    if (!asset || !assets) return
+
+    const curIndex = assets.findIndex((s) => s?.path === asset)
+    const nextIndex = curIndex === assets.length - 1 ? 0 : curIndex + 1
+    const nextSound = assets[nextIndex]
+    if (!nextSound?.path) return
+
+    dispatch({ type: SET_CURRENT_SOUND, payload: nextSound.path })
+  }
+
   return (
-    <GlassCard classes='text-white font-nunito'>
-      <div className='flex justify-center mb-2 w-full truncate'>
+    <GlassCard>
+      <div className='flex justify-center w-full truncate text-sunset-900 font-nunito'>
         {asset ? getAssetDisplayName(asset) : placeholder}
       </div>
       {durationEnabled && (
@@ -49,22 +74,14 @@ export const AssetPlayer: FC<{
         </div>
       )}
 
-      <div className='flex justify-center'>
-        <FilterList
-          className='cursor-pointer mr-4 hover:text-gum-400'
-          {...bindToggle(filterPopupState)}
-        />
-        <SkipPrevious className='cursor-pointer mr-4 hover:text-gum-400' onClick={onPrev} />
+      <div className='text-sunset-500 flex justify-center'>
+        <SkipPrevious className='cursor-pointer mr-4 hover:text-sunset-900' onClick={onPrev} />
         {isPlaying ? (
-          <PauseOutlined className='cursor-pointer mr-4 hover:text-gum-400' />
+          <PauseOutlined className='cursor-pointer mr-4 hover:text-sunset-900' />
         ) : (
-          <PlayArrow className='cursor-pointer mr-4 hover:text-gum-400' />
+          <PlayArrow className='cursor-pointer mr-4 hover:text-sunset-900' />
         )}
-        <SkipNext className='cursor-pointer mr-4 hover:text-gum-400' onClick={onNext} />
-        <FormatListNumberedOutlined
-          className='cursor-pointer hover:text-gum-400'
-          {...bindToggle(listPopupState)}
-        />
+        <SkipNext className='cursor-pointer mr-4 hover:text-sunset-900' onClick={onNext} />
       </div>
     </GlassCard>
   )

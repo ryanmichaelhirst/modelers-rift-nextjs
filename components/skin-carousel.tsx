@@ -24,7 +24,7 @@ export const SkinCarousel = () => {
     <div
       key={skin.id}
       title={skin?.name}
-      className='cursor-pointer h-full bg-cover rounded-xl mr-2 shadow-lg'
+      className='cursor-pointer h-full bg-cover rounded-lg mr-2'
       style={{
         backgroundImage: `url(${getSplashArtLink(championName, skin.num || 0)})`,
       }}
@@ -47,7 +47,7 @@ export const SkinCarousel = () => {
   return (
     <div id='carousel' className='overflow-x-hidden'>
       <CarouselProvider
-        naturalSlideHeight={60}
+        naturalSlideHeight={50}
         naturalSlideWidth={100}
         totalSlides={skinOptions?.length || 0}
         visibleSlides={5}

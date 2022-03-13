@@ -1,5 +1,4 @@
 import { AnimationPlayer } from '@components/animation-player'
-import { AudioPlayer } from '@components/audio-player'
 import ChampionModelContainer from '@components/champion-model-container'
 import { GlassCard, GlassTitle } from '@components/glass-card'
 import { SkinCarousel } from '@components/skin-carousel'
@@ -84,7 +83,6 @@ export const Home = () => {
                 <QueueMusicOutlined fontSize='medium' />
                 <span className='ml-4'>SFX / VO</span>
               </GlassTitle>
-              <AudioPlayer />
             </Grid>
           </Grid>
 
