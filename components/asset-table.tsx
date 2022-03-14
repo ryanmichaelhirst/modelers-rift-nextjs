@@ -22,7 +22,7 @@ export const AssetTable: React.FC<{ data?: (Asset | null | undefined)[] }> = ({ 
         </tr>
       </thead>
       <tbody>
-        {data?.map((s, idx) => (
+        {data?.slice(0, 20).map((s, idx) => (
           <tr
             onClick={onRowClick(s?.path)}
             key={s?.path}

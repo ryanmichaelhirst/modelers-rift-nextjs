@@ -29,7 +29,7 @@ const InteractiveCard = () => {
   }
 
   return (
-    <GlassCard classes='flex flex-col h-full' hasPadding={false}>
+    <GlassCard classes='flex flex-col h-full min-h-0' hasPadding={false}>
       <div className='flex-initial p-7'>
         <p className='text-slate-500 pb-0 text-sm font-nunito font-bold'>
           {selectedChampion.skin ?? 'Default'}
@@ -39,9 +39,9 @@ const InteractiveCard = () => {
         </p>
         <SkinCarousel />
       </div>
-      <div className='flex-auto flex flex-col'>
+      <div className='flex-grow flex flex-col min-h-0'>
         <GlassCard
-          classes='flex-auto flex flex-col bg-white/70 rounded-t-lg p-4'
+          classes='flex-auto flex flex-col bg-white/70 rounded-t-lg p-4 min-h-0'
           hasPadding={false}
           rounded={false}
         >
@@ -50,7 +50,7 @@ const InteractiveCard = () => {
               Audios
             </div>
           </div>
-          <div className='mt-4 flex-auto overflow-y-auto max-h-60'>
+          <div className='flex-grow mt-4 min-h-0 overflow-y-auto'>
             <AssetTable data={sfx} />
           </div>
           <div className='flex-auto flex items-end'>
