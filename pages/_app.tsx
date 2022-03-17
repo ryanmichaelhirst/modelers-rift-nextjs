@@ -13,6 +13,7 @@ import React, { FC, useEffect } from 'react'
 import { apolloClient } from '../lib/apollo'
 import '../styles/app.css'
 import '../styles/tailwind.css'
+import ErrorBoundary from './error-boundary'
 
 const AppWrapper: FC<{ children: React.ReactElement<any, any> | null }> = ({ children }) => {
   const [, dispatch] = useAppContext()
@@ -35,9 +36,11 @@ const NextApp: NextPage<AppProps> = ({ Component, pageProps }) => {
               <meta name='viewport' content='width=device-width, initial-scale=1.0' />
             </Head>
             <AppWrapper>
-              <Theme>
-                <Component {...pageProps} />
-              </Theme>
+              <ErrorBoundary>
+                <Theme>
+                  <Component {...pageProps} />
+                </Theme>
+              </ErrorBoundary>
             </AppWrapper>
           </SnackbarProvider>
         </StyledEngineProvider>
