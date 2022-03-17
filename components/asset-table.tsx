@@ -1,14 +1,15 @@
 import { useAppContext } from '@context/index'
-import { SET_CURRENT_SOUND } from '@customtypes/index'
+import { SET_CURRENT_AUDIO } from '@customtypes/index'
 import type { Asset } from '@graphql/generated/types'
 import classNames from 'classnames'
 
 export const AssetTable: React.FC<{ data?: (Asset | null | undefined)[] }> = ({ data }) => {
-  const [{ currentSound }, dispatch] = useAppContext()
+  const [{ currentAudio }, dispatch] = useAppContext()
 
   const onRowClick = (path?: string | null) => () => {
     if (!path) return
-    dispatch({ type: SET_CURRENT_SOUND, payload: path })
+
+    dispatch({ type: SET_CURRENT_AUDIO, payload: path })
   }
 
   return (
@@ -27,8 +28,8 @@ export const AssetTable: React.FC<{ data?: (Asset | null | undefined)[] }> = ({ 
             onClick={onRowClick(s?.path)}
             key={s?.path}
             className={classNames(
-              s?.path === currentSound ? 'text-sunset-900 font-semibold' : 'text-slate-400',
-              'text-lg cursor-pointer',
+              s?.path === currentAudio ? 'text-sunset-900 font-semibold' : 'text-slate-400',
+              'text-lg cursor-pointer hover:text-sunset-800',
             )}
           >
             <td className='py-1'>{idx}</td>

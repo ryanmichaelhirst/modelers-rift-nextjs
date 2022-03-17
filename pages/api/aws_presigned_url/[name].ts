@@ -28,6 +28,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   })
   // @ts-ignore
   const url = await getSignedUrl(s3, command, { expiresIn: 3600 })
-  console.log(`this is the url: ${url}`)
   res.status(200).send(url)
 }

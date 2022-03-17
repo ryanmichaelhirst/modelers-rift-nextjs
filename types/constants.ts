@@ -23,3 +23,9 @@ export const STAT_SEMANTIC_TEMPLATES: Record<string, string> = {
   '<speed>': 'Speed',
   '<keywordStealth>': 'Stealth',
 }
+
+export enum AssetType {
+  ANIMATION = 'animation',
+  SFX = 'sfx',
+  VO = 'vo',
+}

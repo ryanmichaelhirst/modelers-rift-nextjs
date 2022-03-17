@@ -1,13 +1,15 @@
 import { AssetPlayer } from '@components/asset-player'
 import { AssetTable } from '@components/asset-table'
+import { BottomNavigation } from '@components/bottom-navigation'
 import { GlassCard } from '@components/glass-card'
 import { SkinCarousel } from '@components/skin-carousel'
 import { useAppContext } from '@context/index'
+import { AssetType } from '@customtypes/constants'
 import { useCharacterQuery } from '@graphql/generated/types'
-import { BarChartOutlined, HeadphonesOutlined, VideocamOutlined } from '@mui/icons-material'
-import { IconButton } from '@mui/material'
-import classNames from 'classnames'
-import { MouseEvent, useState } from 'react'
+import { useRouter } from 'next/router'
+import { MouseEvent } from 'react'
+import { AnimationPlayer } from './animation-player'
+import { AnimationTable } from './animation-table'
 
 const InteractiveCard = () => {
   const [{ selectedChampion }] = useAppContext()
@@ -19,13 +21,18 @@ const InteractiveCard = () => {
       includeAssets: true,
     },
   })
-  const [selectedIcon, setSelectedIcon] = useState('audio')
-
-  const sfx = data?.character?.assets?.filter((a) => ['sfx', 'vo'].includes(a?.type || ''))
-  console.log({ data, sfx, error })
+  const router = useRouter()
+  const filter = router.query.filter ? (router.query.filter as string | undefined) : 'audio'
+  const assets = data?.character?.assets?.filter((a) => {
+    return [AssetType.SFX, AssetType.VO].includes(a?.type as AssetType)
+  })
 
   const onIconClick = (e: MouseEvent<HTMLButtonElement>) => {
-    setSelectedIcon(e.currentTarget.value)
+    router.push({
+      query: {
+        filter: e.currentTarget.value,
+      },
+    })
   }
 
   return (
@@ -46,51 +53,24 @@ const InteractiveCard = () => {
           rounded={false}
         >
           <div className='flex-initial'>
-            <div className='text-[#FF6BD0] bg-[#FECFEF] inline-block px-4 py-1 rounded-xl text-sm font-semibold'>
-              Audios
+            <div className='text-[#FF6BD0] bg-[#FECFEF] inline-block px-4 py-1 rounded-xl text-sm font-semibold capitalize'>
+              {`${filter}s`}
             </div>
           </div>
           <div className='flex-grow mt-4 min-h-0 overflow-y-auto'>
-            <AssetTable data={sfx} />
+            {filter === 'audio' && <AssetTable data={assets} />}
+            {filter === 'animation' && <AnimationTable />}
           </div>
           <div className='flex-auto flex items-end'>
             <div className='flex-auto'>
-              <AssetPlayer assetType={'audio'} assets={sfx} placeholder={'Pick a sound'} />
+              {filter === 'audio' && <AssetPlayer assets={assets} />}
+              {filter === 'animation' && <AnimationPlayer />}
             </div>
           </div>
         </GlassCard>
         <div className='flex flex-[0_0_50px] items-center justify-start rounded-b-lg bg-white'>
           <div className='pl-4 py-3'>
-            <IconButton
-              className={classNames(
-                selectedIcon === 'audio' && 'bg-sunset-900 text-white hover:bg-sunset-900',
-              )}
-              value='audio'
-              onClick={onIconClick}
-              size='small'
-            >
-              <HeadphonesOutlined />
-            </IconButton>
-            <IconButton
-              className={classNames(
-                selectedIcon === 'animation' && 'bg-sunset-900 text-white hover:bg-sunset-900',
-              )}
-              value='animation'
-              onClick={onIconClick}
-              size='small'
-            >
-              <VideocamOutlined />
-            </IconButton>
-            <IconButton
-              className={classNames(
-                selectedIcon === 'analytics' && 'bg-sunset-900 text-white hover:bg-sunset-900',
-              )}
-              value='analytics'
-              onClick={onIconClick}
-              size='small'
-            >
-              <BarChartOutlined />
-            </IconButton>
+            <BottomNavigation onClick={onIconClick} selectedIcon={filter} />
           </div>
         </div>
       </div>

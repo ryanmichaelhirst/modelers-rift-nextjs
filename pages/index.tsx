@@ -1,6 +1,6 @@
-import NewDesign from '@components/featuresets/new-design'
+import Home from '@components/featuresets/home'
 import type { NextPage } from 'next'
 
-const Index: NextPage = () => <NewDesign />
+const Index: NextPage = () => <Home />
 
 export default Index

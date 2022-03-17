@@ -5,7 +5,7 @@ import {
   ContextDispatch,
   SET_ANIMATIONS,
   SET_CURRENT_ANIMATION,
-  SET_CURRENT_SOUND,
+  SET_CURRENT_AUDIO,
   SET_PLAY_ALL_ANIMATIONS,
   SET_SELECTED_CHAMPION,
   SET_SELECTED_SKIN,
@@ -77,10 +77,10 @@ export const reducer: Reducer<AppState, Action> = (state, action) => {
         ...state,
         animations: action.payload?.sort(),
       }
-    case SET_CURRENT_SOUND: {
+    case SET_CURRENT_AUDIO: {
       return {
         ...state,
-        currentSound: action.payload,
+        currentAudio: action.payload,
       }
     }
     case SET_PATCHES:

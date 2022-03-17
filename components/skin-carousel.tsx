@@ -5,6 +5,7 @@ import {
   ArrowForwardIosOutlined,
 } from '@mui/icons-material'
 import { capitalizeWord } from '@utils/index'
+import classNames from 'classnames'
 import { ButtonBack, ButtonNext, CarouselProvider, Slide, Slider } from 'pure-react-carousel'
 import 'pure-react-carousel/dist/react-carousel.es.css'
 import { useAppContext } from '../context'
@@ -24,7 +25,10 @@ export const SkinCarousel = () => {
     <div
       key={skin.id}
       title={skin?.name}
-      className='cursor-pointer h-full bg-cover rounded-lg mr-2'
+      className={classNames(
+        selectedChampion.skin !== `skin${skin?.num}` && 'opacity-30',
+        'cursor-pointer h-full bg-cover rounded-lg mr-2',
+      )}
       style={{
         backgroundImage: `url(${getSplashArtLink(championName, skin.num || 0)})`,
       }}
@@ -37,7 +41,8 @@ export const SkinCarousel = () => {
       <div
         title={`Add image suggestion`}
         key={num}
-        className='h-full flex items-center justify-center mr-2'
+        className='cursor-pointer h-full flex items-center justify-center mr-2'
+        onClick={onClick(num)}
       >
         <AddPhotoAlternate className='h-full w-1/2 text-white' />
       </div>

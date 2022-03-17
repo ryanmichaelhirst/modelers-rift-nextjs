@@ -169,7 +169,7 @@ export interface AppState {
   lolChampionsData: Record<string, any>
   lolItemsData: Record<string, Item>
   playAllAnimations?: boolean
-  currentSound?: string
+  currentAudio?: string
   currentAnimation?: string
   animations?: string[]
 }
@@ -183,7 +183,7 @@ export const SET_ITEMS = 'SET_LOL_ITEMS'
 export const SET_CURRENT_ANIMATION = 'SET_CURRENT_ANIMATION'
 export const SET_ANIMATIONS = 'SET_ANIMATIONS'
 export const SET_PLAY_ALL_ANIMATIONS = 'SET_PLAY_ALL_ANIMATIONS'
-export const SET_CURRENT_SOUND = 'SET_CURRENT_SOUND'
+export const SET_CURRENT_AUDIO = 'SET_CURRENT_AUDIO'
 
 export type Action =
   | {
@@ -223,7 +223,7 @@ export type Action =
       payload: boolean
     }
   | {
-      type: typeof SET_CURRENT_SOUND
+      type: typeof SET_CURRENT_AUDIO
       payload?: string
     }
 
