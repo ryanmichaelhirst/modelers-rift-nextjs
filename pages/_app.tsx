@@ -1,4 +1,5 @@
 import { ApolloProvider } from '@apollo/client'
+import ErrorBoundary from '@components/error-boundary'
 import { Layout } from '@components/layout'
 import { Theme } from '@components/theme'
 import { initialState, reducer, StoreProvider, useAppContext } from '@context/index'
@@ -13,7 +14,6 @@ import React, { FC, useEffect } from 'react'
 import { apolloClient } from '../lib/apollo'
 import '../styles/app.css'
 import '../styles/tailwind.css'
-import ErrorBoundary from './error-boundary'
 
 const AppWrapper: FC<{ children: React.ReactElement<any, any> | null }> = ({ children }) => {
   const [, dispatch] = useAppContext()
