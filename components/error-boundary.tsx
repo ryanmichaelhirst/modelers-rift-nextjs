@@ -1,4 +1,5 @@
 import { Component, ErrorInfo } from 'react'
+import { BugReport } from './featuresets/bug-report'
 
 class ErrorBoundary extends Component<{}, { hasError: boolean }> {
   constructor(props: {}) {
@@ -18,7 +19,7 @@ class ErrorBoundary extends Component<{}, { hasError: boolean }> {
   render() {
     if (this.state.hasError) {
       // You can render any custom fallback UI
-      return <h1>Something went wrong. Please file a bug report here</h1>
+      return <BugReport />
     }
 
     return this.props.children
