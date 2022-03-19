@@ -2,7 +2,6 @@
   "compilerOptions": {
     "skipLibCheck": true,
     "outDir": "./dist/",
-    "sourceMap": true,
     "noImplicitAny": false,
     "lib": ["es6", "dom", "es2017"],
     "target": "es5",
@@ -10,6 +9,15 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "downlevelIteration": true
-  }
+    "downlevelIteration": true,
+    "baseUrl": ".",
+    "paths": {
+      "@customtypes/*": ["types/*"],
+      "@lib/*": ["lib/*"],
+      "@graphql/*": ["graphql/*"],
+      "@utils/*": ["utils/*"]
+    }
+  },
+  "include": ["."],
+  "exclude": ["node_modules", "input", "output"]
 }
