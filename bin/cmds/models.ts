@@ -53,7 +53,8 @@ export const generateGlb = async () => {
 
 export const generateJsx = async () => {
   const inputDir = path.join(process.env.APP_HOME || '', 'output/glb_models')
-  const outputDir = path.join(process.env.APP_HOME || '', 'client/src/components/models')
+  const defaultJsxOut = 'components/models'
+  const outputDir = path.join(process.env.APP_HOME || '', defaultJsxOut)
   console.time('generate-jsx')
 
   try {
@@ -62,8 +63,8 @@ export const generateJsx = async () => {
     for (const champDir of champDirs) {
       const files = fs.readdirSync(`${inputDir}/${champDir}`)
 
-      if (!fs.existsSync(`client/src/components/models/${champDir}`)) {
-        fs.mkdirSync(`client/src/components/models/${champDir}`)
+      if (!fs.existsSync(`${defaultJsxOut}/${champDir}`)) {
+        fs.mkdirSync(`${defaultJsxOut}/${champDir}`)
       }
 
       for (const file of files) {
