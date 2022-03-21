@@ -1,7 +1,7 @@
-import { AnimatedModelProps } from '@customtypes/index'
-import { useAnimations, useGLTF } from '@react-three/drei'
-import React, { FC, memo, useEffect, useRef } from 'react'
 import * as THREE from 'three'
+import { useAnimationResult, AnimatedModelProps } from '@customtypes/index'
+import React, { FC, memo, useEffect, useRef } from 'react'
+import { useGLTF, useAnimations } from '@react-three/drei'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -172,16 +172,8 @@ const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => 
         <primitive object={nodes.Mask4} />
       </group>
       <group position={[-187.12, -35.93, -87.49]} scale={0.02}>
-        <skinnedMesh
-          geometry={nodes.mesh_0.geometry}
-          material={materials.Body}
-          skeleton={nodes.mesh_0.skeleton}
-        />
-        <skinnedMesh
-          geometry={nodes.mesh_0_1.geometry}
-          material={materials.Sword}
-          skeleton={nodes.mesh_0_1.skeleton}
-        />
+        <skinnedMesh geometry={nodes.mesh_0.geometry} material={materials.Body} skeleton={nodes.mesh_0.skeleton} />
+        <skinnedMesh geometry={nodes.mesh_0_1.geometry} material={materials.Sword} skeleton={nodes.mesh_0_1.skeleton} />
         <skinnedMesh
           geometry={nodes.mesh_0_2.geometry}
           material={materials.Shadow_Form}
