@@ -1,7 +1,7 @@
-import * as THREE from 'three'
-import { useAnimationResult, AnimatedModelProps } from '@customtypes/index'
+import { AnimatedModelProps } from '@customtypes/index'
+import { useAnimations, useGLTF } from '@react-three/drei'
 import React, { FC, memo, useEffect, useRef } from 'react'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -91,8 +91,16 @@ const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => 
         <primitive object={nodes.RecallFace} />
       </group>
       <group position={[-45.25, -16.29, -68.44]} scale={0.01}>
-        <skinnedMesh geometry={nodes.mesh_0.geometry} material={materials.Kled} skeleton={nodes.mesh_0.skeleton} />
-        <skinnedMesh geometry={nodes.mesh_0_1.geometry} material={materials.Frog} skeleton={nodes.mesh_0_1.skeleton} />
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Kled}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Frog}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
       </group>
     </group>
   )

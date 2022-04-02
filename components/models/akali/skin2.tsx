@@ -1,7 +1,7 @@
-import * as THREE from 'three'
-import { useAnimationResult, AnimatedModelProps } from '@customtypes/index'
+import { AnimatedModelProps } from '@customtypes/index'
+import { useAnimations, useGLTF } from '@react-three/drei'
 import React, { FC, memo, useEffect, useRef } from 'react'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -215,13 +215,21 @@ const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => 
         material={materials.kunai_hand}
         skeleton={nodes.mesh_0_4.skeleton}
       />
-      <skinnedMesh geometry={nodes.mesh_0_5.geometry} material={materials.recall} skeleton={nodes.mesh_0_5.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0_5.geometry}
+        material={materials.recall}
+        skeleton={nodes.mesh_0_5.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_6.geometry}
         material={materials.chopsticks}
         skeleton={nodes.mesh_0_6.skeleton}
       />
-      <skinnedMesh geometry={nodes.mesh_0_7.geometry} material={materials.ramen} skeleton={nodes.mesh_0_7.skeleton} />
+      <skinnedMesh
+        geometry={nodes.mesh_0_7.geometry}
+        material={materials.ramen}
+        skeleton={nodes.mesh_0_7.skeleton}
+      />
       <skinnedMesh
         geometry={nodes.mesh_0_8.geometry}
         material={materials.ramen_noodles}

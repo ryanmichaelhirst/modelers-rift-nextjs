@@ -1,7 +1,7 @@
-import * as THREE from 'three'
-import { useAnimationResult, AnimatedModelProps } from '@customtypes/index'
+import { AnimatedModelProps } from '@customtypes/index'
+import { useAnimations, useGLTF } from '@react-three/drei'
 import React, { FC, memo, useEffect, useRef } from 'react'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -86,8 +86,16 @@ const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => 
         <primitive object={nodes.F3_HoneyPotRoot} />
       </group>
       <group position={[-88.94, -0.02, -45.9]} scale={0.01}>
-        <skinnedMesh geometry={nodes.mesh_0.geometry} material={materials.Body} skeleton={nodes.mesh_0.skeleton} />
-        <skinnedMesh geometry={nodes.mesh_0_1.geometry} material={materials.Honey} skeleton={nodes.mesh_0_1.skeleton} />
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Body}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Honey}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
         <skinnedMesh
           geometry={nodes.mesh_0_2.geometry}
           material={materials.RecallHoney}
@@ -98,7 +106,11 @@ const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => 
           material={materials.HoneyPot}
           skeleton={nodes.mesh_0_3.skeleton}
         />
-        <skinnedMesh geometry={nodes.mesh_0_4.geometry} material={materials.Bee} skeleton={nodes.mesh_0_4.skeleton} />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.Bee}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
       </group>
     </group>
   )

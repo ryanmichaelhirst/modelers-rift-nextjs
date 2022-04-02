@@ -1,7 +1,7 @@
-import * as THREE from 'three'
-import { useAnimationResult, AnimatedModelProps } from '@customtypes/index'
+import { AnimatedModelProps } from '@customtypes/index'
+import { useAnimations, useGLTF } from '@react-three/drei'
 import React, { FC, memo, useEffect, useRef } from 'react'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -136,7 +136,11 @@ const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => 
         <primitive object={nodes.Parachute_Root} />
       </group>
       <group position={[-83.94, -49.55, -49.92]} scale={0.01}>
-        <skinnedMesh geometry={nodes.mesh_0.geometry} material={materials.Robot_Mat} skeleton={nodes.mesh_0.skeleton} />
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Robot_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
         <skinnedMesh
           geometry={nodes.mesh_0_1.geometry}
           material={materials.Head_Shield_Mat}

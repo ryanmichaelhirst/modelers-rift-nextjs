@@ -1,7 +1,7 @@
-import * as THREE from 'three'
-import { useAnimationResult, AnimatedModelProps } from '@customtypes/index'
+import { AnimatedModelProps } from '@customtypes/index'
+import { useAnimations, useGLTF } from '@react-three/drei'
 import React, { FC, memo, useEffect, useRef } from 'react'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -27,7 +27,11 @@ type GLTFResult = GLTF & {
   }
 }
 
-type ActionName = 'Idle1' | 'sruap_orderturret1_idle1.trueshot' | 'Destroyed' | 'sruap_orderturret1_idle1_seq.trueshot'
+type ActionName =
+  | 'Idle1'
+  | 'sruap_orderturret1_idle1.trueshot'
+  | 'Destroyed'
+  | 'sruap_orderturret1_idle1_seq.trueshot'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
 const areEqual = (prevProps: AnimatedModelProps, nextProps: AnimatedModelProps) => {
@@ -65,7 +69,11 @@ const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => 
         <primitive object={nodes.Buffbone_Glb_Channel_Loc} />
       </group>
       <group position={[-154.67, -481.33, -152.34]} scale={0.07}>
-        <skinnedMesh geometry={nodes.mesh_0.geometry} material={materials.Urf_Mat} skeleton={nodes.mesh_0.skeleton} />
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Urf_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
         <skinnedMesh
           geometry={nodes.mesh_0_1.geometry}
           material={materials.SRUAP_OrderTurret1_Mat}

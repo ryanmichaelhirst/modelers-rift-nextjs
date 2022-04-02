@@ -1,7 +1,7 @@
-import * as THREE from 'three'
-import { useAnimationResult, AnimatedModelProps } from '@customtypes/index'
+import { AnimatedModelProps } from '@customtypes/index'
+import { useAnimations, useGLTF } from '@react-three/drei'
 import React, { FC, memo, useEffect, useRef } from 'react'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -189,7 +189,11 @@ const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => 
         <primitive object={nodes.Cat_Root} />
       </group>
       <group position={[-124.5, -35.76, -87.28]} scale={0.02}>
-        <skinnedMesh geometry={nodes.mesh_0.geometry} material={materials.Body_Mat} skeleton={nodes.mesh_0.skeleton} />
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Body_Mat}
+          skeleton={nodes.mesh_0.skeleton}
+        />
         <skinnedMesh
           geometry={nodes.mesh_0_1.geometry}
           material={materials.Stage_Mat}
@@ -205,7 +209,11 @@ const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => 
           material={materials.Phone_MAT}
           skeleton={nodes.mesh_0_3.skeleton}
         />
-        <skinnedMesh geometry={nodes.mesh_0_4.geometry} material={materials.Cat02} skeleton={nodes.mesh_0_4.skeleton} />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.Cat02}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
       </group>
     </group>
   )

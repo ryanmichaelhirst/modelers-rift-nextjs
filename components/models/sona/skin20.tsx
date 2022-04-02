@@ -1,7 +1,7 @@
-import * as THREE from 'three'
-import { useAnimationResult, AnimatedModelProps } from '@customtypes/index'
+import { AnimatedModelProps } from '@customtypes/index'
+import { useAnimations, useGLTF } from '@react-three/drei'
 import React, { FC, memo, useEffect, useRef } from 'react'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -167,9 +167,21 @@ const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => 
           material={materials.Unbound}
           skeleton={nodes.mesh_0_2.skeleton}
         />
-        <skinnedMesh geometry={nodes.mesh_0_3.geometry} material={materials.Bound} skeleton={nodes.mesh_0_3.skeleton} />
-        <skinnedMesh geometry={nodes.mesh_0_4.geometry} material={materials.Joke} skeleton={nodes.mesh_0_4.skeleton} />
-        <skinnedMesh geometry={nodes.mesh_0_5.geometry} material={materials.Card} skeleton={nodes.mesh_0_5.skeleton} />
+        <skinnedMesh
+          geometry={nodes.mesh_0_3.geometry}
+          material={materials.Bound}
+          skeleton={nodes.mesh_0_3.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.Joke}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_5.geometry}
+          material={materials.Card}
+          skeleton={nodes.mesh_0_5.skeleton}
+        />
       </group>
     </group>
   )

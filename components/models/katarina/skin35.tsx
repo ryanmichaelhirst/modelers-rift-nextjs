@@ -1,7 +1,7 @@
-import * as THREE from 'three'
-import { useAnimationResult, AnimatedModelProps } from '@customtypes/index'
+import { AnimatedModelProps } from '@customtypes/index'
+import { useAnimations, useGLTF } from '@react-three/drei'
 import React, { FC, memo, useEffect, useRef } from 'react'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -162,31 +162,51 @@ const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => 
         <primitive object={nodes.Joke_Chair} />
       </group>
       <group position={[-66.5, -1.32, -467.57]} scale={0.05}>
-        <skinnedMesh geometry={nodes.mesh_0.geometry} material={materials.Gem1} skeleton={nodes.mesh_0.skeleton} />
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.Gem1}
+          skeleton={nodes.mesh_0.skeleton}
+        />
         <skinnedMesh
           geometry={nodes.mesh_0_1.geometry}
           material={materials.Blade1}
           skeleton={nodes.mesh_0_1.skeleton}
         />
-        <skinnedMesh geometry={nodes.mesh_0_2.geometry} material={materials.Gem2} skeleton={nodes.mesh_0_2.skeleton} />
+        <skinnedMesh
+          geometry={nodes.mesh_0_2.geometry}
+          material={materials.Gem2}
+          skeleton={nodes.mesh_0_2.skeleton}
+        />
         <skinnedMesh
           geometry={nodes.mesh_0_3.geometry}
           material={materials.Blade2}
           skeleton={nodes.mesh_0_3.skeleton}
         />
-        <skinnedMesh geometry={nodes.mesh_0_4.geometry} material={materials.Gem3} skeleton={nodes.mesh_0_4.skeleton} />
+        <skinnedMesh
+          geometry={nodes.mesh_0_4.geometry}
+          material={materials.Gem3}
+          skeleton={nodes.mesh_0_4.skeleton}
+        />
         <skinnedMesh
           geometry={nodes.mesh_0_5.geometry}
           material={materials.Blade3}
           skeleton={nodes.mesh_0_5.skeleton}
         />
-        <skinnedMesh geometry={nodes.mesh_0_6.geometry} material={materials.Gem4} skeleton={nodes.mesh_0_6.skeleton} />
+        <skinnedMesh
+          geometry={nodes.mesh_0_6.geometry}
+          material={materials.Gem4}
+          skeleton={nodes.mesh_0_6.skeleton}
+        />
         <skinnedMesh
           geometry={nodes.mesh_0_7.geometry}
           material={materials.Blade4}
           skeleton={nodes.mesh_0_7.skeleton}
         />
-        <skinnedMesh geometry={nodes.mesh_0_8.geometry} material={materials.Gem5} skeleton={nodes.mesh_0_8.skeleton} />
+        <skinnedMesh
+          geometry={nodes.mesh_0_8.geometry}
+          material={materials.Gem5}
+          skeleton={nodes.mesh_0_8.skeleton}
+        />
         <skinnedMesh
           geometry={nodes.mesh_0_9.geometry}
           material={materials.Blade5}

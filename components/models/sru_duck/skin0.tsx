@@ -1,7 +1,7 @@
-import * as THREE from 'three'
-import { useAnimationResult, AnimatedModelProps } from '@customtypes/index'
+import { AnimatedModelProps } from '@customtypes/index'
+import { useAnimations, useGLTF } from '@react-three/drei'
 import React, { FC, memo, useEffect, useRef } from 'react'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -14,7 +14,14 @@ type GLTFResult = GLTF & {
   }
 }
 
-type ActionName = 'Idle' | 'Idle2' | 'Idle3' | 'Idle4' | 'sru_duck_idleflyright' | 'Destroy' | 'Spawn'
+type ActionName =
+  | 'Idle'
+  | 'Idle2'
+  | 'Idle3'
+  | 'Idle4'
+  | 'sru_duck_idleflyright'
+  | 'Destroy'
+  | 'Spawn'
 type GLTFActions = Record<ActionName, THREE.AnimationAction>
 
 const areEqual = (prevProps: AnimatedModelProps, nextProps: AnimatedModelProps) => {

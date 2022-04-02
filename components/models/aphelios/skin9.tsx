@@ -1,7 +1,7 @@
-import * as THREE from 'three'
-import { useAnimationResult, AnimatedModelProps } from '@customtypes/index'
+import { AnimatedModelProps } from '@customtypes/index'
+import { useAnimations, useGLTF } from '@react-three/drei'
 import React, { FC, memo, useEffect, useRef } from 'react'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
 
 type GLTFResult = GLTF & {
@@ -238,8 +238,16 @@ const Model: FC<AnimatedModelProps> = memo(({ glbUrl, onSetAnimationMixer }) => 
         <primitive object={nodes.LunarBeast_WeaponBall} />
       </group>
       <group position={[-66.77, -154.86, -112.25]} scale={0.02}>
-        <skinnedMesh geometry={nodes.mesh_0.geometry} material={materials.calibrum} skeleton={nodes.mesh_0.skeleton} />
-        <skinnedMesh geometry={nodes.mesh_0_1.geometry} material={materials.Body} skeleton={nodes.mesh_0_1.skeleton} />
+        <skinnedMesh
+          geometry={nodes.mesh_0.geometry}
+          material={materials.calibrum}
+          skeleton={nodes.mesh_0.skeleton}
+        />
+        <skinnedMesh
+          geometry={nodes.mesh_0_1.geometry}
+          material={materials.Body}
+          skeleton={nodes.mesh_0_1.skeleton}
+        />
         <skinnedMesh
           geometry={nodes.mesh_0_2.geometry}
           material={materials.flower}
