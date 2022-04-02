@@ -1,4 +1,3 @@
 /node_modules
 /dist
-client/src/assets/**/*
-graphql/generated/**/*
+components/models/**/*
