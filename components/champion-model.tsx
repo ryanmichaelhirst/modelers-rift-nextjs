@@ -10,7 +10,7 @@ import { Canvas } from '@react-three/fiber'
 import { FC, lazy, memo, Suspense, useEffect, useMemo, useState } from 'react'
 import { useAppContext } from '../context'
 
-export const ChampionModelContainer: FC<{ canvasHeight?: number }> = ({ canvasHeight }) => {
+export const ChampionModel: FC<{ canvasHeight?: number }> = ({ canvasHeight }) => {
   // React.useContext() does not work inside of suspense, so context is hoisted here
   const [{ selectedChampion, currentAnimation, playAllAnimations }, dispatch] = useAppContext()
   const [animationMixer, setAnimationMixer] = useState<useAnimationResult>()
@@ -143,5 +143,3 @@ const CanvasContainer: FC<{
     return false
   },
 )
-
-export default ChampionModelContainer
