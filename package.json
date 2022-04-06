@@ -5,8 +5,8 @@
   "main": "client/src/index.tsx",
   "scripts": {
     "dev": "next dev",
-    "analyze": "export NODE_OPTIONS=--max-old-space-size=8000 ANALYZE=true && next build",
-    "build": "export NODE_OPTIONS=--max-old-space-size=8000 && next build",
+    "analyze": "ANALYZE=true && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint . --ext ts --ext tsx --fix",
     "bin": "ts-node --project tsconfig.node.json -r tsconfig-paths/register bin/index",
