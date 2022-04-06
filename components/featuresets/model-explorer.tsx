@@ -1,5 +1,5 @@
-import { ChampionModel } from '@components/champion-model'
 import InteractiveCard from '@components/interactive-card'
+import { ModelChampion } from '@components/model-champion'
 
 export const ModelExplorer = () => {
   return (
@@ -8,7 +8,7 @@ export const ModelExplorer = () => {
         <InteractiveCard />
       </div>
       <div className='flex-auto'>
-        <ChampionModel />
+        <ModelChampion />
       </div>
     </div>
   )
