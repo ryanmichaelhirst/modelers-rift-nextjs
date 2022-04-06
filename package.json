@@ -5,7 +5,7 @@
   "main": "client/src/index.tsx",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "export NODE_OPTIONS=--max-old-space-size=8000 && next build",
     "start": "next start",
     "lint": "eslint . --ext ts --ext tsx --fix",
     "vite-dev": "concurrently \"npm run app\" \"npm run server\"",
@@ -58,6 +58,8 @@
     "@graphql-codegen/typescript-react-apollo": "^3.2.4",
     "@graphql-codegen/typescript-resolvers": "^2.4.3",
     "@leafac/sqlite": "^1.5.0",
+    "@next/bundle-analyzer": "^12.1.4",
+    "@next/eslint-plugin-next": "^12.1.4",
     "@prisma/client": "^3.9.2",
     "@types/cors": "^2.8.12",
     "@types/graphql": "^14.5.0",

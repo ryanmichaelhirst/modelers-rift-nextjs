@@ -1,9 +1,9 @@
-module.exports = {
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+
+module.exports = withBundleAnalyzer({
   eslint: {
-    // TODO: fix eslint errors
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    // ignoreDuringBuilds: true,
     dirs: ['components', 'pages', 'lib', 'utils'],
   },
   typescript: {
@@ -14,4 +14,4 @@ module.exports = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
-}
+})

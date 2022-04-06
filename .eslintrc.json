@@ -1,6 +1,6 @@
 {
   "root": true,
-  "extends": ["prettier", "plugin:markdown/recommended"],
+  "extends": ["prettier", "plugin:markdown/recommended", "plugin:@next/next/recommended"],
   "plugins": ["@typescript-eslint", "prettier"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
