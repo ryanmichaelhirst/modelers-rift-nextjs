@@ -8,7 +8,6 @@ import {
 } from '@graphql/resolvers'
 import { typeDefs } from '@graphql/typedefs/index'
 import { createGraphqlContext } from '@lib/graphql'
-import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import { ApolloServer } from 'apollo-server-micro'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { PageConfig } from 'next'
@@ -27,7 +26,6 @@ const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   context: createGraphqlContext,
-  plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
 })
 const startServer = apolloServer.start()
 
