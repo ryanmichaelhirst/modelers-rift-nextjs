@@ -61,11 +61,12 @@ export const updateCharacter = async ({
   id: number
   data?: Record<string, unknown>
 }) => {
+  if (!data) return
+
   await prisma.character.update({
     where: {
       id,
     },
-    // TODO: fix this
     data,
   })
 }
