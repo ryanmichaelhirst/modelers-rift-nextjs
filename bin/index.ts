@@ -2,7 +2,15 @@ import dotenv from 'dotenv'
 import path from 'path'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
-import { createDb, generateGlb, generateJsx, generateSounds, seedDb, wipeDb } from './cmds'
+import {
+  createDb,
+  generateGlb,
+  generateJsx,
+  generateSounds,
+  publishSchema,
+  seedDb,
+  wipeDb,
+} from './cmds'
 
 dotenv.config()
 
@@ -62,6 +70,9 @@ const run = async () => {
       if (!file) throw new Error('command requires file (-f) flag')
       const fn = require(path.join(__dirname, './jobs', file)).default
       await fn()
+      break
+    case 'publish-schema':
+      publishSchema()
       break
     default:
       throw new Error('command not recognized')
