@@ -29,6 +29,7 @@ const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   context: createGraphqlContext,
+  introspection: true,
   plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
 })
 const startServer = apolloServer.start()
