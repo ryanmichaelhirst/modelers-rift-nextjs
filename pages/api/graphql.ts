@@ -33,18 +33,7 @@ const apolloServer = new ApolloServer({
 })
 const startServer = apolloServer.start()
 
-export default cors(async (req: any, res: any) => {
-  if (req.method === 'OPTIONS') {
-    res.end()
-
-    return false
-  }
-
-  await startServer
-  await apolloServer.createHandler({
-    path: '/api/graphql',
-  })(req, res)
-})
+const handler = apolloServer.createHandler({ path: '/api/graphql' })
 
 // // Apollo Server Micro takes care of body parsing
 export const config: PageConfig = {
@@ -52,3 +41,5 @@ export const config: PageConfig = {
     bodyParser: false,
   },
 }
+
+export default cors(handler)
