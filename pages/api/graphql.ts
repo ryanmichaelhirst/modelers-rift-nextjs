@@ -31,7 +31,6 @@ const apolloServer = new ApolloServer({
   resolvers,
   context: createGraphqlContext,
 })
-const startServer = apolloServer.start()
 
 const handler = apolloServer.createHandler({ path: '/api/graphql' })
 
