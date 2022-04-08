@@ -9,7 +9,7 @@ import {
 import { typeDefs } from '@graphql/typedefs/index'
 import { createGraphqlContext } from '@lib/graphql'
 import { ApolloServer } from 'apollo-server-micro'
-import type { NextApiRequest, NextApiResponse } from 'next'
+import Cors from 'micro-cors'
 import { PageConfig } from 'next'
 
 const resolvers: Resolvers = {
@@ -22,6 +22,10 @@ const resolvers: Resolvers = {
   },
 }
 
+const cors = Cors({
+  allowMethods: ['GET', 'POST', 'OPTIONS'],
+})
+
 const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
@@ -29,12 +33,18 @@ const apolloServer = new ApolloServer({
 })
 const startServer = apolloServer.start()
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default cors(async (req: any, res: any) => {
+  if (req.method === 'OPTIONS') {
+    res.end()
+
+    return false
+  }
+
   await startServer
   await apolloServer.createHandler({
     path: '/api/graphql',
   })(req, res)
-}
+})
 
 // // Apollo Server Micro takes care of body parsing
 export const config: PageConfig = {
