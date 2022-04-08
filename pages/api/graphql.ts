@@ -8,10 +8,7 @@ import {
 } from '@graphql/resolvers'
 import { typeDefs } from '@graphql/typedefs/index'
 import { createGraphqlContext } from '@lib/graphql'
-import {
-  ApolloServerPluginLandingPageGraphQLPlayground,
-  ApolloServerPluginLandingPageLocalDefault,
-} from 'apollo-server-core'
+import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core'
 import { ApolloServer } from 'apollo-server-micro'
 import Cors from 'micro-cors'
 import { PageConfig } from 'next'
@@ -32,10 +29,7 @@ const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   context: createGraphqlContext,
-  plugins: [
-    ApolloServerPluginLandingPageGraphQLPlayground(),
-    ApolloServerPluginLandingPageLocalDefault({ footer: false }),
-  ],
+  plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
 })
 const startServer = apolloServer.start()
 
