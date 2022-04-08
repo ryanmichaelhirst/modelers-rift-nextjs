@@ -1,8 +1,5 @@
 "Exposes a URL that specifies the behaviour of this scalar."
-directive @specifiedBy(
-  "The URL that specifies the behaviour of this scalar."
-  url: String!
-) on SCALAR
+directive @specifiedBy("The URL that specifies the behaviour of this scalar." url: String!) on SCALAR
 input CharactersFilter {
   nameCnt: String
   nameEq: String
@@ -59,12 +56,7 @@ type Job {
 }
 type Query {
   users(filter: UsersFilter): [User]
-  characters(
-    filter: CharactersFilter
-    page: Int
-    pageSize: Int
-    includeAssets: Boolean
-  ): CharacterCollection
+  characters(filter: CharactersFilter, page: Int, pageSize: Int, includeAssets: Boolean): CharacterCollection
   character(filter: CharactersFilter, includeAssets: Boolean): Character
   assets(filter: AssetsFilter): [Asset]
   jobs: [Job]
