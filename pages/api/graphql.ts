@@ -8,6 +8,10 @@ import {
 } from '@graphql/resolvers'
 import { typeDefs } from '@graphql/typedefs/index'
 import { createGraphqlContext } from '@lib/graphql'
+import {
+  ApolloServerPluginLandingPageGraphQLPlayground,
+  ApolloServerPluginLandingPageLocalDefault,
+} from 'apollo-server-core'
 import { ApolloServer } from 'apollo-server-micro'
 import Cors from 'micro-cors'
 import { PageConfig } from 'next'
@@ -28,13 +32,18 @@ const apolloServer = new ApolloServer({
   typeDefs,
   resolvers,
   context: createGraphqlContext,
+  plugins: [
+    ApolloServerPluginLandingPageGraphQLPlayground(),
+    ApolloServerPluginLandingPageLocalDefault({ footer: false }),
+  ],
 })
 const startServer = apolloServer.start()
 
 export default cors(async (req: any, res: any) => {
   res.setHeader('Access-Control-Allow-Origin', '*')
-  // res.setHeader('Access-Control-Allow-Credentials', 'true')
-  // res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  res.setHeader('Access-Control-Allow-Credentials', 'true')
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+
   if (req.method === 'OPTIONS') {
     res.end()
 
