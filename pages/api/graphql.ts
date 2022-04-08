@@ -22,9 +22,7 @@ const resolvers: Resolvers = {
   },
 }
 
-const cors = Cors({
-  allowMethods: ['GET', 'POST', 'OPTIONS'],
-})
+const cors = Cors()
 
 const apolloServer = new ApolloServer({
   typeDefs,
