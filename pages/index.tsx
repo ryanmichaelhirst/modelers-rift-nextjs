@@ -1,6 +1,6 @@
-import { ModelExplorer } from '@components/featuresets/model-explorer'
+import { Home } from '@components/featuresets/home'
 import type { NextPage } from 'next'
 
-const Index: NextPage = () => <ModelExplorer />
+const Index: NextPage = () => <Home />
 
 export default Index

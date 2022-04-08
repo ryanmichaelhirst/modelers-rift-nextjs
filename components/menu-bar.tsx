@@ -27,7 +27,7 @@ export const MenuBar: FC = () => {
               Modeler's Rift
             </p>
             <div>
-              {['Models', 'Interactive', 'Item Builder'].map((item) => (
+              {['Models'].map((item) => (
                 <Button
                   onClick={() => router.push(`/${item.replace(' ', '_').toLowerCase()}`)}
                   key={item}
