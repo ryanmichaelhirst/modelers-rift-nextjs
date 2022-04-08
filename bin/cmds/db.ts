@@ -1,12 +1,12 @@
 import { PutObjectCommand } from '@aws-sdk/client-s3'
 import { Database } from '@leafac/sqlite'
+import { BUCKET_NAME, s3 } from '@lib/s3'
 import { createAssets, deleteAllTableData } from '@utils/prisma'
 import { execSync } from 'child_process'
 import { format } from 'date-fns'
 import fs from 'fs'
 import PQueue from 'p-queue'
 import path from 'path'
-import { BUCKET_NAME, s3 } from '../../server/aws'
 import { logToFile } from '../utils/job-helpers'
 import { soundTypes } from './sounds'
 

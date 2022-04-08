@@ -1,4 +1,4 @@
-import { prisma } from '@utils/prisma'
+import prisma from '@lib/prisma'
 
 // @ts-ignore
 export const CharactersResolver = async (parent, args, ctx) => {

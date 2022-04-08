@@ -1,4 +1,4 @@
-import { prisma } from '@utils/prisma'
+import prisma from '@lib/prisma'
 import { format } from 'date-fns'
 import fs from 'fs'
 import { getAudioDurationInSeconds } from 'get-audio-duration'

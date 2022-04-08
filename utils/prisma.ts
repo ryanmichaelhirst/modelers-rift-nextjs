@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import prisma from '@lib/prisma'
 import { determineType } from '@utils/index'
 
 export interface Asset {
@@ -7,10 +7,6 @@ export interface Asset {
   skin: string
   path: string
 }
-
-export const prisma = new PrismaClient({
-  rejectOnNotFound: false,
-})
 
 const findOrCreateCharacter = async (name: string) => {
   let character = await prisma.character.findFirst({

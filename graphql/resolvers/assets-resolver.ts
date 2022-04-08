@@ -1,4 +1,4 @@
-import { prisma } from '@utils/prisma'
+import prisma from '@lib/prisma'
 
 // TODO: type these resolvers
 // @ts-ignore
