@@ -4,13 +4,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        gum: {
-          100: 'rgba(255, 255, 255, 0.3)',
-          200: 'rgb(135, 115, 180)',
-          300: 'rgba(135, 115, 180, 0.10)',
-          400: 'rgb(232, 115, 147)',
-          500: '#878DD9',
-        },
+        primary: '#D886FF',
+        secondary: '#4E2860',
+        tertiary: '#08090A',
         sunset: {
           100: '#FECFEF',
           300: '#FC5B6A',

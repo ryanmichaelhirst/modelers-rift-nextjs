@@ -1,5 +1,11 @@
 "Exposes a URL that specifies the behaviour of this scalar."
 directive @specifiedBy("The URL that specifies the behaviour of this scalar." url: String!) on SCALAR
+type Metadata {
+  totalCount: Int
+  totalPages: Int
+  currentPage: Int
+  pageSize: Int
+}
 input CharactersFilter {
   nameCnt: String
   nameEq: String
@@ -11,12 +17,6 @@ type Character {
   name: String
   displayName: String
   assets: [Asset]
-}
-type Metadata {
-  totalCount: Int
-  totalPages: Int
-  currentPage: Int
-  pageSize: Int
 }
 type CharacterCollection {
   collection: [Character]
@@ -34,10 +34,9 @@ type User {
   name: String
 }
 input AssetsFilter {
-  nameCnt: String
   typeEq: String
   typeIncludes: [String]
-  characterName: String
+  pathIncludes: [String]
 }
 type Asset {
   id: ID
@@ -51,6 +50,10 @@ type Asset {
 }
 "The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point)."
 scalar Float
+type AssetsCollection {
+  collection: [Asset]
+  metadata: Metadata
+}
 type Job {
   name: String
 }
@@ -58,6 +61,6 @@ type Query {
   users(filter: UsersFilter): [User]
   characters(filter: CharactersFilter, page: Int, pageSize: Int, includeAssets: Boolean): CharacterCollection
   character(filter: CharactersFilter, includeAssets: Boolean): Character
-  assets(filter: AssetsFilter): [Asset]
+  assets(filter: AssetsFilter, page: Int, pageSize: Int): AssetsCollection
   jobs: [Job]
 }

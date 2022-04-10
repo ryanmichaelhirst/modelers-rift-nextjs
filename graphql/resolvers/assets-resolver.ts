@@ -3,41 +3,48 @@ import prisma from '@lib/prisma'
 // TODO: type these resolvers
 // @ts-ignore
 export const AssetsResolver = async (parent, args, ctx) => {
-  // get characterId by character name
-  const character = await prisma.character.findFirst({
-    where: {
-      name: args.filter.characterName.toLowerCase(),
-    },
-  })
-  const interactions = ['ornn']
-  const search = interactions.reduce((acc, cur) => {
-    if (acc === '') return cur
-    acc += ` | ${cur}`
+  const page = args?.page ?? 1
+  const pageSize = args?.pageSize ?? 10
+  const skip = (page - 1) * pageSize
+  const take = pageSize
+  const where = args?.filter
+    ? {
+        type: {
+          in: args?.filter?.typeIncludes,
+          equals: args?.filter?.typeEq,
+        },
+        path: {
+          in: args?.filter?.pathIncludes,
+        },
+      }
+    : {}
 
-    return acc
-  }, '')
-
-  return prisma.asset.findMany({
-    where: {
-      // name: {
-      //   search: 'ornn',
-      // },
-      type: {
-        in: args?.filter?.typeIncludes || [],
+  const [assets, totalCount] = await prisma.$transaction([
+    prisma.asset.findMany({
+      skip,
+      take,
+      where,
+      include: {
+        character: true,
       },
-      characterId: character?.id,
+      orderBy: {
+        name: 'asc',
+      },
+    }),
+    prisma.asset.count({
+      where,
+    }),
+  ])
+
+  return {
+    collection: assets,
+    metadata: {
+      totalCount,
+      totalPages: Math.ceil(totalCount / pageSize),
+      currentPage: page,
+      pageSize,
     },
-    select: {
-      id: true,
-      character: true,
-      characterId: true,
-      type: true,
-      name: true,
-      skin: true,
-      path: true,
-      duration: true,
-    },
-  })
+  }
 }
 
 export default AssetsResolver

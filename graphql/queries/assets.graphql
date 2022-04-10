@@ -1,11 +1,16 @@
-query Assets($filter: AssetsFilter) {
-  assets(filter: $filter) {
-    id
-    characterId
-    type
-    name
-    skin
-    path
-    duration
+query Assets($filter: AssetsFilter, $page: Int, $pageSize: Int) {
+  assets(filter: $filter, page: $page, pageSize: $pageSize) {
+    collection {
+      id
+      character {
+        name
+      }
+      characterId
+      type
+      name
+      skin
+      path
+      duration
+    }
   }
 }

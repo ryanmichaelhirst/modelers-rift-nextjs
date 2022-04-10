@@ -1,6 +1,13 @@
 import { gql } from 'apollo-server-micro'
 
 export const typeDefs = gql`
+  type Metadata {
+    totalCount: Int
+    totalPages: Int
+    currentPage: Int
+    pageSize: Int
+  }
+
   input CharactersFilter {
     nameCnt: String
     nameEq: String
@@ -13,13 +20,6 @@ export const typeDefs = gql`
     name: String
     displayName: String
     assets: [Asset]
-  }
-
-  type Metadata {
-    totalCount: Int
-    totalPages: Int
-    currentPage: Int
-    pageSize: Int
   }
 
   type CharacterCollection {
@@ -41,10 +41,9 @@ export const typeDefs = gql`
   }
 
   input AssetsFilter {
-    nameCnt: String
     typeEq: String
     typeIncludes: [String]
-    characterName: String
+    pathIncludes: [String]
   }
 
   type Asset {
@@ -56,6 +55,11 @@ export const typeDefs = gql`
     skin: String
     path: String
     duration: Float
+  }
+
+  type AssetsCollection {
+    collection: [Asset]
+    metadata: Metadata
   }
 
   type Job {
@@ -71,7 +75,7 @@ export const typeDefs = gql`
       includeAssets: Boolean
     ): CharacterCollection
     character(filter: CharactersFilter, includeAssets: Boolean): Character
-    assets(filter: AssetsFilter): [Asset]
+    assets(filter: AssetsFilter, page: Int, pageSize: Int): AssetsCollection
     jobs: [Job]
   }
 `

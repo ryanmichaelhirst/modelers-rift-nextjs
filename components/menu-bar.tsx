@@ -44,7 +44,7 @@ export const MenuBar: FC = () => {
           <div className='flex items-center'>
             <Button
               classes={{
-                root: 'font-nunito font-bold text-white bg-sunset-300 px-7 py-2 rounded-xl',
+                root: 'font-nunito font-bold text-primary',
               }}
               text={'Support on Patreon'}
             />

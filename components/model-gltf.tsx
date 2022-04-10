@@ -9,14 +9,16 @@ export const ModelGltf = ({
   onSetAnimationMixer,
 }: {
   url: string
-  onSetAnimationMixer: ({ mixer, names, actions, clips }: useAnimationResult) => void
+  onSetAnimationMixer?: ({ mixer, names, actions, clips }: useAnimationResult) => void
 }) => {
   const ref = useRef()
   const model = useLoader(GLTFLoader, url)
   const { mixer, names, actions, clips } = useAnimations(model.animations, ref)
 
   useEffect(() => {
-    onSetAnimationMixer({ mixer, names, actions, clips })
+    if (onSetAnimationMixer) {
+      onSetAnimationMixer({ mixer, names, actions, clips })
+    }
   }, [])
 
   return (

@@ -9,6 +9,6 @@ export const Layout: FC<{}> = ({ children }) => (
     <div className='flex-intial'>
       <MenuBar />
     </div>
-    <div className='flex-grow min-h-0 m-6'>{children}</div>
+    <div className='flex-grow min-h-0 mx-20'>{children}</div>
   </div>
 )
