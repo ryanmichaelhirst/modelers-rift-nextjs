@@ -1,6 +1,7 @@
 import { PutObjectCommand } from '@aws-sdk/client-s3'
 import { Database } from '@leafac/sqlite'
 import { BUCKET_NAME, s3 } from '@lib/s3'
+import type { Asset } from '@utils/prisma'
 import { createAssets, deleteAllTableData } from '@utils/prisma'
 import { execSync } from 'child_process'
 import { format } from 'date-fns'
@@ -55,18 +56,16 @@ const uploadModels = async () => {
   const logFile = `logs/upload_models_${timestamp}.txt`
 
   for (const champDir of champDirs) {
-    if (champDir !== 'aatrox') continue
-
     queue.add(async () => {
       // upload to s3
       const files = await fs.promises.readdir(`${inputDir}/${champDir}`)
-      const assets = []
+      const assets: Asset[] = []
 
       for (let ii = 0; ii < files.length; ii++) {
         const file = files[ii]
         const filePath = `${inputDir}/${champDir}/${file}`
         const fileName = path.basename(filePath, '.glb')
-        const key = `${champDir}/model/${fileName}/default.glb`
+        const key = `${champDir}/model/${fileName}.glb`
 
         const data = await fs.promises.readFile(filePath)
 
@@ -84,13 +83,12 @@ const uploadModels = async () => {
             skin: fileName,
             path: key,
           })
-          logToFile({ log: `${fileName}:${key}`, filePath: logFile })
+          logToFile({ log: `successfully uploaded s3 object with key: ${key}`, filePath: logFile })
         } catch (uploadErr) {
           console.error(uploadErr)
         }
       }
 
-      // @ts-ignore
       // add to postgres
       await createAssets({ characterName: champDir, assets })
     })
@@ -107,8 +105,6 @@ const uploadSounds = async () => {
   const champDirs = await fs.promises.readdir(inputDir)
 
   for (const champDir of champDirs) {
-    if (champDir !== 'aatrox') continue
-
     for (const soundType of soundTypes) {
       queue.add(async () => {
         // upload to s3
