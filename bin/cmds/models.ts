@@ -7,7 +7,7 @@ const queue = new PQueue({ concurrency: 30 })
 
 // TODO: update this to follow other pattern in cmds
 export const generateGlb = async () => {
-  const inputDir = path.join(process.env.APP_HOME || '', 'input/gltf_models')
+  const inputDir = path.join(process.env.APP_HOME || '', 'input/export')
   const outputDir = path.join(process.env.APP_HOME || '', 'output/glb_models')
 
   console.time('generate-glb')
@@ -49,53 +49,4 @@ export const generateGlb = async () => {
   await queue.onIdle()
 
   console.timeEnd('generate-glb')
-}
-
-export const generateJsx = async () => {
-  const inputDir = path.join(process.env.APP_HOME || '', 'output/glb_models')
-  const defaultJsxOut = 'components/models'
-  const outputDir = path.join(process.env.APP_HOME || '', defaultJsxOut)
-  console.time('generate-jsx')
-
-  try {
-    const champDirs = fs.readdirSync(inputDir)
-
-    for (const champDir of champDirs) {
-      const files = fs.readdirSync(`${inputDir}/${champDir}`)
-
-      if (!fs.existsSync(`${defaultJsxOut}/${champDir}`)) {
-        fs.mkdirSync(`${defaultJsxOut}/${champDir}`)
-      }
-
-      for (const file of files) {
-        const jsxFile = file.replace('glb', 'tsx')
-
-        queue.add(async () => {
-          await new Promise<void>((resolve) => {
-            exec(`npx gltfjsx ${inputDir}/${champDir}/${file} -t`, async (err, stdout, stderr) => {
-              console.log(`gltfjsx ${inputDir}/${champDir}/${file} -t > ${jsxFile}`)
-              console.log(stdout)
-              exec(
-                `mv ${jsxFile} ${outputDir}/${champDir}/${jsxFile}`,
-                async (err, stdout, stderr) => {
-                  console.log(`mv ${jsxFile} ${outputDir}/${champDir}/${jsxFile} `)
-                  resolve()
-                },
-              )
-            })
-          })
-        })
-
-        // pause when queue gets large
-        if (queue.size >= 100) await new Promise((resolve) => setTimeout(resolve, 100))
-      }
-
-      // wait until queue empties before next champ dir
-      await queue.onIdle()
-    }
-  } catch (err) {
-    throw new Error(`Could not read directory @ ${inputDir}`)
-  }
-
-  console.timeEnd('generate-jsx')
 }

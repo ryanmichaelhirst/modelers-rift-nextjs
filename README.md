@@ -9,23 +9,20 @@ If you would like to use `npm run bin -- -c={some-command}` you will need to cre
 You will need to extract all champion wad files using LeagueBulkConvert for 3D models (gltf / glb files).
 You will need to extract all champion wad files using Obsidian for voice lines and sound effects (ogg / wav files).
 
-### Bulk Generate GLTF Models
+### Extracting Champion Models
 
-https://github.com/Jochem-W/LeagueBulkConvert
+1. Download League Bulk Converter
+   https://github.com/Jochem-W/LeagueBulkConvert
 
-### Convert GLTF -> GLB
+## Setting up the /input directory (.gltf files)
 
-Will create output/glb_models/aatrox.glb
-`npm run bin -- -c=generate-glb`
+2. Install and run the converter
+3. Move the extracted files to /input
 
-### Convert GLB -> React Fiber JSX
+## Generating the /output directory (.glb files)
 
-https://gltf.pmnd.rs/
-
-https://stackoverflow.com/questions/58960077/how-to-check-if-a-strongly-typed-object-contains-a-given-key-in-typescript-witho
-
-Will create components/models/aatrox/skin0.tsx
-`npm run bin -- -c=generate-jsx`
+4. Run `npm run bin -- -c=generate-glb`
+5. Verify that the glb files have been uploaded to your S3 bucket
 
 ### Bulk Generate BNK files
 

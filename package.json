@@ -9,7 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --ext ts --ext tsx --fix",
-    "bin": "ts-node --project tsconfig.node.json -r tsconfig-paths/register bin/index",
+    "bin": "ts-node -r dotenv/config --project tsconfig.node.json -r tsconfig-paths/register bin/index",
     "introspect": "rover graph introspect http://localhost:3000/api/graphql > graphql/generated/schema.graphql",
     "generate": "graphql-codegen --config codegen.yml",
     "prettier": "npx prettier --write client server bin"

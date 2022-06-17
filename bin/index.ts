@@ -2,15 +2,7 @@ import dotenv from 'dotenv'
 import path from 'path'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
-import {
-  createDb,
-  generateGlb,
-  generateJsx,
-  generateSounds,
-  publishSchema,
-  seedDb,
-  wipeDb,
-} from './cmds'
+import { createDb, generateGlb, generateSounds, publishSchema, seedDb, wipeDb } from './cmds'
 
 dotenv.config()
 
@@ -59,9 +51,6 @@ const run = async () => {
       break
     case 'generate-glb':
       generateGlb()
-      break
-    case 'generate-jsx':
-      generateJsx()
       break
     case 'generate-sounds':
       generateSounds({ input, output, region })
