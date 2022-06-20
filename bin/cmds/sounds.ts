@@ -6,7 +6,7 @@ import path from 'path'
 type Sound = 'sfx' | 'vo'
 
 export const soundTypes = ['sfx', 'vo'] as Sound[]
-const queue = new PQueue({ concurrency: 50 })
+const queue = new PQueue({ concurrency: 10 })
 
 const extractBnkContent = async ({
   inputDir,
@@ -25,71 +25,69 @@ const extractBnkContent = async ({
       ? path.join(inputDir, `assets/sounds/wwise2016/${soundType}/characters`)
       : path.join(inputDir, `assets/sounds/wwise2016/${soundType}/${region}/characters`)
 
-  const champDirs = fs.readdirSync(champDirPath)
-
-  for (let ii = 0; ii < champDirs.length; ii++) {
+  const champDirs = await fs.promises.readdir(champDirPath)
+  for (const cdir of champDirs) {
     queue.add(async () => {
-      const cdir = champDirs[ii]
+      await new Promise<void>(async (resolve) => {
+        // find all skin folders for each champion
+        const skinDirPath = path.join(champDirPath, cdir, 'skins')
+        const skinDirs = await fs.promises.readdir(skinDirPath)
 
-      // find all skin folders for each champion
-      const skinDirPath = path.join(champDirPath, cdir, 'skins')
+        for (const sdir of skinDirs) {
+          // get all sound files for each skin folder
+          const filesPath = path.join(skinDirPath, sdir)
+          let binFile = sdir === 'base' ? 'skin0' : 'skin'
 
-      await new Promise((resolve) => {
-        fs.readdir(skinDirPath, (err, skinDirs) => {
-          for (let jj = 0; jj < skinDirs.length; jj++) {
-            const sdir = skinDirs[jj]
-            // get all sound files for each skin folder
-            const filesPath = path.join(skinDirPath, sdir)
-            let binFile = sdir === 'base' ? 'skin0' : 'skin'
-
-            // converts input/assets/characters/aatrox/skins/skin01 into skin1.bin
-            if (sdir !== 'base') {
-              const parts = sdir.split('skin')
-              binFile += parts[1].replace(/^0+/, '')
-            }
-
-            const binPath = path.join(inputDir, 'data/characters/', cdir, `skins/${binFile}.bin`)
-            const audioPath =
-              soundType === 'sfx'
-                ? path.join(filesPath, `${cdir}_${sdir}_${soundType}_audio.bnk`)
-                : path.join(filesPath, `${cdir}_${sdir}_${soundType}_audio.wpk`)
-            const eventPath = path.join(filesPath, `${cdir}_${sdir}_${soundType}_events.bnk`)
-            const outputPath = path.join(outputDir, cdir, soundType, binFile)
-            const bnkExe = path.join(process.env.APP_HOME || '', 'bin/executables/bnk-extract.exe')
-            const extractCmd = `${bnkExe} --audio ${audioPath} --bin ${binPath} --events ${eventPath} -o ${outputPath} --oggs-only`
-
-            // extract .ogg files from bnk sound files
-            exec(extractCmd, (extractErr) => {
-              if (extractErr) console.error(`Could not run bnk-extract for ${outputPath}`)
-              else console.log(`Extracted ${soundType} for ${cdir}@${sdir}`)
-
-              // complete after last file is extracted
-              if (jj === skinDirs.length - 1) {
-                console.log(`Completed ${soundType} for ${cdir}`)
-                resolve('completed')
-              }
-            })
+          // converts input/assets/characters/aatrox/skins/skin01 into skin1.bin
+          if (sdir !== 'base') {
+            const parts = sdir.split('skin')
+            binFile += parts[1].replace(/^0+/, '')
           }
-        })
+
+          const binPath = path.join(inputDir, 'data/characters/', cdir, `skins/${binFile}.bin`)
+          const audioPath =
+            soundType === 'sfx'
+              ? path.join(filesPath, `${cdir}_${sdir}_${soundType}_audio.bnk`)
+              : path.join(filesPath, `${cdir}_${sdir}_${soundType}_audio.wpk`)
+          const eventPath = path.join(filesPath, `${cdir}_${sdir}_${soundType}_events.bnk`)
+          const outputPath = path.join(outputDir, cdir, soundType, binFile)
+          const bnkExe = path.join(process.env.APP_HOME || '', 'bin/executables/bnk-extract.exe')
+          const extractCmd = `${bnkExe} --audio ${audioPath} --bin ${binPath} --events ${eventPath} -o ${outputPath} --oggs-only`
+
+          // extract .ogg files from bnk sound files
+          exec(extractCmd, (extractErr) => {
+            if (extractErr) console.error(`Could not run bnk-extract for ${outputPath}`)
+            else console.log(extractCmd)
+
+            resolve()
+          })
+        }
       })
     })
   }
 }
 
-const createOrWipeDir = (dirPath: string) => {
-  const makeDirCmd = `mkdir -p ${dirPath}`
+const createOrWipeDir = async (dirPath: string) => {
+  await new Promise<void>(async (resolve, reject) => {
+    const makeDirCmd = `mkdir -p ${dirPath}`
 
-  try {
-    // wipe directory if it exists
-    fs.accessSync(dirPath)
-    console.log(`${dirPath} exists so wiping it`)
-    execSync(`rm -r ${dirPath}`)
-  } catch (err) {
-    // directory doesn't exist, create it
-    console.log(`${dirPath} does not exist so creating it`)
-  } finally {
-    execSync(makeDirCmd)
-  }
+    try {
+      // wipe directory if it exists
+      await fs.promises.access(dirPath)
+      console.log(`${dirPath} exists so wiping it`)
+      execSync(`rm -r ${dirPath}`)
+    } catch (err) {
+      // directory doesn't exist, create it
+      console.log(`${dirPath} does not exist so creating it`)
+    } finally {
+      exec(makeDirCmd, (err) => {
+        if (err) {
+          console.log('Failed to wipe & create output directory')
+          reject()
+        } else resolve()
+      })
+    }
+  })
 }
 
 const extractSounds = async ({
@@ -106,7 +104,7 @@ const extractSounds = async ({
   const inputDir = input || path.join(process.env.APP_HOME || '', 'input')
   const outputDir = output || path.join(process.env.APP_HOME || '', 'output/extracted')
 
-  createOrWipeDir(outputDir)
+  await createOrWipeDir(outputDir)
 
   for (const soundType of soundTypes) {
     console.log(`queued ${soundType} extraction`)
@@ -118,7 +116,6 @@ const extractSounds = async ({
   console.timeEnd('extract-sounds')
 }
 
-// TODO: switch this to use async read / write callbacks
 export const generateSounds = async ({
   input,
   output,
@@ -136,81 +133,55 @@ export const generateSounds = async ({
   // get all champion directories
   const inputDir = output || path.join(process.env.APP_HOME || '', 'output/extracted')
   const outputDir = path.join(process.env.APP_HOME || '', 'output/generated')
-  const champDirs = fs.readdirSync(inputDir)
+  const champDirs = await fs.promises.readdir(inputDir)
 
-  createOrWipeDir(outputDir)
+  await createOrWipeDir(outputDir)
 
   // iterate over each champ directory
   for (const cdir of champDirs) {
     // iterate over sfx and vo directories
-    for (let hh = 0; hh < soundTypes.length; hh++) {
-      const soundType = soundTypes[hh]
+    for (const soundType of soundTypes) {
       const skinDirPath = path.join(inputDir, cdir, soundType)
 
       queue.add(async () => {
-        await new Promise((resolve) => {
-          fs.readdir(skinDirPath, async (err, skinDirs) => {
-            // iterate over each skin directory
-            for (let ii = 0; ii < skinDirs.length; ii++) {
-              const sdir = skinDirs[ii]
-              const soundDirPath = path.join(skinDirPath, sdir)
+        const skinDirs = await fs.promises.readdir(skinDirPath)
 
-              await createDirectory(`${outputDir}/${cdir}/${soundType}/${sdir}`)
+        for (const sdir of skinDirs) {
+          const soundDirPath = path.join(skinDirPath, sdir)
+          await createDirectory(`${outputDir}/${cdir}/${soundType}/${sdir}`)
 
-              fs.readdir(soundDirPath, (err, soundDirs) => {
-                let errorCount = 0
+          const soundDirs = await fs.promises.readdir(soundDirPath)
+          let errorCount = 0
 
-                // iterate over each sound directory i.e. 'Play_vo_Aatrox_AatroxE_onCast'
-                for (let jj = 0; jj < soundDirs.length; jj++) {
-                  const soundDir = soundDirs[jj]
-                  const filesPath = path.join(soundDirPath, soundDir)
+          for (const soundDir of soundDirs) {
+            const filesPath = path.join(soundDirPath, soundDir)
+            const files = await fs.promises.readdir(filesPath)
 
-                  // contents can either be files or directories
-                  fs.readdir(filesPath, async (err, files) => {
-                    try {
-                      // rename each voice line file
-                      for (let kk = 0; kk < files.length; kk++) {
-                        const fileName = files[kk]
-                        const formattedName = formatVoiceLineFileName({ cdir, soundDir })
-                        const newFileName = kk === 0 ? formattedName : `${formattedName}_${kk}`
-                        const newFilePath = `${outputDir}/${cdir}/${soundType}/${sdir}/${newFileName}.ogg`
+            try {
+              // rename each voice line file
+              for (let kk = 0; kk < files.length; kk++) {
+                const fileName = files[kk]
+                const formattedName = formatVoiceLineFileName({ cdir, soundDir })
+                const newFileName = kk === 0 ? formattedName : `${formattedName}_${kk}`
+                const newFilePath = `${outputDir}/${cdir}/${soundType}/${sdir}/${newFileName}.ogg`
 
-                        await copyFile({ src: `${filesPath}/${fileName}`, dest: newFilePath })
+                await copyFile({ src: `${filesPath}/${fileName}`, dest: newFilePath })
+              }
+            } catch (err) {
+              // TODO: this does not extract all the sound files
+              // i.e. "output\extracted\aatrox\skin0\Play_vo_Aatrox_MoveOrder2DLong\416336519"
+              console.error(`Could not read ${filesPath}, determing if it is a file`)
 
-                        if (
-                          ii === skinDirs.length - 1 &&
-                          jj === soundDirs.length - 1 &&
-                          kk === files.length - 1
-                        ) {
-                          console.log(`Completed for ${cdir} - try`)
-                          resolve('Completed')
-                        }
-                      }
-                    } catch (err) {
-                      // TODO: this does not extract all the sound files
-                      // i.e. "output\extracted\aatrox\skin0\Play_vo_Aatrox_MoveOrder2DLong\416336519"
-                      console.error(`Could not read ${filesPath}, determing if it is a file`)
+              const stats = await fs.promises.lstat(filesPath)
+              if (stats.isFile()) {
+                const newFileName = `unknown_${errorCount++}`
+                const newFilePath = `${outputDir}/${cdir}/${soundType}/${sdir}/${newFileName}.ogg`
 
-                      fs.lstat(filesPath, async (statErr, stats) => {
-                        if (stats.isFile()) {
-                          const newFileName = `unknown_${errorCount++}`
-                          const newFilePath = `${outputDir}/${cdir}/${soundType}/${sdir}/${newFileName}.ogg`
-
-                          await copyFile({ src: filesPath, dest: newFilePath })
-
-                          if (ii === skinDirs.length - 1 && jj === soundDirs.length - 1) {
-                            console.log(`Completed for ${cdir} - catch`)
-                            resolve('Completed')
-                          }
-                        }
-                      })
-                    }
-                  })
-                }
-              })
+                await copyFile({ src: filesPath, dest: newFilePath })
+              }
             }
-          })
-        })
+          }
+        }
       })
     }
   }
@@ -240,23 +211,19 @@ const formatVoiceLineFileName = ({ cdir, soundDir }: { cdir: string; soundDir: s
 }
 
 const createDirectory = async (dir: string) => {
-  await new Promise<void>((resolve) => {
-    fs.mkdir(dir, { recursive: true }, (err) => {
-      if (err) console.log(`Failed to create ${dir}`)
-      else console.log(`Created ${dir}`)
-
-      resolve()
-    })
-  })
+  try {
+    await fs.promises.mkdir(dir, { recursive: true })
+    console.log(`Created ${dir}`)
+  } catch (err) {
+    console.log(`Failed to create ${dir}`)
+  }
 }
 
 const copyFile = async ({ src, dest }: { src: string; dest: string }) => {
-  await new Promise<void>((resolve) => {
-    fs.copyFile(src, dest, (err) => {
-      if (err) console.error(`Failed to copy ${src} to ${dest}`)
-      else console.log(`Copied ${dest}`)
-
-      resolve()
-    })
-  })
+  try {
+    await fs.promises.copyFile(src, dest)
+    console.log(`Copied ${dest}`)
+  } catch (err) {
+    console.log(`Failed to copy ${src} to ${dest}`)
+  }
 }

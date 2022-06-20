@@ -1,31 +1,35 @@
 import prisma from '@lib/prisma'
-import { format } from 'date-fns'
+import Logger from 'bin/utils/logger'
 import fs from 'fs'
 import { getAudioDurationInSeconds } from 'get-audio-duration'
 import PQueue from 'p-queue'
 import path from 'path'
 import { soundTypes } from '../cmds/sounds'
-import { logToFile } from '../utils/job-helpers'
+
+interface DurationResult {
+  path: string
+  duration: number
+}
+
+const logger = new Logger('get_audio_durations')
 
 const getDuration = async ({
   jj,
   files,
   skinDirPath,
   inputDirPath,
-  logFile,
 }: {
   jj: number
   files: string[]
   inputDirPath: string
   skinDirPath: string
-  logFile: string
 }) => {
   const fileName = files[jj]
   const filePath = path.join(skinDirPath, fileName)
 
   // must wrap in function to match duration with correct filePath
   const duration = await getAudioDurationInSeconds(filePath)
-  logToFile({ log: `${filePath}: ${duration}`, filePath: logFile })
+  logger.info(`Duration for ${filePath} is ${duration}`)
 
   return {
     path: filePath.replace(`${inputDirPath}/`, ''),
@@ -33,19 +37,7 @@ const getDuration = async ({
   }
 }
 
-interface DurationResult {
-  path: string
-  duration: number
-}
-
-// TODO: update all bin cmds to follow the fs.promises pattern
-export const readAudioDirs = async ({
-  logFile,
-  updateDb = false,
-}: {
-  logFile: string
-  updateDb?: boolean
-}) => {
+export const readAudioDirs = async (updateDb = false) => {
   const queue = new PQueue({ concurrency: 50 })
   const results: DurationResult[] = []
 
@@ -71,7 +63,7 @@ export const readAudioDirs = async ({
           const files = await fs.promises.readdir(skinDirPath)
 
           for (let jj = 0; jj < files.length; jj++) {
-            const result = await getDuration({ jj, files, logFile, skinDirPath, inputDirPath })
+            const result = await getDuration({ jj, files, skinDirPath, inputDirPath })
             results.push(result)
           }
         }
@@ -81,8 +73,7 @@ export const readAudioDirs = async ({
     await queue.onIdle()
   }
 
-  console.log(`r - ${results.length}`)
-  console.log(results)
+  logger.info(`Number of durations calculated ${results.length}`)
 
   // update assets in prisma
   if (updateDb) {
@@ -96,15 +87,13 @@ export const readAudioDirs = async ({
         },
       }),
     )
-    console.log(`u - ${updates.length}`)
+    logger.info(`Number of durations updated in db ${updates.length}`)
     await prisma.$transaction(updates)
   }
 }
 
 export default async () => {
   console.time('get-audio-durations')
-  const timestamp = format(new Date(), 'yyyyMMdd_hhmmss_aaa')
-  const logFile = `logs/get_audio_durations_${timestamp}.txt`
-  await readAudioDirs({ logFile })
+  await readAudioDirs()
   console.timeEnd('get-audio-durations')
 }

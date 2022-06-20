@@ -22,11 +22,24 @@ You will need to extract all champion wad files using Obsidian for voice lines a
 ## Generating the /output directory (.glb files)
 
 4. Run `npm run bin -- -c=generate-glb`
-5. Verify that the glb files have been uploaded to your S3 bucket
+5. Assets will be extracted to /output/glb_models
 
-### Bulk Generate BNK files
+### Extracting Champion Audios
 
-https://github.com/rmbh4211995/Obsidian
+1. Download Obsidian
+   https://github.com/Crauzer/Obsidian
+
+## Setting up the /input directory (.bnk and .wpk files)
+
+2. Install and run Obsidian
+3. Select Riot Games -> League of Legends -> Game -> DATA -> Final -> Champions at the source directory
+4. Extract all to /input directory
+
+## Generating the /output directory (.ogg files)
+
+5. Run `npm run bin -- -c=generate-sounds`
+6. Raw assets will be extracted to /output/extracted
+7. Human readable assets will be extracted to /output/generated
 
 ### Convert BNK -> OGG / WAV
 

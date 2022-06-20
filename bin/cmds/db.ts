@@ -4,11 +4,10 @@ import { BUCKET_NAME, s3 } from '@lib/s3'
 import type { Asset } from '@utils/prisma'
 import { createAssets, deleteAllTableData } from '@utils/prisma'
 import { execSync } from 'child_process'
-import { format } from 'date-fns'
 import fs from 'fs'
 import PQueue from 'p-queue'
 import path from 'path'
-import { logToFile } from '../utils/job-helpers'
+import Logger from '../utils/logger'
 import { soundTypes } from './sounds'
 
 const queue = new PQueue({ concurrency: 30 })
@@ -52,8 +51,7 @@ const uploadModels = async () => {
   console.time('upload-models')
   const inputDir = path.join(process.env.APP_HOME || '', 'output/glb_models')
   const champDirs = await fs.promises.readdir(inputDir)
-  const timestamp = format(new Date(), 'yyyyMMdd_hhmmss_aaa')
-  const logFile = `logs/upload_models_${timestamp}.txt`
+  const logger = new Logger('upload_models')
 
   for (const champDir of champDirs) {
     queue.add(async () => {
@@ -83,7 +81,7 @@ const uploadModels = async () => {
             skin: fileName,
             path: key,
           })
-          logToFile({ log: `successfully uploaded s3 object with key: ${key}`, filePath: logFile })
+          logger.info(`Uploaded s3 object with key: ${key}`)
         } catch (uploadErr) {
           console.error(uploadErr)
         }

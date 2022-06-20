@@ -1,43 +1,45 @@
+import Logger from 'bin/utils/logger'
 import { exec } from 'child_process'
 import fs from 'fs'
 import PQueue from 'p-queue'
 import path from 'path'
 
-const queue = new PQueue({ concurrency: 30 })
+const queue = new PQueue({ concurrency: 10 })
 
 // TODO: update this to follow other pattern in cmds
 export const generateGlb = async () => {
   const inputDir = path.join(process.env.APP_HOME || '', 'input/export')
   const outputDir = path.join(process.env.APP_HOME || '', 'output/glb_models')
+  const logger = new Logger('generate_glb')
 
   console.time('generate-glb')
 
   try {
-    const champDirs = fs.readdirSync(inputDir)
+    const champDirs = await fs.promises.readdir(inputDir)
 
     for (const cdir of champDirs) {
-      fs.readdir(`${inputDir}/${cdir}`, async (err, skinDirs) => {
+      queue.add(async () => {
+        const skinDirs = await fs.promises.readdir(`${inputDir}/${cdir}`)
+
         for (const sdir of skinDirs) {
-          fs.readdir(`${inputDir}/${cdir}/${sdir}`, async (err, files) => {
-            queue.add(async () => {
-              await new Promise<void>((resolve) => {
-                for (let ii = 0; ii < files.length; ii++) {
-                  const file = files[ii]
-                  const filename = path.parse(file).name
-                  const glbCmd = `npx gltf-pipeline -i ${inputDir}/${cdir}/${sdir}/${file} -o ${outputDir}/${cdir}/${filename}.glb`
-                  const compressCmd = `npx gltfpack -i ${outputDir}/${cdir}/${filename}.glb -o ${outputDir}/${cdir}/${filename}.glb`
+          const files = await fs.promises.readdir(`${inputDir}/${cdir}/${sdir}`)
 
-                  if (!file.includes('.gltf')) continue
+          await new Promise<void>((resolve) => {
+            for (let ii = 0; ii < files.length; ii++) {
+              const file = files[ii]
+              const filename = path.parse(file).name
+              const glbCmd = `npx gltf-pipeline -i ${inputDir}/${cdir}/${sdir}/${file} -o ${outputDir}/${cdir}/${filename}.glb`
+              const compressCmd = `npx gltfpack -i ${outputDir}/${cdir}/${filename}.glb -o ${outputDir}/${cdir}/${filename}.glb`
+              const cmd = `${glbCmd}; ${compressCmd}`
+              if (!file.includes('.gltf')) continue
 
-                  exec(`${glbCmd}; ${compressCmd}`, (err) => {
-                    if (err) console.error(err.message)
-                    else console.log(`Completed ${compressCmd}`)
+              exec(cmd, (err) => {
+                if (err) logger.info(err.message)
+                else logger.info(cmd)
 
-                    resolve()
-                  })
-                }
+                resolve()
               })
-            })
+            }
           })
         }
       })
