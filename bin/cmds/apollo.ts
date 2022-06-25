@@ -1,14 +1,15 @@
 import { exec } from 'child_process'
+import { logger } from 'logger/index'
 
 export const publishSchema = () => {
   try {
     exec(
       `rover graph publish ${process.env.APOLLO_GRAPH_REF} --schema graphql/generated/schema.graphql`,
       (err, stdout, stderr) => {
-        console.log(err, stdout, stderr)
+        logger.info(stdout)
       },
     )
   } catch (err) {
-    console.log('Failed to publish schema to apollo', err)
+    logger.info('Failed to publish schema to apollo')
   }
 }

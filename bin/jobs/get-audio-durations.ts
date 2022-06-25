@@ -1,7 +1,7 @@
 import prisma from '@lib/prisma'
-import Logger from 'bin/utils/logger'
 import fs from 'fs'
 import { getAudioDurationInSeconds } from 'get-audio-duration'
+import { logger } from 'logger/index'
 import PQueue from 'p-queue'
 import path from 'path'
 import { soundTypes } from '../cmds/sounds'
@@ -10,8 +10,6 @@ interface DurationResult {
   path: string
   duration: number
 }
-
-const logger = new Logger('get_audio_durations')
 
 const getDuration = async ({
   jj,
@@ -93,7 +91,5 @@ export const readAudioDirs = async (updateDb = false) => {
 }
 
 export default async () => {
-  console.time('get-audio-durations')
   await readAudioDirs()
-  console.timeEnd('get-audio-durations')
 }

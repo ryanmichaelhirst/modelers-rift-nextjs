@@ -1,6 +1,6 @@
-import Logger from 'bin/utils/logger'
 import { exec } from 'child_process'
 import fs from 'fs'
+import { logger } from 'logger/index'
 import PQueue from 'p-queue'
 import path from 'path'
 
@@ -10,9 +10,6 @@ const queue = new PQueue({ concurrency: 10 })
 export const generateGlb = async () => {
   const inputDir = path.join(process.env.APP_HOME || '', 'input/export')
   const outputDir = path.join(process.env.APP_HOME || '', 'output/glb_models')
-  const logger = new Logger('generate_glb')
-
-  console.time('generate-glb')
 
   try {
     const champDirs = await fs.promises.readdir(inputDir)
@@ -49,6 +46,4 @@ export const generateGlb = async () => {
   }
 
   await queue.onIdle()
-
-  console.timeEnd('generate-glb')
 }

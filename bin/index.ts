@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+import { logger } from 'logger/index'
 import path from 'path'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
@@ -38,6 +39,7 @@ const run = async () => {
   }).argv
 
   const { c: command, i: input, o: output, region, f: file } = argv
+  console.time(command)
 
   switch (command) {
     case 'create-db':
@@ -50,10 +52,12 @@ const run = async () => {
       seedDb()
       break
     case 'generate-glb':
-      generateGlb()
+      logger.setLogFile('generate_glb')
+      await generateGlb()
       break
     case 'generate-sounds':
-      generateSounds({ input, output, region })
+      logger.setLogFile('generate_sounds')
+      await generateSounds({ input, output, region })
       break
     case 'job':
       if (!file) throw new Error('command requires file (-f) flag')
@@ -66,6 +70,8 @@ const run = async () => {
     default:
       throw new Error('command not recognized')
   }
+
+  console.timeEnd(command)
 }
 
 run()

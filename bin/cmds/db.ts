@@ -5,9 +5,9 @@ import type { Asset } from '@utils/prisma'
 import { createAssets, deleteAllTableData } from '@utils/prisma'
 import { execSync } from 'child_process'
 import fs from 'fs'
+import { logger } from 'logger/index'
 import PQueue from 'p-queue'
 import path from 'path'
-import Logger from '../utils/logger'
 import { soundTypes } from './sounds'
 
 const queue = new PQueue({ concurrency: 30 })
@@ -20,7 +20,7 @@ export const createDb = async ({ type }: { type: 'postgresql' | 'sqlite' }) => {
       // delete existing db
       fs.unlinkSync(dbPath)
     } catch (err) {
-      console.error('error removing database, does not exist.')
+      logger.info('error removing database, does not exist.')
     } finally {
       new Database(dbPath)
     }
@@ -32,26 +32,20 @@ export const createDb = async ({ type }: { type: 'postgresql' | 'sqlite' }) => {
 }
 
 export const wipeDb = async () => {
-  console.time('wipe-db')
   const result = await deleteAllTableData()
-  console.debug(result)
-  console.timeEnd('wipe-db')
+  logger.info(result)
 }
 
 export const seedDb = async () => {
-  console.time('seed-db')
   // upload glb files
   await uploadModels()
   // upload sfx and vo files
   await uploadSounds()
-  console.timeEnd('seed-db')
 }
 
 const uploadModels = async () => {
-  console.time('upload-models')
   const inputDir = path.join(process.env.APP_HOME || '', 'output/glb_models')
   const champDirs = await fs.promises.readdir(inputDir)
-  const logger = new Logger('upload_models')
 
   for (const champDir of champDirs) {
     queue.add(async () => {
@@ -83,7 +77,7 @@ const uploadModels = async () => {
           })
           logger.info(`Uploaded s3 object with key: ${key}`)
         } catch (uploadErr) {
-          console.error(uploadErr)
+          logger.info(uploadErr)
         }
       }
 
@@ -93,12 +87,9 @@ const uploadModels = async () => {
   }
 
   await queue.onIdle()
-
-  console.timeEnd('upload-models')
 }
 
 const uploadSounds = async () => {
-  console.time('upload-sounds')
   const inputDir = path.join(process.env.APP_HOME || '', 'output/generated')
   const champDirs = await fs.promises.readdir(inputDir)
 
@@ -138,23 +129,21 @@ const uploadSounds = async () => {
                     path: key,
                   })
                 } catch (uploadErr) {
-                  console.error(uploadErr)
+                  logger.info(uploadErr)
                 }
               }
             } catch (err) {
-              console.debug(err)
+              logger.info(err)
             }
           }
 
           await createAssets({ characterName: champDir, assets })
         } catch (err) {
-          console.debug(err)
+          logger.info(err)
         }
       })
     }
   }
 
   await queue.onIdle()
-
-  console.timeEnd('upload-sounds')
 }
