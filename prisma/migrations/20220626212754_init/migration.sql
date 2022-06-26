@@ -16,6 +16,7 @@ CREATE TABLE "Asset" (
     "name" TEXT NOT NULL,
     "skin" TEXT NOT NULL,
     "uri" TEXT NOT NULL,
+    "url" TEXT NOT NULL,
     "duration" DOUBLE PRECISION,
 
     CONSTRAINT "Asset_pkey" PRIMARY KEY ("id")
@@ -23,6 +24,9 @@ CREATE TABLE "Asset" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Asset_uri_key" ON "Asset"("uri");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Asset_url_key" ON "Asset"("url");
 
 -- AddForeignKey
 ALTER TABLE "Asset" ADD CONSTRAINT "Asset_characterId_fkey" FOREIGN KEY ("characterId") REFERENCES "Character"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

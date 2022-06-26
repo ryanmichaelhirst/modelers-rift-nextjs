@@ -1,33 +1,9 @@
-import { createAssets, findOrCreateCharacter } from '@utils/prisma'
+import { createAssets } from '@utils/prisma'
 import { awsS3Service } from 'bin/services/aws-s3-service'
 import groupBy from 'lodash.groupby'
 import { logger } from 'logger'
-import util from 'util'
 
-util.inspect.defaultOptions.maxArrayLength = null
-
-export const seedDb = async () => {
-  await awsS3Service.performOnAllObjects(async (response) => {
-    logger.info(response)
-
-    if (!response.Contents) {
-      logger.info('contents for request do not exist')
-
-      return
-    }
-
-    const characters = response.Contents?.map((c) => {
-      const characterMatches = c.Key?.match(/^[^\/]*/gi)
-
-      return characterMatches ? characterMatches[0] : ''
-    })
-
-    // create the characters if needed
-    for (const character of characters) {
-      await findOrCreateCharacter(character)
-    }
-  })
-
+export const uploadAssets = async () => {
   await awsS3Service.performOnAllObjects(async (response) => {
     logger.info(response)
 
@@ -46,6 +22,7 @@ export const seedDb = async () => {
         characterName: charcterMatches ? charcterMatches[0] : '',
       }
     })
+    console.log(response.Contents)
 
     for (const [key, value] of Object.entries(groupBy(objects, 'characterName'))) {
       const assets = value.map(({ key }) => {
@@ -64,6 +41,7 @@ export const seedDb = async () => {
         return {
           type,
           uri,
+          url: `https://league-of-legends-assets.s3.amazonaws.com/${key}`,
           name,
           skin,
         }
@@ -74,4 +52,4 @@ export const seedDb = async () => {
   })
 }
 
-export default seedDb
+export default uploadAssets

@@ -1,9 +1,12 @@
 import dotenv from 'dotenv'
 import { logger } from 'logger/index'
 import path from 'path'
+import util from 'util'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
-import { generateGlb, publishSchema, seedAws } from './cmds'
+import { generateGlb, publishSchema, seedAws, seedDb } from './cmds'
+
+util.inspect.defaultOptions.maxArrayLength = null
 
 dotenv.config()
 
@@ -40,11 +43,15 @@ const run = async () => {
 
   const { c: command, i: input, o: output, region, f: file } = argv
   console.time(command)
-  logger.setLogFile(command.replace(/-/g, '_'))
+  if (command === 'job' && file) logger.setLogFile(file.replace(/-/g, '_'))
+  else logger.setLogFile(command.replace(/-/g, '_'))
 
   switch (command) {
     case 'seed-aws':
       await seedAws()
+      break
+    case 'seed-db':
+      await seedDb()
       break
     case 'generate-glb':
       await generateGlb()

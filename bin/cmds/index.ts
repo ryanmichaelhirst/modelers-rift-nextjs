@@ -1,5 +1,5 @@
 import { generateGlb } from 'bin/jobs/generate-glb'
 import { publishSchema } from 'bin/jobs/publish-schema'
-import { seedAws } from './db'
+import { seedAws, seedDb } from './db'
 
-export { generateGlb, seedAws, publishSchema }
+export { generateGlb, seedAws, seedDb, publishSchema }

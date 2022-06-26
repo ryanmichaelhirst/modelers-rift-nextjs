@@ -13,8 +13,11 @@ export const AssetsResolver = async (parent, args, ctx) => {
           in: args?.filter?.typeIncludes,
           equals: args?.filter?.typeEq,
         },
-        path: {
-          in: args?.filter?.pathIncludes,
+        uri: {
+          in: args?.filter?.uriIncludes,
+        },
+        skin: {
+          equals: args?.filter.skinEq,
         },
       }
     : {}

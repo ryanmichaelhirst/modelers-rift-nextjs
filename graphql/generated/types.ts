@@ -26,9 +26,10 @@ export type Asset = {
   duration?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
-  path?: Maybe<Scalars['String']>;
   skin?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
+  uri?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
 };
 
 export type AssetsCollection = {
@@ -39,6 +40,7 @@ export type AssetsCollection = {
 
 export type AssetsFilter = {
   pathIncludes?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  skinEq?: InputMaybe<Scalars['String']>;
   typeEq?: InputMaybe<Scalars['String']>;
   typeIncludes?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
@@ -83,7 +85,6 @@ export type Query = {
   character?: Maybe<Character>;
   characters?: Maybe<CharacterCollection>;
   jobs?: Maybe<Array<Maybe<Job>>>;
-  users?: Maybe<Array<Maybe<User>>>;
 };
 
 
@@ -105,25 +106,6 @@ export type QueryCharactersArgs = {
   includeAssets?: InputMaybe<Scalars['Boolean']>;
   page?: InputMaybe<Scalars['Int']>;
   pageSize?: InputMaybe<Scalars['Int']>;
-};
-
-
-export type QueryUsersArgs = {
-  filter?: InputMaybe<UsersFilter>;
-};
-
-export type User = {
-  __typename?: 'User';
-  email?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['Int']>;
-  name?: Maybe<Scalars['String']>;
-  password?: Maybe<Scalars['String']>;
-  username?: Maybe<Scalars['String']>;
-};
-
-export type UsersFilter = {
-  nameCnt?: InputMaybe<Scalars['String']>;
-  usernameCnt?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -209,8 +191,6 @@ export type ResolversTypes = {
   Metadata: ResolverTypeWrapper<Metadata>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
-  User: ResolverTypeWrapper<User>;
-  UsersFilter: UsersFilter;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -229,8 +209,6 @@ export type ResolversParentTypes = {
   Metadata: Metadata;
   Query: {};
   String: Scalars['String'];
-  User: User;
-  UsersFilter: UsersFilter;
 };
 
 export type AssetResolvers<ContextType = any, ParentType extends ResolversParentTypes['Asset'] = ResolversParentTypes['Asset']> = {
@@ -239,9 +217,10 @@ export type AssetResolvers<ContextType = any, ParentType extends ResolversParent
   duration?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  path?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   skin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  uri?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -283,16 +262,6 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   character?: Resolver<Maybe<ResolversTypes['Character']>, ParentType, ContextType, RequireFields<QueryCharacterArgs, never>>;
   characters?: Resolver<Maybe<ResolversTypes['CharacterCollection']>, ParentType, ContextType, RequireFields<QueryCharactersArgs, never>>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Job']>>>, ParentType, ContextType>;
-  users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType, RequireFields<QueryUsersArgs, never>>;
-};
-
-export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
-  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  username?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
@@ -303,9 +272,10 @@ export type Resolvers<ContextType = any> = {
   Job?: JobResolvers<ContextType>;
   Metadata?: MetadataResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
-  User?: UserResolvers<ContextType>;
 };
 
+
+export type AssetsFragmentFragment = { __typename?: 'Asset', id?: string | null | undefined, characterId?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, uri?: string | null | undefined, url?: string | null | undefined, duration?: number | null | undefined };
 
 export type AssetsQueryVariables = Exact<{
   filter?: InputMaybe<AssetsFilter>;
@@ -314,7 +284,9 @@ export type AssetsQueryVariables = Exact<{
 }>;
 
 
-export type AssetsQuery = { __typename?: 'Query', assets?: { __typename?: 'AssetsCollection', collection?: Array<{ __typename?: 'Asset', id?: string | null | undefined, characterId?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined, duration?: number | null | undefined, character?: { __typename?: 'Character', name?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+export type AssetsQuery = { __typename?: 'Query', assets?: { __typename?: 'AssetsCollection', collection?: Array<{ __typename?: 'Asset', id?: string | null | undefined, characterId?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, uri?: string | null | undefined, url?: string | null | undefined, duration?: number | null | undefined, character?: { __typename?: 'Character', name?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+
+export type CharacterFragmentFragment = { __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, uri?: string | null | undefined, url?: string | null | undefined, duration?: number | null | undefined } | null | undefined> | null | undefined };
 
 export type CharactersQueryVariables = Exact<{
   filter?: InputMaybe<CharactersFilter>;
@@ -324,7 +296,7 @@ export type CharactersQueryVariables = Exact<{
 }>;
 
 
-export type CharactersQuery = { __typename?: 'Query', characters?: { __typename?: 'CharacterCollection', collection?: Array<{ __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined, duration?: number | null | undefined } | null | undefined> | null | undefined } | null | undefined> | null | undefined, metadata?: { __typename?: 'Metadata', totalCount?: number | null | undefined, totalPages?: number | null | undefined, currentPage?: number | null | undefined, pageSize?: number | null | undefined } | null | undefined } | null | undefined };
+export type CharactersQuery = { __typename?: 'Query', characters?: { __typename?: 'CharacterCollection', collection?: Array<{ __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, uri?: string | null | undefined, url?: string | null | undefined, duration?: number | null | undefined } | null | undefined> | null | undefined } | null | undefined> | null | undefined, metadata?: { __typename?: 'Metadata', totalCount?: number | null | undefined, totalPages?: number | null | undefined, currentPage?: number | null | undefined, pageSize?: number | null | undefined } | null | undefined } | null | undefined };
 
 export type CharacterQueryVariables = Exact<{
   filter?: InputMaybe<CharactersFilter>;
@@ -332,39 +304,53 @@ export type CharacterQueryVariables = Exact<{
 }>;
 
 
-export type CharacterQuery = { __typename?: 'Query', character?: { __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, path?: string | null | undefined, duration?: number | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+export type CharacterQuery = { __typename?: 'Query', character?: { __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, uri?: string | null | undefined, url?: string | null | undefined, duration?: number | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
 export type JobsIndexQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type JobsIndexQuery = { __typename?: 'Query', jobs?: Array<{ __typename?: 'Job', name?: string | null | undefined } | null | undefined> | null | undefined };
 
-export type UsersIndexQueryVariables = Exact<{
-  filter?: InputMaybe<UsersFilter>;
-}>;
-
-
-export type UsersIndexQuery = { __typename?: 'Query', users?: Array<{ __typename?: 'User', id?: number | null | undefined, username?: string | null | undefined, email?: string | null | undefined, name?: string | null | undefined } | null | undefined> | null | undefined };
-
-
+export const AssetsFragmentFragmentDoc = gql`
+    fragment AssetsFragment on Asset {
+  id
+  characterId
+  type
+  name
+  skin
+  uri
+  url
+  duration
+}
+    `;
+export const CharacterFragmentFragmentDoc = gql`
+    fragment CharacterFragment on Character {
+  id
+  name
+  displayName
+  assets @include(if: $includeAssets) {
+    id
+    type
+    name
+    skin
+    uri
+    url
+    duration
+  }
+}
+    `;
 export const AssetsDocument = gql`
     query Assets($filter: AssetsFilter, $page: Int, $pageSize: Int) {
   assets(filter: $filter, page: $page, pageSize: $pageSize) {
     collection {
-      id
+      ...AssetsFragment
       character {
         name
       }
-      characterId
-      type
-      name
-      skin
-      path
-      duration
     }
   }
 }
-    `;
+    ${AssetsFragmentFragmentDoc}`;
 
 /**
  * __useAssetsQuery__
@@ -404,17 +390,7 @@ export const CharactersDocument = gql`
     includeAssets: $includeAssets
   ) {
     collection {
-      id
-      name
-      displayName
-      assets @include(if: $includeAssets) {
-        id
-        type
-        name
-        skin
-        path
-        duration
-      }
+      ...CharacterFragment
     }
     metadata {
       totalCount
@@ -424,7 +400,7 @@ export const CharactersDocument = gql`
     }
   }
 }
-    `;
+    ${CharacterFragmentFragmentDoc}`;
 
 /**
  * __useCharactersQuery__
@@ -459,20 +435,10 @@ export type CharactersQueryResult = Apollo.QueryResult<CharactersQuery, Characte
 export const CharacterDocument = gql`
     query Character($filter: CharactersFilter, $includeAssets: Boolean!) {
   character(filter: $filter, includeAssets: $includeAssets) {
-    id
-    name
-    displayName
-    assets @include(if: $includeAssets) {
-      id
-      type
-      name
-      skin
-      path
-      duration
-    }
+    ...CharacterFragment
   }
 }
-    `;
+    ${CharacterFragmentFragmentDoc}`;
 
 /**
  * __useCharacterQuery__
@@ -536,41 +502,3 @@ export function useJobsIndexLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type JobsIndexQueryHookResult = ReturnType<typeof useJobsIndexQuery>;
 export type JobsIndexLazyQueryHookResult = ReturnType<typeof useJobsIndexLazyQuery>;
 export type JobsIndexQueryResult = Apollo.QueryResult<JobsIndexQuery, JobsIndexQueryVariables>;
-export const UsersIndexDocument = gql`
-    query UsersIndex($filter: UsersFilter) {
-  users(filter: $filter) {
-    id
-    username
-    email
-    name
-  }
-}
-    `;
-
-/**
- * __useUsersIndexQuery__
- *
- * To run a query within a React component, call `useUsersIndexQuery` and pass it any options that fit your needs.
- * When your component renders, `useUsersIndexQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useUsersIndexQuery({
- *   variables: {
- *      filter: // value for 'filter'
- *   },
- * });
- */
-export function useUsersIndexQuery(baseOptions?: Apollo.QueryHookOptions<UsersIndexQuery, UsersIndexQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<UsersIndexQuery, UsersIndexQueryVariables>(UsersIndexDocument, options);
-      }
-export function useUsersIndexLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsersIndexQuery, UsersIndexQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<UsersIndexQuery, UsersIndexQueryVariables>(UsersIndexDocument, options);
-        }
-export type UsersIndexQueryHookResult = ReturnType<typeof useUsersIndexQuery>;
-export type UsersIndexLazyQueryHookResult = ReturnType<typeof useUsersIndexLazyQuery>;
-export type UsersIndexQueryResult = Apollo.QueryResult<UsersIndexQuery, UsersIndexQueryVariables>;

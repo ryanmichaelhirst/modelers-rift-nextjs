@@ -1,3 +1,4 @@
+import { AssetCard } from '@components/asset-card'
 import { Button } from '@components/button'
 import { useAssetsQuery } from '@graphql/generated/types'
 
@@ -8,11 +9,7 @@ export const Home = () => {
       pageSize: 5,
       filter: {
         typeEq: 'model',
-        pathIncludes: [
-          'hecarim/model/skin0/default.glb',
-          'warwick/model/skin0/default.glb',
-          'sylas/model/skin0/default.glb',
-        ],
+        skinEq: 'skin0',
       },
     },
   })
@@ -38,9 +35,9 @@ export const Home = () => {
           />
         </div>
         <div className='flex space-x-5'>
-          {/* {data?.assets?.collection?.map((a) => (
-            <AssetCard key={a?.id} asset={a} url={a?.path} />
-          ))} */}
+          {data?.assets?.collection?.map((a) => (
+            <AssetCard key={a?.id} asset={a} url={a?.url} />
+          ))}
         </div>
       </div>
     </div>

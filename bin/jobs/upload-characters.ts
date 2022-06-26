@@ -1,9 +1,6 @@
 import { findOrCreateCharacter } from '@utils/prisma'
 import { awsS3Service } from 'bin/services/aws-s3-service'
 import { logger } from 'logger'
-import util from 'util'
-
-util.inspect.defaultOptions.maxArrayLength = null
 
 export const uploadCharacters = async () => {
   await awsS3Service.performOnAllObjects(async (response) => {
@@ -20,6 +17,7 @@ export const uploadCharacters = async () => {
 
       return characterMatches ? characterMatches[0] : ''
     })
+    logger.info(characters)
 
     // create the characters if needed
     for (const character of characters) {

@@ -7,7 +7,9 @@ import { Card } from './card'
 import { ModelGltf } from './model-gltf'
 import { ModelLoader } from './model-loader'
 
-export const AssetCard = ({ url, asset }: { url: string; asset: Asset }) => {
+export const AssetCard = ({ url, asset }: { url?: string | null; asset: Asset }) => {
+  if (!url) return null
+
   return (
     <Card classes='flex-none'>
       <p className='text-tertiary font-nunito font-bold text-lg capitalize'>

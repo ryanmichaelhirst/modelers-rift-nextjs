@@ -27,23 +27,11 @@ export const typeDefs = gql`
     metadata: Metadata
   }
 
-  input UsersFilter {
-    usernameCnt: String
-    nameCnt: String
-  }
-
-  type User {
-    id: Int
-    username: String
-    password: String
-    email: String
-    name: String
-  }
-
   input AssetsFilter {
     typeEq: String
     typeIncludes: [String]
     pathIncludes: [String]
+    skinEq: String
   }
 
   type Asset {
@@ -53,7 +41,8 @@ export const typeDefs = gql`
     type: String
     name: String
     skin: String
-    path: String
+    uri: String
+    url: String
     duration: Float
   }
 
@@ -67,7 +56,6 @@ export const typeDefs = gql`
   }
 
   type Query {
-    users(filter: UsersFilter): [User]
     characters(
       filter: CharactersFilter
       page: Int

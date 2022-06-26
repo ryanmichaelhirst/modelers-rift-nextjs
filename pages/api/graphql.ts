@@ -4,7 +4,6 @@ import {
   CharacterResolver,
   CharactersResolver,
   JobsResolver,
-  UsersResolver,
 } from '@graphql/resolvers'
 import { typeDefs } from '@graphql/typedefs/index'
 import { createGraphqlContext } from '@lib/graphql'
@@ -15,7 +14,6 @@ import { PageConfig } from 'next'
 
 const resolvers: Resolvers = {
   Query: {
-    users: UsersResolver,
     assets: AssetsResolver,
     characters: CharactersResolver,
     character: CharacterResolver,

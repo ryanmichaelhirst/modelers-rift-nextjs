@@ -1,16 +1,21 @@
+fragment AssetsFragment on Asset {
+  id
+  characterId
+  type
+  name
+  skin
+  uri
+  url
+  duration
+}
+
 query Assets($filter: AssetsFilter, $page: Int, $pageSize: Int) {
   assets(filter: $filter, page: $page, pageSize: $pageSize) {
     collection {
-      id
+      ...AssetsFragment
       character {
         name
       }
-      characterId
-      type
-      name
-      skin
-      path
-      duration
     }
   }
 }

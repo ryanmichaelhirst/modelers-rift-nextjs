@@ -7,6 +7,7 @@ export interface Asset {
   name: string
   skin: string
   uri: string
+  url: string
 }
 
 export const deleteAllTableData = async () => {

@@ -22,21 +22,11 @@ type CharacterCollection {
   collection: [Character]
   metadata: Metadata
 }
-input UsersFilter {
-  usernameCnt: String
-  nameCnt: String
-}
-type User {
-  id: Int
-  username: String
-  password: String
-  email: String
-  name: String
-}
 input AssetsFilter {
   typeEq: String
   typeIncludes: [String]
   pathIncludes: [String]
+  skinEq: String
 }
 type Asset {
   id: ID
@@ -45,7 +35,8 @@ type Asset {
   type: String
   name: String
   skin: String
-  path: String
+  uri: String
+  url: String
   duration: Float
 }
 "The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point)."
@@ -58,7 +49,6 @@ type Job {
   name: String
 }
 type Query {
-  users(filter: UsersFilter): [User]
   characters(filter: CharactersFilter, page: Int, pageSize: Int, includeAssets: Boolean): CharacterCollection
   character(filter: CharactersFilter, includeAssets: Boolean): Character
   assets(filter: AssetsFilter, page: Int, pageSize: Int): AssetsCollection
