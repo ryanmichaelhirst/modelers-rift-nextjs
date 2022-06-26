@@ -1,53 +1,47 @@
 import prisma from '@lib/prisma'
 import { determineType } from '@utils/index'
+import { logger } from 'logger'
 
 export interface Asset {
-  type: 'model' | 'sfx' | 'vo'
+  type: string
   name: string
   skin: string
-  path: string
+  uri: string
 }
 
-const findOrCreateCharacter = async (name: string) => {
-  let character = await prisma.character.findFirst({
+export const deleteAllTableData = async () => {
+  const assetCount = await prisma.asset.deleteMany()
+  const characterCount = await prisma.character.deleteMany()
+
+  return { assetCount, characterCount }
+}
+
+const findCharacter = async (name: string) => {
+  const character = await prisma.character.findFirst({
     where: { name },
   })
-  if (character) return character
+  logger.info(character)
 
-  return await prisma.character.create({
+  return character
+}
+
+const createCharacter = async (name: string) => {
+  const character = await prisma.character.create({
     data: {
       name,
       type: determineType(name),
     },
   })
+  logger.info(character)
+
+  return character
 }
 
-export const createAssets = async ({
-  assets,
-  characterName,
-}: {
-  assets: Asset[]
-  characterName: string
-}) => {
-  const character = await findOrCreateCharacter(characterName)
-  const updates = assets.map((a) =>
-    prisma.asset.upsert({
-      where: { path: a.path },
-      update: {
-        ...a,
-      },
-      create: { ...a, characterId: character.id },
-    }),
-  )
-  await prisma.$transaction(updates)
-}
+export const findOrCreateCharacter = async (name: string) => {
+  const character = await findCharacter(name)
+  if (character) return character
 
-export const deleteAllTableData = async () => {
-  const userCount = await prisma.user.deleteMany()
-  const assetCount = await prisma.asset.deleteMany()
-  const characterCount = await prisma.character.deleteMany()
-
-  return { userCount, assetCount, characterCount }
+  return await createCharacter(name)
 }
 
 export const updateCharacter = async ({
@@ -59,10 +53,33 @@ export const updateCharacter = async ({
 }) => {
   if (!data) return
 
-  await prisma.character.update({
+  return await prisma.character.update({
     where: {
       id,
     },
     data,
   })
+}
+
+export const createAssets = async ({
+  assets,
+  characterName,
+}: {
+  assets: Asset[]
+  characterName: string
+}) => {
+  const character = await findCharacter(characterName)
+  if (!character) return
+
+  const updates = assets.map((a) =>
+    prisma.asset.upsert({
+      where: { uri: a.uri },
+      update: {
+        ...a,
+      },
+      create: { ...a, characterId: character.id },
+    }),
+  )
+
+  await prisma.$transaction(updates)
 }

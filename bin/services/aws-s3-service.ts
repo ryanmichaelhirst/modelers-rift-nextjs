@@ -35,21 +35,21 @@ class AwsS3Service {
 
   performOnAllObjects = async (
     callback: (result: ListObjectsV2CommandOutput) => Promise<void>,
+    delimiter?: string,
     next?: string,
   ): Promise<ListObjectsV2CommandOutput> => {
     const command = new ListObjectsV2Command({
       Bucket: this.bucketName,
       ...(next && { ContinuationToken: next }),
+      ...(delimiter && { Delimiter: delimiter }),
     })
 
     const response = await this.client.send(command)
     await callback(response)
 
-    return response
-
     if (!response.NextContinuationToken) return response
 
-    return await this.performOnAllObjects(callback, response.NextContinuationToken)
+    return await this.performOnAllObjects(callback, delimiter, response.NextContinuationToken)
   }
 }
 

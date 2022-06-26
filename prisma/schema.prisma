@@ -8,14 +8,6 @@ generator client {
   previewFeatures = ["fullTextSearch"]
 }
 
-model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  name     String?
-  username String
-  password String
-}
-
 model Character {
   id     Int    @id @default(autoincrement())
   name   String
@@ -31,6 +23,6 @@ model Asset {
   type         String
   name         String
   skin         String
-  path         String @unique
+  uri          String @unique
   duration     Float?
 }
