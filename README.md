@@ -37,9 +37,10 @@ You will need to extract all champion wad files using Obsidian for voice lines a
 
 ## Generating the /output directory (.ogg files)
 
-5. Run `npm run bin -- -c=generate-sounds`
-6. Raw assets will be extracted to /output/extracted
-7. Human readable assets will be extracted to /output/generated
+5. Run `npm run bin -- -c=job -f=extract-sounds`
+6. Run `npm run bin -- -c=job -f=transform-sounds`
+7. Raw assets will be extracted to /output/extracted
+8. Human readable assets will be extracted to /output/transformed
 
 ### Convert BNK -> OGG / WAV
 

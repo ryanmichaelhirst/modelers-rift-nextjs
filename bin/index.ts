@@ -3,7 +3,7 @@ import { logger } from 'logger/index'
 import path from 'path'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
-import { createDb, generateGlb, generateSounds, publishSchema, seedDb, wipeDb } from './cmds'
+import { generateGlb, publishSchema, seedAws } from './cmds'
 
 dotenv.config()
 
@@ -40,24 +40,14 @@ const run = async () => {
 
   const { c: command, i: input, o: output, region, f: file } = argv
   console.time(command)
+  logger.setLogFile(command.replace(/-/g, '_'))
 
   switch (command) {
-    case 'create-db':
-      createDb({ type: 'postgresql' })
-      break
-    case 'wipe-db':
-      wipeDb()
-      break
-    case 'seed-db':
-      seedDb()
+    case 'seed-aws':
+      await seedAws()
       break
     case 'generate-glb':
-      logger.setLogFile('generate_glb')
       await generateGlb()
-      break
-    case 'generate-sounds':
-      logger.setLogFile('generate_sounds')
-      await generateSounds({ input, output, region })
       break
     case 'job':
       if (!file) throw new Error('command requires file (-f) flag')
@@ -65,7 +55,7 @@ const run = async () => {
       await fn()
       break
     case 'publish-schema':
-      publishSchema()
+      await publishSchema()
       break
     default:
       throw new Error('command not recognized')

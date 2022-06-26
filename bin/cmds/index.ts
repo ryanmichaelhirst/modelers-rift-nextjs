@@ -1,6 +1,5 @@
-import { publishSchema } from './apollo'
-import { createDb, seedDb, wipeDb } from './db'
-import { generateGlb } from './models'
-import { generateSounds } from './sounds'
+import { generateGlb } from 'bin/jobs/generate-glb'
+import { publishSchema } from 'bin/jobs/publish-schema'
+import { seedAws } from './db'
 
-export { createDb, generateGlb, seedDb, generateSounds, wipeDb, publishSchema }
+export { generateGlb, seedAws, publishSchema }

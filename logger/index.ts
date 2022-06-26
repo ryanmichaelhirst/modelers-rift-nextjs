@@ -1,5 +1,6 @@
 import { format } from 'date-fns'
 import fs from 'fs'
+import util from 'util'
 
 class Logger {
   private fileStream: fs.WriteStream | undefined
@@ -14,7 +15,7 @@ class Logger {
   }
 
   info(message: any) {
-    const formattedMsg = `${message}\n`
+    const formattedMsg = `${util.format(message)}\n`
     process.stdout.write(formattedMsg)
     // allow the user to set the name of the logfile, if it isn't set manually set a generic name
     if (!this.fileStream) {
