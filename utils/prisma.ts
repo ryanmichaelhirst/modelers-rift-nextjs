@@ -85,6 +85,16 @@ export const createAssets = async ({
   await prisma.$transaction(updates)
 }
 
+export const findManyAssets = async () => {
+  return await prisma.asset.findMany({
+    where: {
+      type: {
+        equals: 'sfx',
+      },
+    },
+  })
+}
+
 export const updateAsset = async ({ id, data }: { id: number; data?: Record<string, unknown> }) => {
   if (!data) return
 

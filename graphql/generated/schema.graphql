@@ -39,6 +39,7 @@ type Asset {
   skin: String
   uri: String
   url: String
+  s3Url: String
   duration: Float
 }
 "The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point)."
