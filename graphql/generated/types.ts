@@ -62,6 +62,7 @@ export type CharacterCollection = {
 
 export type CharactersFilter = {
   assetsTypeEq?: InputMaybe<Scalars['String']>;
+  assetsTypeIncludes?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   nameCnt?: InputMaybe<Scalars['String']>;
   nameEq?: InputMaybe<Scalars['String']>;
   typeEq?: InputMaybe<Scalars['String']>;
@@ -276,7 +277,7 @@ export type Resolvers<ContextType = any> = {
 };
 
 
-export type AssetsFragmentFragment = { __typename?: 'Asset', id?: string | null | undefined, characterId?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, uri?: string | null | undefined, url?: string | null | undefined, duration?: number | null | undefined };
+export type AssetsFragmentFragment = { __typename?: 'Asset', id?: string | null | undefined, characterId?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, url?: string | null | undefined, duration?: number | null | undefined };
 
 export type AssetsQueryVariables = Exact<{
   filter?: InputMaybe<AssetsFilter>;
@@ -285,9 +286,9 @@ export type AssetsQueryVariables = Exact<{
 }>;
 
 
-export type AssetsQuery = { __typename?: 'Query', assets?: { __typename?: 'AssetsCollection', collection?: Array<{ __typename?: 'Asset', id?: string | null | undefined, characterId?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, uri?: string | null | undefined, url?: string | null | undefined, duration?: number | null | undefined, character?: { __typename?: 'Character', name?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+export type AssetsQuery = { __typename?: 'Query', assets?: { __typename?: 'AssetsCollection', collection?: Array<{ __typename?: 'Asset', id?: string | null | undefined, characterId?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, url?: string | null | undefined, duration?: number | null | undefined, character?: { __typename?: 'Character', name?: string | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
-export type CharacterFragmentFragment = { __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, uri?: string | null | undefined, url?: string | null | undefined, duration?: number | null | undefined } | null | undefined> | null | undefined };
+export type CharacterFragmentFragment = { __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, url?: string | null | undefined, duration?: number | null | undefined } | null | undefined> | null | undefined };
 
 export type CharactersQueryVariables = Exact<{
   filter?: InputMaybe<CharactersFilter>;
@@ -297,7 +298,7 @@ export type CharactersQueryVariables = Exact<{
 }>;
 
 
-export type CharactersQuery = { __typename?: 'Query', characters?: { __typename?: 'CharacterCollection', collection?: Array<{ __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, uri?: string | null | undefined, url?: string | null | undefined, duration?: number | null | undefined } | null | undefined> | null | undefined } | null | undefined> | null | undefined, metadata?: { __typename?: 'Metadata', totalCount?: number | null | undefined, totalPages?: number | null | undefined, currentPage?: number | null | undefined, pageSize?: number | null | undefined } | null | undefined } | null | undefined };
+export type CharactersQuery = { __typename?: 'Query', characters?: { __typename?: 'CharacterCollection', collection?: Array<{ __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, url?: string | null | undefined, duration?: number | null | undefined } | null | undefined> | null | undefined } | null | undefined> | null | undefined, metadata?: { __typename?: 'Metadata', totalCount?: number | null | undefined, totalPages?: number | null | undefined, currentPage?: number | null | undefined, pageSize?: number | null | undefined } | null | undefined } | null | undefined };
 
 export type CharacterQueryVariables = Exact<{
   filter?: InputMaybe<CharactersFilter>;
@@ -305,7 +306,7 @@ export type CharacterQueryVariables = Exact<{
 }>;
 
 
-export type CharacterQuery = { __typename?: 'Query', character?: { __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, uri?: string | null | undefined, url?: string | null | undefined, duration?: number | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+export type CharacterQuery = { __typename?: 'Query', character?: { __typename?: 'Character', id?: string | null | undefined, name?: string | null | undefined, displayName?: string | null | undefined, assets?: Array<{ __typename?: 'Asset', id?: string | null | undefined, type?: string | null | undefined, name?: string | null | undefined, skin?: string | null | undefined, url?: string | null | undefined, duration?: number | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
 export type JobsIndexQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -319,7 +320,6 @@ export const AssetsFragmentFragmentDoc = gql`
   type
   name
   skin
-  uri
   url
   duration
 }
@@ -334,7 +334,6 @@ export const CharacterFragmentFragmentDoc = gql`
     type
     name
     skin
-    uri
     url
     duration
   }

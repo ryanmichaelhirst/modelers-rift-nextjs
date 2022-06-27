@@ -11,6 +11,7 @@ input CharactersFilter {
   nameEq: String
   typeEq: String
   assetsTypeEq: String
+  assetsTypeIncludes: [String]
 }
 type Character {
   id: ID

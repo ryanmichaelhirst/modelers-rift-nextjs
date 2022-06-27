@@ -10,6 +10,9 @@ export const Home = () => {
       page: 1,
       pageSize: 5,
       includeAssets: true,
+      filter: {
+        typeEq: 'champion',
+      },
     },
   })
 

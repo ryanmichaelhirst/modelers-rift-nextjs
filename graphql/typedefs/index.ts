@@ -13,6 +13,7 @@ export const typeDefs = gql`
     nameEq: String
     typeEq: String
     assetsTypeEq: String
+    assetsTypeIncludes: [String]
   }
 
   type Character {
