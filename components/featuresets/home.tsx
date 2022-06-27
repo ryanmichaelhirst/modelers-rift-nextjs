@@ -1,6 +1,6 @@
 import { AssetCard } from '@components/asset-card'
 import { Button } from '@components/button'
-import { useCharactersQuery } from '@graphql/generated/types'
+import { useAssetsQuery, useCharactersQuery } from '@graphql/generated/types'
 import { useRouter } from 'next/router'
 
 export const Home = () => {
@@ -15,11 +15,21 @@ export const Home = () => {
       },
     },
   })
+  const { data: assetsData } = useAssetsQuery({
+    variables: {
+      page: 1,
+      pageSize: 5,
+      filter: {
+        typeEq: 'model',
+      },
+    },
+  })
 
   const models = data?.characters?.collection?.map((c) =>
     c?.assets?.filter((a) => a?.type === 'model'),
   )
   console.log({ models })
+  console.log({ assetsData })
 
   return (
     <div className='mt-10'>
@@ -43,7 +53,6 @@ export const Home = () => {
         <div className='flex space-x-5'>
           {data?.characters?.collection?.map((c) => {
             const asset = c?.assets?.find((a) => a?.type === 'model')
-            console.log({ asset })
             // TODO: fix character type?
             // @ts-ignore
 
