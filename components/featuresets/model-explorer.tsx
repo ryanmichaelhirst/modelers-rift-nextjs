@@ -25,7 +25,7 @@ export const ModelExplorer = () => {
         <InteractiveCard selectedChampion={selectedChampion} data={data} model={model} />
       </div>
       <div className='flex-auto'>
-        <ModelChampion modelUrl={uriToUrl(model?.url)} />
+        <ModelChampion modelUrl={model?.uri ? uriToUrl(model.uri) : undefined} />
       </div>
     </div>
   )
