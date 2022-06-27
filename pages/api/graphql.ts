@@ -1,3 +1,4 @@
+import { createServer } from '@graphql-yoga/node'
 import { Resolvers } from '@graphql/generated/types'
 import {
   AssetsResolver,
@@ -6,11 +7,6 @@ import {
   JobsResolver,
 } from '@graphql/resolvers'
 import { typeDefs } from '@graphql/typedefs/index'
-import { createGraphqlContext } from '@lib/graphql'
-import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core'
-import { ApolloServer } from 'apollo-server-micro'
-import Cors from 'micro-cors'
-import { PageConfig } from 'next'
 
 const resolvers: Resolvers = {
   Query: {
@@ -21,37 +17,9 @@ const resolvers: Resolvers = {
   },
 }
 
-const cors = Cors()
-
-const apolloServer = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context: createGraphqlContext,
-  introspection: true,
-  plugins: [ApolloServerPluginLandingPageLocalDefault({ footer: false })],
-})
-const startServer = apolloServer.start()
-
-export default cors(async (req: any, res: any) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Credentials', 'true')
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-
-  if (req.method === 'OPTIONS') {
-    res.end()
-
-    return false
-  }
-
-  await startServer
-  await apolloServer.createHandler({
-    path: '/api/graphql',
-  })(req, res)
+const server = createServer({
+  schema: { typeDefs, resolvers },
+  port: 4000,
 })
 
-// // Apollo Server Micro takes care of body parsing
-export const config: PageConfig = {
-  api: {
-    bodyParser: false,
-  },
-}
+export default server
