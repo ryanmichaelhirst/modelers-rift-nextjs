@@ -45,6 +45,7 @@ export const typeDefs = gql`
     skin: String
     uri: String
     url: String
+    s3Url: String
     duration: Float
   }
 
