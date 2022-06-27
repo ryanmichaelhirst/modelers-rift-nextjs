@@ -2,6 +2,7 @@ import InteractiveCard from '@components/interactive-card'
 import { ModelChampion } from '@components/model-champion'
 import { useAppContext } from '@context/index'
 import { useCharacterQuery } from '@graphql/generated/types'
+import { uriToUrl } from '@utils/index'
 
 export const ModelExplorer = () => {
   const [{ selectedChampion }] = useAppContext()
@@ -24,7 +25,7 @@ export const ModelExplorer = () => {
         <InteractiveCard selectedChampion={selectedChampion} data={data} model={model} />
       </div>
       <div className='flex-auto'>
-        <ModelChampion modelUrl={model?.url} />
+        <ModelChampion modelUrl={uriToUrl(model?.url)} />
       </div>
     </div>
   )

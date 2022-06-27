@@ -1,6 +1,7 @@
 import { useAppContext } from '@context/index'
 import { SET_CURRENT_AUDIO } from '@customtypes/index'
 import type { Asset } from '@graphql/generated/types'
+import { uriToUrl } from '@utils/index'
 import classNames from 'classnames'
 
 export const AssetTable: React.FC<{ data?: (Asset | null | undefined)[] }> = ({ data }) => {
@@ -25,10 +26,12 @@ export const AssetTable: React.FC<{ data?: (Asset | null | undefined)[] }> = ({ 
       <tbody>
         {data?.slice(0, 20).map((s, idx) => (
           <tr
-            onClick={onRowClick(s?.url)}
-            key={s?.url}
+            onClick={onRowClick(uriToUrl(s?.uri))}
+            key={s?.uri}
             className={classNames(
-              s?.url === currentAudio ? 'text-sunset-900 font-semibold' : 'text-slate-400',
+              uriToUrl(s?.uri) === currentAudio
+                ? 'text-sunset-900 font-semibold'
+                : 'text-slate-400',
               'text-lg cursor-pointer hover:text-sunset-800',
             )}
           >

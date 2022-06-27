@@ -5,7 +5,7 @@ import type { Asset } from '@graphql/generated/types'
 import { PauseOutlined, PlayArrow, SkipNext, SkipPrevious } from '@mui/icons-material'
 import { Slider } from '@mui/material'
 import { FC, useEffect, useState } from 'react'
-import { getAssetDisplayName } from '../utils'
+import { getAssetDisplayName, uriToUrl } from '../utils'
 
 export const AssetPlayer: FC<{
   assets?: (Asset | null | undefined)[]
@@ -36,23 +36,23 @@ export const AssetPlayer: FC<{
   const onPrev = () => {
     if (!currentAudio || !assets) return
 
-    const curIndex = assets.findIndex((s) => s?.url === currentAudio)
+    const curIndex = assets.findIndex((s) => uriToUrl(s?.uri) === currentAudio)
     const prevIndex = curIndex === assets.length - 1 ? 0 : curIndex - 1
     const prevSound = assets[prevIndex]
-    if (!prevSound?.url) return
+    if (!prevSound?.uri) return
 
-    dispatch({ type: SET_CURRENT_AUDIO, payload: prevSound.url })
+    dispatch({ type: SET_CURRENT_AUDIO, payload: uriToUrl(prevSound.uri) })
   }
 
   const onNext = () => {
     if (!currentAudio || !assets) return
 
-    const curIndex = assets.findIndex((s) => s?.url === currentAudio)
+    const curIndex = assets.findIndex((s) => uriToUrl(s?.uri) === currentAudio)
     const nextIndex = curIndex === assets.length - 1 ? 0 : curIndex + 1
     const nextSound = assets[nextIndex]
-    if (!nextSound?.url) return
+    if (!nextSound?.uri) return
 
-    dispatch({ type: SET_CURRENT_AUDIO, payload: nextSound.url })
+    dispatch({ type: SET_CURRENT_AUDIO, payload: uriToUrl(nextSound.uri) })
   }
 
   const onPause = () => {

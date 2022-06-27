@@ -1,6 +1,7 @@
 import type { Asset, Character } from '@customtypes/index'
 import { OrbitControls, PerspectiveCamera, Preload } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
+import { uriToUrl } from '@utils/index'
 import { Suspense } from 'react'
 import { Button } from './button'
 import { Card } from './card'
@@ -11,7 +12,8 @@ export const AssetCard: React.FC<{ asset: Asset; character: Character }> = ({
   character,
   asset,
 }) => {
-  if (!asset?.url) return null
+  if (!asset?.uri) return null
+  const url = uriToUrl(asset.uri)
 
   return (
     <Card classes='flex-none'>
@@ -20,7 +22,7 @@ export const AssetCard: React.FC<{ asset: Asset; character: Character }> = ({
       <div className='w-[150px]'>
         <Canvas>
           <Suspense fallback={<ModelLoader />}>
-            <ModelGltf url={asset.url} />
+            <ModelGltf url={url} />
             <OrbitControls />
             <PerspectiveCamera makeDefault position={[300, 150, 200]} />
             <Preload />
