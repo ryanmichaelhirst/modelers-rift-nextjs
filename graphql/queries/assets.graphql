@@ -4,6 +4,7 @@ fragment AssetsFragment on Asset {
   type
   name
   skin
+  uri
   url
   duration
 }
