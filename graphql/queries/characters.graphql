@@ -9,6 +9,7 @@ fragment CharacterFragment on Character {
     skin
     uri
     url
+    s3Url
     duration
   }
 }

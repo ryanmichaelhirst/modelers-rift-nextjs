@@ -6,6 +6,7 @@ fragment AssetsFragment on Asset {
   skin
   uri
   url
+  s3Url
   duration
 }
 
