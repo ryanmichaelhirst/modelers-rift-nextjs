@@ -12,7 +12,11 @@ export const Home = () => {
       includeAssets: true,
     },
   })
-  console.log(data, loading, error)
+
+  const models = data?.characters?.collection?.map((c) =>
+    c?.assets?.filter((a) => a?.type === 'model'),
+  )
+  console.log({ models })
 
   return (
     <div className='mt-10'>
@@ -36,6 +40,7 @@ export const Home = () => {
         <div className='flex space-x-5'>
           {data?.characters?.collection?.map((c) => {
             const asset = c?.assets?.find((a) => a?.type === 'model')
+            console.log({ asset })
             // TODO: fix character type?
             // @ts-ignore
 
