@@ -24,6 +24,6 @@ model Asset {
   name         String
   skin         String
   uri          String @unique
-  url          String @unique
+  url          String?
   duration     Float?
 }
