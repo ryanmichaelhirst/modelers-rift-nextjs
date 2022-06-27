@@ -25,5 +25,6 @@ model Asset {
   skin         String
   uri          String @unique
   url          String?
+  s3_url       String?
   duration     Float?
 }
