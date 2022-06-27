@@ -5,13 +5,14 @@ import { useRouter } from 'next/router'
 
 export const Home = () => {
   const router = useRouter()
-  const { data } = useCharactersQuery({
+  const { data, loading, error } = useCharactersQuery({
     variables: {
       page: 1,
       pageSize: 5,
       includeAssets: true,
     },
   })
+  console.log(data, loading, error)
 
   return (
     <div className='mt-10'>
