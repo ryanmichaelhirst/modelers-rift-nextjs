@@ -3,24 +3,23 @@ import { AssetTable } from '@components/asset-table'
 import { BottomNavigation } from '@components/bottom-navigation'
 import { GlassCard } from '@components/glass-card'
 import { SkinCarousel } from '@components/skin-carousel'
-import { useAppContext } from '@context/index'
 import { AssetType } from '@customtypes/constants'
+import { Asset, SelectedChampion } from '@customtypes/index'
 import { useCharacterQuery } from '@graphql/generated/types'
 import { useRouter } from 'next/router'
 import { MouseEvent } from 'react'
 import { AnimationPlayer } from './animation-player'
 import { AnimationTable } from './animation-table'
 
-const InteractiveCard = () => {
-  const [{ selectedChampion }] = useAppContext()
-  const { data, loading: characterLoading, error } = useCharacterQuery({
-    variables: {
-      filter: {
-        nameEq: selectedChampion.basicInfo?.name?.toLowerCase(),
-      },
-      includeAssets: true,
-    },
-  })
+const InteractiveCard = ({
+  selectedChampion,
+  data,
+  model,
+}: {
+  selectedChampion: SelectedChampion
+  data: ReturnType<typeof useCharacterQuery>['data']
+  model: Asset
+}) => {
   const router = useRouter()
   const filter = router.query.filter ? (router.query.filter as string | undefined) : 'audio'
   const assets = data?.character?.assets?.filter((a) => {
@@ -35,12 +34,15 @@ const InteractiveCard = () => {
     })
   }
 
+  // TODO: move to upload-assets script
+  const skinName = selectedChampion.detailedInfo?.skins?.find(
+    (skin) => skin.num?.toString() === model?.skin?.replace(/skin/g, ''),
+  )?.name
+
   return (
     <GlassCard classes='flex flex-col h-full min-h-0' hasPadding={false}>
       <div className='flex-initial p-7'>
-        <p className='text-slate-500 pb-0 text-sm font-nunito font-bold'>
-          {selectedChampion.skin ?? 'Default'}
-        </p>
+        <p className='text-slate-500 pb-0 text-sm font-nunito font-bold'>{skinName}</p>
         <p className='text-sunset-900 text-2xl font-nunito pb-2'>
           {selectedChampion.basicInfo?.name}
         </p>

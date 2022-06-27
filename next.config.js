@@ -6,6 +6,9 @@ module.exports = withBundleAnalyzer({
   eslint: {
     dirs: ['components', 'pages', 'lib', 'utils'],
   },
+  images: {
+    domains: ['ddragon.leagueoflegends.com'],
+  },
   typescript: {
     // TODO: fix typescript errors
     // !! WARN !!

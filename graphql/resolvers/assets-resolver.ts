@@ -19,6 +19,9 @@ export const AssetsResolver = async (parent, args, ctx) => {
         skin: {
           equals: args?.filter.skinEq,
         },
+        characterId: {
+          equals: args?.filter.characterIdEq,
+        },
       }
     : {}
 

@@ -1,6 +1,7 @@
 import {
   Autocomplete,
   AutocompleteClasses,
+  AutocompleteRenderOptionState,
   FilledInputClasses,
   InputClasses,
   InputLabelClasses,
@@ -29,6 +30,8 @@ export const Input = ({
   variant = 'outlined',
   size = 'small',
   disableClearable = false,
+  renderOption,
+  isOptionEqualToValue,
 }: {
   multiple?: boolean
   options: any[]
@@ -41,6 +44,12 @@ export const Input = ({
   variant?: 'outlined' | 'filled' | 'standard'
   disableClearable?: boolean
   onChange: (e: React.SyntheticEvent<Element, Event>, value: any, reason: string) => void
+  renderOption?: (
+    props: React.HTMLAttributes<HTMLLIElement>,
+    option: any,
+    state: AutocompleteRenderOptionState,
+  ) => React.ReactNode
+  isOptionEqualToValue?: ((option: any, value: any) => boolean) | undefined
 }) => {
   return (
     <Stack spacing={2}>
@@ -54,6 +63,8 @@ export const Input = ({
         className={classNames(classes)}
         options={options}
         value={value}
+        renderOption={renderOption}
+        isOptionEqualToValue={isOptionEqualToValue}
         renderInput={(params) => (
           <TextField
             {...params}

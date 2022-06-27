@@ -21,7 +21,7 @@ export const AssetPlayer: FC<{
     if (currentAudio) {
       // pause previous audio
       audioEl?.pause()
-      fetch(`/api/audio/${currentAudio}`)
+      fetch(currentAudio)
         .then((res) => {
           const htmlAudio = new Audio(res.url)
           htmlAudio.play()
@@ -36,23 +36,23 @@ export const AssetPlayer: FC<{
   const onPrev = () => {
     if (!currentAudio || !assets) return
 
-    const curIndex = assets.findIndex((s) => s?.path === currentAudio)
+    const curIndex = assets.findIndex((s) => s?.url === currentAudio)
     const prevIndex = curIndex === assets.length - 1 ? 0 : curIndex - 1
     const prevSound = assets[prevIndex]
-    if (!prevSound?.path) return
+    if (!prevSound?.url) return
 
-    dispatch({ type: SET_CURRENT_AUDIO, payload: prevSound.path })
+    dispatch({ type: SET_CURRENT_AUDIO, payload: prevSound.url })
   }
 
   const onNext = () => {
     if (!currentAudio || !assets) return
 
-    const curIndex = assets.findIndex((s) => s?.path === currentAudio)
+    const curIndex = assets.findIndex((s) => s?.url === currentAudio)
     const nextIndex = curIndex === assets.length - 1 ? 0 : curIndex + 1
     const nextSound = assets[nextIndex]
-    if (!nextSound?.path) return
+    if (!nextSound?.url) return
 
-    dispatch({ type: SET_CURRENT_AUDIO, payload: nextSound.path })
+    dispatch({ type: SET_CURRENT_AUDIO, payload: nextSound.url })
   }
 
   const onPause = () => {

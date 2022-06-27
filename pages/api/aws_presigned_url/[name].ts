@@ -21,7 +21,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const [folder, file] =
     typeof req.query.name === 'string' ? req.query.name.split('-') : req.query.name
 
-  const key = `${folder}/model/${file}/default.glb`
+  const key = `${folder}/model/${file}.glb`
   const command = new GetObjectCommand({
     Bucket: BUCKET_NAME,
     Key: key,

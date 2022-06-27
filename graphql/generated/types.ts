@@ -39,6 +39,7 @@ export type AssetsCollection = {
 };
 
 export type AssetsFilter = {
+  characterId?: InputMaybe<Scalars['String']>;
   pathIncludes?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   skinEq?: InputMaybe<Scalars['String']>;
   typeEq?: InputMaybe<Scalars['String']>;

@@ -32,6 +32,7 @@ export const typeDefs = gql`
     typeIncludes: [String]
     pathIncludes: [String]
     skinEq: String
+    characterId: String
   }
 
   type Asset {

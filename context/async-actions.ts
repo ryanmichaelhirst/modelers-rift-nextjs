@@ -35,6 +35,7 @@ export const asyncActionHandlers: AsyncActionHandlers<Reducer<AppState, Action>,
       payload: {
         basicInfo,
         detailedInfo,
+        skin: 'skin0',
       },
     })
   },

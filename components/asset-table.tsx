@@ -6,10 +6,10 @@ import classNames from 'classnames'
 export const AssetTable: React.FC<{ data?: (Asset | null | undefined)[] }> = ({ data }) => {
   const [{ currentAudio }, dispatch] = useAppContext()
 
-  const onRowClick = (path?: string | null) => () => {
-    if (!path) return
+  const onRowClick = (url?: string | null) => () => {
+    if (!url) return
 
-    dispatch({ type: SET_CURRENT_AUDIO, payload: path })
+    dispatch({ type: SET_CURRENT_AUDIO, payload: url })
   }
 
   return (
@@ -25,10 +25,10 @@ export const AssetTable: React.FC<{ data?: (Asset | null | undefined)[] }> = ({ 
       <tbody>
         {data?.slice(0, 20).map((s, idx) => (
           <tr
-            onClick={onRowClick(s?.path)}
-            key={s?.path}
+            onClick={onRowClick(s?.url)}
+            key={s?.url}
             className={classNames(
-              s?.path === currentAudio ? 'text-sunset-900 font-semibold' : 'text-slate-400',
+              s?.url === currentAudio ? 'text-sunset-900 font-semibold' : 'text-slate-400',
               'text-lg cursor-pointer hover:text-sunset-800',
             )}
           >

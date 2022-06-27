@@ -1,5 +1,6 @@
 import { ChampionBasicInfo, ChampionDetailedInfo, Item } from '@customtypes/index'
 import { CHAMPION_NAMES } from '@utils/championNames'
+import 'isomorphic-fetch'
 
 /* CHAMPIONS */
 export const getChampions = async (patch: string) => {
@@ -103,5 +104,9 @@ export const getSplashArtLink = (displayName: string, skinNum: number | string) 
     '',
   )}_${skinNum}.jpg`
 
-export const getAssetDisplayName = (name?: string | null) =>
-  name?.replace(/_/g, ' ').replace('.ogg', '')
+export const getAssetDisplayName = (url?: string | null) => {
+  const pieces = url?.split('/') ?? []
+  const words = pieces[pieces.length - 1].replace('.ogg', '').replace(/_/g, ' ').split(' ')
+
+  return words.map((w) => `${w[0].toUpperCase()}${w.substring(1)}`).join(' ')
+}

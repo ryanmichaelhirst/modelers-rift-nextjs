@@ -12,25 +12,12 @@ import { useAppContext } from '../context'
 import { ModelGltf } from './model-gltf'
 import { ModelLoader } from './model-loader'
 
-export const ModelChampion: FC<{ canvasHeight?: number }> = ({ canvasHeight }) => {
+export const ModelChampion: FC<{
+  modelUrl?: string | null
+}> = ({ modelUrl }) => {
   // React.useContext() does not work inside of suspense, so context is hoisted here
-  const [{ selectedChampion, currentAnimation, playAllAnimations }, dispatch] = useAppContext()
+  const [{ currentAnimation, playAllAnimations }, dispatch] = useAppContext()
   const [animationMixer, setAnimationMixer] = useState<useAnimationResult>()
-  const [presignedUrl, setPresignedUrl] = useState<string>()
-
-  useEffect(() => {
-    const getData = async () => {
-      setPresignedUrl(undefined)
-      const skinNum = selectedChampion.skin || 'skin0'
-      const champName = selectedChampion.basicInfo?.name?.toLowerCase().replace(' ', '') || 'aatrox'
-      const url = await fetch(`/api/aws_presigned_url/${champName}-${skinNum}`).then((res) =>
-        res.text(),
-      )
-      setPresignedUrl(url)
-    }
-
-    getData()
-  }, [selectedChampion])
 
   const playAnimation = usePlayAnimation({
     mixer: animationMixer?.mixer,
@@ -92,12 +79,12 @@ export const ModelChampion: FC<{ canvasHeight?: number }> = ({ canvasHeight }) =
     }
   }, [animationMixer, playAllAnimations])
 
-  if (!presignedUrl) return null
+  if (!modelUrl) return null
 
   return (
     <Canvas>
       <Suspense fallback={<ModelLoader />}>
-        <ModelGltf url={presignedUrl} onSetAnimationMixer={onSetAnimationMixer} />
+        <ModelGltf url={modelUrl} onSetAnimationMixer={onSetAnimationMixer} />
         <OrbitControls />
         <PerspectiveCamera makeDefault position={[300, 300, 200]} />
         <Preload />

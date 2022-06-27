@@ -1,20 +1,17 @@
 import { AssetCard } from '@components/asset-card'
 import { Button } from '@components/button'
-import { useAssetsQuery } from '@graphql/generated/types'
+import { useCharactersQuery } from '@graphql/generated/types'
+import { useRouter } from 'next/router'
 
 export const Home = () => {
-  const { data } = useAssetsQuery({
+  const router = useRouter()
+  const { data } = useCharactersQuery({
     variables: {
       page: 1,
       pageSize: 5,
-      filter: {
-        typeEq: 'model',
-        skinEq: 'skin0',
-      },
+      includeAssets: true,
     },
   })
-
-  console.log(data?.assets?.collection)
 
   return (
     <div className='mt-10'>
@@ -32,12 +29,17 @@ export const Home = () => {
               root: 'font-nunito bg-primary py-3 px-7 text-white',
             }}
             text='Show me models'
+            onClick={() => router.push('models')}
           />
         </div>
         <div className='flex space-x-5'>
-          {data?.assets?.collection?.map((a) => (
-            <AssetCard key={a?.id} asset={a} url={a?.url} />
-          ))}
+          {data?.characters?.collection?.map((c) => {
+            const asset = c?.assets?.find((a) => a?.type === 'model')
+            // TODO: fix character type?
+            // @ts-ignore
+
+            return <AssetCard key={c?.id} character={c} asset={asset} />
+          })}
         </div>
       </div>
     </div>

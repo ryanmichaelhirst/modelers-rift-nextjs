@@ -1,5 +1,5 @@
 import { useAnimations } from '@react-three/drei'
-import type { Asset as AssetType } from 'graphql/generated/types'
+import type { Asset as AssetType, Character as CharacterType } from 'graphql/generated/types'
 
 /**
  * Components
@@ -25,6 +25,7 @@ export interface AnimatedModelProps {
  * Graphql
  */
 export type Asset = AssetType | null | undefined
+export type Character = CharacterType | null | undefined
 
 /**
  * DDragon
