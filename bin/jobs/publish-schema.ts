@@ -13,3 +13,5 @@ export const publishSchema = async () => {
     logger.info('Failed to publish schema to apollo')
   }
 }
+
+export default publishSchema

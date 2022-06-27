@@ -1,3 +1,4 @@
+import { makeExecutableSchema } from '@graphql-tools/schema'
 import { createServer } from '@graphql-yoga/node'
 import { Resolvers } from '@graphql/generated/types'
 import {
@@ -18,7 +19,7 @@ const resolvers: Resolvers = {
 }
 
 const server = createServer({
-  schema: { typeDefs, resolvers },
+  schema: makeExecutableSchema({ typeDefs, resolvers }),
   port: 4000,
 })
 

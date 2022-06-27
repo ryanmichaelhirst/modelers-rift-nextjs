@@ -52,6 +52,7 @@
     "@graphql-codegen/typescript-operations": "^2.2.2",
     "@graphql-codegen/typescript-react-apollo": "^3.2.4",
     "@graphql-codegen/typescript-resolvers": "^2.4.3",
+    "@graphql-tools/schema": "^8.4.0",
     "@leafac/sqlite": "^1.5.0",
     "@next/bundle-analyzer": "^12.1.4",
     "@next/eslint-plugin-next": "^12.1.4",
