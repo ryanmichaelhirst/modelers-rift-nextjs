@@ -1,4 +1,5 @@
 import type { Asset, Character } from '@customtypes/index'
+import { CircularProgress } from '@mui/material'
 import { OrbitControls, PerspectiveCamera, Preload } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { uriToUrl } from '@utils/index'
@@ -12,22 +13,26 @@ export const AssetCard: React.FC<{ asset: Asset; character: Character }> = ({
   character,
   asset,
 }) => {
-  if (!asset?.uri) return null
-  const url = uriToUrl(asset.uri)
+  const url = asset?.uri ? uriToUrl(asset.uri) : undefined
+  console.log({ url })
 
   return (
-    <Card classes='flex-none'>
+    <Card>
       <p className='text-tertiary font-nunito font-bold text-lg capitalize'>{character?.name}</p>
       <p>{asset?.name}</p>
       <div className='w-[150px]'>
-        <Canvas>
-          <Suspense fallback={<ModelLoader />}>
-            <ModelGltf url={url} />
-            <OrbitControls />
-            <PerspectiveCamera makeDefault position={[300, 150, 200]} />
-            <Preload />
-          </Suspense>
-        </Canvas>
+        {url ? (
+          <Canvas>
+            <Suspense fallback={<ModelLoader />}>
+              <ModelGltf url={url} />
+              <OrbitControls />
+              <PerspectiveCamera makeDefault position={[300, 150, 200]} />
+              <Preload />
+            </Suspense>
+          </Canvas>
+        ) : (
+          <CircularProgress />
+        )}
       </div>
       <Button
         classes={{

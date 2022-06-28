@@ -14,7 +14,6 @@ export const ModelGltf = ({
   const ref = useRef()
   const model = useLoader(GLTFLoader, url)
   const { mixer, names, actions, clips } = useAnimations(model.animations, ref)
-  console.log({ model })
 
   useEffect(() => {
     if (onSetAnimationMixer) {

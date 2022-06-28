@@ -1,6 +1,7 @@
 import { AssetCard } from '@components/asset-card'
 import { Button } from '@components/button'
-import { useAssetsQuery, useCharactersQuery } from '@graphql/generated/types'
+import { useCharactersQuery } from '@graphql/generated/types'
+import { LinearProgress } from '@mui/material'
 import { useRouter } from 'next/router'
 
 export const Home = () => {
@@ -8,32 +9,17 @@ export const Home = () => {
   const { data, loading, error } = useCharactersQuery({
     variables: {
       page: 1,
-      pageSize: 5,
+      pageSize: 7,
       includeAssets: true,
       filter: {
         typeEq: 'champion',
       },
     },
   })
-  const { data: assetsData } = useAssetsQuery({
-    variables: {
-      page: 1,
-      pageSize: 5,
-      filter: {
-        typeEq: 'model',
-      },
-    },
-  })
-
-  const models = data?.characters?.collection?.map((c) =>
-    c?.assets?.filter((a) => a?.type === 'model'),
-  )
-  console.log({ models })
-  console.log({ assetsData })
 
   return (
     <div className='mt-10'>
-      <div className='flex space-x-20'>
+      <div className='flex-col space-x-20'>
         <div className='w-[600px]'>
           <p className='text-primary text-4xl font-nunito mb-8'>
             Bringing the champions you love to The Web
@@ -50,14 +36,20 @@ export const Home = () => {
             onClick={() => router.push('models')}
           />
         </div>
-        <div className='flex space-x-5'>
-          {data?.characters?.collection?.map((c) => {
-            const asset = c?.assets?.find((a) => a?.type === 'model')
-            // TODO: fix character type?
-            // @ts-ignore
+        <div className='flex grow space-x-5 mt-10'>
+          {loading ? (
+            <div className='grow'>
+              <LinearProgress />
+            </div>
+          ) : (
+            data?.characters?.collection?.map((c) => {
+              const asset = c?.assets?.find((a) => a?.type === 'model')
+              // TODO: fix character type?
+              // @ts-ignore
 
-            return <AssetCard key={c?.id} character={c} asset={asset} />
-          })}
+              return <AssetCard key={c?.id} character={c} asset={asset} />
+            })
+          )}
         </div>
       </div>
     </div>
