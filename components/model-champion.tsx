@@ -13,7 +13,7 @@ import { ModelGltf } from './model-gltf'
 import { ModelLoader } from './model-loader'
 
 export const ModelChampion: FC<{
-  modelUrl?: string | null
+  modelUrl: string
 }> = ({ modelUrl }) => {
   // React.useContext() does not work inside of suspense, so context is hoisted here
   const [{ currentAnimation, playAllAnimations }, dispatch] = useAppContext()
@@ -78,8 +78,6 @@ export const ModelChampion: FC<{
       animationMixer.mixer.removeEventListener('finished', onAnimationActionFinished)
     }
   }, [animationMixer, playAllAnimations])
-
-  if (!modelUrl) return null
 
   return (
     <Canvas>

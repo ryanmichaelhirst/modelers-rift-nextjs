@@ -22,7 +22,7 @@ export const ModelGltf = ({
   }, [])
 
   return (
-    <group ref={ref} dispose={null}>
+    <group ref={ref}>
       <primitive object={model.scene} scale={[-1, 1, 1]} />
     </group>
   )

@@ -14,7 +14,6 @@ export const AssetCard: React.FC<{ asset: Asset; character: Character }> = ({
   asset,
 }) => {
   const url = asset?.uri ? uriToUrl(asset.uri) : undefined
-  console.log({ url })
 
   return (
     <Card>

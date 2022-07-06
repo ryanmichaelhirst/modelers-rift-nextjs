@@ -16,7 +16,9 @@ import { SET_CHAMPIONS, SET_ITEMS, SET_PATCHES, SET_SELECTED_PATCH } from '../ty
 import { asyncActionHandlers } from './async-actions'
 
 export const initialState: AppState = {
-  selectedChampion: {},
+  selectedChampion: {
+    skin: 'skin0',
+  },
   patches: [],
   selectedPatch: '12.2.1',
   lolChampionsData: {},
