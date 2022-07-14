@@ -1,7 +1,7 @@
 import { useAnimationResult } from '@customtypes/index'
 import { useAnimations } from '@react-three/drei'
 import { useLoader } from '@react-three/fiber'
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 export const ModelGltf = ({

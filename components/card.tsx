@@ -1,7 +1,7 @@
 import classNames from 'classnames'
-import React, { FC } from 'react'
+import React, { FC, PropsWithChildren } from 'react'
 
-export const Card: FC<{ classes?: string; style?: React.CSSProperties }> = ({
+export const Card: FC<PropsWithChildren<{ classes?: string; style?: React.CSSProperties }>> = ({
   classes,
   style,
   children,

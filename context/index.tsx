@@ -10,7 +10,7 @@ import {
   SET_SELECTED_CHAMPION,
   SET_SELECTED_SKIN,
 } from '@customtypes/index'
-import { createContext, FC, Reducer, useContext } from 'react'
+import { createContext, FC, PropsWithChildren, Reducer, useContext } from 'react'
 import { useReducerAsync } from 'use-reducer-async'
 import { SET_CHAMPIONS, SET_ITEMS, SET_PATCHES, SET_SELECTED_PATCH } from '../types'
 import { asyncActionHandlers } from './async-actions'
@@ -30,7 +30,7 @@ const Store = createContext<[AppState, ContextDispatch]>([{} as AppState, () => 
 
 export const useAppContext = () => useContext(Store)
 
-export const StoreProvider: FC<{ initialState: AppState; reducer: any }> = ({
+export const StoreProvider: FC<PropsWithChildren<{ initialState: AppState; reducer: any }>> = ({
   children,
   initialState,
   reducer,

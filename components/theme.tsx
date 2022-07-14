@@ -1,5 +1,5 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { FC } from 'react'
+import { FC, PropsWithChildren } from 'react'
 
 const theme = createTheme({
   components: {
@@ -30,4 +30,6 @@ const theme = createTheme({
   },
 })
 
-export const Theme: FC = ({ children }) => <ThemeProvider theme={theme}>{children}</ThemeProvider>
+export const Theme: FC<PropsWithChildren> = ({ children }) => (
+  <ThemeProvider theme={theme}>{children}</ThemeProvider>
+)
