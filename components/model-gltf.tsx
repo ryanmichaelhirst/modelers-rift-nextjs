@@ -2,6 +2,7 @@ import { useAnimationResult } from '@customtypes/index'
 import { useAnimations } from '@react-three/drei'
 import { useLoader } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
+import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 export const ModelGltf = ({
@@ -11,7 +12,7 @@ export const ModelGltf = ({
   url: string
   onSetAnimationMixer?: ({ mixer, names, actions, clips }: useAnimationResult) => void
 }) => {
-  const ref = useRef()
+  const ref = useRef<THREE.Group>(null)
   const model = useLoader(GLTFLoader, url)
   const { mixer, names, actions, clips } = useAnimations(model.animations, ref)
 

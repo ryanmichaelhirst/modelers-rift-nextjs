@@ -1,6 +1,6 @@
 import type { Asset, Character } from '@customtypes/index'
 import { CircularProgress } from '@mui/material'
-import { OrbitControls, PerspectiveCamera, Preload } from '@react-three/drei'
+import { Preload, Stage } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { uriToUrl } from '@utils/index'
 import { Suspense } from 'react'
@@ -21,11 +21,11 @@ export const AssetCard: React.FC<{ asset: Asset; character: Character }> = ({
       <p>{asset?.name}</p>
       <div className='w-[150px]'>
         {url ? (
-          <Canvas>
+          <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 5], fov: 50 }}>
             <Suspense fallback={<ModelLoader />}>
-              <ModelGltf url={url} />
-              <OrbitControls />
-              <PerspectiveCamera makeDefault position={[300, 150, 200]} />
+              <Stage>
+                <ModelGltf url={url} />
+              </Stage>
               <Preload />
             </Suspense>
           </Canvas>

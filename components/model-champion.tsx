@@ -5,7 +5,7 @@ import {
   useAnimationResult,
 } from '@customtypes/index'
 import usePlayAnimation from '@hooks/use-play-animation'
-import { OrbitControls, PerspectiveCamera, Preload } from '@react-three/drei'
+import { Preload, Stage } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { FC, Suspense, useEffect, useState } from 'react'
 import { useAppContext } from '../context'
@@ -80,13 +80,14 @@ export const ModelChampion: FC<{
   }, [animationMixer, playAllAnimations])
 
   return (
-    <Canvas>
+    <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 5], fov: 50 }}>
       <Suspense fallback={<ModelLoader />}>
-        <ModelGltf url={modelUrl} onSetAnimationMixer={onSetAnimationMixer} />
-        <OrbitControls />
-        <PerspectiveCamera makeDefault position={[300, 300, 200]} />
+        <Stage>
+          <ModelGltf url={modelUrl} onSetAnimationMixer={onSetAnimationMixer} />
+        </Stage>
         <Preload />
       </Suspense>
+      {/* <OrbitControls /> */}
     </Canvas>
   )
 }
