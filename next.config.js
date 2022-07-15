@@ -17,4 +17,14 @@ module.exports = withBundleAnalyzer({
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  webpack(config, options) {
+    // enable loading of .graphql files
+    config.module.rules.push({
+      test: /\.graphql$/,
+      exclude: /node_modules/,
+      use: [options.defaultLoaders.babel, { loader: 'graphql-tag/loader' }],
+    })
+
+    return config
+  },
 })

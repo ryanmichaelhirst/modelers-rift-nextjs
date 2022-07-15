@@ -4,19 +4,10 @@ import { Carousel } from '@components/carousel'
 import { useCharactersQuery } from '@graphql/generated/types'
 import { LinearProgress } from '@mui/material'
 import { useRouter } from 'next/router'
+import { FC } from 'react'
 
-export const Home = () => {
+export const Home: FC<ReturnType<typeof useCharactersQuery>> = ({ data, loading, error }) => {
   const router = useRouter()
-  const { data, loading, error } = useCharactersQuery({
-    variables: {
-      page: 1,
-      pageSize: 7,
-      includeAssets: true,
-      filter: {
-        typeEq: 'champion',
-      },
-    },
-  })
 
   return (
     <div className='mt-10'>
