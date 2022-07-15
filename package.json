@@ -23,8 +23,8 @@
     "@graphql-yoga/node": "^2.9.2",
     "@mui/icons-material": "^5.0.5",
     "@mui/material": "^5.0.4",
-    "@react-three/drei": "8.11.0",
-    "@react-three/fiber": "7.0.26",
+    "@react-three/drei": "9.17.1",
+    "@react-three/fiber": "8.2.0",
     "abort-controller": "^3.0.0",
     "apollo-server-core": "^3.6.7",
     "apollo-server-micro": "^3.6.7",
@@ -43,7 +43,7 @@
     "react-hook-form": "^7.28.0",
     "react-select": "^4.3.1",
     "swr": "^1.2.2",
-    "three": "0.138.0",
+    "three": "0.142.0",
     "use-reducer-async": "^2.1.0"
   },
   "devDependencies": {
@@ -64,7 +64,7 @@
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "@types/react-select": "^4.0.17",
-    "@types/three": "0.137.0",
+    "@types/three": "0.141.0",
     "@types/yargs": "^17.0.2",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "@typescript-eslint/parser": "^5.17.0",
