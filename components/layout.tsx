@@ -9,6 +9,6 @@ export const Layout: React.FC<React.PropsWithChildren> = ({ children }) => (
     <div className='flex-intial'>
       <MenuBar />
     </div>
-    <div className='flex flex-col justify-between flex-grow min-h-0 mx-20'>{children}</div>
+    <div className='flex-grow min-h-0 mx-20'>{children}</div>
   </div>
 )
