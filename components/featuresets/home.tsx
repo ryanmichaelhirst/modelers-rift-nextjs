@@ -1,5 +1,6 @@
 import { AssetCard } from '@components/asset-card'
 import { Button } from '@components/button'
+import { Carousel } from '@components/carousel'
 import { useCharactersQuery } from '@graphql/generated/types'
 import { LinearProgress } from '@mui/material'
 import { useRouter } from 'next/router'
@@ -36,21 +37,22 @@ export const Home = () => {
             onClick={() => router.push('models')}
           />
         </div>
-        <div className='flex grow space-x-5 mt-10'>
-          {loading ? (
-            <div className='grow'>
-              <LinearProgress />
-            </div>
-          ) : (
+        {loading && (
+          <div className='grow'>
+            <LinearProgress />
+          </div>
+        )}
+        <Carousel
+          items={
             data?.characters?.collection?.map((c) => {
               const asset = c?.assets?.find((a) => a?.type === 'model')
               // TODO: fix character type?
               // @ts-ignore
 
               return <AssetCard key={c?.id} character={c} asset={asset} />
-            })
-          )}
-        </div>
+            }) ?? []
+          }
+        />
       </div>
     </div>
   )

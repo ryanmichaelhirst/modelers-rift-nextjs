@@ -32,6 +32,15 @@ module.exports = {
         bruno: ['Bruno Ace SC', 'sans-serif'],
         montserrat: ['Montserrat'],
       },
+      keyframes: {
+        pan: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(calc(-250px * 7))' },
+        },
+      },
+      animation: {
+        pan: 'pan 40s linear infinite',
+      },
     },
   },
   variants: {
