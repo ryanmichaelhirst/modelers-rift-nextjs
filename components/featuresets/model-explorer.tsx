@@ -2,7 +2,6 @@ import { ModelChampion } from '@components/model-champion'
 import { ModelTabs } from '@components/model-tabs'
 import { useAppContext } from '@context/index'
 import { useCharacterQuery } from '@graphql/generated/types'
-import { LinearProgress } from '@mui/material'
 import { uriToUrl } from '@utils/index'
 
 export const ModelExplorer = () => {
@@ -23,19 +22,14 @@ export const ModelExplorer = () => {
   const url = model?.uri ? uriToUrl(model.uri) : undefined
 
   return (
-    <div className='flex flex-col flex-1 md:flex-row h-full'>
-      <div className='max-h-full overflow-scroll'>
+    <div className='flex flex-col md:flex-row h-[80vh]'>
+      <div className='h-3/6 w-full md:w-4/6 md:min-h-full overflow-scroll'>
         <ModelTabs data={data} />
       </div>
-      {!url && (
-        <div className='flex-1 items-center justify-center'>
-          <div className='m-auto'>
-            <LinearProgress />
-          </div>
-        </div>
-      )}
       {url && (
-        <div className=''>{url ? <ModelChampion modelUrl={url} /> : <div className=''></div>}</div>
+        <div className='h-3/6 w-full md:w-2/6 md:min-h-full '>
+          {url ? <ModelChampion modelUrl={url} /> : <div className=''></div>}
+        </div>
       )}
     </div>
   )

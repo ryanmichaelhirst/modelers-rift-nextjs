@@ -40,6 +40,12 @@
  *Use the @layer directive to tell Tailwind which “bucket” a set of custom styles belong to. 
  * Valid layers are base, components, and utilities.
  */
+@layer base {
+  * {
+    font-family: theme(fontFamily.nunito);
+  }
+}
+
 @layer components {
   .glass-gradient {
     background: linear-gradient(120deg, #fff -120%, rgba(255, 255, 255, 0) 113.04%);

@@ -11,19 +11,19 @@ export const Home: FC<ReturnType<typeof useCharactersQuery>> = ({ data, loading,
 
   return (
     <>
-      <div className='flex flex-col justify-between min-h-full'>
-        <div className='flex space-x-20 mt-10'>
+      <div className='flex flex-col justify-between h-[80vh]'>
+        <div className='flex flex-col mt-4 md:flex-row md:space-x-20 md:mt-10'>
           <div>
-            <p className='text-primary text-4xl font-nunito mb-8'>
-              Bringing the champions you love to The Web
+            <p className='text-primary text-xl mb-2 md:text-4xl md:mb-8'>
+              Bringing the champions you love to the web
             </p>
-            <p className='text-tertiary text-2xl font-nunito mb-8'>
+            <p className='text-tertiary text-lg mb-2 md:text-2xl md:mb-8'>
               Explore every champion, skin, voice line, sound effect, and animation in League of
               Legends. Perfect for viewing new releases and store content.
             </p>
             <Button
               classes={{
-                root: 'font-nunito bg-primary py-3 px-7 text-white',
+                root: 'text-white bg-primary py-2 px-3 md:py-3 md:px-7',
               }}
               text='Show me models'
               onClick={() => router.push('models')}
@@ -41,20 +41,21 @@ export const Home: FC<ReturnType<typeof useCharactersQuery>> = ({ data, loading,
             }
           />
         </div>
-        <div className='flex flex-col items-center justify-center font-nunito mb-4'>
-          <p className='text-primary text-4xl mb-4'>Not enough?</p>
-          <p className='text-tertiary text-xl font-nunito mb-4'>
+        <div className='flex flex-col items-center justify-center mb-4'>
+          <p className='text-primary text-xl md:text-4xl md:mb-4'>Not enough?</p>
+          <p className='text-tertiary text-lg md:text-xl md:mb-4'>
             Take a look at what else we have to offer
           </p>
           <KeyboardArrowDown
-            className='text-primary text-4xl'
+            className='text-primary text-4xl cursor-pointer'
             onClick={() =>
               window.document.getElementById('app-overview')?.scrollIntoView({ behavior: 'smooth' })
             }
           />
         </div>
       </div>
-      <div className='font-nunito' id='app-overview'>
+
+      <div id='app-overview'>
         <p className='text-primary text-lg mb-4'>Designed for league fanatics</p>
         <p className='text-secondary text-xl mb-4'>
           Easily find your favorite assets and save them for later

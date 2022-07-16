@@ -14,7 +14,7 @@ export const Button: React.FC<{
   <MuiButton
     classes={{
       ...classes,
-      root: classNames(classes?.root, 'text-base'),
+      root: classNames(classes?.root, 'text-xs md:text-base'),
     }}
     variant={variant}
     onClick={onClick}
