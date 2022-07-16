@@ -16,11 +16,6 @@
  */
 @tailwind components;
 
-@font-face {
-  font-family: 'Bruno Ace SC';
-  src: local('Bruno Ace SC'), url('/bruno-ace-sc.ttf') format('truetype');
-}
-
 /**
  * This injects Tailwind's utility classes and any utility classes registered
  * by plugins.

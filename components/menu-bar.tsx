@@ -20,10 +20,7 @@ export const MenuBar: FC = () => {
               className='cursor-pointer'
               onClick={() => router.push('/')}
             />
-            <p
-              className='text-black font-bruno text-xl mx-6 cursor-pointer'
-              onClick={() => router.push('/')}
-            >
+            <p className='text-black text-xl mx-6 cursor-pointer' onClick={() => router.push('/')}>
               Modeler's Rift
             </p>
             <div>
@@ -32,8 +29,7 @@ export const MenuBar: FC = () => {
                   onClick={() => router.push(`/${item.replace(' ', '_').toLowerCase()}`)}
                   key={item}
                   classes={{
-                    root:
-                      'mr-6 bg-transparent text-sunset-900 px-4 py-2 font-nunito capitalize font-bold text-lg',
+                    root: 'mr-6 bg-transparent text-primary px-4 py-2 capitalize font-bold text-lg',
                   }}
                   text={item}
                 />

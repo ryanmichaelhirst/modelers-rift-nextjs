@@ -29,7 +29,6 @@ module.exports = {
       },
       fontFamily: {
         nunito: ['Nunito Sans', 'sans-serif'],
-        bruno: ['Bruno Ace SC', 'sans-serif'],
         montserrat: ['Montserrat'],
       },
       keyframes: {
