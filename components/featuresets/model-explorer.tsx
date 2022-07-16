@@ -23,8 +23,8 @@ export const ModelExplorer = () => {
   const url = model?.uri ? uriToUrl(model.uri) : undefined
 
   return (
-    <div className='flex h-full'>
-      <div className='w-1/3 max-h-full overflow-scroll'>
+    <div className='flex flex-col flex-1 md:flex-row h-full'>
+      <div className='max-h-full overflow-scroll'>
         <ModelTabs data={data} />
       </div>
       {!url && (
@@ -35,9 +35,7 @@ export const ModelExplorer = () => {
         </div>
       )}
       {url && (
-        <div className='flex-auto'>
-          {url ? <ModelChampion modelUrl={url} /> : <div className=''></div>}
-        </div>
+        <div className=''>{url ? <ModelChampion modelUrl={url} /> : <div className=''></div>}</div>
       )}
     </div>
   )

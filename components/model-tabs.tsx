@@ -2,7 +2,7 @@ import { AnimationTable } from '@components/animation-table'
 import { AssetTable } from '@components/asset-table'
 import { AssetType } from '@customtypes/constants'
 import { useCharacterQuery } from '@graphql/generated/types'
-import { Tab, Tabs } from '@mui/material'
+import { Tab, Tabs, tabsClasses } from '@mui/material'
 import { FC, PropsWithChildren, SyntheticEvent, useState } from 'react'
 
 const TabPanel: FC<PropsWithChildren<{ index: number; value: number; className?: string }>> = ({
@@ -31,10 +31,15 @@ export const ModelTabs = ({ data }: { data: ReturnType<typeof useCharacterQuery>
     <>
       <Tabs
         variant='scrollable'
-        scrollButtons='auto'
+        scrollButtons={true}
         value={tab}
         onChange={onChange}
-        classes={{ indicator: 'bg-primary' }}
+        classes={{ indicator: 'bg-primary', scrollButtons: 'text-primary' }}
+        sx={{
+          [`& .${tabsClasses.scrollButtons}`]: {
+            '&.Mui-disabled': { opacity: 0.3 },
+          },
+        }}
       >
         <Tab label='All' value={0} classes={{ root: '!text-primary', selected: '!text-primary' }} />
         <Tab
@@ -47,8 +52,16 @@ export const ModelTabs = ({ data }: { data: ReturnType<typeof useCharacterQuery>
           value={2}
           classes={{ root: '!text-primary', selected: '!text-primary' }}
         />
-        <Tab label='Animations' value={3} />
-        <Tab label='Interactions' value={4} />
+        <Tab
+          label='Animations'
+          value={3}
+          classes={{ root: '!text-primary', selected: '!text-primary' }}
+        />
+        <Tab
+          label='Interactions'
+          value={4}
+          classes={{ root: '!text-primary', selected: '!text-primary' }}
+        />
       </Tabs>
       <TabPanel value={tab} index={0}>
         <AssetTable data={assets} />
