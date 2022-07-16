@@ -1,5 +1,5 @@
-import InteractiveCard from '@components/interactive-card'
 import { ModelChampion } from '@components/model-champion'
+import { ModelTabs } from '@components/model-tabs'
 import { useAppContext } from '@context/index'
 import { useCharacterQuery } from '@graphql/generated/types'
 import { LinearProgress } from '@mui/material'
@@ -24,8 +24,8 @@ export const ModelExplorer = () => {
 
   return (
     <div className='flex h-full'>
-      <div className='w-1/3'>
-        <InteractiveCard selectedChampion={selectedChampion} data={data} model={model} />
+      <div className='w-1/3 max-h-full overflow-scroll'>
+        <ModelTabs data={data} />
       </div>
       {!url && (
         <div className='flex-1 items-center justify-center'>

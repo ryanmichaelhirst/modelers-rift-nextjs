@@ -14,31 +14,29 @@ export const AssetTable: React.FC<{ data?: (Asset | null | undefined)[] }> = ({ 
   }
 
   return (
-    <table className='w-full'>
-      <thead className='sticky top-0 border-sunset-800 border-b bg-[#FFF2F4]'>
-        <tr className='text-left text-sunset-800 text-xl'>
-          <th className='w-1/5 py-2'>#</th>
-          <th className='w-3/5 py-2'>Title</th>
-          <th className='w-1/5 py-2'>Type</th>
-          <th className='w-1/5 py-2'>Time</th>
+    <table className='w-full font-nunito'>
+      <thead className='block border-slate-200 border-b'>
+        <tr className='flex text-left text-slate-400'>
+          <th className='w-1/6 py-2 font-normal'>#</th>
+          <th className='w-3/6 py-2 font-normal'>Title</th>
+          <th className='w-1/6 py-2 font-normal'>Type</th>
+          <th className='w-1/6 py-2 font-normal'>Time</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className='block overflow-y-scroll h-[400px]'>
         {data?.slice(0, 20).map((s, idx) => (
           <tr
             onClick={onRowClick(uriToUrl(s?.uri))}
             key={s?.uri}
             className={classNames(
-              uriToUrl(s?.uri) === currentAudio
-                ? 'text-sunset-900 font-semibold'
-                : 'text-slate-400',
-              'text-lg cursor-pointer hover:text-sunset-800',
+              uriToUrl(s?.uri) === currentAudio ? 'text-primary font-semibold' : 'text-slate-400',
+              'flex text-left cursor-pointer hover:text-primary',
             )}
           >
-            <td className='py-1'>{idx}</td>
-            <td className='py-1'>{s?.name}</td>
-            <td className='py-1'>{s?.type?.toUpperCase()}</td>
-            <td className='py-1'>{s?.duration?.toFixed(2)}</td>
+            <td className='py-1 w-1/6'>{idx}</td>
+            <td className='py-1 w-3/6'>{s?.name}</td>
+            <td className='py-1 w-1/6'>{s?.type?.toUpperCase()}</td>
+            <td className='py-1 w-1/6'>{s?.duration?.toFixed(2)}</td>
           </tr>
         ))}
       </tbody>

@@ -41,7 +41,7 @@ export const Home: FC<ReturnType<typeof useCharactersQuery>> = ({ data, loading,
             }
           />
         </div>
-        <div className='flex flex-col items-center justify-center font-nunito'>
+        <div className='flex flex-col items-center justify-center font-nunito mb-4'>
           <p className='text-primary text-4xl mb-4'>Not enough?</p>
           <p className='text-tertiary text-xl font-nunito mb-4'>
             Take a look at what else we have to offer
