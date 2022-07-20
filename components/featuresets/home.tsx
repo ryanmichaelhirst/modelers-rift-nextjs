@@ -2,7 +2,7 @@ import { AssetCard } from '@components/asset-card'
 import { Button } from '@components/button'
 import { Carousel } from '@components/carousel'
 import { ModelFigure } from '@components/model-figure'
-import { useCharactersQuery } from '@graphql/generated/types'
+import { CharactersQueryHookResult } from '@graphql/generated/types'
 import {
   ArrowCircleRightOutlined,
   FileDownloadOutlined,
@@ -13,7 +13,7 @@ import {
 import { useRouter } from 'next/router'
 import { FC } from 'react'
 
-export const Home: FC<ReturnType<typeof useCharactersQuery>> = ({ data, loading, error }) => {
+export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) => {
   const router = useRouter()
 
   return (
