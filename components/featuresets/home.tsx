@@ -38,7 +38,7 @@ export const Home: FC<ReturnType<typeof useCharactersQuery>> = ({ data, loading,
           </div>
           <Carousel
             items={
-              data?.characters?.collection?.slice(0, 10).map((c) => {
+              data?.characters?.collection?.slice(0, 5).map((c) => {
                 const asset = c?.assets?.find((a) => a?.type === 'model')
                 // TODO: fix character type?
                 // @ts-ignore
@@ -77,7 +77,7 @@ export const Home: FC<ReturnType<typeof useCharactersQuery>> = ({ data, loading,
       <div className='mb-32'>
         <Carousel
           items={
-            data?.characters?.collection?.slice(10, 20).map((c) => {
+            data?.characters?.collection?.slice(5, 10).map((c) => {
               const asset = c?.assets?.find((a) => a?.type === 'model')
               // TODO: fix character type?
               // @ts-ignore
