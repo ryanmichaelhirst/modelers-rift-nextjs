@@ -19,7 +19,7 @@ export async function getStaticProps() {
     query: charactersQuery,
     variables: {
       page: 1,
-      pageSize: 7,
+      pageSize: 20,
       includeAssets: true,
       filter: {
         typeEq: 'champion',

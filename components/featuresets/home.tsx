@@ -1,8 +1,15 @@
 import { AssetCard } from '@components/asset-card'
 import { Button } from '@components/button'
 import { Carousel } from '@components/carousel'
+import { ModelFigure } from '@components/model-figure'
 import { useCharactersQuery } from '@graphql/generated/types'
-import { KeyboardArrowDown } from '@mui/icons-material'
+import {
+  ArrowCircleRightOutlined,
+  FileDownloadOutlined,
+  GraphicEqOutlined,
+  KeyboardArrowDown,
+  LocalFireDepartmentOutlined,
+} from '@mui/icons-material'
 import { useRouter } from 'next/router'
 import { FC } from 'react'
 
@@ -31,7 +38,7 @@ export const Home: FC<ReturnType<typeof useCharactersQuery>> = ({ data, loading,
           </div>
           <Carousel
             items={
-              data?.characters?.collection?.map((c) => {
+              data?.characters?.collection?.slice(0, 10).map((c) => {
                 const asset = c?.assets?.find((a) => a?.type === 'model')
                 // TODO: fix character type?
                 // @ts-ignore
@@ -55,9 +62,9 @@ export const Home: FC<ReturnType<typeof useCharactersQuery>> = ({ data, loading,
         </div>
       </div>
 
-      <div id='app-overview'>
-        <p className='text-primary text-lg mb-4'>Designed for league fanatics</p>
-        <p className='text-secondary text-xl mb-4'>
+      <div id='app-overview' className='w-1/2 mb-32'>
+        <p className='text-primary text-lg mb-4 font-bold'>Designed for league fanatics</p>
+        <p className='text-secondary text-xl font-bold mb-4'>
           Easily find your favorite assets and save them for later
         </p>
         <p className='text-tertiary'>
@@ -65,6 +72,59 @@ export const Home: FC<ReturnType<typeof useCharactersQuery>> = ({ data, loading,
           viewing in game assets. We change that today by bringing them to you in our polished model
           explorer.
         </p>
+      </div>
+
+      <div className='mb-32'>
+        <Carousel
+          items={
+            data?.characters?.collection?.slice(10, 20).map((c) => {
+              const asset = c?.assets?.find((a) => a?.type === 'model')
+              // TODO: fix character type?
+              // @ts-ignore
+
+              return <ModelFigure key={c?.id} character={c} asset={asset} />
+            }) ?? []
+          }
+        />
+      </div>
+
+      <div className='-mx-4 md:-mx-20 mb-32 px-4 md:px-20 pt-10 pb-10 bg-[#EFEFEF]'>
+        <p className='text-primary text-lg mb-4 font-bold'>Why Modeler's Rift</p>
+        <p className='text-secondary text-xl font-bold mb-4'>The only 3D Viewer you'll ever need</p>
+        <div className='flex justify-between'>
+          <div className='w-[230px]'>
+            <div className='flex'>
+              <LocalFireDepartmentOutlined className='text-secondary mr-2' />
+              <p className='text-secondary mb-2'>Slammin Skins</p>
+            </div>
+            <p className='text-sm'>View your favorite skin for any champion. We have them all</p>
+          </div>
+
+          <div className='w-[230px]'>
+            <div className='flex'>
+              <GraphicEqOutlined className='text-secondary mr-2' />
+              <p className='text-secondary mb-2'>Valorant Voices</p>
+            </div>
+
+            <p className='text-sm'>
+              Use our sound player to listen to audios. You know you want to.
+            </p>
+          </div>
+
+          <div className='w-[230px]'>
+            <div className='flex'>
+              <FileDownloadOutlined className='text-secondary mr-2' />
+              <p className='text-secondary mb-2'>Devious Downloads</p>
+            </div>
+
+            <p className='text-sm'>Download your favorite assets for personal use. Coming soon!</p>
+          </div>
+        </div>
+      </div>
+
+      <div className='flex justify-center items-center text-xl pb-20'>
+        <p className='mr-3'>Questions or feedback? Share it with us!</p>
+        <ArrowCircleRightOutlined />
       </div>
     </>
   )

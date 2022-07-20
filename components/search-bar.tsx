@@ -42,7 +42,7 @@ export const SearchBar = () => {
           }) || []
         }
         renderOption={(props, option) => (
-          <Box component='li' sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+          <Box component='li' {...props}>
             <Image
               height='20'
               width='20'
@@ -50,9 +50,10 @@ export const SearchBar = () => {
                 / /g,
                 '',
               )}.png`}
+              className='rounded'
               alt={option}
             />
-            {option.label}
+            <p className='ml-2'>{option.label}</p>
           </Box>
         )}
         isOptionEqualToValue={(option, value) => {
@@ -66,13 +67,12 @@ export const SearchBar = () => {
             root: 'bg-white/30 border-none py-2',
           },
           textField: {
-            root: 'text-sunset-900 nunito text-lg',
+            root: 'text-primary text-lg',
             notchedOutline: 'border-none',
           },
           label: {
-            root: 'text-sunset-900 nunito text-lg',
-            // TODO: this is being override by mui label focused class
-            focused: 'text-sunset-900',
+            root: 'text-primary text-lg',
+            focused: '!text-primary',
           },
         }}
       />
