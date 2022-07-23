@@ -13,7 +13,8 @@ export const ModelGltf = ({
   onSetAnimationMixer?: ({ mixer, names, actions, clips }: useAnimationResult) => void
 }) => {
   const ref = useRef<THREE.Group>(null)
-  const model = useLoader(GLTFLoader, url)
+  // use s3 accelerate endpoint
+  const model = useLoader(GLTFLoader, url.replace('s3.amazonaws', 's3-accelerate.amazonaws'))
   const { mixer, names, actions, clips } = useAnimations(model.animations, ref)
 
   useEffect(() => {
