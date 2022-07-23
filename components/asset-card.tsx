@@ -31,7 +31,7 @@ export const AssetCard: React.FC<{ asset: Asset; character: Character }> = ({
     <Card>
       <p className='text-tertiary font-nunito font-bold text-lg capitalize'>{character?.name}</p>
       <p>{asset?.name}</p>
-      <div className='w-[150px]'>
+      <div>
         {url ? (
           <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 5], fov: 50 }}>
             <Suspense fallback={<ModelLoader />}>

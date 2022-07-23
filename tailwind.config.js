@@ -34,11 +34,13 @@ module.exports = {
       keyframes: {
         pan: {
           '0%': { transform: 'translateX(0)' },
-          '100%': { transform: 'translateX(calc(-250px * 7))' },
+          '100%': { transform: 'translateX(-100%)' },
         },
       },
       animation: {
-        pan: 'pan 40s linear infinite',
+        // https://codepen.io/studiojvla/pen/qVbQqW
+        // https://www.sitepoint.com/community/t/css-infinite-logo-horizontal-scroll-issues/381881/2
+        pan: 'pan 5s linear infinite',
       },
     },
   },

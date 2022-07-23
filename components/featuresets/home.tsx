@@ -20,7 +20,7 @@ export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) =>
     <>
       <div className='flex flex-col justify-between h-[80vh]'>
         <div className='flex flex-col mt-4 md:flex-row md:space-x-20 md:mt-10'>
-          <div>
+          <div className='w-2/3'>
             <p className='text-primary text-xl mb-2 md:text-4xl md:mb-8'>
               Bringing the champions you love to the web
             </p>
@@ -36,17 +36,15 @@ export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) =>
               onClick={() => router.push('models')}
             />
           </div>
-          <Carousel
-            items={
-              data?.characters?.collection?.slice(0, 5).map((c) => {
-                const asset = c?.assets?.find((a) => a?.type === 'model')
-                // TODO: fix character type?
-                // @ts-ignore
+          <div className='w-1/3'>
+            {data?.characters?.collection?.slice(0, 1).map((c) => {
+              const asset = c?.assets?.find((a) => a?.type === 'model')
+              // TODO: fix character type?
+              // @ts-ignore
 
-                return <AssetCard key={c?.id} character={c} asset={asset} />
-              }) ?? []
-            }
-          />
+              return <AssetCard key={c?.id} character={c} asset={asset} />
+            }) ?? []}
+          </div>
         </div>
         <div className='flex flex-col items-center justify-center mb-4'>
           <p className='text-primary text-xl md:text-4xl md:mb-4'>Not enough?</p>
@@ -74,10 +72,10 @@ export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) =>
         </p>
       </div>
 
-      <div className='mb-32'>
+      <div className='mb-32 flex'>
         <Carousel
           items={
-            data?.characters?.collection?.slice(5, 10).map((c) => {
+            data?.characters?.collection?.slice(1).map((c) => {
               const asset = c?.assets?.find((a) => a?.type === 'model')
               // TODO: fix character type?
               // @ts-ignore
