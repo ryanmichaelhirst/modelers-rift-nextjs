@@ -31,7 +31,7 @@ export const ModelExplorer = () => {
     <div className='flex flex-col md:flex-row h-[80vh]'>
       <div className='h-3/6 w-full md:w-4/6 md:min-h-full overflow-scroll'>
         <ModelTabs data={data} />
-        <AssetPlayer assets={assets} className='mt-5' />
+        <AssetPlayer assets={assets} className='mt-5 border' />
       </div>
       {url && (
         <div className='h-3/6 w-full md:w-2/6 md:min-h-full '>

@@ -12,7 +12,6 @@ import Head from 'next/head'
 import { SnackbarProvider } from 'notistack'
 import { FC, PropsWithChildren, useEffect } from 'react'
 import { apolloClient } from '../lib/apollo'
-import '../styles/app.css'
 import '../styles/tailwind.css'
 
 const AppWrapper: FC<PropsWithChildren> = ({ children }) => {

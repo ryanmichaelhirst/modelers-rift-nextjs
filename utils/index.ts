@@ -1,5 +1,5 @@
+import { CHAMPION_NAMES } from '@customtypes/constants'
 import { ChampionBasicInfo, ChampionDetailedInfo, Item } from '@customtypes/index'
-import { CHAMPION_NAMES } from '@utils/championNames'
 import 'isomorphic-fetch'
 
 /* CHAMPIONS */

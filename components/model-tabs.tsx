@@ -1,6 +1,6 @@
 import { AnimationTable } from '@components/animation-table'
 import { AssetTable } from '@components/asset-table'
-import { AssetType } from '@customtypes/constants'
+import { AssetType, CHAMPION_NAMES } from '@customtypes/constants'
 import { useCharacterQuery } from '@graphql/generated/types'
 import { Tab, Tabs, tabsClasses } from '@mui/material'
 import { FC, PropsWithChildren, SyntheticEvent, useState } from 'react'
@@ -64,7 +64,11 @@ export const ModelTabs = ({ data }: { data: ReturnType<typeof useCharacterQuery>
         <AnimationTable />
       </TabPanel>
       <TabPanel value={tab} index={4}>
-        Coming Soon!
+        <AssetTable
+          data={assets?.filter((a) => {
+            return CHAMPION_NAMES.some((champName) => a?.name?.includes(champName))
+          })}
+        />
       </TabPanel>
     </div>
   )

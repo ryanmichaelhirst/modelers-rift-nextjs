@@ -24,7 +24,7 @@ export const AssetTable: React.FC<{ data?: (Asset | null | undefined)[] }> = ({ 
         </tr>
       </thead>
       <tbody className='block overflow-y-scroll h-[400px]'>
-        {data?.slice(0, 20).map((s, idx) => (
+        {data?.map((s, idx) => (
           <tr
             onClick={onRowClick(uriToUrl(s?.uri))}
             key={s?.uri}
