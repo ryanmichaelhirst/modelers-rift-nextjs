@@ -8,11 +8,14 @@ export const GlassTitle: FC<PropsWithChildren> = ({ children }) => (
 export const GlassCard: FC<
   PropsWithChildren<{
     classes?: string
+    className?: string
     hasPadding?: boolean
     rounded?: boolean
   }>
-> = ({ classes, children, hasPadding = true, rounded = true }) => (
-  <div className={classNames('glass', hasPadding && 'px-4 py-5', rounded && 'rounded-lg', classes)}>
+> = ({ className, children, hasPadding = true, rounded = true }) => (
+  <div
+    className={classNames('glass', hasPadding && 'px-4 py-5', rounded && 'rounded-lg', className)}
+  >
     {children}
   </div>
 )

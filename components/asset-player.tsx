@@ -4,14 +4,18 @@ import { SET_CURRENT_AUDIO } from '@customtypes/index'
 import type { Asset } from '@graphql/generated/types'
 import { PauseOutlined, PlayArrow, SkipNext, SkipPrevious } from '@mui/icons-material'
 import { Slider } from '@mui/material'
+import classNames from 'classnames'
 import { FC, useEffect, useState } from 'react'
 import { getAssetDisplayName, uriToUrl } from '../utils'
 
+const iconClass = classNames('cursor-pointer mr-4 opacity-50 hover:opacity-100')
+
 export const AssetPlayer: FC<{
+  className?: string
   assets?: (Asset | null | undefined)[]
   durationEnabled?: boolean
   duration?: number
-}> = ({ assets, duration, durationEnabled }) => {
+}> = ({ className, assets, duration, durationEnabled }) => {
   const [{ currentAudio }, dispatch] = useAppContext()
   const [audioEl, setAudioEl] = useState<HTMLAudioElement>()
 
@@ -64,8 +68,8 @@ export const AssetPlayer: FC<{
   }
 
   return (
-    <GlassCard>
-      <div className='flex justify-center w-full truncate text-sunset-900 font-nunito'>
+    <GlassCard className={className}>
+      <div className='flex justify-center w-full truncate text-primary font-nunito'>
         {currentAudio ? getAssetDisplayName(currentAudio) : 'Pick an audio'}
       </div>
       {durationEnabled && (
@@ -79,14 +83,14 @@ export const AssetPlayer: FC<{
         </div>
       )}
 
-      <div className='text-sunset-500 flex justify-center'>
-        <SkipPrevious className='cursor-pointer mr-4 hover:text-sunset-900' onClick={onPrev} />
+      <div className='text-primary flex justify-center'>
+        <SkipPrevious className={iconClass} onClick={onPrev} />
         {isPlaying ? (
-          <PauseOutlined className='cursor-pointer mr-4 hover:text-sunset-900' onClick={onPause} />
+          <PauseOutlined className={iconClass} onClick={onPause} />
         ) : (
-          <PlayArrow className='cursor-pointer mr-4 hover:text-sunset-900' onClick={onPlay} />
+          <PlayArrow className={iconClass} onClick={onPlay} />
         )}
-        <SkipNext className='cursor-pointer mr-4 hover:text-sunset-900' onClick={onNext} />
+        <SkipNext className={iconClass} onClick={onNext} />
       </div>
     </GlassCard>
   )

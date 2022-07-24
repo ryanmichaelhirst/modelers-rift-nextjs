@@ -31,7 +31,7 @@ export default () => {
   const props = useCharactersQuery({
     variables: {
       page: 1,
-      pageSize: 15,
+      pageSize: 10,
       includeAssets: true,
       filter: {
         typeEq: 'champion',

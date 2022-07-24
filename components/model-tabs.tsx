@@ -5,14 +5,18 @@ import { useCharacterQuery } from '@graphql/generated/types'
 import { Tab, Tabs, tabsClasses } from '@mui/material'
 import { FC, PropsWithChildren, SyntheticEvent, useState } from 'react'
 
-const TabPanel: FC<PropsWithChildren<{ index: number; value: number; className?: string }>> = ({
+const tabClasses = {
+  root: '!text-primary opacity-50 text-xs p-3 min-w-0 hover:opacity-100',
+  selected: '!text-primary opacity-100',
+}
+
+const TabPanel: FC<PropsWithChildren<{ index: number; value: number }>> = ({
   children,
   index,
   value,
-  className,
 }) => {
   return (
-    <div role='tabpanel' hidden={value !== index} className={className}>
+    <div role='tabpanel' hidden={value !== index}>
       {value === index && <div>{children}</div>}
     </div>
   )
@@ -28,7 +32,7 @@ export const ModelTabs = ({ data }: { data: ReturnType<typeof useCharacterQuery>
   })
 
   return (
-    <>
+    <div className='card'>
       <Tabs
         variant='scrollable'
         scrollButtons={true}
@@ -41,27 +45,11 @@ export const ModelTabs = ({ data }: { data: ReturnType<typeof useCharacterQuery>
           },
         }}
       >
-        <Tab label='All' value={0} classes={{ root: '!text-primary', selected: '!text-primary' }} />
-        <Tab
-          label='Voice-lines'
-          value={1}
-          classes={{ root: '!text-primary', selected: '!text-primary' }}
-        />
-        <Tab
-          label='Sound-effects'
-          value={2}
-          classes={{ root: '!text-primary', selected: '!text-primary' }}
-        />
-        <Tab
-          label='Animations'
-          value={3}
-          classes={{ root: '!text-primary', selected: '!text-primary' }}
-        />
-        <Tab
-          label='Interactions'
-          value={4}
-          classes={{ root: '!text-primary', selected: '!text-primary' }}
-        />
+        <Tab label='All' value={0} classes={tabClasses} />
+        <Tab label='Voice-lines' value={1} classes={tabClasses} />
+        <Tab label='Sound-effects' value={2} classes={tabClasses} />
+        <Tab label='Animations' value={3} classes={tabClasses} />
+        <Tab label='Interactions' value={4} classes={tabClasses} />
       </Tabs>
       <TabPanel value={tab} index={0}>
         <AssetTable data={assets} />
@@ -78,6 +66,6 @@ export const ModelTabs = ({ data }: { data: ReturnType<typeof useCharacterQuery>
       <TabPanel value={tab} index={4}>
         Coming Soon!
       </TabPanel>
-    </>
+    </div>
   )
 }

@@ -72,7 +72,7 @@ export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) =>
         </p>
       </div>
 
-      <div className='mb-32 flex'>
+      <div className='mb-32'>
         <Carousel
           items={
             data?.characters?.collection?.slice(1).map((c) => {
