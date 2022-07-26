@@ -1,9 +1,11 @@
-import { CHAMPION_NAMES } from '@customtypes/constants'
+import { HTTP_SAFE_CHAMPION_NAMES } from '@customtypes/constants'
 import { ChampionBasicInfo, ChampionDetailedInfo, Item } from '@customtypes/index'
 import 'isomorphic-fetch'
 
 /* CHAMPIONS */
-export const getChampions = async (patch: string) => {
+export const getChampions = async (
+  patch: string,
+): Promise<Record<string, ChampionBasicInfo & { square_asset: string }>> => {
   const { data } = await fetch(
     `https://ddragon.leagueoflegends.com/cdn/${patch}/data/en_US/champion.json`,
   ).then<{ data: Record<string, ChampionBasicInfo> }>((res) => res.json())
@@ -25,6 +27,7 @@ export const getChampions = async (patch: string) => {
 
 export const getChampion = async (selectedPatch: string, name: string) => {
   const jsonName = getJsonName(name)
+  console.log({ jsonName })
 
   // get champion info from league api
   const { data } = await fetch(
@@ -41,15 +44,23 @@ export const getChampion = async (selectedPatch: string, name: string) => {
 
 // given 'aurelionsol' returns 'AurelionSol'
 export const getJsonName = (name: string) => {
-  return CHAMPION_NAMES.find((cn) => cn.toLowerCase() === name?.replace(' ', '').toLowerCase())
+  const httpSafeName = name
+    ?.replace(/[.'& ]/g, '')
+    .replace('Willump', '')
+    .replace('Glasc', '')
+    .toLowerCase()
+
+  return HTTP_SAFE_CHAMPION_NAMES.find((cn) => cn.toLowerCase() === httpSafeName)
     ?.split(/(?=[A-Z])/)
     .join('')
 }
 
-export const lowercaseChampionNames = CHAMPION_NAMES.map((name) => name.toLowerCase())
+export const lowercaseChampionNames = HTTP_SAFE_CHAMPION_NAMES.map((name) => name.toLowerCase())
 
 export const determineType = (name: string) => {
-  const championType = CHAMPION_NAMES.map((n) => n.toLowerCase()).includes(name.toLowerCase())
+  const championType = HTTP_SAFE_CHAMPION_NAMES.map((n) => n.toLowerCase()).includes(
+    name.toLowerCase(),
+  )
   const tftType = name.includes('tft')
   const summonersRiftType = name.includes('sru')
 
@@ -64,7 +75,7 @@ export const determineType = (name: string) => {
 export const getDisplayName = (name: string) => {
   if (name.toLowerCase() === 'jarvaniv') return 'Jarvan IV'
 
-  return CHAMPION_NAMES.find((cn) => cn.toLowerCase() === name.toLowerCase())
+  return HTTP_SAFE_CHAMPION_NAMES.find((cn) => cn.toLowerCase() === name.toLowerCase())
     ?.split(/(?=[A-Z])/)
     .join(' ')
 }
