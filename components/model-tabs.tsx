@@ -53,6 +53,8 @@ export const ModelTabs = ({ data }: { data: ReturnType<typeof useCharacterQuery>
 
     audioRef?.current?.pause()
     audioRef.current = new Audio(selectedAsset?.url)
+    // info on audio.play()
+    // https://developer.chrome.com/blog/play-request-was-interrupted/
     audioRef.current
       .play()
       .then((res) => setIsPlaying(true))
