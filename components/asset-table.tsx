@@ -1,18 +1,11 @@
-import { useAppContext } from '@context/index'
-import { SET_CURRENT_AUDIO } from '@customtypes/index'
-import type { Asset } from '@graphql/generated/types'
-import { uriToUrl } from '@utils/index'
+import { Asset } from '@customtypes/index'
 import classNames from 'classnames'
 
-export const AssetTable: React.FC<{ data?: (Asset | null | undefined)[] }> = ({ data }) => {
-  const [{ currentAudio }, dispatch] = useAppContext()
-
-  const onRowClick = (url?: string | null) => () => {
-    if (!url) return
-
-    dispatch({ type: SET_CURRENT_AUDIO, payload: url })
-  }
-
+export const AssetTable: React.FC<{
+  data?: (Asset | null | undefined)[]
+  onRowClick: (asset?: Asset | null) => () => void
+  selectedAsset?: Asset | null
+}> = ({ data, onRowClick, selectedAsset }) => {
   return (
     <table className='w-full font-nunito'>
       <thead className='block border-slate-200 border-b'>
@@ -26,10 +19,10 @@ export const AssetTable: React.FC<{ data?: (Asset | null | undefined)[] }> = ({ 
       <tbody className='block overflow-y-scroll h-[400px]'>
         {data?.map((s, idx) => (
           <tr
-            onClick={onRowClick(uriToUrl(s?.uri))}
+            onClick={onRowClick(s)}
             key={s?.uri}
             className={classNames(
-              uriToUrl(s?.uri) === currentAudio ? 'text-primary font-semibold' : 'text-slate-400',
+              s?.url === selectedAsset?.url ? 'text-primary font-semibold' : 'text-slate-400',
               'flex text-left cursor-pointer hover:text-primary',
             )}
           >
