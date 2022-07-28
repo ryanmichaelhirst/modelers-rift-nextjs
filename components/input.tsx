@@ -26,6 +26,7 @@ export const Input = ({
   muiClasses,
   onChange,
   multiple,
+  placeholder,
   sx = {},
   variant = 'outlined',
   size = 'small',
@@ -41,6 +42,7 @@ export const Input = ({
   value?: string | null | string[]
   sx?: any
   size?: 'small' | 'medium'
+  placeholder?: string
   variant?: 'outlined' | 'filled' | 'standard'
   disableClearable?: boolean
   onChange: (e: React.SyntheticEvent<Element, Event>, value: any, reason: string) => void
@@ -70,6 +72,7 @@ export const Input = ({
             {...params}
             label={label}
             variant={variant}
+            placeholder={placeholder}
             InputProps={{
               ...params.InputProps,
               classes: {

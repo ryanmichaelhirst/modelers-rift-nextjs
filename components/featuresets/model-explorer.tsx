@@ -4,6 +4,7 @@ import { ModelChampion } from '@components/model-champion'
 import { ModelTabs } from '@components/model-tabs'
 import { useAppContext } from '@context/index'
 import { AssetType } from '@customtypes/constants'
+import { SET_SELECTED_SKIN } from '@customtypes/index'
 import { useCharacterQuery } from '@graphql/generated/types'
 import { Box } from '@mui/material'
 import { capitalize, getSplashArtLink, uriToUrl } from '@utils/index'
@@ -12,7 +13,7 @@ import { useState } from 'react'
 
 export const ModelExplorer = () => {
   const [{ selectedChampion }, dispatch] = useAppContext()
-  const [selected, setSelected] = useState()
+  const [selected, setSelected] = useState<string>()
 
   const { data, loading, error } = useCharacterQuery({
     variables: {
@@ -33,7 +34,20 @@ export const ModelExplorer = () => {
     return [AssetType.SFX, AssetType.VO].includes(a?.type as AssetType)
   })
 
-  const onSearch = () => {}
+  const onSearch = (
+    e: React.SyntheticEvent<Element, Event>,
+    value: { label: string; value: string } | undefined,
+    reason: string,
+  ) => {
+    setSelected(value?.label)
+
+    if (!value) return
+
+    dispatch({
+      type: SET_SELECTED_SKIN,
+      payload: value.value,
+    })
+  }
 
   return (
     <div className='flex flex-col md:flex-row h-[80vh]'>
@@ -51,7 +65,6 @@ export const ModelExplorer = () => {
             <Input
               onChange={onSearch}
               value={selected}
-              classes='mb-4'
               options={models.map((m) => ({
                 label: m?.name,
                 value: m?.skin,
@@ -77,14 +90,14 @@ export const ModelExplorer = () => {
 
                 return false
               }}
-              label='Search champions...'
+              label='Select a skin'
               muiClasses={{
                 autoComp: {
-                  root: 'bg-white/30 border-none py-2',
+                  root: 'bg-white/30 py-2',
                 },
                 textField: {
                   root: 'text-primary text-lg',
-                  notchedOutline: 'border-none',
+                  notchedOutline: '!border-primary',
                 },
                 label: {
                   root: 'text-primary text-lg',
