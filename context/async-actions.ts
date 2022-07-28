@@ -29,13 +29,14 @@ export const asyncActionHandlers: AsyncActionHandlers<Reducer<AppState, Action>,
 
     // get detail lol data from DDragon
     const detailedInfo = await getChampion(selectedPatch, basicInfo?.name || '')
+    const skin = name === 'akali' ? 'skin1' : 'skin0'
 
     dispatch({
       type: SET_SELECTED_CHAMPION,
       payload: {
         basicInfo,
         detailedInfo,
-        skin: 'skin0',
+        skin,
       },
     })
   },

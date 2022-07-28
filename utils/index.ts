@@ -27,7 +27,6 @@ export const getChampions = async (
 
 export const getChampion = async (selectedPatch: string, name: string) => {
   const jsonName = getJsonName(name)
-  console.log({ jsonName })
 
   // get champion info from league api
   const { data } = await fetch(
@@ -80,10 +79,18 @@ export const getDisplayName = (name: string) => {
     .join(' ')
 }
 
-export const capitalizeWord = (word?: string | null) => {
-  if (!word) return ''
+// given 'the dog' returns 'The Dog'
+export const capitalize = (str?: string | null) => {
+  if (!str) return ''
 
-  return word.charAt(0).toUpperCase() + word.substring(1)
+  return str
+    .split(' ')
+    .reduce((acc, cur) => {
+      acc += cur.charAt(0).toUpperCase() + cur.substring(1) + ' '
+
+      return acc
+    }, '')
+    .trimEnd()
 }
 
 /* ITEMS */

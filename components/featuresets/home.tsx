@@ -1,7 +1,6 @@
 import { AssetCard } from '@components/asset-card'
 import { Button } from '@components/button'
 import { Carousel } from '@components/carousel'
-import { ModelFigure } from '@components/model-figure'
 import { CharactersQueryHookResult } from '@graphql/generated/types'
 import {
   ArrowCircleRightOutlined,
@@ -73,17 +72,7 @@ export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) =>
       </div>
 
       <div className='mb-32'>
-        <Carousel
-          items={
-            data?.characters?.collection?.slice(1).map((c) => {
-              const asset = c?.assets?.find((a) => a?.type === 'model')
-              // TODO: fix character type?
-              // @ts-ignore
-
-              return <ModelFigure key={c?.id} character={c} asset={asset} />
-            }) ?? []
-          }
-        />
+        <Carousel />
       </div>
 
       <div className='-mx-4 md:-mx-20 mb-32 px-4 md:px-20 pt-10 pb-10 bg-[#EFEFEF]'>

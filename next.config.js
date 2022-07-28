@@ -24,6 +24,11 @@ module.exports = withBundleAnalyzer({
       exclude: /node_modules/,
       use: [options.defaultLoaders.babel, { loader: 'graphql-tag/loader' }],
     })
+    config.module.rules.push({
+      test: /\.svg$/i,
+      issuer: /\.[jt]sx?$/,
+      use: ['@svgr/webpack'],
+    })
 
     return config
   },

@@ -3,27 +3,27 @@ import { awsS3Service } from 'bin/services/aws-s3-service'
 import { logger } from 'logger'
 
 export const uploadCharacters = async () => {
-  await awsS3Service.performOnAllObjects(async (response) => {
-    logger.info(response)
+  await awsS3Service.performOnAllObjects(
+    async (response) => {
+      if (!response.CommonPrefixes) {
+        logger.info('no common prefixes found')
 
-    if (!response.CommonPrefixes) {
-      logger.info('not common prefixes')
+        return
+      }
 
-      return
-    }
+      const characters = response.CommonPrefixes?.map((c) => {
+        const characterMatches = c.Prefix?.match(/^[^\/]*/gi)
 
-    const characters = response.CommonPrefixes?.map((c) => {
-      const characterMatches = c.Prefix?.match(/^[^\/]*/gi)
+        return characterMatches ? characterMatches[0] : ''
+      })
 
-      return characterMatches ? characterMatches[0] : ''
-    })
-    logger.info(characters)
-
-    // create the characters if needed
-    for (const character of characters) {
-      await findOrCreateCharacter(character)
-    }
-  }, '/')
+      // create the characters if needed
+      for (const character of characters) {
+        await findOrCreateCharacter(character)
+      }
+    },
+    { delimiter: '/' },
+  )
 }
 
 export default uploadCharacters

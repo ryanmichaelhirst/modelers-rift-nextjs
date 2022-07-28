@@ -12,12 +12,13 @@ You will need to extract all champion wad files using Obsidian for voice lines a
 ### Extracting Champion Models
 
 1. Download League Bulk Converter
-   https://github.com/Jochem-W/LeagueBulkConvert
+   https://github.com/Jochem-W/LeagueConvert/releases
 
 ## Setting up the /input directory (.gltf files)
 
 2. Install and run the converter
-3. Move the extracted files to /input
+3. Install Directoy should be C:\Riot Games\League of Legends
+4. Move the extracted files to /input
 
 ## Generating the /output directory (.glb files)
 

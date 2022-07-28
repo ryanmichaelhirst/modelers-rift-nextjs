@@ -1,55 +1,101 @@
+import { ChampionDetailedInfo } from '@customtypes/index'
+import { BUCKET_NAME } from '@lib/s3'
+import { capitalize, getChampion, getChampions, getPatches } from '@utils/index'
 import { createAssets } from '@utils/prisma'
 import { awsS3Service } from 'bin/services/aws-s3-service'
 import groupBy from 'lodash.groupby'
 import { logger } from 'logger'
 
+/**
+ * Average Runtime: 3338.16s
+ *
+ * Example S3 object: { Key: 'sfx/aatrox/skin7/playsfx_q2_on_hitnormalplayer_2.ogg', LastModified: '2022-07-27T03:36:13.000Z', Size: 12345 }
+ */
 export const uploadAssets = async () => {
-  await awsS3Service.performOnAllObjects(async (response) => {
-    logger.info(response)
+  const patches = await getPatches()
+  const latestPatch = patches[0]
+  const ddragonChampions = await getChampions(latestPatch)
+  const skinsByChampion = await Object.entries(ddragonChampions).reduce<
+    Promise<Record<string, ChampionDetailedInfo['skins']>>
+  >(async (accProm, cur) => {
+    const acc = await accProm
+    const [key, { name }] = cur
 
-    if (!response.Contents) {
-      logger.info('contents for request do not exist')
+    if (!name || name === 'Wukong') return acc
+    const detailedInfo = await getChampion(latestPatch, name)
 
-      return
+    return {
+      ...acc,
+      [key.toLowerCase()]: detailedInfo.skins,
     }
+  }, Promise.resolve({}))
 
-    const objects = response.Contents.map((c) => {
-      const key = c.Key ?? ''
-      const charcterMatches = key.match(/^[^\/]*/gi)
+  await awsS3Service.performOnAllObjects(
+    async (response) => {
+      if (!response.Contents) {
+        logger.info('no objects found')
 
-      return {
-        key,
-        characterName: charcterMatches ? charcterMatches[0] : '',
+        return
       }
-    })
-    console.log(response.Contents)
 
-    for (const [key, value] of Object.entries(groupBy(objects, 'characterName'))) {
-      const assets = value.map(({ key }) => {
-        // 'aatrox/sfx/skin7/playsfx_q2_on_hitnormalplayer_2.ogg
-        const uri = `s3://league-of-legends-assets/${key}`
-        const type = (() => {
-          if (key.includes('model')) return 'model'
-          if (key.includes('sfx')) return 'sfx'
+      const objects = response.Contents.map((c) => {
+        const key = c.Key ?? ''
+        const keyParts = key.split('/')
+        const characterName = (() => {
+          if (keyParts && keyParts.length >= 1) return keyParts[1]
 
-          return 'vo'
+          return ''
         })()
-        const name = key.split('/')[0] ?? ''
-        const matches = key.match(/\W*(skin)\d*\W*/gi)
-        const skin = matches ? matches[0].replace(/\/*\.*/g, '') : ''
 
         return {
-          type,
-          uri,
-          url: `https://league-of-legends-assets.s3.amazonaws.com/${key}`,
-          name,
-          skin,
+          key,
+          characterName: characterName ?? '',
         }
       })
 
-      await createAssets({ characterName: key, assets })
-    }
-  })
+      for (const [key, value] of Object.entries(groupBy(objects, 'characterName'))) {
+        let chromaNum = 1
+
+        const assets = value.map(({ key, characterName }) => {
+          const matches = key.match(/\W*(skin)\d*\W*/gi)
+          const currentSkin = matches ? matches[0].replace(/\/*\.*/g, '') : ''
+          const type = (() => {
+            if (key.includes('model')) return 'model'
+            if (key.includes('sfx')) return 'sfx'
+
+            return 'vo'
+          })()
+          const name = (() => {
+            const keyParts: string[] = key.split('/')
+            const fileName = keyParts.at(keyParts.length - 1) ?? ''
+
+            if (type === 'model') {
+              const skins = skinsByChampion[characterName.toLowerCase()]
+              const matchingSkin = skins?.find((s) => `skin${s.num}` === currentSkin)?.name
+              if (matchingSkin) return matchingSkin
+              chromaNum++
+
+              return `Chroma ${chromaNum}`
+            }
+
+            // sfx or vo
+            return capitalize(fileName.replace(/.ogg|playsfx_/gi, '').replace(/_/gi, ' '))
+          })()
+
+          return {
+            type,
+            uri: `s3://${BUCKET_NAME}/${key}`,
+            url: `https://${BUCKET_NAME}.s3.amazonaws.com/${key}`,
+            name,
+            skin: currentSkin,
+          }
+        })
+
+        await createAssets({ characterName: key, assets })
+      }
+    },
+    { prefix: 'models' },
+  )
 }
 
 export default uploadAssets

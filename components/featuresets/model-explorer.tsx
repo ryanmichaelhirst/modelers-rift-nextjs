@@ -1,17 +1,19 @@
 import { AssetPlayer } from '@components/asset-player'
-import { ImageSlider } from '@components/image-slider'
+import { Input } from '@components/input'
 import { ModelChampion } from '@components/model-champion'
 import { ModelTabs } from '@components/model-tabs'
 import { useAppContext } from '@context/index'
 import { AssetType } from '@customtypes/constants'
-import { SET_SELECTED_SKIN } from '@customtypes/index'
 import { useCharacterQuery } from '@graphql/generated/types'
-import { AddPhotoAlternate } from '@mui/icons-material'
-import { capitalizeWord, getSplashArtLink, uriToUrl } from '@utils/index'
-import classNames from 'classnames'
+import { Box } from '@mui/material'
+import { capitalize, getSplashArtLink, uriToUrl } from '@utils/index'
+import Image from 'next/image'
+import { useState } from 'react'
 
 export const ModelExplorer = () => {
   const [{ selectedChampion }, dispatch] = useAppContext()
+  const [selected, setSelected] = useState()
+
   const { data, loading, error } = useCharacterQuery({
     variables: {
       filter: {
@@ -21,58 +23,17 @@ export const ModelExplorer = () => {
     },
   })
 
-  const onClick = (skin?: string | null) => () => {
-    if (!skin) return
+  const championName = capitalize(selectedChampion.basicInfo?.name)
 
-    console.log(skin)
-
-    dispatch({ type: SET_SELECTED_SKIN, payload: skin })
-  }
-
-  const lolSkins = selectedChampion.detailedInfo?.skins ?? []
   const models = data?.character?.assets?.filter((a) => a?.type === 'model') ?? []
   const model = models.find((m) => m?.skin === selectedChampion.skin)
-  const chromas = models
-    .filter((m) => !lolSkins.find((s) => `skin${s.num}` === m?.skin))
-    .map((m) => (
-      <div
-        title={`Add image suggestion`}
-        key={m?.id}
-        className='cursor-pointer w-full h-[32px] flex items-center justify-center mr-2'
-        onClick={onClick(m?.skin)}
-      >
-        <AddPhotoAlternate className='h-full w-1/2 text-slate-400' />
-      </div>
-    ))
-
-  const slides =
-    lolSkins
-      .map((skin) => {
-        const championName = capitalizeWord(selectedChampion.basicInfo?.name)
-
-        return (
-          <div
-            key={skin.id}
-            title={skin?.name}
-            className={classNames(
-              'cursor-pointer w-full h-[32px] bg-cover rounded-lg mr-2 opacity-30',
-              {
-                '!opacity-100': selectedChampion.skin === `skin${skin?.num}`,
-              },
-            )}
-            style={{
-              backgroundImage: `url(${getSplashArtLink(championName, skin.num || 0)})`,
-            }}
-            onClick={onClick(`skin${skin?.num}`)}
-          />
-        )
-      })
-      .concat(chromas) ?? []
 
   const url = model?.uri ? uriToUrl(model.uri) : undefined
   const assets = data?.character?.assets?.filter((a) => {
     return [AssetType.SFX, AssetType.VO].includes(a?.type as AssetType)
   })
+
+  const onSearch = () => {}
 
   return (
     <div className='flex flex-col md:flex-row h-[80vh]'>
@@ -87,7 +48,50 @@ export const ModelExplorer = () => {
             <span>{model?.name}</span>
           </div>
           <div className='px-6'>
-            <ImageSlider slides={slides} />
+            <Input
+              onChange={onSearch}
+              value={selected}
+              classes='mb-4'
+              options={models.map((m) => ({
+                label: m?.name,
+                value: m?.skin,
+              }))}
+              renderOption={(props, option) => (
+                <Box component='li' {...props}>
+                  <Image
+                    height='20'
+                    width='20'
+                    src={
+                      option.label.includes('Chroma')
+                        ? '/no-image.jpg'
+                        : getSplashArtLink(championName, option.value.replace('skin', ''))
+                    }
+                    className='rounded'
+                    alt={option}
+                  />
+                  <p className='ml-2'>{option.label}</p>
+                </Box>
+              )}
+              isOptionEqualToValue={(option, value) => {
+                if (option.label === value) return true
+
+                return false
+              }}
+              label='Search champions...'
+              muiClasses={{
+                autoComp: {
+                  root: 'bg-white/30 border-none py-2',
+                },
+                textField: {
+                  root: 'text-primary text-lg',
+                  notchedOutline: 'border-none',
+                },
+                label: {
+                  root: 'text-primary text-lg',
+                  focused: '!text-primary',
+                },
+              }}
+            />
           </div>
           {url ? <ModelChampion modelUrl={url} /> : <div className=''></div>}
         </div>

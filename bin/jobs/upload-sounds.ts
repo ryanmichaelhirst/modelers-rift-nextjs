@@ -5,14 +5,16 @@ import fs from 'fs'
 import { logger } from 'logger/index'
 import path from 'path'
 
+/**
+ * Average Runtime: 1449.12s
+ */
 export const uploadSounds = async () => {
   const inputDir = path.join(process.env.APP_HOME || '', 'output/transformed')
-
   const champDirs = await fs.promises.readdir(inputDir)
 
   for (const champDir of champDirs) {
     for (const soundType of soundTypes) {
-      const syncCmd = `aws s3 sync ${inputDir}/${champDir}/${soundType} s3://${BUCKET_NAME}/${champDir}/${soundType}`
+      const syncCmd = `aws s3 sync ${inputDir}/${champDir}/${soundType} s3://${BUCKET_NAME}/${soundType}/${champDir}`
 
       try {
         logger.info(syncCmd)

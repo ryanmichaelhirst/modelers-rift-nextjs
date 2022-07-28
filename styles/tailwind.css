@@ -65,28 +65,8 @@ body {
     @apply glass-gradient shadow-lg;
   }
 
-  .slider {
-    height: 202px;
-  }
-
-  .slider:before,
-  .slider:after {
-    content: '';
-    height: 202px;
-    position: absolute;
-    width: 100px;
-    z-index: 2;
-  }
-
-  .slider:before {
-    left: 0;
-    top: 0;
-  }
-
-  .slider:after {
-    right: 0;
-    top: 0;
-    transform: rotateZ(180deg);
+  .slide-track {
+    width: calc(150px * 16);
   }
 
   .slide {
