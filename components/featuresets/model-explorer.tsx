@@ -7,7 +7,7 @@ import { AssetType } from '@customtypes/constants'
 import { SET_SELECTED_SKIN } from '@customtypes/index'
 import { useCharacterQuery } from '@graphql/generated/types'
 import { Box } from '@mui/material'
-import { capitalize, getSplashArtLink, uriToUrl } from '@utils/index'
+import { capitalize, getSplashArtLink } from '@utils/index'
 import Image from 'next/image'
 import { useState } from 'react'
 
@@ -29,7 +29,7 @@ export const ModelExplorer = () => {
   const models = data?.character?.assets?.filter((a) => a?.type === 'model') ?? []
   const model = models.find((m) => m?.skin === selectedChampion.skin)
 
-  const url = model?.uri ? uriToUrl(model.uri) : undefined
+  const url = model?.url
   const assets = data?.character?.assets?.filter((a) => {
     return [AssetType.SFX, AssetType.VO].includes(a?.type as AssetType)
   })

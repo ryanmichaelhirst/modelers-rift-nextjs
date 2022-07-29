@@ -128,11 +128,3 @@ export const getAssetDisplayName = (url?: string | null) => {
 
   return words.map((w) => `${w[0].toUpperCase()}${w.substring(1)}`).join(' ')
 }
-
-// TODO: remove this hack, figture out why url fields aren't being loaded in
-export const uriToUrl = (uri?: string | null) => {
-  return `https://league-of-legends-assets.s3.amazonaws.com/${uri?.replace(
-    's3://league-of-legends-assets/',
-    '',
-  )}`
-}

@@ -2,7 +2,6 @@ import type { Asset, Character } from '@customtypes/index'
 import { FETCH_NEW_CHAMPION } from '@customtypes/index'
 import { Preload, Stage } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
-import { uriToUrl } from '@utils/index'
 import { useRouter } from 'next/router'
 import { Suspense } from 'react'
 import { useAppContext } from '../context'
@@ -18,7 +17,7 @@ export const AssetCard: React.FC<{ asset: Asset; character: Character }> = ({
   const [, dispatch] = useAppContext()
   const router = useRouter()
 
-  const url = asset?.uri ? uriToUrl(asset.uri) : undefined
+  const url = asset?.url
 
   const onExplore = () => {
     if (!character?.displayName) return
