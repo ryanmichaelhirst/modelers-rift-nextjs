@@ -1,14 +1,10 @@
 import type { Asset, Character } from '@customtypes/index'
 import { FETCH_NEW_CHAMPION } from '@customtypes/index'
-import { Preload, Stage } from '@react-three/drei'
-import { Canvas } from '@react-three/fiber'
 import { useRouter } from 'next/router'
-import { Suspense } from 'react'
 import { useAppContext } from '../context'
 import { Button } from './button'
 import { Card } from './card'
-import { ModelGltf } from './model-gltf'
-import { ModelLoader } from './model-loader'
+import { Model } from './model'
 
 export const AssetCard: React.FC<{ asset: Asset; character: Character }> = ({
   character,
@@ -30,18 +26,7 @@ export const AssetCard: React.FC<{ asset: Asset; character: Character }> = ({
     <Card>
       <p className='text-tertiary font-nunito font-bold text-lg capitalize'>{character?.name}</p>
       <p>{asset?.name}</p>
-      <div>
-        {url ? (
-          <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 5], fov: 50 }}>
-            <Suspense fallback={<ModelLoader />}>
-              <Stage>
-                <ModelGltf url={url} />
-              </Stage>
-              <Preload />
-            </Suspense>
-          </Canvas>
-        ) : null}
-      </div>
+      <div>{url ? <Model url={url} onSetModelConfig={() => {}} /> : null}</div>
       <Button
         classes={{
           root: 'font-nunito text-primary',

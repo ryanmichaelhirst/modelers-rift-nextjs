@@ -1,4 +1,3 @@
-import { AnimationTable } from '@components/animation-table'
 import { AssetTable } from '@components/asset-table'
 import { AudioControls } from '@components/audio-controls'
 import { AssetType, HTTP_SAFE_CHAMPION_NAMES } from '@customtypes/constants'
@@ -25,7 +24,10 @@ const TabPanel: FC<PropsWithChildren<{ index: number; value: number }>> = ({
   )
 }
 
-export const ModelTabs = ({ data }: { data: ReturnType<typeof useCharacterQuery>['data'] }) => {
+export const ModelTabs: FC<{
+  data: ReturnType<typeof useCharacterQuery>['data']
+  AnimationTable: JSX.Element
+}> = ({ data, AnimationTable }) => {
   const [tab, setTab] = useState(0)
   const [selectedAsset, setSelectedAsset] = useState<Asset>()
   const [trackProgress, setTrackProgress] = useState(0)
@@ -83,7 +85,6 @@ export const ModelTabs = ({ data }: { data: ReturnType<typeof useCharacterQuery>
     const curIndex = assets.findIndex((s) => s?.url === selectedAsset.url)
     const prevIndex = curIndex === assets.length - 1 ? 0 : curIndex - 1
     const prevSound = assets[prevIndex]
-    console.log({ prevSound })
 
     onRowClick(prevSound)
   }
@@ -142,7 +143,7 @@ export const ModelTabs = ({ data }: { data: ReturnType<typeof useCharacterQuery>
           />
         </TabPanel>
         <TabPanel value={tab} index={3}>
-          <AnimationTable />
+          {AnimationTable}
         </TabPanel>
         <TabPanel value={tab} index={4}>
           <AssetTable

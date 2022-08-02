@@ -1,14 +1,11 @@
-import { useAppContext } from '@context/index'
-import { SET_CURRENT_ANIMATION } from '@customtypes/index'
 import classNames from 'classnames'
+import { FC } from 'react'
 
-export const AnimationTable = () => {
-  const [{ currentAnimation, animations }, dispatch] = useAppContext()
-
-  const onRowClick = (animation: string) => () => {
-    dispatch({ type: SET_CURRENT_ANIMATION, payload: animation })
-  }
-
+export const AnimationTable: FC<{
+  selectedAnimation?: string
+  animations: string[]
+  onClick: (value: string) => () => void
+}> = ({ onClick, selectedAnimation, animations }) => {
   return (
     <table className='w-full font-nunito'>
       <thead className='block border-slate-200 border-b'>
@@ -20,10 +17,10 @@ export const AnimationTable = () => {
       <tbody className='block overflow-y-scroll h-[400px]'>
         {animations?.map((a, idx) => (
           <tr
-            onClick={onRowClick(a)}
+            onClick={onClick(a)}
             key={a}
             className={classNames(
-              a === currentAnimation ? 'text-primary font-semibold' : 'text-slate-400',
+              a === selectedAnimation ? 'text-primary font-semibold' : 'text-slate-400',
               'flex text-left cursor-pointer hover:text-primary',
             )}
           >

@@ -38,12 +38,12 @@ export const MenuBar: FC = () => {
           </div>
 
           <div className='flex items-center'>
-            <Button
+            {/* <Button
               classes={{
                 root: 'font-nunito font-bold text-primary',
               }}
               text={'Support on Patreon'}
-            />
+            /> */}
           </div>
         </div>
       </Grid>

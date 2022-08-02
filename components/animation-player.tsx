@@ -7,16 +7,18 @@ import { FC } from 'react'
 import { getAssetDisplayName } from '../utils'
 
 export const AnimationPlayer: FC<{
+  selectedAnimation: string
+  animations: string[]
   durationEnabled?: boolean
   duration?: number
-}> = ({ duration, durationEnabled }) => {
-  const [{ currentAnimation, animations }, dispatch] = useAppContext()
+}> = ({ selectedAnimation, animations, duration, durationEnabled }) => {
+  const [, dispatch] = useAppContext()
 
   const isPlaying = true
   const onPrev = () => {
-    if (!currentAnimation || !animations) return
+    if (!selectedAnimation || !animations) return
 
-    const curIndex = animations.findIndex((a) => a === currentAnimation)
+    const curIndex = animations.findIndex((a) => a === selectedAnimation)
     const nextIndex = curIndex === animations.length - 1 ? 0 : curIndex + 1
     const nextAnimation = animations[nextIndex]
     if (!nextAnimation) return
@@ -25,9 +27,9 @@ export const AnimationPlayer: FC<{
   }
 
   const onNext = () => {
-    if (!currentAnimation || !animations) return
+    if (!selectedAnimation || !animations) return
 
-    const curIndex = animations.findIndex((a) => a === currentAnimation)
+    const curIndex = animations.findIndex((a) => a === selectedAnimation)
     const nextIndex = curIndex === animations.length - 1 ? 0 : curIndex + 1
     const nextAnimation = animations[nextIndex]
     if (!nextAnimation) return
@@ -42,7 +44,7 @@ export const AnimationPlayer: FC<{
   return (
     <GlassCard>
       <div className='flex justify-center w-full truncate text-sunset-900 font-nunito'>
-        {currentAnimation ? getAssetDisplayName(currentAnimation) : 'Pick an animation'}
+        {selectedAnimation ? getAssetDisplayName(selectedAnimation) : 'Pick an animation'}
       </div>
       {durationEnabled && (
         <div>
