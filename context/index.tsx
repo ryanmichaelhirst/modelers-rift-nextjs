@@ -5,7 +5,6 @@ import {
   ContextDispatch,
   SET_ANIMATIONS,
   SET_CURRENT_ANIMATION,
-  SET_PLAY_ALL_ANIMATIONS,
   SET_SELECTED_CHAMPION,
   SET_SELECTED_SKIN,
 } from '@customtypes/index'
@@ -22,7 +21,6 @@ export const initialState: AppState = {
   selectedPatch: '12.2.1',
   lolChampionsData: {},
   lolItemsData: {},
-  playAllAnimations: true,
 }
 
 const Store = createContext<[AppState, ContextDispatch]>([{} as AppState, () => {}])
@@ -67,11 +65,6 @@ export const reducer: Reducer<AppState, Action> = (state, action) => {
       return {
         ...state,
         currentAnimation: action.payload,
-      }
-    case SET_PLAY_ALL_ANIMATIONS:
-      return {
-        ...state,
-        playAllAnimations: action.payload,
       }
     case SET_ANIMATIONS:
       return {
