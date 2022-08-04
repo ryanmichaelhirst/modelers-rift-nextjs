@@ -17,7 +17,7 @@ export class Animator {
   public loader: GLTFLoader
   public mixer: THREE.AnimationMixer | null
   public clips: THREE.AnimationClip[]
-  public names: string[]
+  public animationNames: string[]
   public height: number
   public width: number
   public previousTime: number
@@ -38,7 +38,7 @@ export class Animator {
     this.loader = new GLTFLoader()
     this.mixer = null
     this.clips = []
-    this.names = []
+    this.animationNames = []
     this.previousTime = 0
     this.width = width
     this.height = height
@@ -67,7 +67,7 @@ export class Animator {
     this.gui.add(spotLight.position, 'x').min(0).max(500).step(0.01).name('spotLightX')
     this.gui.add(spotLight.position, 'y').min(0).max(500).step(0.01).name('spotLightY')
     this.gui.add(spotLight.position, 'z').min(0).max(500).step(0.01).name('spotLightZ')
-    // this.scene.add(spotLight)
+    this.scene.add(spotLight)
 
     spotLight.target.position.x = 7
     spotLight.target.position.y = 14
@@ -131,7 +131,7 @@ export class Animator {
 
         this.mixer = new THREE.AnimationMixer(gltf.scene)
         this.clips = gltf.animations
-        this.names = gltf.animations.map((a) => a.name)
+        this.animationNames = gltf.animations.map((a) => a.name)
         resolve()
       })
     })
@@ -189,6 +189,7 @@ export const Model: FC<{ url: string; onSetModelConfig: any }> = ({ url, onSetMo
       const dat = await import('dat.gui')
       gui = new dat.GUI({
         autoPlace: false,
+        closed: true,
       })
       guiContainer?.appendChild(gui.domElement)
 

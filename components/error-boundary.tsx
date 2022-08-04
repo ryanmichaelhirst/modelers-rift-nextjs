@@ -1,7 +1,7 @@
-import { Component, ErrorInfo } from 'react'
+import { Component, ErrorInfo, PropsWithChildren } from 'react'
 import { BugReport } from './featuresets/bug-report'
 
-class ErrorBoundary extends Component<{}, { hasError: boolean }> {
+class ErrorBoundary extends Component<PropsWithChildren, { hasError: boolean }> {
   constructor(props: {}) {
     super(props)
     this.state = { hasError: false }

@@ -1,5 +1,5 @@
 import { Input } from '@components/input'
-import { FETCH_NEW_CHAMPION, SET_CURRENT_ANIMATION } from '@customtypes/index'
+import { FETCH_NEW_CHAMPION } from '@customtypes/index'
 import { useCharactersQuery } from '@graphql/generated/types'
 import { Box } from '@mui/material'
 import Image from 'next/image'
@@ -26,7 +26,6 @@ export const SearchBar = () => {
 
     setSelected(value.label)
     dispatch({ type: FETCH_NEW_CHAMPION, payload: value.label })
-    dispatch({ type: SET_CURRENT_ANIMATION })
   }
 
   return (

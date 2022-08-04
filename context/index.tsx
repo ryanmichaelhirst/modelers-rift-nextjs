@@ -4,7 +4,6 @@ import {
   AsyncAction,
   ContextDispatch,
   SET_ANIMATIONS,
-  SET_CURRENT_ANIMATION,
   SET_SELECTED_CHAMPION,
   SET_SELECTED_SKIN,
 } from '@customtypes/index'
@@ -60,11 +59,6 @@ export const reducer: Reducer<AppState, Action> = (state, action) => {
           ...state.selectedChampion,
           skin: action.payload,
         },
-      }
-    case SET_CURRENT_ANIMATION:
-      return {
-        ...state,
-        currentAnimation: action.payload,
       }
     case SET_ANIMATIONS:
       return {

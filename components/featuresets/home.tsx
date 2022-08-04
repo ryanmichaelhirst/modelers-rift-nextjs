@@ -75,7 +75,7 @@ export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) =>
         <Carousel />
       </div>
 
-      <div className='-mx-4 md:-mx-20 mb-32 px-4 md:px-20 pt-10 pb-10 bg-[#EFEFEF]'>
+      <div className='-mx-4 md:-mx-16 mb-32 px-4 md:px-20 pt-10 pb-10 bg-[#EFEFEF]'>
         <p className='text-primary text-lg mb-4 font-bold'>Why Modeler's Rift</p>
         <p className='text-secondary text-xl font-bold mb-4'>The only 3D Viewer you'll ever need</p>
         <div className='flex justify-between'>
