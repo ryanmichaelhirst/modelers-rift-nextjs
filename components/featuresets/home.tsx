@@ -5,6 +5,7 @@ import { Carousel } from '@components/carousel'
 import { useAppContext } from '@context/index'
 import { FETCH_NEW_CHAMPION } from '@customtypes/index'
 import { CharactersQueryHookResult } from '@graphql/generated/types'
+import { ExternalLinkIcon } from '@heroicons/react/outline'
 import {
   ArrowCircleRightOutlined,
   FileDownloadOutlined,
@@ -51,14 +52,16 @@ export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) =>
               <div className='flex justify-center'>
                 <Aatrox />
               </div>
-
-              <Button
-                classes={{
-                  root: 'font-nunito text-primary',
-                }}
-                text='Explore'
-                onClick={onExplore}
-              />
+              <div className='flex items-center mt-2'>
+                <Button
+                  classes={{
+                    root: 'font-nunito text-primary',
+                  }}
+                  text='Explore'
+                  onClick={onExplore}
+                />
+                <ExternalLinkIcon className='text-primary h-5 w-5' />
+              </div>
             </Card>
           </div>
         </div>
