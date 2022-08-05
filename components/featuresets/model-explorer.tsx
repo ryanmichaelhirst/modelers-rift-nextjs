@@ -119,12 +119,12 @@ export const ModelExplorer = () => {
   const assetTableProps = { onRowClick, selectedAsset }
 
   return (
-    <div className='flex flex-col md:space-x-10 md:flex-row h-[80vh] pb-10'>
+    <div className='flex flex-col md:space-x-10 md:flex-row pb-10 h-full'>
       <div className='md:min-w-[500px] md:min-h-full overflow-hidden'>
         {loading && <Loader />}
         {data && (
           <div className='card'>
-            <div className='flex text-primary space-x-5'>
+            <div className='flex text-primary space-x-5 pb-1 border-slate-200 border-b'>
               <Tab onClick={onTabChange} id='Animations' tab={tab}>
                 Animations
               </Tab>

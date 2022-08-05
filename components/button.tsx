@@ -10,8 +10,12 @@ export const Button: React.FC<{
     focusVisible?: string
   }
   variant?: 'text' | 'contained' | 'outlined'
-}> = ({ text, onClick, classes, variant = 'text' }) => (
+  disabled?: boolean
+  id?: string
+}> = ({ text, onClick, classes, variant = 'text', disabled, id }) => (
   <MuiButton
+    id={id}
+    disabled={disabled}
     classes={{
       ...classes,
       root: classNames(classes?.root, 'text-xs md:text-base'),

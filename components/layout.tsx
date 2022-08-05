@@ -16,14 +16,11 @@ const PageWrapper: FC<PropsWithChildren> = ({ children }) => {
 }
 
 export const Layout: FC<PropsWithChildren> = ({ children }) => (
-  <div
-    className='min-h-full'
-    style={{ background: 'linear-gradient(123.76deg, #E4ABFF 0%, #F4F7F5 11.69%)' }}
-  >
-    <header className='h-[20vh]'>
+  <div className='min-h-full'>
+    <header className='sticky top-0 bg-white z-20 h-[10vh]'>
       <MenuBar />
     </header>
-    <div className='mx-4 md:mx-16'>
+    <div className='mx-4 md:mx-16 h-[90vh]'>
       <PageWrapper>{children}</PageWrapper>
     </div>
   </div>

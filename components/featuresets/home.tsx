@@ -1,6 +1,9 @@
-import { AssetCard } from '@components/asset-card'
+import Aatrox from '@components/assets/Aatrox.svg'
 import { Button } from '@components/button'
+import { Card } from '@components/card'
 import { Carousel } from '@components/carousel'
+import { useAppContext } from '@context/index'
+import { FETCH_NEW_CHAMPION } from '@customtypes/index'
 import { CharactersQueryHookResult } from '@graphql/generated/types'
 import {
   ArrowCircleRightOutlined,
@@ -14,10 +17,16 @@ import { FC } from 'react'
 
 export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) => {
   const router = useRouter()
+  const [, dispatch] = useAppContext()
+
+  const onExplore = () => {
+    dispatch({ type: FETCH_NEW_CHAMPION, payload: 'Aatrox' })
+    router.push('models')
+  }
 
   return (
     <>
-      <div className='flex flex-col justify-between h-[80vh]'>
+      <div className='flex flex-col justify-between h-full'>
         <div className='flex flex-col mt-4 md:flex-row md:space-x-20 md:mt-10'>
           <div className='w-2/3'>
             <p className='text-primary text-xl mb-2 md:text-4xl md:mb-8'>
@@ -36,13 +45,21 @@ export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) =>
             />
           </div>
           <div className='w-1/3'>
-            {data?.characters?.collection?.slice(0, 1).map((c) => {
-              const asset = c?.assets?.find((a) => a?.type === 'model')
-              // TODO: fix character type?
-              // @ts-ignore
+            <Card>
+              <p className='text-tertiary font-nunito font-bold text-lg capitalize'>Aatrox</p>
+              <p>The Darkin Blade</p>
+              <div className='flex justify-center'>
+                <Aatrox />
+              </div>
 
-              return <AssetCard key={c?.id} character={c} asset={asset} />
-            }) ?? []}
+              <Button
+                classes={{
+                  root: 'font-nunito text-primary',
+                }}
+                text='Explore'
+                onClick={onExplore}
+              />
+            </Card>
           </div>
         </div>
         <div className='flex flex-col items-center justify-center mb-4'>
@@ -59,7 +76,7 @@ export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) =>
         </div>
       </div>
 
-      <div id='app-overview' className='w-1/2 mb-32'>
+      <div id='app-overview' className='w-1/2 pt-32 mb-32'>
         <p className='text-primary text-lg mb-4 font-bold'>Designed for league fanatics</p>
         <p className='text-secondary text-xl font-bold mb-4'>
           Easily find your favorite assets and save them for later

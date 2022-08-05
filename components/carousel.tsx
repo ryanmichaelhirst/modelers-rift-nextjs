@@ -1,12 +1,11 @@
-import Ahri from '@components/assets/Ahri.svg'
-import Akali from '@components/assets/Akali.svg'
-import Akshan from '@components/assets/Akshan.svg'
 import Alistar from '@components/assets/Alistar.svg'
 import Amumu from '@components/assets/Amumu.svg'
 import Anivia from '@components/assets/Anivia.svg'
 import Annie from '@components/assets/Annie.svg'
-import Aphelios from '@components/assets/Aphelios.svg'
-
+import Ashe from '@components/assets/Ashe.svg'
+import Ekko from '@components/assets/Ekko.svg'
+import Galio from '@components/assets/Galio.svg'
+import Sett from '@components/assets/Sett.svg'
 import { FC } from 'react'
 
 export const Carousel: FC<{ items?: any[] }> = ({ items }) => {
@@ -14,13 +13,13 @@ export const Carousel: FC<{ items?: any[] }> = ({ items }) => {
     <div className='slider m-auto overflow-hidden relative' aria-label='React Carousel'>
       <div className='slide-track animate-pan flex'>
         <div className='slide'>
-          <Ahri />
+          <Galio />
         </div>
         <div className='slide'>
-          <Akali />
+          <Sett />
         </div>
         <div className='slide'>
-          <Akshan />
+          <Ashe />
         </div>
         <div className='slide'>
           <Alistar />
@@ -35,17 +34,17 @@ export const Carousel: FC<{ items?: any[] }> = ({ items }) => {
           <Annie />
         </div>
         <div className='slide'>
-          <Aphelios />
+          <Ekko />
         </div>
 
         <div className='slide'>
-          <Ahri />
+          <Galio />
         </div>
         <div className='slide'>
-          <Akali />
+          <Sett />
         </div>
         <div className='slide'>
-          <Akshan />
+          <Ashe />
         </div>
         <div className='slide'>
           <Alistar />
@@ -60,7 +59,7 @@ export const Carousel: FC<{ items?: any[] }> = ({ items }) => {
           <Annie />
         </div>
         <div className='slide'>
-          <Aphelios />
+          <Ekko />
         </div>
       </div>
     </div>
