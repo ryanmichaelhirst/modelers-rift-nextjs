@@ -29,7 +29,7 @@ export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) =>
     <>
       <div className='flex flex-col justify-between h-full'>
         <div className='flex flex-col mt-4 md:flex-row md:space-x-20 md:mt-10'>
-          <div className='w-2/3'>
+          <div className='w-3/5'>
             <p className='text-primary text-xl mb-2 md:text-4xl md:mb-8'>
               Bringing the champions you love to the web
             </p>
@@ -45,7 +45,7 @@ export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) =>
               onClick={() => router.push('models')}
             />
           </div>
-          <div className='w-1/3'>
+          <div className='w-2/5'>
             <Card>
               <p className='text-tertiary font-nunito font-bold text-lg capitalize'>Aatrox</p>
               <p>The Darkin Blade</p>

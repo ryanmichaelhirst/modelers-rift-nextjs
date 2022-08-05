@@ -181,7 +181,7 @@ export const Model: FC<{ url: string; onSetModelConfig: any }> = ({ url, onSetMo
     let animator: Animator | null = null
 
     const setup = async () => {
-      console.log('setup')
+      console.log('setup Animator')
       const canvas = ref.current
       if (!canvas) return
 
@@ -203,7 +203,7 @@ export const Model: FC<{ url: string; onSetModelConfig: any }> = ({ url, onSetMo
 
     // cleanup three assets
     return () => {
-      console.log('unmounting model')
+      console.log('unmounting Model')
 
       if (animator) animator.dispose()
       if (gui) {

@@ -6,6 +6,7 @@ import { useAppContext } from '@context/index'
 import { AssetType, HTTP_SAFE_CHAMPION_NAMES } from '@customtypes/constants'
 import { Asset, SET_SELECTED_SKIN } from '@customtypes/index'
 import { useCharacterQuery } from '@graphql/generated/types'
+import { PauseIcon, PlayIcon } from '@heroicons/react/outline'
 import { Box } from '@mui/material'
 import { capitalize, getSplashArtLink } from '@utils/index'
 import classNames from 'classnames'
@@ -45,7 +46,7 @@ export const ModelExplorer = () => {
   const [selectedAnimation, setSelectedAnimation] = useState<string>()
   const [modelConfig, setModelConfig] = useState<Animator>()
   const [selectedAsset, setSelectedAsset] = useState<Asset>()
-
+  const [isAnimationPlaying, setIsAnimationPlaying] = useState(true)
   const audioRef = useRef<HTMLAudioElement>()
 
   const championName = capitalize(selectedChampion.basicInfo?.name)
@@ -77,6 +78,19 @@ export const ModelExplorer = () => {
     if (!action) return
 
     action.play()
+    setIsAnimationPlaying(true)
+  }
+
+  const onPlayPauseAnimation = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const clip = modelConfig?.clips.find((c) => c.name === selectedAnimation)
+    if (!clip) return
+    const action = modelConfig?.mixer?.clipAction(clip)
+    if (!action) return
+
+    action.paused = isAnimationPlaying ? true : false
+    setIsAnimationPlaying((prev) => !prev)
   }
 
   const onSetModelConfig = async (value: Animator) => {
@@ -113,9 +127,9 @@ export const ModelExplorer = () => {
   }
 
   const onTabChange = (e: any) => {
-    console.log(e.target.id)
     setTab(e.target.id)
   }
+
   const assetTableProps = { onRowClick, selectedAsset }
 
   return (
@@ -136,46 +150,58 @@ export const ModelExplorer = () => {
               </Tab>
             </div>
             <div>
-              {tab === 'Animations' && (
+              {tab === 'Animations' ? (
                 <table className='w-full font-nunito'>
                   <thead className='block border-slate-200 border-b'>
                     <tr className='flex text-left text-slate-400'>
-                      <th className='w-1/5 py-2 font-normal'>#</th>
-                      <th className='w-4/5 py-2 font-normal'>Title</th>
+                      <th className='w-8 py-2 font-normal'></th>
+                      <th className='w-12 py-2 font-normal'>#</th>
+                      <th className='py-2 font-normal'>Title</th>
                     </tr>
                   </thead>
                   <tbody className='block overflow-y-scroll h-[500px]'>
-                    {modelConfig?.animationNames?.map((a, idx) => (
-                      <tr
-                        onClick={onAnimationChange(a)}
-                        key={a}
-                        className={classNames(
-                          a === selectedAnimation ? 'text-primary font-semibold' : 'text-slate-400',
-                          'flex text-left cursor-pointer hover:text-primary',
-                        )}
-                      >
-                        <td className='py-1 w-1/5'>{idx}</td>
-                        <td className='py-1 w-4/5'>{a}</td>
-                      </tr>
-                    ))}
+                    {modelConfig?.animationNames?.map((a, idx) => {
+                      const Icon = isAnimationPlaying ? PauseIcon : PlayIcon
+
+                      return (
+                        <tr
+                          onClick={onAnimationChange(a)}
+                          key={a}
+                          className={classNames(
+                            a === selectedAnimation
+                              ? 'text-primary font-semibold'
+                              : 'text-slate-400',
+                            'flex text-left cursor-pointer hover:text-primary',
+                          )}
+                        >
+                          <td className='py-1 w-8'>
+                            {a === selectedAnimation && (
+                              <Icon
+                                className='text-primary h-5 w-5'
+                                onClick={onPlayPauseAnimation}
+                              />
+                            )}
+                          </td>
+                          <td className='py-1 w-12'>{idx}</td>
+                          <td className='py-1'>{a}</td>
+                        </tr>
+                      )
+                    })}
                   </tbody>
                 </table>
-              )}
-              {tab === 'Interactions' && (
+              ) : (
                 <AssetTable
-                  data={assets?.filter((a) => {
-                    return HTTP_SAFE_CHAMPION_NAMES.some((champName) =>
-                      a?.name?.includes(champName),
-                    )
-                  })}
-                  {...assetTableProps}
-                />
-              )}
-              {tab === 'Sounds' && (
-                <AssetTable
-                  data={assets?.filter((a) =>
-                    [AssetType.VO, AssetType.SFX].includes(a?.type as any),
-                  )}
+                  data={
+                    tab === 'Interactions'
+                      ? assets?.filter((a) => {
+                          return HTTP_SAFE_CHAMPION_NAMES.some((champName) =>
+                            a?.name?.includes(champName),
+                          )
+                        })
+                      : assets?.filter((a) =>
+                          [AssetType.VO, AssetType.SFX].includes(a?.type as any),
+                        )
+                  }
                   {...assetTableProps}
                 />
               )}
