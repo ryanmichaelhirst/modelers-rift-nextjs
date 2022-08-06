@@ -1,3 +1,4 @@
+import { GetObjectCommand } from '@aws-sdk/client-s3'
 import { AssetTable } from '@components/asset-table'
 import { Input } from '@components/input'
 import { Loader } from '@components/loader'
@@ -6,7 +7,8 @@ import { useAppContext } from '@context/index'
 import { AssetType, HTTP_SAFE_CHAMPION_NAMES } from '@customtypes/constants'
 import { Asset, SET_SELECTED_SKIN } from '@customtypes/index'
 import { useCharacterQuery } from '@graphql/generated/types'
-import { PauseIcon, PlayIcon } from '@heroicons/react/outline'
+import { DownloadIcon, PauseIcon, PlayIcon } from '@heroicons/react/outline'
+import { BUCKET_NAME, s3 } from '@lib/s3'
 import { Box } from '@mui/material'
 import { capitalize, getSplashArtLink } from '@utils/index'
 import classNames from 'classnames'
@@ -130,6 +132,32 @@ export const ModelExplorer = () => {
     setTab(e.target.id)
   }
 
+  const onExport = async () => {
+    const championName = `${selectedChampion.basicInfo?.name?.toLowerCase()}`
+    const key = `models/${championName}/${selectedChampion.skin}.glb`
+    const command = new GetObjectCommand({
+      Bucket: BUCKET_NAME,
+      Key: key,
+    })
+    const { Body, ...rest } = await s3.send(command)
+    if (!Body) return
+
+    if (Body instanceof ReadableStream) {
+      const response = new Response(Body)
+      const blob = await response.blob()
+      const blobUrl = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = blobUrl
+      link.setAttribute('download', `${championName}.glb`)
+      document.body.appendChild(link)
+      link.click()
+
+      // clean up url and fake link
+      link.parentNode?.removeChild(link)
+      window.URL.revokeObjectURL(blobUrl)
+    }
+  }
+
   const assetTableProps = { onRowClick, selectedAsset }
 
   return (
@@ -211,9 +239,18 @@ export const ModelExplorer = () => {
       </div>
       {modelUrl && (
         <div className='md:w-4/6 md:min-h-full'>
-          <div className='flex justify-between'>
-            <span>{selectedChampion.basicInfo?.name}</span>
-            <span>{model?.name}</span>
+          <div className='flex items-center'>
+            <span className='mr-4 text-lg'>{selectedChampion.basicInfo?.name}</span>
+            <span className='py-1 px-2 border border-primary rounded-lg text-xs mr-4'>
+              {model?.name}
+            </span>
+            <button
+              className='flex items-center bg-primary text-white py-1 px-4 text-xs rounded-lg hover:opacity-90'
+              onClick={onExport}
+            >
+              <DownloadIcon className='h-4 w-4' />
+              <span className='pl-2'>Export</span>
+            </button>
           </div>
           <Input
             value={searchValue}
