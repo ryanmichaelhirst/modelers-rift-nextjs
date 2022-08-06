@@ -70,7 +70,7 @@ export class Animator {
     this.scene.add(spotLight.target)
 
     const spotLightHelper = new THREE.SpotLightHelper(spotLight)
-    this.scene.add(spotLightHelper)
+
     const spotLightFolder = this.gui.addFolder('Spot Light')
     spotLightFolder
       .add({ enabled: false }, 'enabled')
@@ -94,7 +94,6 @@ export class Animator {
     this.scene.add(pointLight)
 
     const pointLightHelper = new THREE.PointLightHelper(pointLight, 10)
-    this.scene.add(pointLightHelper)
 
     const pointLightFolder = this.gui.addFolder('Point Light')
     pointLightFolder

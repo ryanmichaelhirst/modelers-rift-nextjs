@@ -171,7 +171,7 @@ export const ModelExplorer = () => {
                             a === selectedAnimation
                               ? 'text-primary font-semibold'
                               : 'text-slate-400',
-                            'flex text-left cursor-pointer hover:text-primary',
+                            'flex text-left cursor-pointer items-center hover:text-primary',
                           )}
                         >
                           <td className='py-1 w-8'>
