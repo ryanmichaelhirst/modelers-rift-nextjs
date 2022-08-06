@@ -14,11 +14,61 @@ body {
   min-height: 100vh;
 }
 
-::-webkit-scrollbar {
-  /* display: none;
-  -ms-overflow-style: none; 
-  scrollbar-width: none; */
+/* style dat.gui controls */
+.dg.main > ul {
+  @apply border border-solid border-slate-400 rounded-t font-nunito;
 }
+
+.dg.main > ul.closed {
+  @apply border-none;
+}
+
+.dg.main > ul > li:nth-child(1) {
+  @apply rounded-t;
+}
+
+.dg.main > ul > li.folder > div.dg > ul > li.title:nth-child(0) {
+  @apply rounded-t;
+}
+
+.dg.main > ul > li.folder > div.dg > ul > li.title {
+  @apply !bg-slate-300 text-tertiary;
+  text-shadow: none;
+}
+
+.dg.main > ul > li.folder {
+  @apply !bg-white;
+  text-shadow: none;
+}
+
+li.cr {
+  @apply !border-none !bg-white !text-tertiary;
+  text-shadow: none;
+}
+
+li.cr > div > div.c > div.slider {
+  @apply !bg-slate-200;
+}
+
+li.cr > div > div.c > div.slider > div.slider-fg {
+  @apply !bg-primary;
+}
+
+li.cr > div > div.c > div > input {
+  @apply !bg-slate-200 !text-tertiary !leading-[1px];
+}
+
+.dg.main .close-button.close-bottom {
+  @apply left-0 text-slate-400 !bg-white !border !border-solid border-slate-400 rounded-b;
+  text-shadow: none;
+}
+
+/* hide browser scrollbar */
+/* ::-webkit-scrollbar {
+  display: none;
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
+} */
 
 /**
  * This injects Tailwind's component classes and any component classes

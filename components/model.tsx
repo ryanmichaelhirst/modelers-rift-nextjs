@@ -62,11 +62,6 @@ export class Animator {
     spotLight.color = new THREE.Color('#fff')
     spotLight.castShadow = true
     spotLight.shadow.mapSize.set(1024, 1024)
-
-    this.gui.add(spotLight, 'intensity').min(0).max(500).step(0.01).name('spotLightIntensity')
-    this.gui.add(spotLight.position, 'x').min(0).max(500).step(0.01).name('spotLightX')
-    this.gui.add(spotLight.position, 'y').min(0).max(500).step(0.01).name('spotLightY')
-    this.gui.add(spotLight.position, 'z').min(0).max(500).step(0.01).name('spotLightZ')
     this.scene.add(spotLight)
 
     spotLight.target.position.x = 7
@@ -74,9 +69,20 @@ export class Animator {
     spotLight.target.position.z = 258
     this.scene.add(spotLight.target)
 
-    // const spotLightHelper = new THREE.SpotLightHelper(spotLight)
-    // this.scene.add(spotLightHelper)
-
+    const spotLightHelper = new THREE.SpotLightHelper(spotLight)
+    this.scene.add(spotLightHelper)
+    const spotLightFolder = this.gui.addFolder('Spot Light')
+    spotLightFolder
+      .add({ enabled: false }, 'enabled')
+      .name('enable helper')
+      .onChange((value) => {
+        if (value) this.scene.add(spotLightHelper)
+        else this.scene.remove(spotLightHelper)
+      })
+    spotLightFolder.add(spotLight, 'intensity').min(0).max(500).step(0.01).name('intensity')
+    spotLightFolder.add(spotLight.position, 'x').min(0).max(500).step(0.01).name('x')
+    spotLightFolder.add(spotLight.position, 'y').min(0).max(500).step(0.01).name('y')
+    spotLightFolder.add(spotLight.position, 'z').min(0).max(500).step(0.01).name('z')
     // window.requestAnimationFrame(() => {
     //   spotLightHelper.update()
     // })
@@ -85,15 +91,23 @@ export class Animator {
     pointLight.castShadow = true
     pointLight.shadow.mapSize.setX(1024)
     pointLight.shadow.mapSize.setY(1024)
-
-    this.gui.add(pointLight, 'intensity').min(0).max(10).step(0.001).name('pointLightIntensity')
-    this.gui.add(pointLight.position, 'x').min(0).max(500).step(0.01).name('pointLightX')
-    this.gui.add(pointLight.position, 'y').min(0).max(500).step(0.01).name('pointLightY')
-    this.gui.add(pointLight.position, 'z').min(0).max(500).step(0.01).name('pointLightZ')
     this.scene.add(pointLight)
 
     const pointLightHelper = new THREE.PointLightHelper(pointLight, 10)
     this.scene.add(pointLightHelper)
+
+    const pointLightFolder = this.gui.addFolder('Point Light')
+    pointLightFolder
+      .add({ enabled: false }, 'enabled')
+      .name('enable helper')
+      .onChange((value) => {
+        if (value) this.scene.add(pointLightHelper)
+        else this.scene.remove(pointLightHelper)
+      })
+    pointLightFolder.add(pointLight, 'intensity').min(0).max(10).step(0.001).name('intensity')
+    pointLightFolder.add(pointLight.position, 'x').min(0).max(500).step(0.01).name('x')
+    pointLightFolder.add(pointLight.position, 'y').min(0).max(500).step(0.01).name('y')
+    pointLightFolder.add(pointLight.position, 'z').min(0).max(500).step(0.01).name('z')
 
     this.renderer.setSize(width, height)
     this.renderer.setPixelRatio(window.devicePixelRatio)
