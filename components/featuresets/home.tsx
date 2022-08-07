@@ -5,14 +5,14 @@ import { Carousel } from '@components/carousel'
 import { useAppContext } from '@context/index'
 import { FETCH_NEW_CHAMPION } from '@customtypes/index'
 import { CharactersQueryHookResult } from '@graphql/generated/types'
-import { ExternalLinkIcon } from '@heroicons/react/outline'
 import {
-  ArrowCircleRightOutlined,
-  FileDownloadOutlined,
-  GraphicEqOutlined,
-  KeyboardArrowDown,
-  LocalFireDepartmentOutlined,
-} from '@mui/icons-material'
+  ArrowCircleRightIcon,
+  ChevronDownIcon,
+  CollectionIcon,
+  DocumentDownloadIcon,
+  ExternalLinkIcon,
+  VolumeUpIcon,
+} from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import { FC } from 'react'
 
@@ -37,13 +37,7 @@ export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) =>
               Explore every champion, skin, voice line, sound effect, and animation in League of
               Legends. Perfect for viewing new releases and store content.
             </p>
-            <Button
-              classes={{
-                root: 'text-white bg-primary py-2 px-3 md:py-3 md:px-7',
-              }}
-              text='Show me models'
-              onClick={() => router.push('models')}
-            />
+            <Button text='Show me models' onClick={() => router.push('models')} />
           </div>
           <div className='w-2/5'>
             <Card>
@@ -54,13 +48,11 @@ export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) =>
               </div>
               <div className='flex items-center mt-2'>
                 <Button
-                  classes={{
-                    root: 'font-nunito text-primary',
-                  }}
                   text='Explore'
                   onClick={onExplore}
+                  classes={{ button: '!text-primary !bg-transparent hover:!opacity-80' }}
+                  icon={<ExternalLinkIcon className='text-primary h-4 w-4' />}
                 />
-                <ExternalLinkIcon className='text-primary h-5 w-5' />
               </div>
             </Card>
           </div>
@@ -70,8 +62,8 @@ export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) =>
           <p className='text-tertiary text-lg md:text-xl md:mb-4'>
             Take a look at what else we have to offer
           </p>
-          <KeyboardArrowDown
-            className='text-primary text-4xl cursor-pointer'
+          <ChevronDownIcon
+            className='text-primary h-10 w-10 cursor-pointer'
             onClick={() =>
               window.document.getElementById('app-overview')?.scrollIntoView({ behavior: 'smooth' })
             }
@@ -101,7 +93,7 @@ export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) =>
         <div className='flex justify-between'>
           <div className='w-[230px]'>
             <div className='flex'>
-              <LocalFireDepartmentOutlined className='text-secondary mr-2' />
+              <CollectionIcon className='text-secondary mr-2 h-5 w-5' />
               <p className='text-secondary mb-2'>Slammin Skins</p>
             </div>
             <p className='text-sm'>View your favorite skin for any champion. We have them all</p>
@@ -109,7 +101,7 @@ export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) =>
 
           <div className='w-[230px]'>
             <div className='flex'>
-              <GraphicEqOutlined className='text-secondary mr-2' />
+              <VolumeUpIcon className='text-secondary mr-2 h-5 w-5' />
               <p className='text-secondary mb-2'>Valorant Voices</p>
             </div>
 
@@ -120,7 +112,7 @@ export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) =>
 
           <div className='w-[230px]'>
             <div className='flex'>
-              <FileDownloadOutlined className='text-secondary mr-2' />
+              <DocumentDownloadIcon className='text-secondary mr-2 h-5 w-5' />
               <p className='text-secondary mb-2'>Devious Downloads</p>
             </div>
 
@@ -131,7 +123,7 @@ export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) =>
 
       <div className='flex justify-center items-center text-xl pb-20'>
         <p className='mr-3'>Questions or feedback? Share it with us!</p>
-        <ArrowCircleRightOutlined />
+        <ArrowCircleRightIcon className='h-5 w-5' />
       </div>
     </>
   )

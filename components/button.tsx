@@ -1,28 +1,61 @@
-import { Button as MuiButton } from '@mui/material'
 import classNames from 'classnames'
+import { FC, PropsWithChildren } from 'react'
 
-export const Button: React.FC<{
+interface ButtonProps {
   text: string
   onClick?: any
   classes?: {
-    root?: string
-    disabled?: string
-    focusVisible?: string
+    button?: string
   }
-  variant?: 'text' | 'contained' | 'outlined'
   disabled?: boolean
   id?: string
-}> = ({ text, onClick, classes, variant = 'text', disabled, id }) => (
-  <MuiButton
+  icon?: any
+}
+
+export const Button: FC<PropsWithChildren<ButtonProps>> = ({
+  text,
+  onClick,
+  classes,
+  disabled,
+  id,
+  icon: Icon,
+}) => (
+  <button
     id={id}
     disabled={disabled}
-    classes={{
-      ...classes,
-      root: classNames(classes?.root, 'text-xs md:text-base'),
-    }}
-    variant={variant}
-    onClick={onClick}
+    className={classNames(
+      'flex items-center bg-primary text-white py-1 px-4 text-xs rounded-lg hover:opacity-90',
+      classes?.button,
+      disabled && 'opacity-50',
+    )}
+    onClick={disabled ? null : onClick}
   >
-    {text}
-  </MuiButton>
+    {Icon && Icon}
+    <span className='pl-2' onClick={disabled ? null : onClick}>
+      {text}
+    </span>
+  </button>
+)
+
+export const NavButton: FC<PropsWithChildren<ButtonProps>> = ({
+  text,
+  onClick,
+  classes,
+  disabled,
+  id,
+}) => (
+  <button
+    id={id}
+    disabled={disabled}
+    className={classNames(
+      'flex items-center text-tertiary py-1 px-4 text',
+      classes?.button,
+      disabled ? 'opacity-50' : 'hover:text-primary',
+    )}
+    onClick={disabled ? null : onClick}
+  >
+    <span id={id} className='pl-2' onClick={disabled ? null : onClick}>
+      {text}
+    </span>
+  </button>
 )

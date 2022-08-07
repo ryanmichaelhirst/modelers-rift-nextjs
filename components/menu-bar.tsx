@@ -1,4 +1,4 @@
-import { Button } from '@components/button'
+import { NavButton } from '@components/button'
 import { ComboBox } from '@components/combo-box'
 import { useAppContext } from '@context/index'
 import { Character, FETCH_NEW_CHAMPION } from '@customtypes/index'
@@ -82,23 +82,20 @@ export const MenuBar: FC = () => {
 
       <div className='flex items-center'>
         {['home', 'models', 'visualize'].map((item) => (
-          <Button
+          <NavButton
             id={item}
             disabled={item === 'visualize'}
             onClick={onClick}
             key={item}
             classes={{
-              root: classNames(
-                'mr-6 bg-transparent text-tertiary p-2 lowercase font-nunito hover:text-primary',
-                item === page && 'text-primary',
-              ),
+              button: classNames('mr-6 p-2', item === page && 'text-primary'),
             }}
             text={item}
           />
         ))}
-        <Button
+        <NavButton
           classes={{
-            root: 'font-nunito mr-6 p-2 text-primary lowercase',
+            button: 'mr-6 p-2 text-primary lowercase',
           }}
           text={'Patreon'}
           disabled={true}

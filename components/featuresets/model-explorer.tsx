@@ -1,7 +1,7 @@
 import { GetObjectCommand } from '@aws-sdk/client-s3'
 import { AssetTable } from '@components/asset-table'
+import { Button } from '@components/button'
 import { ComboBox } from '@components/combo-box'
-import { Loader } from '@components/loader'
 import { Animator, Model } from '@components/model'
 import { useAppContext } from '@context/index'
 import { AssetType, HTTP_SAFE_CHAMPION_NAMES } from '@customtypes/constants'
@@ -177,7 +177,6 @@ export const ModelExplorer = () => {
   return (
     <div className='flex flex-col md:space-x-10 md:flex-row pb-10 h-full'>
       <div className='md:min-w-[500px] md:min-h-full overflow-hidden'>
-        {loading && <Loader />}
         {data && (
           <div className='card'>
             <div className='flex text-primary space-x-5 pb-1 border-slate-200 border-b'>
@@ -258,13 +257,7 @@ export const ModelExplorer = () => {
             <span className='py-1 px-2 border border-primary rounded-lg text-xs mr-4'>
               {model?.name}
             </span>
-            <button
-              className='flex items-center bg-primary text-white py-1 px-4 text-xs rounded-lg hover:opacity-90'
-              onClick={onExport}
-            >
-              <DownloadIcon className='h-4 w-4' />
-              <span className='pl-2'>Export</span>
-            </button>
+            <Button onClick={onExport} text='Export' icon={<DownloadIcon className='h-4 w-4' />} />
           </div>
           <ComboBox
             onInput={onInput}
