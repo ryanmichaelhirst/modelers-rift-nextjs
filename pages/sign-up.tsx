@@ -23,11 +23,13 @@ const SignUp: NextPage = () => {
   const onSubmit = handleSubmit(async (data) => {
     if (!data.email.includes('@')) {
       setError('email', { message: "Email address must include '@'" }, { shouldFocus: true })
+
       return
     }
 
     if (!data.email.includes('.')) {
       setError('email', { message: 'Invalid email address' }, { shouldFocus: true })
+
       return
     }
 
