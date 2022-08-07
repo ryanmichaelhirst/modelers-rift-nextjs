@@ -108,7 +108,6 @@ export const ModelExplorer = () => {
   }
 
   const onSearch = (value: Asset) => {
-    console.log({ value })
     if (!value || !value.skin) return
 
     setSearch(value)

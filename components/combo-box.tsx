@@ -28,7 +28,7 @@ export const ComboBox: FC<
 }) => {
   return (
     <Combobox value={selected} onChange={onSearch}>
-      <div className={classNames('relative mt-1', classes?.box)}>
+      <div className={classNames('relative', classes?.box)}>
         <div className='flex item-center justify-center shadow rounded p-1'>
           {showIcon && <SearchIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />}
           <Combobox.Input

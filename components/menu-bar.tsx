@@ -1,4 +1,4 @@
-import { NavButton } from '@components/button'
+import { Button, NavButton } from '@components/button'
 import { ComboBox } from '@components/combo-box'
 import { useAppContext } from '@context/index'
 import { Character, FETCH_NEW_CHAMPION } from '@customtypes/index'
@@ -37,7 +37,7 @@ export const MenuBar: FC = () => {
     })()
 
     setPage(id)
-    router.push(`/${value.replace(' ', '_').toLowerCase()}`)
+    router.push(`/${value.toLowerCase()}`)
   }
 
   const onInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,17 +88,33 @@ export const MenuBar: FC = () => {
             onClick={onClick}
             key={item}
             classes={{
-              button: classNames('mr-6 p-2', item === page && 'text-primary'),
+              button: classNames(item === page && 'text-primary'),
             }}
             text={item}
           />
         ))}
         <NavButton
           classes={{
-            button: 'mr-6 p-2 text-primary lowercase',
+            button: 'text-primary',
           }}
-          text={'Patreon'}
+          text={'patreon'}
           disabled={true}
+        />
+        <NavButton
+          id='login'
+          onClick={onClick}
+          classes={{
+            button: 'text-primary',
+          }}
+          text={'login'}
+        />
+        <Button
+          id='sign-up'
+          onClick={onClick}
+          classes={{
+            button: 'mr-2 text-primary',
+          }}
+          text={'sign up'}
         />
         <ComboBox
           onInput={onInput}
