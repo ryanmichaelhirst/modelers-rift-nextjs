@@ -1,15 +1,15 @@
 import { GetObjectCommand } from '@aws-sdk/client-s3'
 import { AssetTable } from '@components/asset-table'
-import { Input } from '@components/input'
+import { ComboBox } from '@components/combo-box'
 import { Loader } from '@components/loader'
 import { Animator, Model } from '@components/model'
 import { useAppContext } from '@context/index'
 import { AssetType, HTTP_SAFE_CHAMPION_NAMES } from '@customtypes/constants'
 import { Asset, SET_SELECTED_SKIN } from '@customtypes/index'
 import { useCharacterQuery } from '@graphql/generated/types'
+import { Combobox } from '@headlessui/react'
 import { DownloadIcon, PauseIcon, PlayIcon } from '@heroicons/react/outline'
 import { BUCKET_NAME, s3 } from '@lib/s3'
-import { Box } from '@mui/material'
 import { capitalize, getSplashArtLink } from '@utils/index'
 import classNames from 'classnames'
 import Image from 'next/image'
@@ -44,13 +44,14 @@ export const ModelExplorer = () => {
     },
   })
   const [tab, setTab] = useState('Animations')
-  const [searchValue, setSearch] = useState<string>()
+  const [searchValue, setSearch] = useState<Asset>()
   const [selectedAnimation, setSelectedAnimation] = useState<string>()
   const [modelConfig, setModelConfig] = useState<Animator>()
   const [selectedAsset, setSelectedAsset] = useState<Asset>()
   const [isAnimationPlaying, setIsAnimationPlaying] = useState(true)
   const audioRef = useRef<HTMLAudioElement>()
 
+  const [query, setQuery] = useState('')
   const championName = capitalize(selectedChampion.basicInfo?.name)
   const models = data?.character?.assets?.filter((a) => a?.type === 'model') ?? []
   const model = models.find((m) => m?.skin === selectedChampion.skin)
@@ -106,18 +107,15 @@ export const ModelExplorer = () => {
     setModelConfig(value)
   }
 
-  const onSearch = (
-    e: React.SyntheticEvent<Element, Event>,
-    value: { label: string; value: string } | undefined,
-    reason: string,
-  ) => {
-    if (!value) return
+  const onSearch = (value: Asset) => {
+    console.log({ value })
+    if (!value || !value.skin) return
 
-    setSearch(value.label)
+    setSearch(value)
 
     dispatch({
       type: SET_SELECTED_SKIN,
-      payload: value.value,
+      payload: value.skin,
     })
   }
 
@@ -158,7 +156,23 @@ export const ModelExplorer = () => {
     }
   }
 
+  const onInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target
+    setQuery(value)
+  }
+
+  const afterLeave = () => setQuery('')
+
   const assetTableProps = { onRowClick, selectedAsset }
+  const filtered =
+    query === ''
+      ? models
+      : models.filter((m) =>
+          m?.name
+            ?.toLowerCase()
+            .replace(/\s+/g, '')
+            .includes(query.toLowerCase().replace(/\s+/g, '')),
+        )
 
   return (
     <div className='flex flex-col md:space-x-10 md:flex-row pb-10 h-full'>
@@ -252,49 +266,59 @@ export const ModelExplorer = () => {
               <span className='pl-2'>Export</span>
             </button>
           </div>
-          <Input
-            value={searchValue}
-            onChange={onSearch}
-            options={models.map((m) => ({
-              label: m?.name,
-              value: m?.skin,
-            }))}
-            renderOption={(props, option) => (
-              <Box component='li' {...props}>
-                <Image
-                  height='20'
-                  width='20'
-                  src={
-                    option.label.includes('Chroma')
-                      ? '/no-image.jpg'
-                      : getSplashArtLink(championName, option.value.replace('skin', ''))
+          <ComboBox
+            onInput={onInput}
+            onSearch={onSearch}
+            selected={searchValue}
+            afterLeave={afterLeave}
+            displayValue={(model: Asset) => model?.name ?? ''}
+            classes={{ box: 'z-20 w-72' }}
+            showIcon={false}
+            placeholder='Search skins...'
+          >
+            {filtered.length === 0 && query !== '' ? (
+              <div className='relative cursor-default select-none py-2 px-4 text-gray-700'>
+                Nothing found.
+              </div>
+            ) : (
+              filtered.map((model) => (
+                <Combobox.Option
+                  key={model?.id}
+                  className={({ active }) =>
+                    classNames(
+                      'relative capitalize cursor-default select-none py-0 pl-10 pr-4',
+                      active ? 'bg-primary text-white' : 'text-tertiary',
+                    )
                   }
-                  className='rounded'
-                  alt={option}
-                />
-                <p className='ml-2'>{option.label}</p>
-              </Box>
+                  value={model}
+                >
+                  {({ selected }) => (
+                    <>
+                      <Image
+                        height='20'
+                        width='20'
+                        src={
+                          model?.name?.includes('Chroma')
+                            ? '/no-image.jpg'
+                            : getSplashArtLink(championName, model?.skin?.replace('skin', '') ?? '')
+                        }
+                        className='rounded'
+                        alt={model?.name ?? ''}
+                      />
+                      <span
+                        className={classNames(
+                          'ml-4 inline-block truncate',
+                          selected && 'font-medium',
+                        )}
+                      >
+                        {model?.name}
+                      </span>
+                    </>
+                  )}
+                </Combobox.Option>
+              ))
             )}
-            isOptionEqualToValue={(option, value) => {
-              if (option.label === value) return true
-
-              return false
-            }}
-            label='Select a skin'
-            muiClasses={{
-              autoComp: {
-                root: 'bg-white/30 py-2',
-              },
-              textField: {
-                root: 'text-primary text-lg',
-                notchedOutline: '!border-primary',
-              },
-              label: {
-                root: 'text-primary text-lg',
-                focused: '!text-primary',
-              },
-            }}
-          />
+          </ComboBox>
           {modelUrl && <Model url={modelUrl} onSetModelConfig={onSetModelConfig} />}
         </div>
       )}

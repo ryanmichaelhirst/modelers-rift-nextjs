@@ -228,7 +228,7 @@ export const Model: FC<{ url: string; onSetModelConfig: any }> = ({ url, onSetMo
 
   return (
     <div className='relative h-full'>
-      <div ref={guiRef} className='absolute top-0 left-0 z-10'></div>
+      <div ref={guiRef} className='absolute top-3 left-0'></div>
       <canvas ref={ref}></canvas>
     </div>
   )

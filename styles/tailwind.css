@@ -4,16 +4,6 @@
  */
 @tailwind base;
 
-* {
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  width: 100%;
-  min-height: 100vh;
-}
-
 /* style dat.gui controls */
 .dg.main > ul {
   @apply border border-solid border-slate-400 rounded-t font-nunito;
@@ -98,6 +88,33 @@ li.cr > div > div.c > div > input {
 @layer base {
   * {
     font-family: theme(fontFamily.nunito);
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  ::-webkit-scrollbar {
+    width: 13px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: #f7f4ed;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #e0cbcb;
+    border-radius: 100vh;
+    border: 3px solid #f6f7ed;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #c0a0b9;
   }
 }
 
