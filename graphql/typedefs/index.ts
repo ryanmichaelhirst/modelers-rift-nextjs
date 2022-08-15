@@ -1,6 +1,19 @@
-import { gql } from 'apollo-server-micro'
+import { YogaInitialContext } from '@graphql-yoga/node'
+import prisma from '@lib/prisma'
+import { gql } from 'graphql-tag'
+import { IncomingMessage, ServerResponse } from 'http'
+
+export type GraphqlContext = {
+  prisma: typeof prisma
+  userId: number | null
+} & YogaInitialContext & {
+    req: IncomingMessage
+    res: ServerResponse
+  }
 
 export const typeDefs = gql`
+  scalar DateTime
+
   type Metadata {
     totalCount: Int
     totalPages: Int
@@ -58,6 +71,32 @@ export const typeDefs = gql`
     name: String
   }
 
+  input SignUpInput {
+    email: String!
+    password: String!
+    name: String!
+  }
+
+  input LoginInput {
+    email: String!
+    password: String!
+  }
+
+  type User {
+    id: ID!
+    name: String!
+    email: String!
+    password: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    deletedAt: DateTime
+  }
+
+  type UserPayload {
+    user: User!
+    token: String!
+  }
+
   type Query {
     characters(
       filter: CharactersFilter
@@ -68,5 +107,13 @@ export const typeDefs = gql`
     character(filter: CharactersFilter, includeAssets: Boolean): Character
     assets(filter: AssetsFilter, page: Int, pageSize: Int): AssetsCollection
     jobs: [Job]
+    user(id: ID!): User
+    currentUser: User
+  }
+
+  type Mutation {
+    signUp(input: SignUpInput!): UserPayload
+    login(input: LoginInput!): UserPayload
+    logout: User
   }
 `

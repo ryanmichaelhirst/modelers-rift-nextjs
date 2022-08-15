@@ -1,17 +1,14 @@
-"Exposes a URL that specifies the behaviour of this scalar."
-directive @specifiedBy("The URL that specifies the behaviour of this scalar." url: String!) on SCALAR
+schema {
+  query: Query
+  mutation: Mutation
+}
+"A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar."
+scalar DateTime
 type Metadata {
   totalCount: Int
   totalPages: Int
   currentPage: Int
   pageSize: Int
-}
-input CharactersFilter {
-  nameCnt: String
-  nameEq: String
-  typeEq: String
-  assetsTypeEq: String
-  assetsTypeIncludes: [String]
 }
 type Character {
   id: ID
@@ -22,13 +19,6 @@ type Character {
 type CharacterCollection {
   collection: [Character]
   metadata: Metadata
-}
-input AssetsFilter {
-  typeEq: String
-  typeIncludes: [String]
-  pathIncludes: [String]
-  skinEq: String
-  characterId: String
 }
 type Asset {
   id: ID
@@ -42,8 +32,6 @@ type Asset {
   s3Url: String
   duration: Float
 }
-"The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](https://en.wikipedia.org/wiki/IEEE_floating_point)."
-scalar Float
 type AssetsCollection {
   collection: [Asset]
   metadata: Metadata
@@ -51,9 +39,57 @@ type AssetsCollection {
 type Job {
   name: String
 }
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  password: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+}
+type UserPayload {
+  user: User!
+  token: String!
+}
 type Query {
   characters(filter: CharactersFilter, page: Int, pageSize: Int, includeAssets: Boolean): CharacterCollection
   character(filter: CharactersFilter, includeAssets: Boolean): Character
   assets(filter: AssetsFilter, page: Int, pageSize: Int): AssetsCollection
   jobs: [Job]
+  user(id: ID!): User
+  currentUser: User
 }
+type Mutation {
+  signUp(input: SignUpInput!): UserPayload
+  login(input: LoginInput!): UserPayload
+  logout: User
+}
+input CharactersFilter {
+  nameCnt: String
+  nameEq: String
+  typeEq: String
+  assetsTypeEq: String
+  assetsTypeIncludes: [String]
+}
+input AssetsFilter {
+  typeEq: String
+  typeIncludes: [String]
+  pathIncludes: [String]
+  skinEq: String
+  characterId: String
+}
+input SignUpInput {
+  email: String!
+  password: String!
+  name: String!
+}
+input LoginInput {
+  email: String!
+  password: String!
+}
+"Exposes a URL that specifies the behaviour of this scalar."
+directive @specifiedBy(
+    "The URL that specifies the behaviour of this scalar."
+    url: String!
+  ) on SCALAR

@@ -1,8 +1,8 @@
-import { Button, NavButton } from '@components/button'
+import { NavButton } from '@components/button'
 import { ComboBox } from '@components/combo-box'
 import { useAppContext } from '@context/index'
 import { Character, FETCH_NEW_CHAMPION } from '@customtypes/index'
-import { useCharactersQuery } from '@graphql/generated/types'
+import { useCharactersQuery, useLogoutMutation } from '@graphql/generated/types'
 import { Combobox } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/solid'
 import classNames from 'classnames'
@@ -16,6 +16,7 @@ export const MenuBar: FC = () => {
   const [selected, setSelected] = useState<Character>()
   const [query, setQuery] = useState('')
   const [, dispatch] = useAppContext()
+  const [logout] = useLogoutMutation()
 
   const { data, loading } = useCharactersQuery({
     variables: {
@@ -28,13 +29,22 @@ export const MenuBar: FC = () => {
   })
   const characters = data?.characters?.collection?.filter(Boolean) ?? []
 
-  const onClick = (e: any) => {
+  const onClick = async (e: any) => {
     const { id } = e.target
     const value = (() => {
       if (id === 'home') return ''
 
       return id
     })()
+
+    if (value === 'logout') {
+      const res = await logout()
+      console.log({ res })
+      localStorage.removeItem('token')
+      router.push('/')
+
+      return
+    }
 
     setPage(id)
     router.push(`/${value.toLowerCase()}`)
@@ -65,6 +75,12 @@ export const MenuBar: FC = () => {
             .includes(query.toLowerCase().replace(/\s+/g, '')),
         )
 
+  const loggedIn = (() => {
+    if (typeof window === 'undefined') return false
+
+    return !!localStorage.getItem('token')
+  })()
+
   return (
     <div className='flex justify-between items-center px-4 py-5 h-full'>
       <div className='flex items-center'>
@@ -81,10 +97,9 @@ export const MenuBar: FC = () => {
       </div>
 
       <div className='flex items-center'>
-        {['home', 'models', 'visualize'].map((item) => (
+        {['home', 'models'].map((item) => (
           <NavButton
             id={item}
-            disabled={item === 'visualize'}
             onClick={onClick}
             key={item}
             classes={{
@@ -100,22 +115,26 @@ export const MenuBar: FC = () => {
           text={'patreon'}
           disabled={true}
         />
-        <NavButton
-          id='login'
-          onClick={onClick}
-          classes={{
-            button: 'text-primary',
-          }}
-          text={'login'}
-        />
-        <Button
-          id='sign-up'
-          onClick={onClick}
-          classes={{
-            button: 'mr-2 text-primary',
-          }}
-          text={'sign up'}
-        />
+        {loggedIn ? (
+          <NavButton
+            id='logout'
+            onClick={onClick}
+            classes={{
+              button: 'text-primary',
+            }}
+            text={'logout'}
+          />
+        ) : (
+          <NavButton
+            id='login'
+            onClick={onClick}
+            classes={{
+              button: 'text-primary',
+            }}
+            text={'login'}
+          />
+        )}
+
         <ComboBox
           onInput={onInput}
           onSearch={onSearch}

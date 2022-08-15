@@ -81,7 +81,7 @@ Configure rover with apollo studio
 
 Generate schema.graphql (introspection)
 
-`rover graph introspect http://localhost:4000/graphql > graphql/generated/schema.graphql`
+`rover graph introspect http://localhost:3000/api/graphql > graphql/generated/schema.graphql`
 
 Generate schema.graphql (schema definition language)
 
@@ -89,4 +89,4 @@ Generate schema.graphql (schema definition language)
 
 Generate schema.json
 
-`npx apollo schema:download --endpoint=http://localhost:4000/graphql schema.json`
+`npx apollo schema:download --endpoint=http://localhost:3000/graphql schema.json`

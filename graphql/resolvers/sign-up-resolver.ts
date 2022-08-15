@@ -1,23 +1,14 @@
-import { PrismaClient } from '@prisma/client'
+import { MutationResolvers } from '@graphql/generated/types'
+import { createAccessToken } from '@utils/server-helpers'
 import bcrypt from 'bcryptjs'
 
-type Resolver = (
-  parent: any,
-  args: { email: string; password: string },
-  ctx: { prisma: PrismaClient },
-) => void
+export const SignUpResolver: MutationResolvers['signUp'] = async (parent, args, ctx) => {
+  const hashedPassword = await bcrypt.hash(args.input.password, 10)
+  const user = await ctx.prisma.user.create({ data: { ...args.input, password: hashedPassword } })
 
-export const SignUpResolver: Resolver = async (parent, args, ctx) => {
-  // 1
-  const password = await bcrypt.hash(args.password, 10)
+  const { token, setCookieHeader } = createAccessToken(user)
+  ctx.res.setHeader('Set-Cookie', setCookieHeader)
 
-  // 2
-  const user = await ctx.prisma.user.create({ data: { ...args, password } })
-
-  // 3
-  const token = jwt.sign({ userId: user.id }, APP_SECRET)
-
-  // 4
   return {
     token,
     user,
