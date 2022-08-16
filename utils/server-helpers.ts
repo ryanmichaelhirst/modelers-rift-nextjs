@@ -1,58 +1,122 @@
 import { User } from '@prisma/client'
-import { addMinutes, formatRFC7231 } from 'date-fns'
-import { IncomingMessage } from 'http'
-import jwt from 'jsonwebtoken'
+import { addDays, addMinutes, formatRFC7231 } from 'date-fns'
+import { createClient } from 'redis'
+import { v4 as uuidv4 } from 'uuid'
 
-const expiredTokenCache: Record<string, string> = {}
+class RedisService {
+  private redisClient: ReturnType<typeof createClient> | undefined
 
-const verifyToken = (token: string) => {
-  return jwt.verify(token, process.env.JWT_AUTH_SECRET!)
-}
+  constructor() {
+    if (!process.env.REDIS_URL) throw new Error('REDIS_URL env var not set')
 
-export const createAccessToken = (user: User, expirationDate?: Date) => {
-  const { JWT_AUTH_SECRET } = process.env
-  if (!JWT_AUTH_SECRET) throw new Error('Jwt auth secret not found')
+    this.redisClient = createClient({
+      url: process.env.REDIS_URL,
+    })
 
-  const token = jwt.sign({ userId: user.id }, JWT_AUTH_SECRET)
-  const expiresAt = addMinutes(new Date(), 10)
-  const rfcDate = formatRFC7231(expiresAt)
+    this.init()
+  }
 
-  return {
-    token,
-    setCookieHeader: `token=${token}; Expires=${rfcDate}; Secure; HttpOnly`,
+  client() {
+    if (!this.redisClient) throw new Error('redis client not configured')
+
+    return this.redisClient
+  }
+
+  init() {
+    this.client().on('error', (err) => console.error('redis client err', err))
+    this.client()
+      .connect()
+      .then(() => console.info('redis client connected'))
+  }
+
+  destroy() {
+    if (!this.redisClient) return
+
+    this.client().disconnect()
   }
 }
 
-export const revokeAccessToken = (user: User, token?: string) => {
-  // add the revoked token to a cache so we can blacklist server side
-  if (token) expiredTokenCache[token] = token
-  console.log({ expiredTokenCache, token })
+export const redisService: RedisService = (() => {
+  if (process.env.NODE_ENV === 'production') {
+    return new RedisService()
+  } else {
+    // @ts-ignore
+    if (!global.redisService) {
+      // @ts-ignore
+      global.redisService = new RedisService()
+    }
+
+    // @ts-ignore
+    return global.redisService
+  }
+})()
+
+export type Session = {
+  userId: number
+  name: string
+  email: string
+  expiredAt: string
+  createdAt: string
+  type: string
+}
+
+export const createAccessToken = async (user: User) => {
+  const sessionId = uuidv4()
+  const expiredAt = addMinutes(new Date(), 1)
+  const rfcDate = formatRFC7231(expiredAt)
+
+  // create session record in redis
+  await redisService.client().json.set(sessionId, '.', {
+    userId: user.id,
+    name: user.name,
+    email: user.email,
+    createdAt: new Date(),
+    expiredAt,
+    type: 'access',
+  })
+
+  return {
+    token: sessionId,
+    setCookieHeader: `token=${sessionId}; Expires=${rfcDate}; Secure; HttpOnly`,
+  }
+}
+
+export const revokeAccessToken = async (token: string) => {
+  // delete session from the db
+  await redisService.client().json.del(token)
   const rfcDate = formatRFC7231(new Date(1999))
 
   return `token=${token}; Expires=${rfcDate}; Secure; HttpOnly`
 }
 
-export const getUserId = (req: IncomingMessage, authToken?: string) => {
-  if (req) {
-    const authHeader = req.headers.authorization
-    if (authHeader) {
-      const token = authHeader.replace('undefined', '').replace('Bearer ', '')
-      if (!token) {
-        throw new Error('No token found')
-      }
-      // @ts-ignore
-      const { userId } = verifyToken(token)
-      console.log({ userId })
+export const isTokenExpired = async (token: string) => {
+  const session = (await redisService.client().json.get(token)) as Session | null
+  console.log('isTokenExpired', { session })
+  if (!session) return true
 
-      return userId
-    }
-  } else if (authToken) {
-    // @ts-ignore
-    const { userId } = verifyToken(authToken)
-    console.log({ userId })
+  const now = new Date()
+  const expiredAt = new Date(session.expiredAt)
 
-    return userId
+  return now >= expiredAt
+}
+
+export const createRefreshToken = async (user: User) => {
+  const id = uuidv4()
+  const expiredAt = addDays(new Date(), 7)
+  const rfcDate = formatRFC7231(expiredAt)
+
+  // create refresh record in redis
+  await redisService.client().json.set(id, '.', {
+    userId: user.id,
+    name: user.name,
+    email: user.email,
+    createdAt: new Date(),
+    expiredAt,
+    type: 'refresh',
+  })
+
+  return {
+    token: id,
+    setCookieHeader: `refresh=${id}; Expires=${rfcDate}; Secure; HttpOnly`,
   }
-
-  throw new Error('Not authenticated')
 }

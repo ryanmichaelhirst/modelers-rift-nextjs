@@ -60,12 +60,9 @@ const SignUp: NextPage = () => {
       })
 
       if (resp.data?.signUp?.user && resp.data.signUp.token) {
-        localStorage.setItem('token', resp.data.signUp.token)
         router.push('/profile')
       }
-    } catch (err) {
-      console.log(err)
-    }
+    } catch (err) {}
   })
 
   return (

@@ -44,10 +44,8 @@ const Login: NextPage = () => {
         },
       },
     })
-    console.log({ resp })
 
     if (resp.data?.login?.user && resp.data.login.token) {
-      localStorage.setItem('token', resp.data.login.token)
       router.push('/profile')
     }
 

@@ -2,7 +2,11 @@ import { NavButton } from '@components/button'
 import { ComboBox } from '@components/combo-box'
 import { useAppContext } from '@context/index'
 import { Character, FETCH_NEW_CHAMPION } from '@customtypes/index'
-import { useCharactersQuery, useLogoutMutation } from '@graphql/generated/types'
+import {
+  useCharactersQuery,
+  useCurrentUserQuery,
+  useLogoutMutation,
+} from '@graphql/generated/types'
 import { Combobox } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/solid'
 import classNames from 'classnames'
@@ -16,7 +20,7 @@ export const MenuBar: FC = () => {
   const [selected, setSelected] = useState<Character>()
   const [query, setQuery] = useState('')
   const [, dispatch] = useAppContext()
-  const [logout] = useLogoutMutation()
+  const [logout, { client }] = useLogoutMutation()
 
   const { data, loading } = useCharactersQuery({
     variables: {
@@ -29,6 +33,11 @@ export const MenuBar: FC = () => {
   })
   const characters = data?.characters?.collection?.filter(Boolean) ?? []
 
+  const { data: currentUserData } = useCurrentUserQuery({
+    fetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
+  })
+
   const onClick = async (e: any) => {
     const { id } = e.target
     const value = (() => {
@@ -38,9 +47,8 @@ export const MenuBar: FC = () => {
     })()
 
     if (value === 'logout') {
-      const res = await logout()
-      console.log({ res })
-      localStorage.removeItem('token')
+      await logout()
+      client.resetStore()
       router.push('/')
 
       return
@@ -76,9 +84,9 @@ export const MenuBar: FC = () => {
         )
 
   const loggedIn = (() => {
-    if (typeof window === 'undefined') return false
+    if (currentUserData?.currentUser) return true
 
-    return !!localStorage.getItem('token')
+    return false
   })()
 
   return (
@@ -97,7 +105,7 @@ export const MenuBar: FC = () => {
       </div>
 
       <div className='flex items-center'>
-        {['home', 'models'].map((item) => (
+        {['home', 'models', 'profile'].map((item) => (
           <NavButton
             id={item}
             onClick={onClick}

@@ -13,7 +13,7 @@ import {
 import LogoutResolver from '@graphql/resolvers/logout-resolver'
 import { typeDefs } from '@graphql/typedefs/index'
 import prisma from '@lib/prisma'
-import { getUserId } from '@utils/server-helpers'
+import { createAccessToken, createRefreshToken, redisService, Session } from '@utils/server-helpers'
 import { GraphQLDateTime } from 'graphql-scalars'
 
 const server = createServer({
@@ -37,16 +37,54 @@ const server = createServer({
     },
   }),
   port: 4000,
-  context: (initialContext) => {
+  context: async (initialContext) => {
     // graphql-yoga will automatically merge these extra attributes to the base req
     // https://www.graphql-yoga.com/docs/features/context#extending-the-initial-context
-    const { req } = initialContext
-    const authorizationHeader = req.headers.authorization
+    const { req, res } = initialContext
+    const cookie = req.headers.cookie
+    console.log('context', { cookie, setCookie: req.headers['set-cookie'] })
+    if (!cookie) return { prisma, userId: null }
+
+    let accessToken = cookie.match(/(?<=token=).*?(?=;)/g)?.at(0)
+    let refreshToken = cookie.match(/(?<=refresh=).*/g)?.at(0)
+
+    const userId = await (async () => {
+      if (!accessToken) {
+        if (!refreshToken) return null
+
+        // get a new access token
+        const payload = (await redisService.client().json.get(refreshToken)) as Session
+        const user = await prisma.user.findUnique({
+          where: {
+            id: payload.userId,
+          },
+        })
+        if (!user) return null
+
+        const {
+          token: newAccessToken,
+          setCookieHeader: accessTokenHeader,
+        } = await createAccessToken(user)
+        accessToken = newAccessToken
+        // delete old refresh token
+        await redisService.client().json.del(refreshToken)
+        const {
+          token: newRefreshToken,
+          setCookieHeader: refreshTokenHeader,
+        } = await createRefreshToken(user)
+        refreshToken = newRefreshToken
+
+        res.setHeader('Set-Cookie', [accessTokenHeader, refreshTokenHeader])
+      }
+
+      const session = (await redisService.client().json.get(accessToken)) as Session
+
+      return session.userId
+    })()
 
     return {
       prisma,
-      // userId: number
-      userId: authorizationHeader ? getUserId(req) : null,
+      userId,
     }
   },
 })

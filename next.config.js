@@ -24,6 +24,8 @@ module.exports = withBundleAnalyzer({
       exclude: /node_modules/,
       use: [options.defaultLoaders.babel, { loader: 'graphql-tag/loader' }],
     })
+
+    // enable loading svg files
     config.module.rules.push({
       test: /\.svg$/i,
       issuer: /\.[jt]sx?$/,

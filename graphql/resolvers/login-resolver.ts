@@ -1,5 +1,5 @@
 import { MutationResolvers } from '@graphql/generated/types'
-import { createAccessToken } from '@utils/server-helpers'
+import { createAccessToken, createRefreshToken } from '@utils/server-helpers'
 import bcrypt from 'bcryptjs'
 
 export const LoginResolver: MutationResolvers['login'] = async (parent, args, ctx) => {
@@ -9,8 +9,9 @@ export const LoginResolver: MutationResolvers['login'] = async (parent, args, ct
   const valid = await bcrypt.compare(args.input.password, user.password)
   if (!valid) throw new Error('Invalid password')
 
-  const { token, setCookieHeader } = createAccessToken(user)
-  ctx.res.setHeader('Set-Cookie', setCookieHeader)
+  const { token, setCookieHeader } = await createAccessToken(user)
+  const refreshToken = await createRefreshToken(user)
+  ctx.res.setHeader('Set-Cookie', [setCookieHeader, refreshToken.setCookieHeader])
 
   return {
     token,
