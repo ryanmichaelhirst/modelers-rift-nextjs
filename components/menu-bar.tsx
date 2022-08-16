@@ -3,6 +3,7 @@ import { ComboBox } from '@components/combo-box'
 import { useAppContext } from '@context/index'
 import { Character, FETCH_NEW_CHAMPION } from '@customtypes/index'
 import {
+  CurrentUserDocument,
   useCharactersQuery,
   useCurrentUserQuery,
   useLogoutMutation,
@@ -20,7 +21,10 @@ export const MenuBar: FC = () => {
   const [selected, setSelected] = useState<Character>()
   const [query, setQuery] = useState('')
   const [, dispatch] = useAppContext()
-  const [logout, { client }] = useLogoutMutation()
+  const [logout] = useLogoutMutation()
+
+  const { data: loginData } = useCurrentUserQuery()
+  console.log({ loginData })
 
   const { data, loading } = useCharactersQuery({
     variables: {
@@ -33,11 +37,6 @@ export const MenuBar: FC = () => {
   })
   const characters = data?.characters?.collection?.filter(Boolean) ?? []
 
-  const { data: currentUserData } = useCurrentUserQuery({
-    fetchPolicy: 'network-only',
-    notifyOnNetworkStatusChange: true,
-  })
-
   const onClick = async (e: any) => {
     const { id } = e.target
     const value = (() => {
@@ -47,8 +46,24 @@ export const MenuBar: FC = () => {
     })()
 
     if (value === 'logout') {
-      await logout()
-      client.resetStore()
+      await logout({
+        update(cache, { data }) {
+          cache.modify({
+            fields: {
+              currentUser(existingRef, { DELETE }) {
+                return null
+              },
+            },
+          })
+          // cache.writeQuery({
+          //   query: CurrentUserDocument,
+          //   data: { currentUser: null },
+          // })
+          // client.resetStore()
+        },
+        refetchQueries: [{ query: CurrentUserDocument }],
+      })
+
       router.push('/')
 
       return
@@ -82,12 +97,6 @@ export const MenuBar: FC = () => {
             .replace(/\s+/g, '')
             .includes(query.toLowerCase().replace(/\s+/g, '')),
         )
-
-  const loggedIn = (() => {
-    if (currentUserData?.currentUser) return true
-
-    return false
-  })()
 
   return (
     <div className='flex justify-between items-center px-4 py-5 h-full'>
@@ -123,7 +132,7 @@ export const MenuBar: FC = () => {
           text={'patreon'}
           disabled={true}
         />
-        {loggedIn ? (
+        {loginData?.currentUser?.id ? (
           <NavButton
             id='logout'
             onClick={onClick}

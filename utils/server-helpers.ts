@@ -91,7 +91,6 @@ export const revokeAccessToken = async (token: string) => {
 
 export const isTokenExpired = async (token: string) => {
   const session = (await redisService.client().json.get(token)) as Session | null
-  console.log('isTokenExpired', { session })
   if (!session) return true
 
   const now = new Date()

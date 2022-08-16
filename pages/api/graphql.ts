@@ -42,7 +42,6 @@ const server = createServer({
     // https://www.graphql-yoga.com/docs/features/context#extending-the-initial-context
     const { req, res } = initialContext
     const cookie = req.headers.cookie
-    console.log('context', { cookie, setCookie: req.headers['set-cookie'] })
     if (!cookie) return { prisma, userId: null }
 
     let accessToken = cookie.match(/(?<=token=).*?(?=;)/g)?.at(0)

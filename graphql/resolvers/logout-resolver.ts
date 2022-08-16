@@ -1,21 +1,26 @@
 import { GraphQLYogaError } from '@graphql-yoga/node'
 import { MutationResolvers } from '@graphql/generated/types'
 import { revokeAccessToken } from '@utils/server-helpers'
+import { formatRFC7231 } from 'date-fns'
 
-// TODO: this throws an error
 export const LogoutResolver: MutationResolvers['logout'] = async (parent, args, ctx) => {
   const userId = ctx.userId
-  if (!userId) throw new GraphQLYogaError('user id not found')
+  if (!userId) throw new GraphQLYogaError('user id not found for logout')
 
   const user = await ctx.prisma.user.findUnique({ where: { id: userId } })
-  if (!user) throw new GraphQLYogaError('user not found')
+  if (!user) throw new GraphQLYogaError('user not found for logout')
 
   const token = ctx.req.headers.cookie
-  if (!token) throw new GraphQLYogaError('no cookie found, unable to logout')
+  if (!token) throw new GraphQLYogaError('no token for logout')
 
   // properly delete token and set header
-  const setCookieHeader = await revokeAccessToken(token.replace('token=', ''))
-  ctx.res.setHeader('Set-Cookie', '')
+  await revokeAccessToken(token.replace('token=', ''))
+  const rfcDate = formatRFC7231(new Date(1999))
+
+  ctx.res.setHeader('Set-Cookie', [
+    `token=123; Expires=${rfcDate}; Secure; HttpOnly`,
+    `refresh=456; Expires=${rfcDate}; Secure; HttpOnly`,
+  ])
 
   return user
 }

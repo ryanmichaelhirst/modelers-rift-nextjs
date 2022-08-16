@@ -5,7 +5,7 @@ import { isTokenExpired } from '@utils/server-helpers'
 
 export const CurrentUserResolver: QueryResolvers['currentUser'] = async (parent, args, ctx) => {
   const userId = ctx.userId
-  if (!userId) throw new GraphQLYogaError('user id not found')
+  if (!userId) throw new GraphQLYogaError('user id not found for current user')
 
   if (ctx.req.headers.cookie) {
     const accessToken = ctx.req.headers.cookie.split(';')[0]

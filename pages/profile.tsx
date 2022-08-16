@@ -7,7 +7,6 @@ import { useEffect } from 'react'
 const Profile: NextPage = () => {
   const router = useRouter()
   const { data, loading, error, refetch } = useCurrentUserQuery({
-    fetchPolicy: 'network-only',
     notifyOnNetworkStatusChange: true,
   })
 
