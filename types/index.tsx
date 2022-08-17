@@ -136,17 +136,6 @@ export interface SelectedChampion {
   skin?: string
 }
 
-// TODO: add this to @components/Tooltip
-export const isPassive = (value: any): value is Passive => {
-  if (typeof value === 'object' && value !== null) {
-    const hasTooltip = 'tooltip' in value
-
-    return !hasTooltip
-  }
-
-  return false
-}
-
 /**
  * React Context
  */

@@ -1,6 +1,8 @@
 import { Button } from '@components/button'
+import { useLoginMutation } from '@graphql/generated/types'
 import type { NextPage } from 'next'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 
 const Login: NextPage = () => {
@@ -18,6 +20,8 @@ const Login: NextPage = () => {
       password: '',
     },
   })
+  const [login] = useLoginMutation()
+  const router = useRouter()
 
   const onSubmit = handleSubmit(async (data) => {
     if (!data.email.includes('@')) {
@@ -30,6 +34,19 @@ const Login: NextPage = () => {
       setError('email', { message: 'Invalid email address' }, { shouldFocus: true })
 
       return
+    }
+
+    const resp = await login({
+      variables: {
+        input: {
+          email: data.email,
+          password: data.password,
+        },
+      },
+    })
+
+    if (resp.data?.login?.user && resp.data.login.token) {
+      router.push('/profile')
     }
 
     setValue('email', '')

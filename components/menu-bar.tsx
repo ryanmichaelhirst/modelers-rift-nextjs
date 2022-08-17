@@ -1,14 +1,20 @@
-import { Button, NavButton } from '@components/button'
+import { NavButton } from '@components/button'
 import { ComboBox } from '@components/combo-box'
 import { useAppContext } from '@context/index'
 import { Character, FETCH_NEW_CHAMPION } from '@customtypes/index'
-import { useCharactersQuery } from '@graphql/generated/types'
+import {
+  CurrentUserDocument,
+  useCharactersQuery,
+  useCurrentUserQuery,
+  useLogoutMutation,
+} from '@graphql/generated/types'
 import { Combobox } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/solid'
 import classNames from 'classnames'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { FC, useState } from 'react'
+import { Dropdown } from './dropdown'
 
 export const MenuBar: FC = () => {
   const router = useRouter()
@@ -16,6 +22,9 @@ export const MenuBar: FC = () => {
   const [selected, setSelected] = useState<Character>()
   const [query, setQuery] = useState('')
   const [, dispatch] = useAppContext()
+  const [logout] = useLogoutMutation()
+
+  const { data: loginData } = useCurrentUserQuery()
 
   const { data, loading } = useCharactersQuery({
     variables: {
@@ -28,7 +37,7 @@ export const MenuBar: FC = () => {
   })
   const characters = data?.characters?.collection?.filter(Boolean) ?? []
 
-  const onClick = (e: any) => {
+  const onClick = async (e: any) => {
     const { id } = e.target
     const value = (() => {
       if (id === 'home') return ''
@@ -37,6 +46,35 @@ export const MenuBar: FC = () => {
     })()
 
     setPage(id)
+    router.push(`/${value.toLowerCase()}`)
+  }
+
+  const onDropdownClick = async (value: string) => {
+    if (value === 'logout') {
+      await logout({
+        update(cache, { data }) {
+          cache.modify({
+            fields: {
+              currentUser(existingRef, { DELETE }) {
+                return null
+              },
+            },
+          })
+          // cache.writeQuery({
+          //   query: CurrentUserDocument,
+          //   data: { currentUser: null },
+          // })
+          // client.resetStore()
+        },
+        refetchQueries: [{ query: CurrentUserDocument }],
+      })
+
+      router.push('/')
+
+      return
+    }
+
+    setPage(value)
     router.push(`/${value.toLowerCase()}`)
   }
 
@@ -78,44 +116,6 @@ export const MenuBar: FC = () => {
         <p className='text-black text-xl mx-6 cursor-pointer' onClick={() => router.push('/')}>
           Modeler's Rift
         </p>
-      </div>
-
-      <div className='flex items-center'>
-        {['home', 'models', 'visualize'].map((item) => (
-          <NavButton
-            id={item}
-            disabled={item === 'visualize'}
-            onClick={onClick}
-            key={item}
-            classes={{
-              button: classNames(item === page && 'text-primary'),
-            }}
-            text={item}
-          />
-        ))}
-        <NavButton
-          classes={{
-            button: 'text-primary',
-          }}
-          text={'patreon'}
-          disabled={true}
-        />
-        <NavButton
-          id='login'
-          onClick={onClick}
-          classes={{
-            button: 'text-primary',
-          }}
-          text={'login'}
-        />
-        <Button
-          id='sign-up'
-          onClick={onClick}
-          classes={{
-            button: 'mr-2 text-primary',
-          }}
-          text={'sign up'}
-        />
         <ComboBox
           onInput={onInput}
           onSearch={onSearch}
@@ -161,6 +161,38 @@ export const MenuBar: FC = () => {
             ))
           )}
         </ComboBox>
+      </div>
+
+      <div className='flex items-center'>
+        {['home', 'models'].map((item) => (
+          <NavButton
+            id={item}
+            onClick={onClick}
+            key={item}
+            classes={{
+              button: classNames(item === page && 'text-primary'),
+            }}
+            text={item}
+          />
+        ))}
+        {!loginData?.currentUser?.id && (
+          <NavButton
+            id='login'
+            onClick={onClick}
+            text={'login'}
+            classes={{
+              button: 'text-primary border-primary rounded shadow mr-4 py-1 px-5',
+            }}
+          />
+        )}
+        {/* <NavButton
+          classes={{
+            button: 'text-primary',
+          }}
+          text={'patreon'}
+          disabled={true}
+        /> */}
+        <Dropdown loggedIn={!!loginData?.currentUser?.id} onClick={onDropdownClick} />
       </div>
     </div>
   )

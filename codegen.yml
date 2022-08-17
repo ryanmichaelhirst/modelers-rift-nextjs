@@ -1,15 +1,19 @@
 overwrite: true
+
 generates:
   graphql/generated/types.ts:
     schema: 'graphql/generated/schema.graphql'
-    documents: ['graphql/queries/*.graphql']
+    documents: ['graphql/queries/*.graphql', 'graphql/mutations/*.graphql']
     plugins:
       - 'typescript'
       - 'typescript-resolvers'
       - 'typescript-operations'
       - 'typescript-react-apollo'
     config:
+      contextType: graphql/typedefs/index#GraphqlContext
       mapperTypeSuffix: Model
       mappers:
         Character: '@prisma/client/index.d#Character'
         Asset: '@prisma/client/index.d#Asset'
+        User: '@prisma/client/index.d#User'
+        CurrentUser: '@prisma/client/index.d#CurrentUser'

@@ -1,8 +1,9 @@
+import { QueryResolvers } from '@graphql/generated/types'
 import prisma from '@lib/prisma'
 
-// TODO: type these resolvers
-// @ts-ignore
-export const AssetsResolver = async (parent, args, ctx) => {
+export const AssetsResolver: QueryResolvers['assets'] = async (parent, args, ctx) => {
+  const characterId = args?.filter?.characterId
+
   const page = args?.page ?? 1
   const pageSize = args?.pageSize ?? 10
   const skip = (page - 1) * pageSize
@@ -10,14 +11,13 @@ export const AssetsResolver = async (parent, args, ctx) => {
   const where = args?.filter
     ? {
         type: {
-          in: args?.filter?.typeIncludes,
-          equals: args?.filter?.typeEq,
+          equals: args?.filter?.typeEq || undefined,
         },
         skin: {
-          equals: args?.filter.skinEq,
+          equals: args?.filter.skinEq || undefined,
         },
         characterId: {
-          equals: args?.filter.characterIdEq,
+          equals: characterId ? parseInt(characterId) : undefined,
         },
       }
     : {}

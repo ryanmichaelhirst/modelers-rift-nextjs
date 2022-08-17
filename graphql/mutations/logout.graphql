@@ -1,0 +1,11 @@
+mutation Logout {
+  logout {
+    id
+    name
+    email
+    password
+    createdAt
+    updatedAt
+    deletedAt
+  }
+}

@@ -1,0 +1,21 @@
+fragment UserFragment on User {
+  id
+  name
+  email
+  password
+  createdAt
+  updatedAt
+  deletedAt
+}
+
+query User($id: ID!) {
+  user(id: $id) {
+    ...UserFragment
+  }
+}
+
+query CurrentUser {
+  currentUser {
+    ...UserFragment
+  }
+}
