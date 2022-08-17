@@ -48,7 +48,7 @@ export const NavButton: FC<PropsWithChildren<ButtonProps>> = ({
     id={id}
     disabled={disabled}
     className={classNames(
-      'flex items-center justify-center text-tertiary py-1 px-2',
+      'flex items-center justify-center text-tertiary my-1 mx-3',
       classes?.button,
       disabled ? 'opacity-50' : 'hover:text-primary',
     )}

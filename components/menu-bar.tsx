@@ -14,6 +14,7 @@ import classNames from 'classnames'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { FC, useState } from 'react'
+import { Dropdown } from './dropdown'
 
 export const MenuBar: FC = () => {
   const router = useRouter()
@@ -24,7 +25,6 @@ export const MenuBar: FC = () => {
   const [logout] = useLogoutMutation()
 
   const { data: loginData } = useCurrentUserQuery()
-  console.log({ loginData })
 
   const { data, loading } = useCharactersQuery({
     variables: {
@@ -45,6 +45,11 @@ export const MenuBar: FC = () => {
       return id
     })()
 
+    setPage(id)
+    router.push(`/${value.toLowerCase()}`)
+  }
+
+  const onDropdownClick = async (value: string) => {
     if (value === 'logout') {
       await logout({
         update(cache, { data }) {
@@ -69,7 +74,7 @@ export const MenuBar: FC = () => {
       return
     }
 
-    setPage(id)
+    setPage(value)
     router.push(`/${value.toLowerCase()}`)
   }
 
@@ -111,47 +116,6 @@ export const MenuBar: FC = () => {
         <p className='text-black text-xl mx-6 cursor-pointer' onClick={() => router.push('/')}>
           Modeler's Rift
         </p>
-      </div>
-
-      <div className='flex items-center'>
-        {['home', 'models', 'profile'].map((item) => (
-          <NavButton
-            id={item}
-            onClick={onClick}
-            key={item}
-            classes={{
-              button: classNames(item === page && 'text-primary'),
-            }}
-            text={item}
-          />
-        ))}
-        <NavButton
-          classes={{
-            button: 'text-primary',
-          }}
-          text={'patreon'}
-          disabled={true}
-        />
-        {loginData?.currentUser?.id ? (
-          <NavButton
-            id='logout'
-            onClick={onClick}
-            classes={{
-              button: 'text-primary',
-            }}
-            text={'logout'}
-          />
-        ) : (
-          <NavButton
-            id='login'
-            onClick={onClick}
-            classes={{
-              button: 'text-primary',
-            }}
-            text={'login'}
-          />
-        )}
-
         <ComboBox
           onInput={onInput}
           onSearch={onSearch}
@@ -197,6 +161,38 @@ export const MenuBar: FC = () => {
             ))
           )}
         </ComboBox>
+      </div>
+
+      <div className='flex items-center'>
+        {['home', 'models'].map((item) => (
+          <NavButton
+            id={item}
+            onClick={onClick}
+            key={item}
+            classes={{
+              button: classNames(item === page && 'text-primary'),
+            }}
+            text={item}
+          />
+        ))}
+        {!loginData?.currentUser?.id && (
+          <NavButton
+            id='login'
+            onClick={onClick}
+            text={'login'}
+            classes={{
+              button: 'text-primary border-primary rounded shadow mr-4 py-1 px-5',
+            }}
+          />
+        )}
+        {/* <NavButton
+          classes={{
+            button: 'text-primary',
+          }}
+          text={'patreon'}
+          disabled={true}
+        /> */}
+        <Dropdown loggedIn={!!loginData?.currentUser?.id} onClick={onDropdownClick} />
       </div>
     </div>
   )
