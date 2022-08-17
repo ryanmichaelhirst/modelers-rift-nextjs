@@ -1,11 +1,10 @@
-import prisma from '@lib/prisma'
-import { getChampion } from '@utils/index'
-import { updateAsset } from '@utils/prisma'
-import { logger } from 'logger'
+import { dataDragonService } from '@lib/ddragon'
+import { logger } from '@lib/logger'
+import { prismaService } from '@lib/prisma'
 
 export default async () => {
-  const assets = await prisma.asset.findMany()
-  const characters = await prisma.character.findMany({
+  const assets = await prismaService.client.asset.findMany()
+  const characters = await prismaService.client.character.findMany({
     where: {
       type: {
         equals: 'champion',
@@ -14,7 +13,7 @@ export default async () => {
   })
   const championSkins = await Promise.all(
     characters.map(async (c) => {
-      return { skins: (await getChampion('12.12.1', c.name)).skins, name: c.name }
+      return { skins: (await dataDragonService.getChampion('12.12.1', c.name)).skins, name: c.name }
     }),
   )
 
@@ -39,7 +38,7 @@ export default async () => {
     // some return objects for chromas
     if (typeof name !== 'string') continue
 
-    const result = await updateAsset({
+    const result = await prismaService.updateAsset({
       id: asset.id,
       data: {
         name,

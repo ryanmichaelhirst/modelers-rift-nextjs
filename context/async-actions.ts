@@ -1,4 +1,4 @@
-import { getChampion, getChampions, getItems, getJsonName, getPatches } from '@utils/index'
+import { dataDragonService } from '@lib/ddragon'
 import { Reducer } from 'react'
 import { AsyncActionHandlers } from 'use-reducer-async'
 import {
@@ -17,18 +17,18 @@ import {
 export const asyncActionHandlers: AsyncActionHandlers<Reducer<AppState, Action>, AsyncAction> = {
   [FETCH_LOL_ITEMS]: ({ dispatch, getState }) => async (action) => {
     // get items
-    const items = await getItems(action.payload)
+    const items = await dataDragonService.getItems(action.payload)
     dispatch({ type: SET_ITEMS, payload: items })
   },
   [FETCH_NEW_CHAMPION]: ({ dispatch, getState }) => async (action) => {
     const { selectedPatch, lolChampionsData } = getState()
-    const name = getJsonName(action.payload)?.toLowerCase() || ''
+    const name = dataDragonService.getJsonName(action.payload)?.toLowerCase() || ''
 
     // get basic lol data from DDragon
     const basicInfo = lolChampionsData[name]
 
     // get detail lol data from DDragon
-    const detailedInfo = await getChampion(selectedPatch, basicInfo?.name || '')
+    const detailedInfo = await dataDragonService.getChampion(selectedPatch, basicInfo?.name || '')
     const skin = name === 'akali' ? 'skin1' : 'skin0'
 
     dispatch({
@@ -42,16 +42,16 @@ export const asyncActionHandlers: AsyncActionHandlers<Reducer<AppState, Action>,
   },
   [FETCH_LOL_INFO]: ({ dispatch }) => async (action) => {
     // get patches
-    const patches = await getPatches()
+    const patches = await dataDragonService.getPatches()
     const latestPatch = patches[0]
 
     // get basic lol data from DDragon
-    const ddragonChampions = await getChampions(latestPatch)
+    const ddragonChampions = await dataDragonService.getChampions(latestPatch)
     const defaultChamp = 'aatrox'
     const basicInfo = ddragonChampions[defaultChamp]
 
     // get detail lol data from DDragon
-    const detailedInfo = await getChampion(latestPatch, basicInfo?.name || '')
+    const detailedInfo = await dataDragonService.getChampion(latestPatch, basicInfo?.name || '')
 
     dispatch({ type: SET_PATCHES, payload: patches })
     dispatch({ type: SET_CHAMPIONS, payload: ddragonChampions })

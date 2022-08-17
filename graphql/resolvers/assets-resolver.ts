@@ -1,5 +1,5 @@
 import { QueryResolvers } from '@graphql/generated/types'
-import prisma from '@lib/prisma'
+import { prismaService } from '@lib/prisma'
 
 export const AssetsResolver: QueryResolvers['assets'] = async (parent, args, ctx) => {
   const characterId = args?.filter?.characterId
@@ -22,8 +22,8 @@ export const AssetsResolver: QueryResolvers['assets'] = async (parent, args, ctx
       }
     : {}
 
-  const [assets, totalCount] = await prisma.$transaction([
-    prisma.asset.findMany({
+  const [assets, totalCount] = await prismaService.client.$transaction([
+    prismaService.client.asset.findMany({
       skip,
       take,
       where,
@@ -34,7 +34,7 @@ export const AssetsResolver: QueryResolvers['assets'] = async (parent, args, ctx
         name: 'asc',
       },
     }),
-    prisma.asset.count({
+    prismaService.client.asset.count({
       where,
     }),
   ])

@@ -1,8 +1,8 @@
+import { logger } from '@lib/logger'
 import { fileService } from 'bin/services/file-service'
 import { soundService } from 'bin/services/sound-service'
 import { soundTypes } from 'bin/types'
 import fs from 'fs'
-import { logger } from 'logger/index'
 import path from 'path'
 
 export const transformSounds = async ({

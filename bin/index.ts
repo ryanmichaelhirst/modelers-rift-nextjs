@@ -1,5 +1,5 @@
+import { logger } from '@lib/logger'
 import dotenv from 'dotenv'
-import { logger } from 'logger/index'
 import path from 'path'
 import util from 'util'
 import yargs from 'yargs'

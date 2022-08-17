@@ -1,10 +1,10 @@
-import { findManyAssets, updateAsset } from '@utils/prisma'
+import { prismaService } from '@lib/prisma'
 
 export const updateAssetsUrl = async () => {
-  const modelAssets = await findManyAssets()
+  const modelAssets = await prismaService.findManyAssets()
 
   for (const asset of modelAssets) {
-    await updateAsset({
+    await prismaService.updateAsset({
       id: asset.id,
       data: {
         s3_url: asset.url,

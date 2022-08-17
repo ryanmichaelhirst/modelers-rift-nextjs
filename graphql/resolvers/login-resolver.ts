@@ -1,9 +1,11 @@
 import { MutationResolvers } from '@graphql/generated/types'
-import { createAccessToken, createRefreshToken } from '@utils/server-helpers'
+import { createAccessToken, createRefreshToken } from '@lib/auth'
 import bcrypt from 'bcryptjs'
 
 export const LoginResolver: MutationResolvers['login'] = async (parent, args, ctx) => {
-  const user = await ctx.prisma.user.findUnique({ where: { email: args.input.email } })
+  const user = await ctx.prismaService.client.user.findUnique({
+    where: { email: args.input.email },
+  })
   if (!user) throw new Error('user not found for login')
 
   const valid = await bcrypt.compare(args.input.password, user.password)

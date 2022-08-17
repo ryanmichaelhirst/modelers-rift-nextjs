@@ -1,6 +1,6 @@
-import { findOrCreateCharacter } from '@utils/prisma'
+import { logger } from '@lib/logger'
+import { prismaService } from '@lib/prisma'
 import { awsS3Service } from 'bin/services/aws-s3-service'
-import { logger } from 'logger'
 
 export const uploadCharacters = async () => {
   await awsS3Service.performOnAllObjects(
@@ -19,7 +19,7 @@ export const uploadCharacters = async () => {
 
       // create the characters if needed
       for (const character of characters) {
-        await findOrCreateCharacter(character)
+        await prismaService.findOrCreateCharacter(character)
       }
     },
     { delimiter: '/' },

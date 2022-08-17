@@ -1,8 +1,8 @@
 import { Database } from '@leafac/sqlite'
-import { deleteAllTableData } from '@utils/prisma'
+import { logger } from '@lib/logger'
+import { prismaService } from '@lib/prisma'
 import { execSync } from 'child_process'
 import fs from 'fs'
-import { logger } from 'logger/index'
 
 class DbService {
   constructor() {}
@@ -32,7 +32,7 @@ class DbService {
   }
 
   wipeDb = async () => {
-    const result = await deleteAllTableData()
+    const result = await prismaService.deleteAllTableData()
     logger.info(`Deleted db`)
     logger.info(result)
   }

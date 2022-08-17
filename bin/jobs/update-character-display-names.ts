@@ -1,10 +1,9 @@
-import prisma from '@lib/prisma'
-import { getDisplayName } from '@utils/index'
-import { updateCharacter } from '@utils/prisma'
-import { logger } from 'logger'
+import { dataDragonService } from '@lib/ddragon'
+import { logger } from '@lib/logger'
+import { prismaService } from '@lib/prisma'
 
 export default async () => {
-  const champions = await prisma.character.findMany({
+  const champions = await prismaService.client.character.findMany({
     where: {
       type: {
         equals: 'champion',
@@ -13,9 +12,9 @@ export default async () => {
   })
 
   for (const champion of champions) {
-    const displayName = getDisplayName(champion.name)
+    const displayName = dataDragonService.getDisplayName(champion.name)
 
-    const result = await updateCharacter({
+    const result = await prismaService.updateCharacter({
       id: champion.id,
       data: {
         displayName,

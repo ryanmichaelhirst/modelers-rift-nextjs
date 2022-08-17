@@ -1,9 +1,9 @@
+import { logger } from '@lib/logger'
 import { fileService } from 'bin/services/file-service'
 import type { Sound } from 'bin/types'
 import { soundTypes } from 'bin/types'
 import { execSync } from 'child_process'
 import fs from 'fs'
-import { logger } from 'logger/index'
 import path from 'path'
 
 const extractBnkContent = async ({

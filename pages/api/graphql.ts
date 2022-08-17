@@ -12,8 +12,9 @@ import {
 } from '@graphql/resolvers'
 import LogoutResolver from '@graphql/resolvers/logout-resolver'
 import { typeDefs } from '@graphql/typedefs/index'
-import prisma from '@lib/prisma'
-import { createAccessToken, createRefreshToken, redisService, Session } from '@utils/server-helpers'
+import { createAccessToken, createRefreshToken } from '@lib/auth'
+import { prismaService } from '@lib/prisma'
+import { redisService, Session } from '@lib/redis'
 import { GraphQLDateTime } from 'graphql-scalars'
 
 const server = createServer({
@@ -42,7 +43,7 @@ const server = createServer({
     // https://www.graphql-yoga.com/docs/features/context#extending-the-initial-context
     const { req, res } = initialContext
     const cookie = req.headers.cookie
-    if (!cookie) return { prisma, userId: null }
+    if (!cookie) return { prismaService, userId: null }
 
     let accessToken = cookie.match(/(?<=token=).*?(?=;)/g)?.at(0)
     let refreshToken = cookie.match(/(?<=refresh=).*/g)?.at(0)
@@ -53,7 +54,7 @@ const server = createServer({
 
         // get a new access token
         const payload = (await redisService.client().json.get(refreshToken)) as Session
-        const user = await prisma.user.findUnique({
+        const user = await prismaService.client.user.findUnique({
           where: {
             id: payload.userId,
           },
@@ -82,7 +83,7 @@ const server = createServer({
     })()
 
     return {
-      prisma,
+      prismaService,
       userId,
     }
   },

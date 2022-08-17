@@ -1,10 +1,9 @@
 import { GraphQLYogaError } from '@graphql-yoga/node'
 import { QueryResolvers } from '@graphql/generated/types'
-import prisma from '@lib/prisma'
-import { isTokenExpired } from '@utils/server-helpers'
+import { isTokenExpired } from '@lib/auth'
 
 export const CurrentUserResolver: QueryResolvers['currentUser'] = async (parent, args, ctx) => {
-  const userId = ctx.userId
+  const { userId } = ctx
   if (!userId) throw new GraphQLYogaError('user id not found for current user')
 
   if (ctx.req.headers.cookie) {
@@ -15,7 +14,7 @@ export const CurrentUserResolver: QueryResolvers['currentUser'] = async (parent,
     if (isExpired) throw new GraphQLYogaError('session has expired')
   }
 
-  return await prisma.user.findFirst({
+  return await ctx.prismaService.client.user.findFirst({
     where: {
       id: userId,
     },

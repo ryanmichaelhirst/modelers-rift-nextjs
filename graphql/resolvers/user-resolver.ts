@@ -1,8 +1,7 @@
 import { QueryResolvers } from '@graphql/generated/types'
-import prisma from '@lib/prisma'
 
 export const UserResolver: QueryResolvers['user'] = async (parent, args, ctx) => {
-  return await prisma.user.findFirst({
+  return await ctx.prismaService.client.user.findFirst({
     where: {
       id: parseInt(args.id),
     },

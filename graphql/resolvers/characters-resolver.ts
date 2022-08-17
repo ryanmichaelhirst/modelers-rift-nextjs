@@ -1,4 +1,4 @@
-import prisma from '@lib/prisma'
+import { prismaService } from '@lib/prisma'
 
 // @ts-ignore
 export const CharactersResolver = async (parent, args, ctx) => {
@@ -16,8 +16,8 @@ export const CharactersResolver = async (parent, args, ctx) => {
     },
   }
 
-  const [characters, totalCount] = await prisma.$transaction([
-    prisma.character.findMany({
+  const [characters, totalCount] = await prismaService.client.$transaction([
+    prismaService.client.character.findMany({
       skip,
       take,
       where,
@@ -28,7 +28,7 @@ export const CharactersResolver = async (parent, args, ctx) => {
         name: 'asc',
       },
     }),
-    prisma.character.count({
+    prismaService.client.character.count({
       where,
     }),
   ])

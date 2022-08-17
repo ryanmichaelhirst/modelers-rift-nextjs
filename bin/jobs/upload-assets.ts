@@ -1,10 +1,11 @@
 import { ChampionDetailedInfo } from '@customtypes/index'
+import { dataDragonService } from '@lib/ddragon'
+import { logger } from '@lib/logger'
+import { prismaService } from '@lib/prisma'
 import { BUCKET_NAME } from '@lib/s3'
-import { capitalize, getChampion, getChampions, getPatches } from '@utils/index'
-import { createAssets } from '@utils/prisma'
+import { capitalize } from '@utils/index'
 import { awsS3Service } from 'bin/services/aws-s3-service'
 import groupBy from 'lodash.groupby'
-import { logger } from 'logger'
 
 /**
  * Average Runtime: 3338.16s
@@ -12,9 +13,9 @@ import { logger } from 'logger'
  * Example S3 object: { Key: 'sfx/aatrox/skin7/playsfx_q2_on_hitnormalplayer_2.ogg', LastModified: '2022-07-27T03:36:13.000Z', Size: 12345 }
  */
 export const uploadAssets = async () => {
-  const patches = await getPatches()
+  const patches = await dataDragonService.getPatches()
   const latestPatch = patches[0]
-  const ddragonChampions = await getChampions(latestPatch)
+  const ddragonChampions = await dataDragonService.getChampions(latestPatch)
   const skinsByChampion = await Object.entries(ddragonChampions).reduce<
     Promise<Record<string, ChampionDetailedInfo['skins']>>
   >(async (accProm, cur) => {
@@ -22,7 +23,7 @@ export const uploadAssets = async () => {
     const [key, { name }] = cur
 
     if (!name || name === 'Wukong') return acc
-    const detailedInfo = await getChampion(latestPatch, name)
+    const detailedInfo = await dataDragonService.getChampion(latestPatch, name)
 
     return {
       ...acc,
@@ -91,7 +92,7 @@ export const uploadAssets = async () => {
           }
         })
 
-        await createAssets({ characterName: key, assets })
+        await prismaService.createAssets({ characterName: key, assets })
       }
     },
     { prefix: 'models' },

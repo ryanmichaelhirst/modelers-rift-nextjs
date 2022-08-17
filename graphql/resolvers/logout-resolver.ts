@@ -1,13 +1,13 @@
 import { GraphQLYogaError } from '@graphql-yoga/node'
 import { MutationResolvers } from '@graphql/generated/types'
-import { revokeAccessToken } from '@utils/server-helpers'
+import { revokeAccessToken } from '@lib/auth'
 import { formatRFC7231 } from 'date-fns'
 
 export const LogoutResolver: MutationResolvers['logout'] = async (parent, args, ctx) => {
-  const userId = ctx.userId
+  const { userId } = ctx
   if (!userId) throw new GraphQLYogaError('user id not found for logout')
 
-  const user = await ctx.prisma.user.findUnique({ where: { id: userId } })
+  const user = await ctx.prismaService.client.user.findUnique({ where: { id: userId } })
   if (!user) throw new GraphQLYogaError('user not found for logout')
 
   const token = ctx.req.headers.cookie

@@ -1,6 +1,6 @@
+import { logger } from '@lib/logger'
 import { exec, execSync } from 'child_process'
 import fs from 'fs'
-import { logger } from 'logger/index'
 
 class FileService {
   constructor() {}

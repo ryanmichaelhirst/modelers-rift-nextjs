@@ -1,5 +1,5 @@
+import { logger } from '@lib/logger'
 import { exec } from 'child_process'
-import { logger } from 'logger/index'
 
 export const publishSchema = async () => {
   try {

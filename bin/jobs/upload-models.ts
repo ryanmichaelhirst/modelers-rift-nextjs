@@ -1,7 +1,7 @@
+import { logger } from '@lib/logger'
 import { BUCKET_NAME } from '@lib/s3'
 import { execSync } from 'child_process'
 import fs from 'fs'
-import { logger } from 'logger/index'
 import path from 'path'
 
 type UploadType = 'rift' | 'tft' | undefined

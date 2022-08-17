@@ -9,8 +9,9 @@ import { Asset, SET_SELECTED_SKIN } from '@customtypes/index'
 import { useCharacterQuery } from '@graphql/generated/types'
 import { Combobox } from '@headlessui/react'
 import { DownloadIcon, PauseIcon, PlayIcon } from '@heroicons/react/outline'
+import { dataDragonService } from '@lib/ddragon'
 import { BUCKET_NAME, s3 } from '@lib/s3'
-import { capitalize, getSplashArtLink } from '@utils/index'
+import { capitalize } from '@utils/index'
 import classNames from 'classnames'
 import Image from 'next/image'
 import { FC, PropsWithChildren, useEffect, useRef, useState } from 'react'
@@ -292,7 +293,10 @@ export const ModelExplorer = () => {
                         src={
                           model?.name?.includes('Chroma')
                             ? '/no-image.jpg'
-                            : getSplashArtLink(championName, model?.skin?.replace('skin', '') ?? '')
+                            : dataDragonService.getSplashArtLink(
+                                championName,
+                                model?.skin?.replace('skin', '') ?? '',
+                              )
                         }
                         className='rounded'
                         alt={model?.name ?? ''}

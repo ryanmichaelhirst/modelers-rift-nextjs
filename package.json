@@ -12,7 +12,7 @@
     "bin": "ts-node -r dotenv/config --project tsconfig.node.json -r tsconfig-paths/register bin/index",
     "introspect": "rover graph introspect http://localhost:3000/api/graphql > graphql/generated/schema.graphql",
     "generate": "graphql-codegen --config codegen.yml",
-    "prettier": "npx prettier --write client server bin"
+    "prettier": "npx prettier --write bin components context lib pages styles types utils"
   },
   "dependencies": {
     "@apollo/client": "^3.5.7",

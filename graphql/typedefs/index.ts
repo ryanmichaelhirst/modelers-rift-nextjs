@@ -1,12 +1,10 @@
 import { YogaInitialContext } from '@graphql-yoga/node'
-import prisma from '@lib/prisma'
+import type { PrismaService } from '@lib/prisma'
 import { gql } from 'graphql-tag'
 import { IncomingMessage, ServerResponse } from 'http'
-import { createClient } from 'redis'
 
 export type GraphqlContext = {
-  redis: ReturnType<typeof createClient>
-  prisma: typeof prisma
+  prismaService: PrismaService
   userId: number | null
   sessionId: string | null
 } & YogaInitialContext & {

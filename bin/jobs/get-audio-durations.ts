@@ -1,8 +1,8 @@
-import prisma from '@lib/prisma'
+import { logger } from '@lib/logger'
+import { prismaService } from '@lib/prisma'
 import { soundTypes } from 'bin/types'
 import fs from 'fs'
 import { getAudioDurationInSeconds } from 'get-audio-duration'
-import { logger } from 'logger/index'
 import PQueue from 'p-queue'
 import path from 'path'
 
@@ -76,9 +76,10 @@ export const readAudioDirs = async (updateDb = false) => {
   // update assets in prisma
   if (updateDb) {
     const updates = results.map((dr) =>
-      prisma.asset.update({
+      prismaService.client.asset.update({
         where: {
-          path: dr.path,
+          // TODO: does this work?
+          uri: dr.path,
         },
         data: {
           duration: dr.duration,
@@ -86,7 +87,7 @@ export const readAudioDirs = async (updateDb = false) => {
       }),
     )
     logger.info(`Number of durations updated in db ${updates.length}`)
-    await prisma.$transaction(updates)
+    await prismaService.client.$transaction(updates)
   }
 }
 
