@@ -163,16 +163,13 @@ export const ModelExplorer = () => {
 
   const afterLeave = () => setQuery('')
 
-  const assetTableProps = { onRowClick, selectedAsset }
-  const filtered =
-    query === ''
-      ? models
-      : models.filter((m) =>
-          m?.name
-            ?.toLowerCase()
-            .replace(/\s+/g, '')
-            .includes(query.toLowerCase().replace(/\s+/g, '')),
-        )
+  const filtered = (() => {
+    if (query === '') return models
+
+    return models.filter((m) =>
+      m?.name?.toLowerCase().replace(/\s+/g, '').includes(query.toLowerCase().replace(/\s+/g, '')),
+    )
+  })()
 
   return (
     <div className='flex flex-col md:space-x-10 md:flex-row pb-10 h-full'>
@@ -243,7 +240,8 @@ export const ModelExplorer = () => {
                           [AssetType.VO, AssetType.SFX].includes(a?.type as any),
                         )
                   }
-                  {...assetTableProps}
+                  onRowClick={onRowClick}
+                  selectedAsset={selectedAsset}
                 />
               )}
             </div>
@@ -252,12 +250,14 @@ export const ModelExplorer = () => {
       </div>
       {modelUrl && (
         <div className='md:w-4/6 md:min-h-full'>
-          <div className='flex items-center'>
-            <span className='mr-4 text-lg'>{selectedChampion.basicInfo?.name}</span>
-            <span className='py-1 px-2 border border-primary rounded-lg text-xs mr-4'>
-              {model?.name}
-            </span>
-            <Button onClick={onExport} text='Export' icon={<DownloadIcon className='h-4 w-4' />} />
+          <div className='flex items-center mb-4'>
+            <span className='mr-6 text-lg'>{selectedChampion.basicInfo?.name}</span>
+            <Button
+              onClick={onExport}
+              text='Download'
+              classes={{ button: 'text-xs !px-3 !py-1.5 !rounded' }}
+              icon={<DownloadIcon className='h-4 w-4' />}
+            />
           </div>
           <ComboBox
             onInput={onInput}

@@ -10,6 +10,7 @@ interface ButtonProps {
   disabled?: boolean
   id?: string
   icon?: any
+  iconPosition?: 'start' | 'end'
 }
 
 export const Button: FC<PropsWithChildren<ButtonProps>> = ({
@@ -19,23 +20,34 @@ export const Button: FC<PropsWithChildren<ButtonProps>> = ({
   disabled,
   id,
   icon: Icon,
-}) => (
-  <button
-    id={id}
-    disabled={disabled}
-    className={classNames(
-      'flex items-center justify-center bg-primary text-white py-1 px-4 rounded-lg hover:opacity-90',
-      classes?.button,
-      disabled && 'opacity-50',
-    )}
-    onClick={disabled ? null : onClick}
-  >
-    {Icon && Icon}
-    <span id={id} className={classNames(Icon && 'pl-2')}>
-      {text}
-    </span>
-  </button>
-)
+  iconPosition = 'start',
+}) => {
+  const spanPaddingClass = (() => {
+    if (Icon && iconPosition === 'start') return 'pl-2'
+    if (Icon && iconPosition === 'end') return 'pr-2'
+
+    return ''
+  })()
+
+  return (
+    <button
+      id={id}
+      disabled={disabled}
+      className={classNames(
+        'flex items-center justify-center bg-primary text-white py-1 px-4 rounded-lg hover:opacity-90',
+        classes?.button,
+        disabled && 'opacity-50',
+      )}
+      onClick={disabled ? null : onClick}
+    >
+      {iconPosition === 'start' && Icon && Icon}
+      <span id={id} className={spanPaddingClass}>
+        {text}
+      </span>
+      {iconPosition === 'end' && Icon && Icon}
+    </button>
+  )
+}
 
 export const NavButton: FC<PropsWithChildren<ButtonProps>> = ({
   text,
