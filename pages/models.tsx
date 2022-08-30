@@ -257,78 +257,76 @@ export const Models: NextPage = () => {
           </div>
         )}
       </div>
-      {modelUrl && (
-        <div className='md:w-4/6 md:min-h-full'>
-          <div className='flex items-center mb-4'>
-            <span className='mr-6 text-lg'>{selectedChampion.basicInfo?.name}</span>
-            <Button
-              onClick={onExport}
-              text='Download'
-              classes={{ button: 'text-xs !px-3 !py-1.5 !rounded' }}
-              icon={<DownloadIcon className='h-4 w-4' />}
-            />
-          </div>
-          <ComboBox
-            onInput={onInput}
-            onSearch={onSearch}
-            selected={searchValue}
-            afterLeave={afterLeave}
-            displayValue={(model: Asset) => model?.name ?? ''}
-            classes={{ box: 'z-20 w-72' }}
-            showIcon={false}
-            placeholder='Search skins...'
-          >
-            {filtered.length === 0 && query !== '' ? (
-              <div className='relative cursor-default select-none py-2 px-4 text-gray-700'>
-                Nothing found.
-              </div>
-            ) : (
-              filtered.map((model) => (
-                <Combobox.Option
-                  key={model?.id}
-                  className={({ active }) =>
-                    classNames(
-                      'relative capitalize cursor-default select-none py-0 pl-10 pr-4',
-                      active ? 'bg-primary text-white' : 'text-tertiary',
-                    )
-                  }
-                  value={model}
-                >
-                  {({ selected }) => (
-                    <>
-                      <Image
-                        height='20'
-                        width='20'
-                        src={
-                          model?.name?.includes('Chroma')
-                            ? '/no-image.jpg'
-                            : dataDragonService.getSplashArtLink(
-                                championName,
-                                model?.skin?.replace('skin', '') ?? '',
-                              )
-                        }
-                        className='rounded'
-                        alt={model?.name ?? ''}
-                      />
-                      <span
-                        className={classNames(
-                          'ml-4 inline-block truncate',
-                          selected && 'font-medium',
-                        )}
-                      >
-                        {model?.name}
-                      </span>
-                    </>
-                  )}
-                </Combobox.Option>
-              ))
-            )}
-          </ComboBox>
-          <Suspense fallback={<p>Loading...</p>}>
-            {modelUrl && <DynamicModel url={modelUrl} onSetModelConfig={onSetModelConfig} />}
-          </Suspense>
+      <div className='md:w-4/6 md:min-h-full'>
+        <div className='flex items-center mb-4'>
+          <span className='mr-6 text-lg'>{selectedChampion.basicInfo?.name}</span>
+          <Button
+            onClick={onExport}
+            text='Download'
+            classes={{ button: 'text-xs !px-3 !py-1.5 !rounded' }}
+            icon={<DownloadIcon className='h-4 w-4' />}
+          />
         </div>
-      )}
+        <ComboBox
+          onInput={onInput}
+          onSearch={onSearch}
+          selected={searchValue}
+          afterLeave={afterLeave}
+          displayValue={(model: Asset) => model?.name ?? ''}
+          classes={{ box: 'z-20 w-72' }}
+          showIcon={false}
+          placeholder='Search skins...'
+        >
+          {filtered.length === 0 && query !== '' ? (
+            <div className='relative cursor-default select-none py-2 px-4 text-gray-700'>
+              Nothing found.
+            </div>
+          ) : (
+            filtered.map((model) => (
+              <Combobox.Option
+                key={model?.id}
+                className={({ active }) =>
+                  classNames(
+                    'relative capitalize cursor-default select-none py-0 pl-10 pr-4',
+                    active ? 'bg-primary text-white' : 'text-tertiary',
+                  )
+                }
+                value={model}
+              >
+                {({ selected }) => (
+                  <>
+                    <Image
+                      height='20'
+                      width='20'
+                      src={
+                        model?.name?.includes('Chroma')
+                          ? '/no-image.jpg'
+                          : dataDragonService.getSplashArtLink(
+                              championName,
+                              model?.skin?.replace('skin', '') ?? '',
+                            )
+                      }
+                      className='rounded'
+                      alt={model?.name ?? ''}
+                    />
+                    <span
+                      className={classNames(
+                        'ml-4 inline-block truncate',
+                        selected && 'font-medium',
+                      )}
+                    >
+                      {model?.name}
+                    </span>
+                  </>
+                )}
+              </Combobox.Option>
+            ))
+          )}
+        </ComboBox>
+        <Suspense fallback={<p>Loading...</p>}>
+          {modelUrl && <DynamicModel url={modelUrl} onSetModelConfig={onSetModelConfig} />}
+        </Suspense>
+      </div>
     </div>
   )
 }
