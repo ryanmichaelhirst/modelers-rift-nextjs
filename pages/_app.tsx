@@ -2,11 +2,11 @@ import { ApolloProvider } from '@apollo/client'
 import ErrorBoundary from '@components/error-boundary'
 import { Layout } from '@components/layout'
 import { initialState, reducer, StoreProvider } from '@context/index'
+import { apolloClient } from '@lib/apollo'
 import 'abort-controller/polyfill'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import { apolloClient } from '../lib/apollo'
 import '../styles/tailwind.css'
 
 const NextApp: NextPage<AppProps> = ({ Component, pageProps }) => {

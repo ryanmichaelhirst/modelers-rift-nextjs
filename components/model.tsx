@@ -1,5 +1,27 @@
 import { FC, useEffect, useRef } from 'react'
-import * as THREE from 'three'
+import {
+  AmbientLight,
+  AnimationClip,
+  AnimationMixer,
+  Box3,
+  Clock,
+  Color,
+  Group,
+  Mesh,
+  MeshStandardMaterial,
+  PCFSoftShadowMap,
+  PerspectiveCamera,
+  PlaneGeometry,
+  PointLight,
+  PointLightHelper,
+  ReinhardToneMapping,
+  Scene,
+  SpotLight,
+  SpotLightHelper,
+  sRGBEncoding,
+  Vector3,
+  WebGLRenderer,
+} from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
@@ -9,14 +31,14 @@ const sizes = {
 }
 
 export class Animator {
-  public renderer: THREE.WebGLRenderer
-  public scene: THREE.Scene
-  public camera: THREE.PerspectiveCamera
+  public renderer: WebGLRenderer
+  public scene: Scene
+  public camera: PerspectiveCamera
   public controls: OrbitControls
-  public clock: THREE.Clock
+  public clock: Clock
   public loader: GLTFLoader
-  public mixer: THREE.AnimationMixer | null
-  public clips: THREE.AnimationClip[]
+  public mixer: AnimationMixer | null
+  public clips: AnimationClip[]
   public animationNames: string[]
   public height: number
   public width: number
@@ -27,14 +49,14 @@ export class Animator {
     const width = canvas.parentElement?.clientWidth ?? sizes.width
     const height = canvas.parentElement?.clientHeight ?? sizes.height
     // console.log({ width, height })
-    this.renderer = new THREE.WebGLRenderer({
+    this.renderer = new WebGLRenderer({
       canvas,
       antialias: true,
     })
-    this.scene = new THREE.Scene()
-    this.camera = new THREE.PerspectiveCamera(55, width / height, 0.1, 5000)
+    this.scene = new Scene()
+    this.camera = new PerspectiveCamera(55, width / height, 0.1, 5000)
     this.controls = new OrbitControls(this.camera, canvas)
-    this.clock = new THREE.Clock()
+    this.clock = new Clock()
     this.loader = new GLTFLoader()
     this.mixer = null
     this.clips = []
@@ -49,17 +71,17 @@ export class Animator {
     this.scene.add(this.camera)
 
     // lights
-    const ambientLight = new THREE.AmbientLight('#fff', 10)
+    const ambientLight = new AmbientLight('#fff', 10)
     this.scene.add(ambientLight)
 
-    const spotLight = new THREE.SpotLight('#fff')
+    const spotLight = new SpotLight('#fff')
     // spotLight.position.set(5, 200, 34)
     spotLight.position.set(-32, 66, 127)
     spotLight.intensity = 100
     spotLight.castShadow = true
     spotLight.decay = 0
     spotLight.distance = 200
-    spotLight.color = new THREE.Color('#fff')
+    spotLight.color = new Color('#fff')
     spotLight.castShadow = true
     spotLight.shadow.mapSize.set(1024, 1024)
     this.scene.add(spotLight)
@@ -69,7 +91,7 @@ export class Animator {
     spotLight.target.position.z = 258
     this.scene.add(spotLight.target)
 
-    const spotLightHelper = new THREE.SpotLightHelper(spotLight)
+    const spotLightHelper = new SpotLightHelper(spotLight)
 
     const spotLightFolder = this.gui.addFolder('Spot Light')
     spotLightFolder
@@ -87,13 +109,13 @@ export class Animator {
     //   spotLightHelper.update()
     // })
 
-    const pointLight = new THREE.PointLight(0xffffff, 10, 200, 0.01)
+    const pointLight = new PointLight(0xffffff, 10, 200, 0.01)
     pointLight.castShadow = true
     pointLight.shadow.mapSize.setX(1024)
     pointLight.shadow.mapSize.setY(1024)
     this.scene.add(pointLight)
 
-    const pointLightHelper = new THREE.PointLightHelper(pointLight, 10)
+    const pointLightHelper = new PointLightHelper(pointLight, 10)
 
     const pointLightFolder = this.gui.addFolder('Point Light')
     pointLightFolder
@@ -112,25 +134,25 @@ export class Animator {
     this.renderer.setPixelRatio(window.devicePixelRatio)
     this.renderer.setClearColor(0xffffff, 0)
     this.renderer.physicallyCorrectLights = true
-    this.renderer.outputEncoding = THREE.sRGBEncoding
-    this.renderer.toneMapping = THREE.ReinhardToneMapping
+    this.renderer.outputEncoding = sRGBEncoding
+    this.renderer.toneMapping = ReinhardToneMapping
     this.renderer.toneMappingExposure = 1
     this.renderer.shadowMap.enabled = true
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    this.renderer.shadowMap.type = PCFSoftShadowMap
   }
 
   async load(url: string) {
     await new Promise<void>((resolve) => {
       this.loader.load(url, (gltf) => {
-        const box = new THREE.Box3().setFromObject(gltf.scene)
-        const center = new THREE.Vector3()
+        const box = new Box3().setFromObject(gltf.scene)
+        const center = new Vector3()
         box.getCenter(center)
-        const group = new THREE.Group()
+        const group = new Group()
         group.position.sub(center)
         group.add(gltf.scene)
-        const floor = new THREE.Mesh(
-          new THREE.PlaneGeometry(this.width, 300),
-          new THREE.MeshStandardMaterial({
+        const floor = new Mesh(
+          new PlaneGeometry(this.width, 300),
+          new MeshStandardMaterial({
             color: '#fff',
             metalness: 0,
             roughness: 0.5,
@@ -142,7 +164,7 @@ export class Animator {
         this.scene.add(group)
         this.castShadows()
 
-        this.mixer = new THREE.AnimationMixer(gltf.scene)
+        this.mixer = new AnimationMixer(gltf.scene)
         this.clips = gltf.animations
         this.animationNames = gltf.animations.map((a) => a.name)
         resolve()
@@ -152,7 +174,7 @@ export class Animator {
 
   castShadows() {
     this.scene.traverse((child) => {
-      if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
+      if (child instanceof Mesh && child.material instanceof MeshStandardMaterial) {
         child.material.needsUpdate = true
         child.castShadow = true
         child.receiveShadow = true
@@ -233,3 +255,5 @@ export const Model: FC<{ url: string; onSetModelConfig: any }> = ({ url, onSetMo
     </div>
   )
 }
+
+export default Model
