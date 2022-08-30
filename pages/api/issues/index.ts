@@ -1,7 +1,7 @@
 import { createIssue } from '@lib/github'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-export default async function userHandler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method, body } = req
   const { title, body: issueBody, labels } = body
 

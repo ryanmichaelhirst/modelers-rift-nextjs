@@ -1,4 +1,3 @@
-import { GetObjectCommand } from '@aws-sdk/client-s3'
 import { AssetTable } from '@components/asset-table'
 import { Button } from '@components/button'
 import { ComboBox } from '@components/combo-box'
@@ -10,7 +9,6 @@ import { useCharacterQuery } from '@graphql/generated/types'
 import { Combobox } from '@headlessui/react'
 import { DownloadIcon, PauseIcon, PlayIcon } from '@heroicons/react/outline'
 import { dataDragonService } from '@lib/ddragon'
-import { BUCKET_NAME, s3 } from '@lib/s3'
 import { capitalize } from '@utils/index'
 import classNames from 'classnames'
 import Image from 'next/image'
@@ -133,12 +131,17 @@ export const ModelExplorer = () => {
   const onExport = async () => {
     const championName = `${selectedChampion.basicInfo?.name?.toLowerCase()}`
     const key = `models/${championName}/${selectedChampion.skin}.glb`
-    const command = new GetObjectCommand({
-      Bucket: BUCKET_NAME,
-      Key: key,
+    const resp = await fetch('/api/aws', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        key,
+      }),
     })
-    const { Body, ...rest } = await s3.send(command)
-    if (!Body) return
+
+    const Body = resp.body
 
     if (Body instanceof ReadableStream) {
       const response = new Response(Body)
