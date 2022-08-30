@@ -1,4 +1,4 @@
-import Aatrox from '@components/assets/Aatrox.svg'
+import Aatrox from '@assets/Aatrox.png'
 import { Button } from '@components/button'
 import { Card } from '@components/card'
 import { Carousel } from '@components/carousel'
@@ -45,7 +45,7 @@ export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) =>
               <p className='text-tertiary font-nunito font-bold text-lg capitalize'>Aatrox</p>
               <p>The Darkin Blade</p>
               <div className='flex justify-center'>
-                <Aatrox />
+                <Image src={Aatrox} width='150px' height='297px' />
               </div>
               <div className='flex items-center mt-2'>
                 <Button

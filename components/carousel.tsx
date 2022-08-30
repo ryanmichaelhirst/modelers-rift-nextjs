@@ -1,11 +1,12 @@
-import Alistar from '@components/assets/Alistar.svg'
-import Amumu from '@components/assets/Amumu.svg'
-import Anivia from '@components/assets/Anivia.svg'
-import Annie from '@components/assets/Annie.svg'
-import Ashe from '@components/assets/Ashe.svg'
-import Ekko from '@components/assets/Ekko.svg'
-import Galio from '@components/assets/Galio.svg'
-import Sett from '@components/assets/Sett.svg'
+import Alistar from '@assets/Alistar.png'
+import Amumu from '@assets/Amumu.png'
+import Anivia from '@assets/Anivia.png'
+import Annie from '@assets/Annie.png'
+import Ashe from '@assets/Ashe.png'
+import Ekko from '@assets/Ekko.png'
+import Galio from '@assets/Galio.png'
+import Sett from '@assets/Sett.png'
+import Image from 'next/image'
 import { FC } from 'react'
 
 export const Carousel: FC<{ items?: any[] }> = ({ items }) => {
@@ -13,53 +14,53 @@ export const Carousel: FC<{ items?: any[] }> = ({ items }) => {
     <div className='slider m-auto overflow-hidden relative' aria-label='React Carousel'>
       <div className='slide-track animate-pan flex'>
         <div className='slide'>
-          <Galio />
+          <Image src={Alistar} width='150px' height='170px' />
         </div>
         <div className='slide'>
-          <Sett />
+          <Image src={Sett} width='150px' height='170px' />
         </div>
         <div className='slide'>
-          <Ashe />
+          <Image src={Ashe} width='150px' height='170px' />
         </div>
         <div className='slide'>
-          <Alistar />
+          <Image src={Alistar} width='150px' height='170px' />
         </div>
         <div className='slide'>
-          <Amumu />
+          <Image src={Amumu} width='150px' height='170px' />
         </div>
         <div className='slide'>
-          <Anivia />
+          <Image src={Anivia} width='150px' height='170px' />
         </div>
         <div className='slide'>
-          <Annie />
+          <Image src={Annie} width='150px' height='170px' />
         </div>
         <div className='slide'>
-          <Ekko />
+          <Image src={Ekko} width='150px' height='170px' />
         </div>
 
         <div className='slide'>
-          <Galio />
+          <Image src={Galio} width='150px' height='170px' />
         </div>
         <div className='slide'>
-          <Sett />
+          <Image src={Sett} width='150px' height='170px' />
         </div>
         <div className='slide'>
-          <Ashe />
+          <Image src={Ashe} width='150px' height='170px' />
         </div>
         <div className='slide'>
-          <Alistar />
+          <Image src={Alistar} width='150px' height='170px' />
         </div>
         <div className='slide'>
-          <Amumu />
+          <Image src={Amumu} width='150px' height='170px' />
         </div>
         <div className='slide'>
-          <Anivia />
+          <Image src={Anivia} width='150px' height='170px' />
         </div>
         <div className='slide'>
-          <Annie />
+          <Image src={Annie} width='150px' height='170px' />
         </div>
         <div className='slide'>
-          <Ekko />
+          <Image src={Ekko} width='150px' height='170px' />
         </div>
       </div>
     </div>
