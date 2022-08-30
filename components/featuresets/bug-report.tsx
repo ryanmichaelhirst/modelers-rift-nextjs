@@ -1,6 +1,5 @@
 import { Button } from '@components/button'
 import { Dialog } from '@headlessui/react'
-import { createIssue } from '@lib/github'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 
@@ -42,21 +41,26 @@ export const BugReport = () => {
   const onSubmit = handleSubmit(async (data) => {
     if (!data.title || !data.description || !data.stepsToReproduce) return
 
-    const { data: issue, status } = await createIssue({
-      title: data.title,
-      body: `### Description\n ${data.description}\n ### Steps to Reproduce\n ${data.stepsToReproduce}`,
-      labels: ['bug'],
-    })
+    const resp = await fetch('/api/issues', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title: data.title,
+        body: `### Description\n ${data.description}\n ### Steps to Reproduce\n ${data.stepsToReproduce}`,
+        labels: ['bug'],
+      }),
+    }).then((res) => res.json())
+    console.log({ resp })
 
-    if (status !== 201) {
-      setError('issue', {
-        message: 'An error occurred and the issue was not created.',
-      })
+    if (resp.error) {
+      setError('issue', resp.error)
 
       return
     }
 
-    setValue('issueUrl', issue.html_url)
+    setValue('issueUrl', resp.issue.html_url)
   })
 
   const onClose = () => {
