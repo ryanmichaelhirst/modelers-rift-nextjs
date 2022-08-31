@@ -14,10 +14,10 @@ import classNames from 'classnames'
 import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
-import { FC, PropsWithChildren, Suspense, useEffect, useRef, useState } from 'react'
+import { FC, PropsWithChildren, useEffect, useRef, useState } from 'react'
 
 const DynamicModel = dynamic(() => import('../components/model'), {
-  suspense: true,
+  loading: () => <p>Loading...</p>,
 })
 
 const Tab: FC<PropsWithChildren<{ onClick: any; tab: string; id: string }>> = ({
@@ -323,9 +323,7 @@ export const Models: NextPage = () => {
             ))
           )}
         </ComboBox>
-        <Suspense fallback={<p>Loading...</p>}>
-          {modelUrl && <DynamicModel url={modelUrl} onSetModelConfig={onSetModelConfig} />}
-        </Suspense>
+        {modelUrl && <DynamicModel url={modelUrl} onSetModelConfig={onSetModelConfig} />}
       </div>
     </div>
   )

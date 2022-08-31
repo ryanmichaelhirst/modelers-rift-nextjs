@@ -1,5 +1,6 @@
 import { Home } from '@components/featuresets/home'
 import { useCharactersQuery } from '@graphql/generated/types'
+
 // import { apolloClient } from '@lib/apollo'
 // import charactersQuery from '../graphql/queries/characters-query.graphql'
 
