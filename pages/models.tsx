@@ -1,7 +1,7 @@
 import { AssetTable } from '@components/asset-table'
 import { Button } from '@components/button'
 import { ComboBox } from '@components/combo-box'
-import { Animator } from '@components/model'
+import type { Animator } from '@components/model'
 import { useAppContext } from '@context/index'
 import { AssetType, HTTP_SAFE_CHAMPION_NAMES } from '@customtypes/constants'
 import { Asset, SET_SELECTED_SKIN } from '@customtypes/index'
