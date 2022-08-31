@@ -14,6 +14,9 @@
     "generate": "graphql-codegen --config codegen.yml",
     "prettier": "npx prettier --write bin components context lib pages styles types utils"
   },
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "dependencies": {
     "@apollo/client": "^3.5.7",
     "@aws-sdk/client-s3": "^3.36.0",
