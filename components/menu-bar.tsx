@@ -4,7 +4,6 @@ import { useAppContext } from '@context/index'
 import { Character, FETCH_NEW_CHAMPION } from '@customtypes/index'
 import {
   CurrentUserDocument,
-  useCharactersQuery,
   useCurrentUserQuery,
   useLogoutMutation,
 } from '@graphql/generated/types'
@@ -14,7 +13,8 @@ import classNames from 'classnames'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { FC, useState } from 'react'
-import { Dropdown } from './dropdown'
+import { Dropdown } from '@components/dropdown'
+import { trpc } from '@utils/trpc'
 
 export const MenuBar: FC = () => {
   const router = useRouter()
@@ -26,16 +26,19 @@ export const MenuBar: FC = () => {
 
   const { data: loginData } = useCurrentUserQuery()
 
-  const { data, loading } = useCharactersQuery({
-    variables: {
+  const { data } = trpc.useQuery([
+    'character.all',
+    {
       filter: {
         typeEq: 'champion',
       },
       includeAssets: false,
+      page: 1,
       pageSize: 200,
     },
-  })
-  const characters = data?.characters?.collection?.filter(Boolean) ?? []
+  ])
+
+  const characters = data?.collection?.filter(Boolean) ?? []
 
   const onClick = async (e: any) => {
     const { id } = e.target

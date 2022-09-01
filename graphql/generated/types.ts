@@ -22,56 +22,6 @@ export type Scalars = {
   DateTime: any;
 };
 
-export type Asset = {
-  __typename?: 'Asset';
-  character?: Maybe<Character>;
-  characterId?: Maybe<Scalars['ID']>;
-  duration?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  s3Url?: Maybe<Scalars['String']>;
-  skin?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
-  uri?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
-};
-
-export type AssetsCollection = {
-  __typename?: 'AssetsCollection';
-  collection?: Maybe<Array<Maybe<Asset>>>;
-  metadata?: Maybe<Metadata>;
-};
-
-export type AssetsFilter = {
-  characterId?: InputMaybe<Scalars['String']>;
-  pathIncludes?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  skinEq?: InputMaybe<Scalars['String']>;
-  typeEq?: InputMaybe<Scalars['String']>;
-  typeIncludes?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-};
-
-export type Character = {
-  __typename?: 'Character';
-  assets?: Maybe<Array<Maybe<Asset>>>;
-  displayName?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-};
-
-export type CharacterCollection = {
-  __typename?: 'CharacterCollection';
-  collection?: Maybe<Array<Maybe<Character>>>;
-  metadata?: Maybe<Metadata>;
-};
-
-export type CharactersFilter = {
-  assetsTypeEq?: InputMaybe<Scalars['String']>;
-  assetsTypeIncludes?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  nameCnt?: InputMaybe<Scalars['String']>;
-  nameEq?: InputMaybe<Scalars['String']>;
-  typeEq?: InputMaybe<Scalars['String']>;
-};
-
 export type Job = {
   __typename?: 'Job';
   name?: Maybe<Scalars['String']>;
@@ -109,33 +59,9 @@ export type MutationSignUpArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  assets?: Maybe<AssetsCollection>;
-  character?: Maybe<Character>;
-  characters?: Maybe<CharacterCollection>;
   currentUser?: Maybe<User>;
   jobs?: Maybe<Array<Maybe<Job>>>;
   user?: Maybe<User>;
-};
-
-
-export type QueryAssetsArgs = {
-  filter?: InputMaybe<AssetsFilter>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
-};
-
-
-export type QueryCharacterArgs = {
-  filter?: InputMaybe<CharactersFilter>;
-  includeAssets?: InputMaybe<Scalars['Boolean']>;
-};
-
-
-export type QueryCharactersArgs = {
-  filter?: InputMaybe<CharactersFilter>;
-  includeAssets?: InputMaybe<Scalars['Boolean']>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -235,15 +161,8 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Asset: ResolverTypeWrapper<AssetModel>;
-  AssetsCollection: ResolverTypeWrapper<Omit<AssetsCollection, 'collection'> & { collection?: Maybe<Array<Maybe<ResolversTypes['Asset']>>> }>;
-  AssetsFilter: AssetsFilter;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-  Character: ResolverTypeWrapper<CharacterModel>;
-  CharacterCollection: ResolverTypeWrapper<Omit<CharacterCollection, 'collection'> & { collection?: Maybe<Array<Maybe<ResolversTypes['Character']>>> }>;
-  CharactersFilter: CharactersFilter;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
-  Float: ResolverTypeWrapper<Scalars['Float']>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Job: ResolverTypeWrapper<Job>;
@@ -259,15 +178,8 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Asset: AssetModel;
-  AssetsCollection: Omit<AssetsCollection, 'collection'> & { collection?: Maybe<Array<Maybe<ResolversParentTypes['Asset']>>> };
-  AssetsFilter: AssetsFilter;
   Boolean: Scalars['Boolean'];
-  Character: CharacterModel;
-  CharacterCollection: Omit<CharacterCollection, 'collection'> & { collection?: Maybe<Array<Maybe<ResolversParentTypes['Character']>>> };
-  CharactersFilter: CharactersFilter;
   DateTime: Scalars['DateTime'];
-  Float: Scalars['Float'];
   ID: Scalars['ID'];
   Int: Scalars['Int'];
   Job: Job;
@@ -279,40 +191,6 @@ export type ResolversParentTypes = {
   String: Scalars['String'];
   User: UserModel;
   UserPayload: Omit<UserPayload, 'user'> & { user: ResolversParentTypes['User'] };
-};
-
-export type AssetResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Asset'] = ResolversParentTypes['Asset']> = {
-  character?: Resolver<Maybe<ResolversTypes['Character']>, ParentType, ContextType>;
-  characterId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  duration?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  s3Url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  skin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  uri?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  url?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type AssetsCollectionResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['AssetsCollection'] = ResolversParentTypes['AssetsCollection']> = {
-  collection?: Resolver<Maybe<Array<Maybe<ResolversTypes['Asset']>>>, ParentType, ContextType>;
-  metadata?: Resolver<Maybe<ResolversTypes['Metadata']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type CharacterResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Character'] = ResolversParentTypes['Character']> = {
-  assets?: Resolver<Maybe<Array<Maybe<ResolversTypes['Asset']>>>, ParentType, ContextType>;
-  displayName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type CharacterCollectionResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['CharacterCollection'] = ResolversParentTypes['CharacterCollection']> = {
-  collection?: Resolver<Maybe<Array<Maybe<ResolversTypes['Character']>>>, ParentType, ContextType>;
-  metadata?: Resolver<Maybe<ResolversTypes['Metadata']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
@@ -339,9 +217,6 @@ export type MutationResolvers<ContextType = GraphqlContext, ParentType extends R
 };
 
 export type QueryResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  assets?: Resolver<Maybe<ResolversTypes['AssetsCollection']>, ParentType, ContextType, Partial<QueryAssetsArgs>>;
-  character?: Resolver<Maybe<ResolversTypes['Character']>, ParentType, ContextType, Partial<QueryCharacterArgs>>;
-  characters?: Resolver<Maybe<ResolversTypes['CharacterCollection']>, ParentType, ContextType, Partial<QueryCharactersArgs>>;
   currentUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   jobs?: Resolver<Maybe<Array<Maybe<ResolversTypes['Job']>>>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
@@ -365,10 +240,6 @@ export type UserPayloadResolvers<ContextType = GraphqlContext, ParentType extend
 };
 
 export type Resolvers<ContextType = GraphqlContext> = {
-  Asset?: AssetResolvers<ContextType>;
-  AssetsCollection?: AssetsCollectionResolvers<ContextType>;
-  Character?: CharacterResolvers<ContextType>;
-  CharacterCollection?: CharacterCollectionResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   Job?: JobResolvers<ContextType>;
   Metadata?: MetadataResolvers<ContextType>;
@@ -398,37 +269,6 @@ export type SignUpMutationVariables = Exact<{
 
 export type SignUpMutation = { __typename?: 'Mutation', signUp?: { __typename?: 'UserPayload', token: string, user: { __typename?: 'User', id: string, name: string, email: string, password: string, createdAt: any, updatedAt: any, deletedAt?: any | null } } | null };
 
-export type AssetsFragmentFragment = { __typename?: 'Asset', id?: string | null, characterId?: string | null, type?: string | null, name?: string | null, skin?: string | null, uri?: string | null, url?: string | null, s3Url?: string | null, duration?: number | null };
-
-export type AssetsQueryVariables = Exact<{
-  filter?: InputMaybe<AssetsFilter>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
-}>;
-
-
-export type AssetsQuery = { __typename?: 'Query', assets?: { __typename?: 'AssetsCollection', collection?: Array<{ __typename?: 'Asset', id?: string | null, characterId?: string | null, type?: string | null, name?: string | null, skin?: string | null, uri?: string | null, url?: string | null, s3Url?: string | null, duration?: number | null, character?: { __typename?: 'Character', name?: string | null } | null } | null> | null } | null };
-
-export type CharacterFragmentFragment = { __typename?: 'Character', id?: string | null, name?: string | null, displayName?: string | null, assets?: Array<{ __typename?: 'Asset', id?: string | null, type?: string | null, name?: string | null, skin?: string | null, uri?: string | null, url?: string | null, s3Url?: string | null, duration?: number | null } | null> | null };
-
-export type CharactersQueryVariables = Exact<{
-  filter?: InputMaybe<CharactersFilter>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
-  includeAssets: Scalars['Boolean'];
-}>;
-
-
-export type CharactersQuery = { __typename?: 'Query', characters?: { __typename?: 'CharacterCollection', collection?: Array<{ __typename?: 'Character', id?: string | null, name?: string | null, displayName?: string | null, assets?: Array<{ __typename?: 'Asset', id?: string | null, type?: string | null, name?: string | null, skin?: string | null, uri?: string | null, url?: string | null, s3Url?: string | null, duration?: number | null } | null> | null } | null> | null, metadata?: { __typename?: 'Metadata', totalCount?: number | null, totalPages?: number | null, currentPage?: number | null, pageSize?: number | null } | null } | null };
-
-export type CharacterQueryVariables = Exact<{
-  filter?: InputMaybe<CharactersFilter>;
-  includeAssets: Scalars['Boolean'];
-}>;
-
-
-export type CharacterQuery = { __typename?: 'Query', character?: { __typename?: 'Character', id?: string | null, name?: string | null, displayName?: string | null, assets?: Array<{ __typename?: 'Asset', id?: string | null, type?: string | null, name?: string | null, skin?: string | null, uri?: string | null, url?: string | null, s3Url?: string | null, duration?: number | null } | null> | null } | null };
-
 export type JobsIndexQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -448,36 +288,6 @@ export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type CurrentUserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', id: string, name: string, email: string, password: string, createdAt: any, updatedAt: any, deletedAt?: any | null } | null };
 
-export const AssetsFragmentFragmentDoc = gql`
-    fragment AssetsFragment on Asset {
-  id
-  characterId
-  type
-  name
-  skin
-  uri
-  url
-  s3Url
-  duration
-}
-    `;
-export const CharacterFragmentFragmentDoc = gql`
-    fragment CharacterFragment on Character {
-  id
-  name
-  displayName
-  assets @include(if: $includeAssets) {
-    id
-    type
-    name
-    skin
-    uri
-    url
-    s3Url
-    duration
-  }
-}
-    `;
 export const UserFragmentFragmentDoc = gql`
     fragment UserFragment on User {
   id
@@ -611,135 +421,6 @@ export function useSignUpMutation(baseOptions?: Apollo.MutationHookOptions<SignU
 export type SignUpMutationHookResult = ReturnType<typeof useSignUpMutation>;
 export type SignUpMutationResult = Apollo.MutationResult<SignUpMutation>;
 export type SignUpMutationOptions = Apollo.BaseMutationOptions<SignUpMutation, SignUpMutationVariables>;
-export const AssetsDocument = gql`
-    query Assets($filter: AssetsFilter, $page: Int, $pageSize: Int) {
-  assets(filter: $filter, page: $page, pageSize: $pageSize) {
-    collection {
-      ...AssetsFragment
-      character {
-        name
-      }
-    }
-  }
-}
-    ${AssetsFragmentFragmentDoc}`;
-
-/**
- * __useAssetsQuery__
- *
- * To run a query within a React component, call `useAssetsQuery` and pass it any options that fit your needs.
- * When your component renders, `useAssetsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useAssetsQuery({
- *   variables: {
- *      filter: // value for 'filter'
- *      page: // value for 'page'
- *      pageSize: // value for 'pageSize'
- *   },
- * });
- */
-export function useAssetsQuery(baseOptions?: Apollo.QueryHookOptions<AssetsQuery, AssetsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<AssetsQuery, AssetsQueryVariables>(AssetsDocument, options);
-      }
-export function useAssetsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AssetsQuery, AssetsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<AssetsQuery, AssetsQueryVariables>(AssetsDocument, options);
-        }
-export type AssetsQueryHookResult = ReturnType<typeof useAssetsQuery>;
-export type AssetsLazyQueryHookResult = ReturnType<typeof useAssetsLazyQuery>;
-export type AssetsQueryResult = Apollo.QueryResult<AssetsQuery, AssetsQueryVariables>;
-export const CharactersDocument = gql`
-    query Characters($filter: CharactersFilter, $page: Int, $pageSize: Int, $includeAssets: Boolean!) {
-  characters(
-    filter: $filter
-    page: $page
-    pageSize: $pageSize
-    includeAssets: $includeAssets
-  ) {
-    collection {
-      ...CharacterFragment
-    }
-    metadata {
-      totalCount
-      totalPages
-      currentPage
-      pageSize
-    }
-  }
-}
-    ${CharacterFragmentFragmentDoc}`;
-
-/**
- * __useCharactersQuery__
- *
- * To run a query within a React component, call `useCharactersQuery` and pass it any options that fit your needs.
- * When your component renders, `useCharactersQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCharactersQuery({
- *   variables: {
- *      filter: // value for 'filter'
- *      page: // value for 'page'
- *      pageSize: // value for 'pageSize'
- *      includeAssets: // value for 'includeAssets'
- *   },
- * });
- */
-export function useCharactersQuery(baseOptions: Apollo.QueryHookOptions<CharactersQuery, CharactersQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<CharactersQuery, CharactersQueryVariables>(CharactersDocument, options);
-      }
-export function useCharactersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CharactersQuery, CharactersQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<CharactersQuery, CharactersQueryVariables>(CharactersDocument, options);
-        }
-export type CharactersQueryHookResult = ReturnType<typeof useCharactersQuery>;
-export type CharactersLazyQueryHookResult = ReturnType<typeof useCharactersLazyQuery>;
-export type CharactersQueryResult = Apollo.QueryResult<CharactersQuery, CharactersQueryVariables>;
-export const CharacterDocument = gql`
-    query Character($filter: CharactersFilter, $includeAssets: Boolean!) {
-  character(filter: $filter, includeAssets: $includeAssets) {
-    ...CharacterFragment
-  }
-}
-    ${CharacterFragmentFragmentDoc}`;
-
-/**
- * __useCharacterQuery__
- *
- * To run a query within a React component, call `useCharacterQuery` and pass it any options that fit your needs.
- * When your component renders, `useCharacterQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCharacterQuery({
- *   variables: {
- *      filter: // value for 'filter'
- *      includeAssets: // value for 'includeAssets'
- *   },
- * });
- */
-export function useCharacterQuery(baseOptions: Apollo.QueryHookOptions<CharacterQuery, CharacterQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<CharacterQuery, CharacterQueryVariables>(CharacterDocument, options);
-      }
-export function useCharacterLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CharacterQuery, CharacterQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<CharacterQuery, CharacterQueryVariables>(CharacterDocument, options);
-        }
-export type CharacterQueryHookResult = ReturnType<typeof useCharacterQuery>;
-export type CharacterLazyQueryHookResult = ReturnType<typeof useCharacterLazyQuery>;
-export type CharacterQueryResult = Apollo.QueryResult<CharacterQuery, CharacterQueryVariables>;
 export const JobsIndexDocument = gql`
     query JobsIndex {
   jobs {

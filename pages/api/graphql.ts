@@ -1,9 +1,6 @@
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { createServer } from '@graphql-yoga/node'
 import {
-  AssetsResolver,
-  CharacterResolver,
-  CharactersResolver,
   CurrentUserResolver,
   JobsResolver,
   LoginResolver,
@@ -23,9 +20,6 @@ const server = createServer({
     resolvers: {
       DateTime: GraphQLDateTime,
       Query: {
-        assets: AssetsResolver,
-        characters: CharactersResolver,
-        character: CharacterResolver,
         jobs: JobsResolver,
         user: UserResolver,
         currentUser: CurrentUserResolver,
