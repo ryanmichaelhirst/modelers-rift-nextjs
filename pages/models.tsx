@@ -138,18 +138,19 @@ export const Models: NextPage = () => {
 
   const onExport = async () => {
     const championName = `${selectedChampion.basicInfo?.name?.toLowerCase()}`
-    const key = `models/${championName}/${selectedChampion.skin}.glb`
-    const resp = await fetch('/api/aws', {
+
+    const signedUrl = await fetch(`/api/aws/signedUrl`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        key,
+        Key: `models/${championName}/${selectedChampion.skin}.glb`,
       }),
-    })
+    }).then((res) => res.text())
 
-    const Body = resp.body
+    const downloadReq = await fetch(signedUrl)
+    const Body = downloadReq.body
 
     if (Body instanceof ReadableStream) {
       const response = new Response(Body)

@@ -21,7 +21,6 @@ export const MenuBar: FC = () => {
 
   const logout = trpc.useMutation('user.logout')
   const { data: loginData, refetch } = trpc.useQuery(['user.current'])
-  console.log({ loginData })
   const { data } = trpc.useQuery([
     'character.all',
     {
