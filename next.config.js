@@ -4,19 +4,19 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 module.exports = withBundleAnalyzer({
   eslint: {
-    dirs: ['components', 'pages', 'lib', 'utils'],
+    dirs: ['components', 'context', 'lib', 'pages', 'routers', 'types', 'utils'],
   },
   images: {
     domains: ['ddragon.leagueoflegends.com'],
   },
-  typescript: {
-    // TODO: fix typescript errors
-    // !! WARN !!
-    // Dangerously allow production builds to successfully complete even if
-    // your project has type errors.
-    // !! WARN !!
-    ignoreBuildErrors: true,
-  },
+  // typescript: {
+  // https://nextjs.org/docs/api-reference/next.config.js/ignoring-typescript-errors
+  //   // !! WARN !!
+  //   // Dangerously allow production builds to successfully complete even if
+  //   // your project has type errors.
+  //   // !! WARN !!
+  //   ignoreBuildErrors: true,
+  // },
   webpack(config, options) {
     // enable loading svg files
     config.module.rules.push({
