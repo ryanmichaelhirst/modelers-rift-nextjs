@@ -1,3 +1,4 @@
+import PatreonButton from '@assets/patreon-button.webp'
 import { NavButton } from '@components/button'
 import { ComboBox } from '@components/combo-box'
 import { Dropdown } from '@components/dropdown'
@@ -164,17 +165,13 @@ export const MenuBar: FC = () => {
             onClick={onClick}
             text={'login'}
             classes={{
-              button: 'text-primary border-primary rounded shadow mr-4 py-1 px-5',
+              button: 'text-primary border-primary rounded shadow py-1 px-5',
             }}
           />
         )}
-        {/* <NavButton
-          classes={{
-            button: 'text-primary',
-          }}
-          text={'patreon'}
-          disabled={true}
-        /> */}
+        <div className='w-[100px] h-[30px] relative mr-4 hover:opacity-50'>
+          <Image layout='fill' src={PatreonButton} objectFit='contain' />
+        </div>
         <Dropdown loggedIn={!!loginData?.id} onClick={onDropdownClick} />
       </div>
     </div>
