@@ -4,17 +4,18 @@ import { ComboBox } from '@components/combo-box'
 import type { Animator } from '@components/model'
 import { useAppContext } from '@context/index'
 import { AssetType, HTTP_SAFE_CHAMPION_NAMES } from '@customtypes/constants'
-import { Asset, SET_SELECTED_SKIN } from '@customtypes/index'
+import { SET_SELECTED_SKIN } from '@customtypes/index'
 import { Combobox } from '@headlessui/react'
 import { DownloadIcon, PauseIcon, PlayIcon } from '@heroicons/react/outline'
 import { dataDragonService } from '@lib/ddragon'
 import { capitalize } from '@utils/index'
+import type { Asset } from '@utils/trpc'
+import { trpc } from '@utils/trpc'
 import classNames from 'classnames'
 import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
-import { FC, PropsWithChildren, useEffect, useRef, useState, Suspense } from 'react'
-import { trpc } from '@utils/trpc'
+import { FC, PropsWithChildren, Suspense, useEffect, useRef, useState } from 'react'
 
 const DynamicModel = dynamic(() => import('../components/model'), {
   suspense: true,
@@ -124,7 +125,7 @@ export const Models: NextPage = () => {
     })
   }
 
-  const onRowClick = (asset?: Asset | null) => () => {
+  const onRowClick = (asset?: Asset) => () => {
     // prevent re-creating audio when url is the same
     if (asset === selectedAsset) return
 

@@ -16,3 +16,5 @@ export type InferQueryOutput<TRouteKey extends TQuery> = inferProcedureOutput<
 export type CharacterGetOutput = InferQueryOutput<'character.get'>
 
 export type Asset = Pick<NonNullable<CharacterGetOutput>, 'assets'>['assets'][0]
+
+export type Character = CharacterGetOutput

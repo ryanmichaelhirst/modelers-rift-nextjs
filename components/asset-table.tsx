@@ -2,9 +2,9 @@ import type { Asset } from '@utils/trpc'
 import classNames from 'classnames'
 
 export const AssetTable: React.FC<{
-  data?: (Asset | null | undefined)[]
-  onRowClick: (asset?: Asset | null) => () => void
-  selectedAsset?: Asset | null
+  data?: Asset[]
+  onRowClick: (asset?: Asset) => () => void
+  selectedAsset?: Asset
 }> = ({ data, onRowClick, selectedAsset }) => {
   return (
     <table className='w-full font-nunito'>
