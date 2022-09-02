@@ -5,6 +5,7 @@ import * as trpc from '@trpc/server'
 import * as trpcNext from '@trpc/server/adapters/next'
 import { characterRouter } from 'routers/character'
 import { userRouter } from 'routers/user'
+import superjson from 'superjson'
 import { z } from 'zod'
 
 const sessionUserId = async (accessToken: string) => {
@@ -63,7 +64,7 @@ export const createContext = async (opts?: trpcNext.CreateNextContextOptions) =>
 }
 
 export function createRouter() {
-  return trpc.router<Context>()
+  return trpc.router<Context>().transformer(superjson)
 }
 
 export type Context = trpc.inferAsyncReturnType<typeof createContext>

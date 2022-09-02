@@ -4,7 +4,7 @@ import path from 'path'
 import util from 'util'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
-import { generateGlb, publishSchema, seedAws, seedDb } from './cmds'
+import { generateGlb, seedAws, seedDb } from './cmds'
 
 util.inspect.defaultOptions.maxArrayLength = null
 
@@ -60,9 +60,6 @@ const run = async () => {
       if (!file) throw new Error('command requires file (-f) flag')
       const fn = require(path.join(__dirname, './jobs', file)).default
       await fn()
-      break
-    case 'publish-schema':
-      await publishSchema()
       break
     default:
       throw new Error('command not recognized')
