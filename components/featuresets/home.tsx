@@ -4,7 +4,6 @@ import { Card } from '@components/card'
 import { Carousel } from '@components/carousel'
 import { useAppContext } from '@context/index'
 import { FETCH_NEW_CHAMPION } from '@customtypes/index'
-import { CharactersQueryHookResult } from '@graphql/generated/types'
 import {
   ArrowCircleRightIcon,
   ChevronDownIcon,
@@ -17,7 +16,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { FC } from 'react'
 
-export const Home: FC<CharactersQueryHookResult> = ({ data, loading, error }) => {
+export const Home: FC = () => {
   const router = useRouter()
   const [, dispatch] = useAppContext()
 

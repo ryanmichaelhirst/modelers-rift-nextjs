@@ -1,5 +1,0 @@
-query JobsIndex {
-  jobs {
-    name
-  }
-}

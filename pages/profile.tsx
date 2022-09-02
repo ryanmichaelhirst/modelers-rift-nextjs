@@ -1,4 +1,4 @@
-import { useCurrentUserQuery } from '@graphql/generated/types'
+import { trpc } from '@utils/trpc'
 import { formatRFC7231 } from 'date-fns'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
@@ -6,9 +6,7 @@ import { useEffect } from 'react'
 
 const Profile: NextPage = () => {
   const router = useRouter()
-  const { data, loading, error, refetch } = useCurrentUserQuery({
-    notifyOnNetworkStatusChange: true,
-  })
+  const { data, error, refetch, isLoading } = trpc.useQuery(['user.current'])
 
   useEffect(() => {
     if (error?.message === 'session has expired') {
@@ -25,15 +23,15 @@ const Profile: NextPage = () => {
   }, [error])
 
   const createdAt = (() => {
-    if (!data?.currentUser?.createdAt) return
-    const date = new Date(data.currentUser.createdAt)
+    if (!data?.createdAt) return
+    const date = new Date(data.createdAt)
 
     return formatRFC7231(date)
   })()
 
   const updatedAt = (() => {
-    if (!data?.currentUser?.updatedAt) return
-    const date = new Date(data.currentUser.updatedAt)
+    if (!data?.updatedAt) return
+    const date = new Date(data.updatedAt)
 
     return formatRFC7231(date)
   })()
@@ -42,18 +40,18 @@ const Profile: NextPage = () => {
     <div>
       <h1>Profile</h1>
       {error && <div>You must login to see your profile!</div>}
-      {loading || !data ? (
+      {isLoading || !data ? (
         <div>{error ? 'Redirecting...' : 'Loading profile...'}</div>
       ) : (
         <div className='mt-10 p-4 border border-slate-300 rounded shadow'>
           <div className='mb-4'>
             <label className='mb-1 text-tertiary'>Name</label>
-            <p className='text-tertiary text-lg'>{data?.currentUser?.name}</p>
+            <p className='text-tertiary text-lg'>{data?.name}</p>
           </div>
 
           <div className='mb-4'>
             <label className='mb-1 text-tertiary'>Email</label>
-            <p className='text-tertiary text-lg'>{data?.currentUser?.email}</p>
+            <p className='text-tertiary text-lg'>{data?.email}</p>
           </div>
 
           <div className='mb-4'>

@@ -14,7 +14,6 @@
     "paths": {
       "@customtypes/*": ["types/*"],
       "@lib/*": ["lib/*"],
-      "@graphql/*": ["graphql/*"],
       "@utils/*": ["utils/*"]
     }
   },

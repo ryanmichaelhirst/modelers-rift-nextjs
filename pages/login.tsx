@@ -1,5 +1,5 @@
 import { Button } from '@components/button'
-import { useLoginMutation } from '@graphql/generated/types'
+import { trpc } from '@utils/trpc'
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -20,7 +20,7 @@ const Login: NextPage = () => {
       password: '',
     },
   })
-  const [login] = useLoginMutation()
+  const login = trpc.useMutation('user.login')
   const router = useRouter()
 
   const onSubmit = handleSubmit(async (data) => {
@@ -36,18 +36,12 @@ const Login: NextPage = () => {
       return
     }
 
-    const resp = await login({
-      variables: {
-        input: {
-          email: data.email,
-          password: data.password,
-        },
-      },
+    const resp = await login.mutateAsync({
+      email: data.email,
+      password: data.password,
     })
 
-    if (resp.data?.login?.user && resp.data.login.token) {
-      router.push('/profile')
-    }
+    if (resp?.user && resp?.token) router.push('/profile')
 
     setValue('email', '')
     setValue('password', '')

@@ -4,20 +4,21 @@ import { ComboBox } from '@components/combo-box'
 import type { Animator } from '@components/model'
 import { useAppContext } from '@context/index'
 import { AssetType, HTTP_SAFE_CHAMPION_NAMES } from '@customtypes/constants'
-import { Asset, SET_SELECTED_SKIN } from '@customtypes/index'
-import { useCharacterQuery } from '@graphql/generated/types'
+import { SET_SELECTED_SKIN } from '@customtypes/index'
 import { Combobox } from '@headlessui/react'
 import { DownloadIcon, PauseIcon, PlayIcon } from '@heroicons/react/outline'
 import { dataDragonService } from '@lib/ddragon'
 import { capitalize } from '@utils/index'
+import type { Asset } from '@utils/trpc'
+import { trpc } from '@utils/trpc'
 import classNames from 'classnames'
 import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
-import { FC, PropsWithChildren, useEffect, useRef, useState } from 'react'
+import { FC, PropsWithChildren, Suspense, useEffect, useRef, useState } from 'react'
 
 const DynamicModel = dynamic(() => import('../components/model'), {
-  loading: () => <p>Loading...</p>,
+  suspense: true,
 })
 
 const Tab: FC<PropsWithChildren<{ onClick: any; tab: string; id: string }>> = ({
@@ -40,14 +41,15 @@ const Tab: FC<PropsWithChildren<{ onClick: any; tab: string; id: string }>> = ({
 
 export const Models: NextPage = () => {
   const [{ selectedChampion }, dispatch] = useAppContext()
-  const { data, loading, error } = useCharacterQuery({
-    variables: {
+  const { data } = trpc.useQuery([
+    'character.get',
+    {
       filter: {
         nameEq: selectedChampion.basicInfo?.name?.toLowerCase(),
       },
       includeAssets: true,
     },
-  })
+  ])
   const [tab, setTab] = useState('Animations')
   const [searchValue, setSearch] = useState<Asset>()
   const [selectedAnimation, setSelectedAnimation] = useState<string>()
@@ -58,10 +60,10 @@ export const Models: NextPage = () => {
 
   const [query, setQuery] = useState('')
   const championName = capitalize(selectedChampion.basicInfo?.name)
-  const models = data?.character?.assets?.filter((a) => a?.type === 'model') ?? []
+  const models = data?.assets?.filter((a) => a?.type === 'model') ?? []
   const model = models.find((m) => m?.skin === selectedChampion.skin)
   const modelUrl = model?.url
-  const assets = data?.character?.assets?.filter((a) => {
+  const assets = data?.assets?.filter((a) => {
     return [AssetType.SFX, AssetType.VO].includes(a?.type as AssetType)
   })
 
@@ -123,7 +125,7 @@ export const Models: NextPage = () => {
     })
   }
 
-  const onRowClick = (asset?: Asset | null) => () => {
+  const onRowClick = (asset?: Asset) => () => {
     // prevent re-creating audio when url is the same
     if (asset === selectedAsset) return
 
@@ -323,7 +325,9 @@ export const Models: NextPage = () => {
             ))
           )}
         </ComboBox>
-        {modelUrl && <DynamicModel url={modelUrl} onSetModelConfig={onSetModelConfig} />}
+        <Suspense fallback={<p>Loading...</p>}>
+          {modelUrl && <DynamicModel url={modelUrl} onSetModelConfig={onSetModelConfig} />}
+        </Suspense>
       </div>
     </div>
   )
