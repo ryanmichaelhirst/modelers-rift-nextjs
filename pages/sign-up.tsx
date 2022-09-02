@@ -1,5 +1,4 @@
 import { Button } from '@components/button'
-import { useSignUpMutation } from '@graphql/generated/types'
 import {
   AnnotationIcon,
   DocumentDownloadIcon,
@@ -7,6 +6,7 @@ import {
   EyeOffIcon,
   StarIcon,
 } from '@heroicons/react/outline'
+import { trpc } from '@utils/trpc'
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -29,7 +29,7 @@ const SignUp: NextPage = () => {
       password: '',
     },
   })
-  const [signUp] = useSignUpMutation()
+  const signUp = trpc.useMutation('user.signup')
   const router = useRouter()
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
@@ -49,19 +49,13 @@ const SignUp: NextPage = () => {
     }
 
     try {
-      const resp = await signUp({
-        variables: {
-          input: {
-            name,
-            email,
-            password,
-          },
-        },
+      const resp = await signUp.mutateAsync({
+        name,
+        email,
+        password,
       })
 
-      if (resp.data?.signUp?.user && resp.data.signUp.token) {
-        router.push('/profile')
-      }
+      if (resp.user && resp.token) router.push('/profile')
     } catch (err) {}
   })
 

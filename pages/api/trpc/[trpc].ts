@@ -1,14 +1,64 @@
+import { createAccessToken, createRefreshToken } from '@lib/auth'
+import { prismaService } from '@lib/prisma'
+import { redisService, Session } from '@lib/redis'
 import * as trpc from '@trpc/server'
 import * as trpcNext from '@trpc/server/adapters/next'
-import { z } from 'zod'
-import { prismaService } from '@lib/prisma'
 import { characterRouter } from 'routers/character'
+import { userRouter } from 'routers/user'
+import { z } from 'zod'
+
+const sessionUserId = async (accessToken: string) => {
+  const session = (await redisService.client().json.get(accessToken)) as Session
+
+  return session.userId
+}
 
 export const createContext = async (opts?: trpcNext.CreateNextContextOptions) => {
+  const req = opts?.req
+  const res = opts?.res
+  const cookie = req?.headers.cookie
+
+  if (!cookie) return { ...opts, prisma: prismaService.client, userId: null }
+
+  let accessToken = cookie.match(/(?<=token=).*?(?=;)/g)?.at(0)
+  let refreshToken = cookie.match(/(?<=refresh=).*/g)?.at(0)
+
+  const userId = await (async () => {
+    if (accessToken) return await sessionUserId(accessToken)
+
+    // logout user if no refresh token
+    if (!refreshToken) return null
+
+    // get a new access token
+    const payload = (await redisService.client().json.get(refreshToken)) as Session
+    const user = await prismaService.client.user.findUnique({
+      where: {
+        id: payload.userId,
+      },
+    })
+    if (!user) return null
+
+    const { token: newAccessToken, setCookieHeader: accessTokenHeader } = await createAccessToken(
+      user,
+    )
+    accessToken = newAccessToken
+
+    // delete old refresh token
+    await redisService.client().json.del(refreshToken)
+
+    const { token: newRefreshToken, setCookieHeader: refreshTokenHeader } =
+      await createRefreshToken(user)
+    refreshToken = newRefreshToken
+
+    res?.setHeader('Set-Cookie', [accessTokenHeader, refreshTokenHeader])
+
+    return await sessionUserId(accessToken)
+  })()
+
   return {
-    req: opts?.req,
+    ...opts,
     prisma: prismaService.client,
-    character: prismaService.client.character,
+    userId,
   }
 }
 
@@ -32,9 +82,11 @@ export const appRouter = createRouter()
     },
   })
   .merge('character.', characterRouter)
+  .merge('user.', userRouter)
 
 // export type definition of API
 export type AppRouter = typeof appRouter
+
 // export API handler
 export default trpcNext.createNextApiHandler({
   router: appRouter,
@@ -47,45 +99,3 @@ export default trpcNext.createNextApiHandler({
     }
   },
 })
-
-// <----- DEMO BELOW ------>
-// import { PrismaClient } from '@prisma/client';
-// import * as trpc from '@trpc/server';
-// import * as trpcNext from '@trpc/server/adapters/next';
-// import superjson from 'superjson';
-// import { todoRouter } from '../../../routers/todo';
-
-// const prisma = new PrismaClient();
-
-// // create context based of incoming request
-// // set as optional here so it can also be re-used for `getStaticProps()`
-// export const createContext = async (
-//   opts?: trpcNext.CreateNextContextOptions,
-// ) => {
-//   return {
-//     req: opts?.req,
-//     prisma,
-//     task: prisma.task,
-//   };
-// };
-// export type Context = trpc.inferAsyncReturnType<typeof createContext>;
-
-// export function createRouter() {
-//   return trpc.router<Context>();
-// }
-// const router = createRouter().transformer(superjson).merge('todo.', todoRouter);
-
-// export const appRouter = router;
-// export type AppRouter = typeof router;
-
-// export default trpcNext.createNextApiHandler({
-//   router,
-//   createContext,
-//   teardown: () => prisma.$disconnect(),
-//   onError({ error }) {
-//     if (error.code === 'INTERNAL_SERVER_ERROR') {
-//       // send to bug reporting
-//       console.error('Something went wrong', error);
-//     }
-//   },
-// });

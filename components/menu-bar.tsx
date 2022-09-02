@@ -1,20 +1,15 @@
 import { NavButton } from '@components/button'
 import { ComboBox } from '@components/combo-box'
+import { Dropdown } from '@components/dropdown'
 import { useAppContext } from '@context/index'
 import { Character, FETCH_NEW_CHAMPION } from '@customtypes/index'
-import {
-  CurrentUserDocument,
-  useCurrentUserQuery,
-  useLogoutMutation,
-} from '@graphql/generated/types'
 import { Combobox } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/solid'
+import { trpc } from '@utils/trpc'
 import classNames from 'classnames'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { FC, useState } from 'react'
-import { Dropdown } from '@components/dropdown'
-import { trpc } from '@utils/trpc'
 
 export const MenuBar: FC = () => {
   const router = useRouter()
@@ -22,10 +17,10 @@ export const MenuBar: FC = () => {
   const [selected, setSelected] = useState<Character>()
   const [query, setQuery] = useState('')
   const [, dispatch] = useAppContext()
-  const [logout] = useLogoutMutation()
 
-  const { data: loginData } = useCurrentUserQuery()
-
+  const logout = trpc.useMutation('user.logout')
+  const { data: loginData, refetch } = trpc.useQuery(['user.current'])
+  console.log({ loginData })
   const { data } = trpc.useQuery([
     'character.all',
     {
@@ -54,23 +49,8 @@ export const MenuBar: FC = () => {
 
   const onDropdownClick = async (value: string) => {
     if (value === 'logout') {
-      await logout({
-        update(cache, { data }) {
-          cache.modify({
-            fields: {
-              currentUser(existingRef, { DELETE }) {
-                return null
-              },
-            },
-          })
-          // cache.writeQuery({
-          //   query: CurrentUserDocument,
-          //   data: { currentUser: null },
-          // })
-          // client.resetStore()
-        },
-        refetchQueries: [{ query: CurrentUserDocument }],
-      })
+      await logout.mutateAsync()
+      await refetch()
 
       router.push('/')
 
@@ -178,7 +158,7 @@ export const MenuBar: FC = () => {
             text={item}
           />
         ))}
-        {!loginData?.currentUser?.id && (
+        {!loginData?.id && (
           <NavButton
             id='login'
             onClick={onClick}
@@ -195,7 +175,7 @@ export const MenuBar: FC = () => {
           text={'patreon'}
           disabled={true}
         /> */}
-        <Dropdown loggedIn={!!loginData?.currentUser?.id} onClick={onDropdownClick} />
+        <Dropdown loggedIn={!!loginData?.id} onClick={onDropdownClick} />
       </div>
     </div>
   )

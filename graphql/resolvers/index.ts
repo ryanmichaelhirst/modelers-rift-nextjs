@@ -1,5 +1,0 @@
-export { default as CurrentUserResolver } from './current-user-resolver'
-export { default as JobsResolver } from './jobs-resolver'
-export { default as LoginResolver } from './login-resolver'
-export { default as SignUpResolver } from './sign-up-resolver'
-export { default as UserResolver } from './user-resolver'

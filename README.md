@@ -69,24 +69,12 @@ View your database
 
 `npx prisma studio`
 
-### Graphql
+### tRPC
 
-Install rover cli
+The previous api was implemented with graphql but was extremely heavy client-side.
 
-`curl -sSL https://rover.apollo.dev/nix/latest | sh`
+The API layer now uses a series of tRPC packages that are extremly light weight
 
-Configure rover with apollo studio
+https://bundlephobia.com/package/@trpc/next@9.27.2
 
-`rover config auth`
-
-Generate schema.graphql (introspection)
-
-`rover graph introspect http://localhost:3000/api/graphql > graphql/generated/schema.graphql`
-
-Generate schema.graphql (schema definition language)
-
-`rover graph fetch My-Graph-yoeh8f > graphql/generated/schema.graphql`
-
-Generate schema.json
-
-`npx apollo schema:download --endpoint=http://localhost:3000/graphql schema.json`
+Queries and mutations can be created under /routers and then added to /pages/api/trpc/[trpc].ts
