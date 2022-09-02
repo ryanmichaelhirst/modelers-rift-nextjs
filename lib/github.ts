@@ -1,7 +1,7 @@
 import { Octokit } from 'octokit'
 
 // Create a personal access token at https://github.com/settings/tokens/new?scopes=repo
-export const octokit = new Octokit({ auth: process.env.NEXT_PUBLIC_GIT_ACCESS_TOKEN })
+export const octokit = new Octokit({ auth: process.env.GIT_ACCESS_TOKEN })
 
 export const login = async () => {
   // Compare: https://docs.github.com/en/rest/reference/users#get-the-authenticated-user
@@ -22,12 +22,12 @@ export const createIssue = async ({
   body: string
   labels: string[]
 }) => {
-  if (!process.env.NEXT_PUBLIC_GIT_OWNER) throw Error('owner of repo is not defined')
-  if (!process.env.NEXT_PUBLIC_GIT_REPO) throw Error('name of repo is not defined')
+  if (!process.env.GIT_OWNER) throw Error('owner of repo is not defined')
+  if (!process.env.GIT_REPO) throw Error('name of repo is not defined')
 
   return await octokit.rest.issues.create({
-    owner: process.env.NEXT_PUBLIC_GIT_OWNER,
-    repo: process.env.NEXT_PUBLIC_GIT_REPO,
+    owner: process.env.GIT_OWNER,
+    repo: process.env.GIT_REPO,
     title: title,
     body: body,
     labels: labels,

@@ -1,5 +1,6 @@
 import { Button } from '@components/button'
 import { Dialog } from '@headlessui/react'
+import { trpc } from '@utils/trpc'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 
@@ -37,30 +38,24 @@ export const BugReport = () => {
       issueUrl: '',
     },
   })
+  const createIssue = trpc.useMutation('github.issue')
 
   const onSubmit = handleSubmit(async (data) => {
     if (!data.title || !data.description || !data.stepsToReproduce) return
 
-    const resp = await fetch('/api/issues', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+    try {
+      const resp = await createIssue.mutateAsync({
         title: data.title,
         body: `### Description\n ${data.description}\n ### Steps to Reproduce\n ${data.stepsToReproduce}`,
         labels: ['bug'],
-      }),
-    }).then((res) => res.json())
-    console.log({ resp })
-
-    if (resp.error) {
-      setError('issue', resp.error)
+      })
+      setValue('issueUrl', resp.issue.html_url)
+    } catch (err) {
+      const errMsg = err as string
+      setError('issue', { message: errMsg })
 
       return
     }
-
-    setValue('issueUrl', resp.issue.html_url)
   })
 
   const onClose = () => {
