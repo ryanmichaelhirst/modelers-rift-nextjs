@@ -48,6 +48,9 @@ export class PrismaService {
     return character
   }
 
+  findManyCharacters = async (args: Prisma.CharacterFindManyArgs) =>
+    await this.client.character.findMany(args)
+
   createCharacter = async (name: string) => {
     const character = await this.client.character.create({
       data: {
@@ -95,15 +98,7 @@ export class PrismaService {
     await this.client.$transaction(updates)
   }
 
-  findManyAssets = async () => {
-    return await this.client.asset.findMany({
-      where: {
-        type: {
-          equals: 'sfx',
-        },
-      },
-    })
-  }
+  findManyAssets = async (args: Prisma.AssetFindManyArgs) => await this.client.asset.findMany(args)
 
   updateAsset = async ({ id, data }: { id: number; data?: Record<string, unknown> }) => {
     if (!data) return

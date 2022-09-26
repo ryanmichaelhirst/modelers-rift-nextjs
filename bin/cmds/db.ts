@@ -1,3 +1,4 @@
+import { logger } from '@lib/logger'
 import { prismaService } from '@lib/prisma'
 import uploadAssets from 'bin/jobs/upload-assets'
 import uploadCharacters from 'bin/jobs/upload-characters'
@@ -15,8 +16,9 @@ export const seedAws = async () => {
 export const seedDb = async () => {
   // apply db migrations
   execSync(`npx prisma migrate dev`)
+  logger.info('applied prisma migrations')
 
-  // import dummy users
+  // add dummy users
   const users = await prismaService.findManyUsers({ take: 100 })
   if (users.length === 0) {
     const usernames = ['test_user_1', 'test_user_2', 'test_user_3']
@@ -30,8 +32,21 @@ export const seedDb = async () => {
         },
       })
     }
+
+    logger.info('imported users')
   }
 
-  await uploadCharacters()
-  await uploadAssets()
+  // add characters
+  const characters = await prismaService.findManyCharacters({ take: 100 })
+  if (characters.length === 0) {
+    await uploadCharacters()
+    logger.info('added characters')
+  }
+
+  // add assets
+  const assets = await prismaService.findManyAssets({ take: 100 })
+  if (assets.length === 0) {
+    await uploadAssets()
+    logger.info('added assets')
+  }
 }
