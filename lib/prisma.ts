@@ -1,6 +1,6 @@
 import { HTTP_SAFE_CHAMPION_NAMES } from '@customtypes/constants'
 import { logger } from '@lib/logger'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, type Prisma } from '@prisma/client'
 
 export interface Asset {
   type: string
@@ -121,6 +121,11 @@ export class PrismaService {
       data,
     })
   }
+
+  createUser = async ({ data }: { data: Prisma.UserCreateArgs['data'] }) =>
+    await this.client.user.create({ data })
+
+  findManyUsers = async (args: Prisma.UserFindManyArgs) => await this.client.user.findMany(args)
 }
 
 // PrismaClient is attached to the `global` object in development to prevent

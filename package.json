@@ -4,7 +4,9 @@
   "description": "",
   "main": "pages/_app.tsx",
   "scripts": {
-    "dev": "next dev",
+    "dev:next": "next dev",
+    "dev:postgres": "docker-compose -f docker-compose-dev.yml up",
+    "dev": "run-p dev:*",
     "analyze": "ANALYZE=true yarn build",
     "build": "next build",
     "start": "next start",

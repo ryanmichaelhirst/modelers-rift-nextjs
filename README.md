@@ -61,6 +61,10 @@ Modify the generated SQL file, then apply the migration
 
 `npx prisma migrate dev`
 
+Apply migrations to production
+
+`npx prisma migrate deploy`
+
 Generate the client
 
 `npx prisma generate`
@@ -78,3 +82,5 @@ The API layer now uses a series of tRPC packages that are extremly light weight
 https://bundlephobia.com/package/@trpc/next@9.27.2
 
 Queries and mutations can be created under /routers and then added to /pages/api/trpc/[trpc].ts
+
+### Docker
