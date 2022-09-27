@@ -11,18 +11,16 @@ export const uploadCharacters = async () => {
         return
       }
 
-      const characters = response.CommonPrefixes?.map((c) => {
-        const characterMatches = c.Prefix?.match(/^[^\/]*/gi)
-
-        return characterMatches ? characterMatches[0] : ''
-      })
+      const characters = response.CommonPrefixes?.map(
+        (c) => c.Prefix?.replace(/models\//, '').replace(/\//, '') ?? '',
+      )
 
       // create the characters if needed
       for (const character of characters) {
         await prismaService.findOrCreateCharacter(character)
       }
     },
-    { delimiter: '/' },
+    { prefix: 'models/', delimiter: '/' },
   )
 }
 

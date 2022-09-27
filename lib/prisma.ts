@@ -1,6 +1,6 @@
 import { HTTP_SAFE_CHAMPION_NAMES } from '@customtypes/constants'
 import { logger } from '@lib/logger'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, type Prisma } from '@prisma/client'
 
 export interface Asset {
   type: string
@@ -47,6 +47,9 @@ export class PrismaService {
 
     return character
   }
+
+  findManyCharacters = async (args: Prisma.CharacterFindManyArgs) =>
+    await this.client.character.findMany(args)
 
   createCharacter = async (name: string) => {
     const character = await this.client.character.create({
@@ -95,15 +98,7 @@ export class PrismaService {
     await this.client.$transaction(updates)
   }
 
-  findManyAssets = async () => {
-    return await this.client.asset.findMany({
-      where: {
-        type: {
-          equals: 'sfx',
-        },
-      },
-    })
-  }
+  findManyAssets = async (args: Prisma.AssetFindManyArgs) => await this.client.asset.findMany(args)
 
   updateAsset = async ({ id, data }: { id: number; data?: Record<string, unknown> }) => {
     if (!data) return
@@ -121,6 +116,11 @@ export class PrismaService {
       data,
     })
   }
+
+  createUser = async ({ data }: { data: Prisma.UserCreateArgs['data'] }) =>
+    await this.client.user.create({ data })
+
+  findManyUsers = async (args: Prisma.UserFindManyArgs) => await this.client.user.findMany(args)
 }
 
 // PrismaClient is attached to the `global` object in development to prevent

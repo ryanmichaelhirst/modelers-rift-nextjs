@@ -1,6 +1,13 @@
-# League of Legends Champion Builder
+# Modeler's Rift
 
-Web app to explore champion stats, item builds, and lane match-ups.
+Web app for viewing all champion assets from League of Legends
+
+Assets include:
+
+1. Models
+2. Voice lines
+3. Sound effects
+4. Champion Interactions
 
 ### How to generate assets
 
@@ -61,13 +68,13 @@ Modify the generated SQL file, then apply the migration
 
 `npx prisma migrate dev`
 
+Apply migrations to production
+
+`npx prisma migrate deploy`
+
 Generate the client
 
 `npx prisma generate`
-
-View your database
-
-`npx prisma studio`
 
 ### tRPC
 
@@ -77,4 +84,20 @@ The API layer now uses a series of tRPC packages that are extremly light weight
 
 https://bundlephobia.com/package/@trpc/next@9.27.2
 
-Queries and mutations can be created under /routers and then added to /pages/api/trpc/[trpc].ts
+Queries and mutations can be created under `/routers` and then added to `/pages/api/trpc/[trpc].ts`
+
+### Development
+
+First run the dev server
+
+`yarn run dev`
+
+This will launch nextjs in development mode, and start a local postgres db with `docker`
+
+Next populate the db
+
+`yarn run bin -c=seed-db`
+
+Finally view your db to make sure everything is setup properly
+
+`npx prisma studio`

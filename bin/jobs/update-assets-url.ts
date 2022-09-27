@@ -1,7 +1,13 @@
 import { prismaService } from '@lib/prisma'
 
 export const updateAssetsUrl = async () => {
-  const modelAssets = await prismaService.findManyAssets()
+  const modelAssets = await prismaService.findManyAssets({
+    where: {
+      type: {
+        equals: 'sfx',
+      },
+    },
+  })
 
   for (const asset of modelAssets) {
     await prismaService.updateAsset({
