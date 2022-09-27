@@ -1,7 +1,7 @@
 import { logger } from '@lib/logger'
 import { prismaService } from '@lib/prisma'
-import uploadAssets from 'bin/jobs/upload-assets'
-import uploadCharacters from 'bin/jobs/upload-characters'
+import { addAssets } from 'bin/jobs/add-assets'
+import { addCharacters } from 'bin/jobs/add-characters'
 import { uploadModels } from 'bin/jobs/upload-models'
 import { uploadSounds } from 'bin/jobs/upload-sounds'
 import { execSync } from 'child_process'
@@ -39,14 +39,14 @@ export const seedDb = async () => {
   // add characters
   const characters = await prismaService.findManyCharacters({ take: 100 })
   if (characters.length === 0) {
-    await uploadCharacters()
+    await addCharacters()
     logger.info('added characters')
   }
 
   // add assets
   const assets = await prismaService.findManyAssets({ take: 100 })
   if (assets.length === 0) {
-    await uploadAssets()
+    await addAssets()
     logger.info('added assets')
   }
 }

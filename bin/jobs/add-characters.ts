@@ -2,7 +2,10 @@ import { logger } from '@lib/logger'
 import { prismaService } from '@lib/prisma'
 import { awsS3Service } from 'bin/services/aws-s3-service'
 
-export const uploadCharacters = async () => {
+/**
+ * Average Runtime: 3.08s
+ */
+export const addCharacters = async () => {
   await awsS3Service.performOnAllObjects(
     async (response) => {
       if (!response.CommonPrefixes) {
@@ -24,4 +27,4 @@ export const uploadCharacters = async () => {
   )
 }
 
-export default uploadCharacters
+export default addCharacters
