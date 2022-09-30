@@ -120,7 +120,15 @@ export class PrismaService {
   createUser = async ({ data }: { data: Prisma.UserCreateArgs['data'] }) =>
     await this.client.user.create({ data })
 
+  findUser = async (args: Prisma.UserFindFirstArgs) => await this.client.user.findFirst(args)
+
   findManyUsers = async (args: Prisma.UserFindManyArgs) => await this.client.user.findMany(args)
+
+  createPatreonEvent = async (args: Prisma.PatreonEventCreateArgs) =>
+    await this.client.patreonEvent.create(args)
+
+  updateManyPatreonEvent = async (args: Prisma.PatreonEventUpdateManyArgs) =>
+    await this.client.patreonEvent.updateMany(args)
 }
 
 // PrismaClient is attached to the `global` object in development to prevent

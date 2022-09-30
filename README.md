@@ -60,11 +60,9 @@ https://github.com/Morilli/bnk-extract/releases/tag/v1.6
 
 ### Prisma
 
-To make changes to the database, create a draft migration
+To make changes to the database update the `prisma/schema.prisma` file
 
-`npx prisma migrate dev --name ${migration-name} --create-only`
-
-Modify the generated SQL file, then apply the migration
+Next generate and apply the sql migration
 
 `npx prisma migrate dev`
 
@@ -101,3 +99,53 @@ Next populate the db
 Finally view your db to make sure everything is setup properly
 
 `npx prisma studio`
+
+### Cloudflare Tunnels
+
+You can expose your localhost server (`yarn dev`) as a publicaly routable IP address with ssh tunneling
+
+Full instructions [here](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-guide/local/#set-up-a-tunnel-locally-cli-setup)
+
+Install with homebrew
+
+`brew install cloudflare/cloudflare/cloudflared`
+
+Login using cli
+
+`cloudflared tunnel login`
+
+Create a tunnel
+
+`cloudflared tunnel create <NAME>`
+
+Update config file with your creds
+
+`cp cloudflare.yaml.sample cloudflare.yaml`
+
+Route traffic to tunnel
+
+`cloudflared tunnel route dns <UUID or NAME> <hostname>`
+
+Run the tunnel
+
+`cloudflared tunnel run <UUID or NAME>` or `yarn tunnel`
+
+Get the name record mappings on vercel
+
+`https://dash.cloudflare.com/${account_id}/${website}.com/dns`
+
+Add name records to cloudflare
+
+`https://vercel.com/${user}/${repo}/settings/domains`
+
+### Patreon Pledges
+
+Each patreon pledge will dispatch an event to the patreon webhook located at `/pages/api/patreon/index.ts`
+
+View and edit webhook events
+
+`https://www.patreon.com/portal/registration/register-webhooks`
+
+Patreon webhook docs
+
+`https://docs.patreon.com/#webhooks`
