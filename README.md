@@ -138,9 +138,9 @@ Add name records to cloudflare
 
 `https://vercel.com/${user}/${repo}/settings/domains`
 
-### Patreon Donations
+### Patreon Pledges
 
-Patreon donations send events to the patreon webhook located at `/pages/api/patreon/index.ts`
+Each patreon pledge will dispatch an event to the patreon webhook located at `/pages/api/patreon/index.ts`
 
 View and edit webhook events
 
