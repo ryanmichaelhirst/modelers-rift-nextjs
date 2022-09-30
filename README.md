@@ -128,7 +128,7 @@ Route traffic to tunnel
 
 Run the tunnel
 
-`cloudflared tunnel run <UUID or NAME>`
+`cloudflared tunnel run <UUID or NAME>` or `yarn tunnel`
 
 Get the name record mappings on vercel
 
@@ -137,3 +137,15 @@ Get the name record mappings on vercel
 Add name records to cloudflare
 
 `https://vercel.com/${user}/${repo}/settings/domains`
+
+### Patreon Donations
+
+Patreon donations send events to the patreon webhook located at `/pages/api/patreon/index.ts`
+
+View and edit webhook events
+
+`https://www.patreon.com/portal/registration/register-webhooks`
+
+Patreon webhook docs
+
+`https://docs.patreon.com/#webhooks`
