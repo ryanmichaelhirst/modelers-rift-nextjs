@@ -1,4 +1,5 @@
 import { prismaService } from '@lib/prisma'
+import { Prisma } from '@prisma/client'
 import crypto from 'crypto'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import util from 'util'
@@ -39,27 +40,38 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return
   }
 
+  const patronEmail = body.data.attributes.email
+  const data = {
+    payload: body as unknown as Prisma.JsonObject,
+    patronEmail,
+    patronId: body.data.id,
+    type: patreonEvent as string,
+  }
+
   switch (patreonEvent) {
     case 'members:pledge:create':
-      const { email } = body.data.attributes
-
-      const user = await prismaService.findUser({ where: { email } })
-      if (user) {
-        await prismaService.createDonation({
-          data: {
-            patronEmail: user.email,
-            patronId: body.data.id,
-            payload: body.data,
-          },
-        })
-      }
+      await prismaService.createPatreonEvent({
+        data,
+      })
 
       res.send(200)
       break
     case 'members:pledge:update':
+      await prismaService.createPatreonEvent({
+        data,
+      })
       res.send(200)
       break
     case 'members:pledge:delete':
+      await prismaService.updateManyPatreonEvent({
+        where: {
+          patronEmail,
+        },
+        data: {
+          ...data,
+          deletedAt: new Date(),
+        },
+      })
       res.send(200)
       break
     default:

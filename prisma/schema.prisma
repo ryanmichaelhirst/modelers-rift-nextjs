@@ -39,12 +39,13 @@ model User {
   deletedAt DateTime?
 }
 
-model Donation {
-  id          Int       @id @default(autoincrement())
-  patronId    String
-  patronEmail String       
-  payload     Json          
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @default(now())
-  deletedAt   DateTime?  
+model PatreonEvent {
+  id           Int       @id @default(autoincrement())
+  patronId     String
+  patronEmail  String
+  type         String      
+  payload      Json          
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now())
+  deletedAt    DateTime?  
 }
