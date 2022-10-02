@@ -54,13 +54,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         data,
       })
 
-      res.send(200)
+      res.status(200).send('OK')
       break
     case 'members:pledge:update':
       await prismaService.createPatreonEvent({
         data,
       })
-      res.send(200)
+      res.status(200).send('OK')
       break
     case 'members:pledge:delete':
       await prismaService.updateManyPatreonEvent({
@@ -72,7 +72,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           deletedAt: new Date(),
         },
       })
-      res.send(200)
+      res.status(200).send('OK')
       break
     default:
       res.status(400).send({ error: 'event not supported' })
