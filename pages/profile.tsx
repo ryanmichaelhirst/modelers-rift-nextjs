@@ -1,3 +1,4 @@
+import { Button } from '@components/button'
 import { trpc } from '@utils/trpc'
 import { formatRFC7231 } from 'date-fns'
 import { NextPage } from 'next'
@@ -82,6 +83,12 @@ const Profile: NextPage = () => {
               <p>{d.dollarAmount}</p>
             </div>
           ))}
+          {donations?.collection.length === 0 && (
+            <div className='my-2'>
+              <p className='my-2'>Make a donation to start downloading champion assets!</p>
+              <Button text='Donate' onClick={() => router.push('/donate')} />
+            </div>
+          )}
         </div>
       </div>
     </div>
