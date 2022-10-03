@@ -7,7 +7,8 @@ import { createRouter } from '../pages/api/trpc/[trpc]'
 
 export const userRouter = createRouter()
   .query('current', {
-    async resolve({ ctx }) {
+    input: z.object({ includeDonations: z.boolean() }).nullish(),
+    async resolve({ input, ctx }) {
       const { userId } = ctx
       if (!userId) return
 
@@ -28,6 +29,9 @@ export const userRouter = createRouter()
       return await ctx.prisma.user.findFirst({
         where: {
           id: userId,
+        },
+        include: {
+          donations: input?.includeDonations,
         },
       })
     },

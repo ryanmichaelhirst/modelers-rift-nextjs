@@ -1,6 +1,7 @@
 import { AssetTable } from '@components/asset-table'
 import { Button } from '@components/button'
 import { ComboBox } from '@components/combo-box'
+import { Modal } from '@components/modal'
 import type { Animator } from '@components/model'
 import { useAppContext } from '@context/index'
 import { AssetType, HTTP_SAFE_CHAMPION_NAMES } from '@customtypes/constants'
@@ -15,6 +16,7 @@ import classNames from 'classnames'
 import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { FC, PropsWithChildren, Suspense, useEffect, useRef, useState } from 'react'
 
 const DynamicModel = dynamic(() => import('../components/model'), {
@@ -41,6 +43,7 @@ const Tab: FC<PropsWithChildren<{ onClick: any; tab: string; id: string }>> = ({
 
 export const Models: NextPage = () => {
   const [{ selectedChampion }, dispatch] = useAppContext()
+
   const { data } = trpc.useQuery([
     'character.get',
     {
@@ -50,6 +53,11 @@ export const Models: NextPage = () => {
       includeAssets: true,
     },
   ])
+  const { data: user } = trpc.useQuery(['user.current', { includeDonations: true }])
+
+  const router = useRouter()
+
+  const [isDonationModalOpen, setIsDonationModalOpen] = useState(false)
   const [tab, setTab] = useState('Animations')
   const [searchValue, setSearch] = useState<Asset>()
   const [selectedAnimation, setSelectedAnimation] = useState<string>()
@@ -137,6 +145,13 @@ export const Models: NextPage = () => {
   }
 
   const onExport = async () => {
+    // if the user has not made any donations, display the donation modal
+    if (user?.donations.length === 0) {
+      setIsDonationModalOpen(true)
+
+      return
+    }
+
     const championName = `${selectedChampion.basicInfo?.name?.toLowerCase()}`
 
     const signedUrl = await fetch(`/api/aws/signedUrl`, {
@@ -183,8 +198,15 @@ export const Models: NextPage = () => {
     )
   })()
 
+  const onCloseDonationModal = () => {
+    setIsDonationModalOpen(false)
+
+    router.push('/donate')
+  }
+
   return (
     <div className='flex flex-col md:space-x-10 md:flex-row pb-10 h-full'>
+      <Modal isOpen={isDonationModalOpen} onClose={onCloseDonationModal} />
       <div className='md:min-w-[500px] md:min-h-full overflow-hidden'>
         {data && (
           <div className='card'>
