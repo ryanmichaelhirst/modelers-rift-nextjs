@@ -9,7 +9,6 @@ import { SET_SELECTED_SKIN } from '@customtypes/index'
 import { Combobox } from '@headlessui/react'
 import { DownloadIcon, PauseIcon, PlayIcon } from '@heroicons/react/outline'
 import { dataDragonService } from '@lib/ddragon'
-import { capitalize } from '@utils/index'
 import type { Asset } from '@utils/trpc'
 import { trpc } from '@utils/trpc'
 import classNames from 'classnames'
@@ -41,14 +40,20 @@ const Tab: FC<PropsWithChildren<{ onClick: any; tab: string; id: string }>> = ({
   </p>
 )
 
+const defaultCharacter = {
+  name: 'aatrox',
+  displayName: 'Aatrox',
+  skin: 'skin0',
+}
+
 export const Models: NextPage = () => {
-  const [{ selectedChampion }, dispatch] = useAppContext()
+  const [{ currentCharacter }, dispatch] = useAppContext()
 
   const { data } = trpc.useQuery([
     'character.get',
     {
       filter: {
-        nameEq: selectedChampion.basicInfo?.name?.toLowerCase(),
+        nameEq: currentCharacter?.name ?? defaultCharacter.name,
       },
       includeAssets: true,
     },
@@ -67,9 +72,8 @@ export const Models: NextPage = () => {
   const audioRef = useRef<HTMLAudioElement>()
 
   const [query, setQuery] = useState('')
-  const championName = capitalize(selectedChampion.basicInfo?.name)
   const models = data?.assets?.filter((a) => a?.type === 'model') ?? []
-  const model = models.find((m) => m?.skin === selectedChampion.skin)
+  const model = models.find((m) => m?.skin === (currentCharacter?.skin ?? defaultCharacter.skin))
   const modelUrl = model?.url
   const assets = data?.assets?.filter((a) => {
     return [AssetType.SFX, AssetType.VO].includes(a?.type as AssetType)
@@ -152,7 +156,8 @@ export const Models: NextPage = () => {
       return
     }
 
-    const championName = `${selectedChampion.basicInfo?.name?.toLowerCase()}`
+    const characterName = currentCharacter?.name ?? defaultCharacter.name
+    const skin = currentCharacter?.skin ?? defaultCharacter.skin
 
     const signedUrl = await fetch(`/api/aws/signedUrl`, {
       method: 'POST',
@@ -160,7 +165,7 @@ export const Models: NextPage = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        Key: `models/${championName}/${selectedChampion.skin}.glb`,
+        Key: `models/${characterName}/${skin}.glb`,
       }),
     }).then((res) => res.text())
 
@@ -173,7 +178,7 @@ export const Models: NextPage = () => {
       const blobUrl = URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = blobUrl
-      link.setAttribute('download', `${championName}.glb`)
+      link.setAttribute('download', `${characterName}.glb`)
       document.body.appendChild(link)
       link.click()
 
@@ -284,7 +289,9 @@ export const Models: NextPage = () => {
       </div>
       <div className='md:w-4/6 md:min-h-full'>
         <div className='flex items-center mb-4'>
-          <span className='mr-6 text-lg'>{selectedChampion.basicInfo?.name}</span>
+          <span className='mr-6 text-lg'>
+            {currentCharacter?.displayName ?? defaultCharacter.displayName}
+          </span>
           <Button
             onClick={onExport}
             text='Download'
@@ -327,7 +334,7 @@ export const Models: NextPage = () => {
                         model?.name?.includes('Chroma')
                           ? '/no-image.jpg'
                           : dataDragonService.getSplashArtLink(
-                              championName,
+                              currentCharacter?.displayName ?? defaultCharacter.displayName,
                               model?.skin?.replace('skin', '') ?? '',
                             )
                       }

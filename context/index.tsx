@@ -4,18 +4,16 @@ import {
   AsyncAction,
   ContextDispatch,
   SET_ANIMATIONS,
-  SET_SELECTED_CHAMPION,
+  SET_CURRENT_CHARACTER,
   SET_SELECTED_SKIN,
 } from '@customtypes/index'
+import { Character } from '@utils/trpc'
 import { createContext, FC, PropsWithChildren, Reducer, useContext } from 'react'
 import { useReducerAsync } from 'use-reducer-async'
 import { SET_CHAMPIONS, SET_ITEMS } from '../types'
 import { asyncActionHandlers } from './async-actions'
 
 export const initialState: AppState = {
-  selectedChampion: {
-    skin: 'skin0',
-  },
   lolChampionsData: {},
   lolItemsData: {},
 }
@@ -40,18 +38,26 @@ export const StoreProvider: FC<PropsWithChildren<{ initialState: AppState; reduc
 
 export const reducer: Reducer<AppState, Action> = (state, action) => {
   switch (action.type) {
-    case SET_SELECTED_CHAMPION:
-      return {
-        ...state,
-        selectedChampion: action.payload,
-      }
     case SET_SELECTED_SKIN:
+      // TODO: fix type collision
+      const newCurrentCharacter = {
+        ...state.currentCharacter,
+        skin: action.payload,
+      } as Character & { skin: string }
+
       return {
         ...state,
-        selectedChampion: {
-          ...state.selectedChampion,
-          skin: action.payload,
-        },
+        currentCharacter: newCurrentCharacter,
+      }
+    case SET_CURRENT_CHARACTER:
+      const value = {
+        ...action.payload,
+        skin: 'skin0',
+      } as Character & { skin: string }
+
+      return {
+        ...state,
+        currentCharacter: value,
       }
     case SET_ANIMATIONS:
       return {

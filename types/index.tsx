@@ -1,3 +1,5 @@
+import type { Character } from '@utils/trpc'
+
 /**
  * Components
  */
@@ -122,33 +124,23 @@ export type ChampionDetailedInfo = Omit<ChampionBasicInfo, 'square_asset' | 'ver
   spells?: Spell[]
 }
 
-export interface SelectedChampion {
-  basicInfo?: ChampionBasicInfo
-  detailedInfo?: ChampionDetailedInfo
-  skin?: string
-}
-
 /**
  * React Context
  */
 export interface AppState {
-  selectedChampion: SelectedChampion
   lolChampionsData: Record<string, any>
   lolItemsData: Record<string, Item>
   animations?: string[]
+  currentCharacter?: null | (Character & { skin?: string })
 }
 
-export const SET_SELECTED_CHAMPION = 'SET_SELECTED_CHAMPION'
 export const SET_SELECTED_SKIN = 'SET_SELECTED_SKIN'
 export const SET_CHAMPIONS = 'SET_CHAMPIONS'
 export const SET_ITEMS = 'SET_LOL_ITEMS'
 export const SET_ANIMATIONS = 'SET_ANIMATIONS'
+export const SET_CURRENT_CHARACTER = 'SET_CURRENT_CHARACTER'
 
 export type Action =
-  | {
-      type: typeof SET_SELECTED_CHAMPION
-      payload: SelectedChampion
-    }
   | {
       type: typeof SET_SELECTED_SKIN
       payload: string
@@ -165,10 +157,13 @@ export type Action =
       type: typeof SET_ANIMATIONS
       payload?: string[]
     }
+  | {
+      type: typeof SET_CURRENT_CHARACTER
+      payload: Character
+    }
 
 export const FETCH_LOL_INFO = 'FETCH_LOL_INFO'
 export const FETCH_LOL_ITEMS = 'FETCH_LOL_ITEMS'
-export const FETCH_NEW_CHAMPION = 'FETCH_NEW_CHAMPION'
 
 export type AsyncAction =
   | {
@@ -177,10 +172,6 @@ export type AsyncAction =
     }
   | {
       type: typeof FETCH_LOL_ITEMS
-      payload: string
-    }
-  | {
-      type: typeof FETCH_NEW_CHAMPION
       payload: string
     }
 

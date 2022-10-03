@@ -3,7 +3,7 @@ import { NavButton } from '@components/button'
 import { ComboBox } from '@components/combo-box'
 import { Dropdown } from '@components/dropdown'
 import { useAppContext } from '@context/index'
-import { FETCH_NEW_CHAMPION } from '@customtypes/index'
+import { SET_CURRENT_CHARACTER } from '@customtypes/index'
 import { Combobox } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/solid'
 import type { Character } from '@utils/trpc'
@@ -71,7 +71,7 @@ export const MenuBar: FC = () => {
     setSelected(character)
     if (!character?.displayName) return
 
-    dispatch({ type: FETCH_NEW_CHAMPION, payload: character.displayName })
+    dispatch({ type: SET_CURRENT_CHARACTER, payload: character })
     router.push(`/models`)
   }
 
