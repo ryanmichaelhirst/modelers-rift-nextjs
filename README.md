@@ -149,3 +149,31 @@ View and edit webhook events
 Patreon webhook docs
 
 `https://docs.patreon.com/#webhooks`
+
+### Donations with Stripe
+
+Donations are powered through Stripe and recorded through a webhook at `/api/stripe/event.ts`
+
+To test and development your webhook you will need to install the stripe cli
+
+`https://stripe.com/docs/stripe-cli#install`
+
+Login to the cli
+
+`stripe login`
+
+Forward events to your webhook
+
+`stripe listen --forward-to localhost:3000/api/stripe/event`
+
+Trigger a webhook event
+
+`stripe trigger checkout.session.completed`
+
+For a full list of supported events
+
+`stripe trigger --help`
+
+Simulate a payment with stripe test cards
+
+`https://stripe.com/docs/testing`

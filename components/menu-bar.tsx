@@ -148,7 +148,7 @@ export const MenuBar: FC = () => {
       </div>
 
       <div className='flex items-center'>
-        {['home', 'models'].map((item) => (
+        {['home', 'models', 'donate'].map((item) => (
           <NavButton
             id={item}
             onClick={onClick}

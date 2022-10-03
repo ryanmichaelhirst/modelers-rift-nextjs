@@ -7,7 +7,7 @@ module.exports = withBundleAnalyzer({
     dirs: ['components', 'context', 'lib', 'pages', 'routers', 'types', 'utils'],
   },
   images: {
-    domains: ['ddragon.leagueoflegends.com'],
+    domains: ['ddragon.leagueoflegends.com', 'files.stripe.com'],
   },
   // typescript: {
   // https://nextjs.org/docs/api-reference/next.config.js/ignoring-typescript-errors
