@@ -129,6 +129,9 @@ export class PrismaService {
 
   updateManyPatreonEvent = async (args: Prisma.PatreonEventUpdateManyArgs) =>
     await this.client.patreonEvent.updateMany(args)
+
+  createDonation = async (args: Prisma.DonationCreateArgs) =>
+    await this.client.donation.create(args)
 }
 
 // PrismaClient is attached to the `global` object in development to prevent

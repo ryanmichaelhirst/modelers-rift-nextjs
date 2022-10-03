@@ -11,3 +11,6 @@ export const capitalize = (str?: string | null) => {
     }, '')
     .trimEnd()
 }
+
+export const toNumber = (value: string | number) =>
+  typeof value === 'string' ? parseInt(value) : value

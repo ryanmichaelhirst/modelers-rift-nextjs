@@ -21,7 +21,7 @@ const Product: FC<{
       <div className='bg-gray-100 p-3 rounded-b border border-solid border-b border-t-0'>
         <form action='/api/stripe/checkout' method='POST'>
           <input name='productId' value={id} hidden={true} />
-          <input name='userId' value={userId} hidden={true} />
+          <input name='userId' value={userId} type='number' hidden={true} />
           <button type='submit'>Checkout</button>
         </form>
       </div>
@@ -42,7 +42,6 @@ export default () => {
   useEffect(() => {
     // Check to see if this is a redirect back from Checkout
     const query = new URLSearchParams(window.location.search)
-    console.log(Array.from(query.entries()))
 
     if (query.get('success')) {
       setMessage('Order placed! You will receive an email confirmation.')
@@ -52,8 +51,6 @@ export default () => {
       setMessage("Order canceled -- continue to shop around and checkout when you're ready.")
     }
   }, [])
-
-  console.log({ data })
 
   return message ? (
     <section>
