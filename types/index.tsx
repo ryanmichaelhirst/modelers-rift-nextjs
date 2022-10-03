@@ -128,13 +128,11 @@ export type ChampionDetailedInfo = Omit<ChampionBasicInfo, 'square_asset' | 'ver
  * React Context
  */
 export interface AppState {
-  lolItemsData: Record<string, Item>
   animations?: string[]
   currentCharacter?: null | (Character & { skin?: string })
 }
 
 export const SET_SELECTED_SKIN = 'SET_SELECTED_SKIN'
-export const SET_ITEMS = 'SET_LOL_ITEMS'
 export const SET_ANIMATIONS = 'SET_ANIMATIONS'
 export const SET_CURRENT_CHARACTER = 'SET_CURRENT_CHARACTER'
 
@@ -142,10 +140,6 @@ export type Action =
   | {
       type: typeof SET_SELECTED_SKIN
       payload: string
-    }
-  | {
-      type: typeof SET_ITEMS
-      payload: Record<string, Item>
     }
   | {
       type: typeof SET_ANIMATIONS

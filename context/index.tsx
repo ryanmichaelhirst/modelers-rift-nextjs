@@ -8,11 +8,8 @@ import {
 } from '@customtypes/index'
 import { Character } from '@utils/trpc'
 import { createContext, FC, PropsWithChildren, Reducer, useContext, useReducer } from 'react'
-import { SET_ITEMS } from '../types'
 
-export const initialState: AppState = {
-  lolItemsData: {},
-}
+export const initialState: AppState = {}
 
 const Store = createContext<[AppState, ContextDispatch]>([{} as AppState, () => {}])
 
@@ -55,11 +52,6 @@ export const reducer: Reducer<AppState, Action> = (state, action) => {
       return {
         ...state,
         animations: action.payload?.sort(),
-      }
-    case SET_ITEMS:
-      return {
-        ...state,
-        lolItemsData: action.payload,
       }
     default:
       return state
