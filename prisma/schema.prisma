@@ -37,6 +37,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
   deletedAt DateTime?
+  donations Donation[]
 }
 
 model PatreonEvent {
@@ -48,4 +49,16 @@ model PatreonEvent {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @default(now())
   deletedAt    DateTime?  
+}
+
+model Donation {
+  id           Int       @id @default(autoincrement())
+  user         User      @relation(fields: [userId], references: [id])
+  userId       Int
+  amount       String
+  productName  String
+  payload      Json
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now())
+  deletedAt    DateTime?
 }

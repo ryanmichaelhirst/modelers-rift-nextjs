@@ -1,12 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the `Donation` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropTable
-DROP TABLE "Donation";
-
 -- CreateTable
 CREATE TABLE "PatreonEvent" (
     "id" SERIAL NOT NULL,
