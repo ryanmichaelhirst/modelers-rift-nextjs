@@ -133,13 +133,11 @@ export interface SelectedChampion {
  */
 export interface AppState {
   selectedChampion: SelectedChampion
-  patches: string[]
   lolChampionsData: Record<string, any>
   lolItemsData: Record<string, Item>
   animations?: string[]
 }
 
-export const SET_PATCHES = 'SET_PATCHES'
 export const SET_SELECTED_CHAMPION = 'SET_SELECTED_CHAMPION'
 export const SET_SELECTED_SKIN = 'SET_SELECTED_SKIN'
 export const SET_CHAMPIONS = 'SET_CHAMPIONS'
@@ -147,10 +145,6 @@ export const SET_ITEMS = 'SET_LOL_ITEMS'
 export const SET_ANIMATIONS = 'SET_ANIMATIONS'
 
 export type Action =
-  | {
-      type: typeof SET_PATCHES
-      payload: string[]
-    }
   | {
       type: typeof SET_SELECTED_CHAMPION
       payload: SelectedChampion

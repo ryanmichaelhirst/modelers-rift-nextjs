@@ -14,8 +14,7 @@ import groupBy from 'lodash.groupby'
  * Example S3 object: { Key: 'sfx/aatrox/skin7/playsfx_q2_on_hitnormalplayer_2.ogg', LastModified: '2022-07-27T03:36:13.000Z', Size: 12345 }
  */
 export const addAssets = async () => {
-  const patches = await dataDragonService.getPatches()
-  const latestPatch = patches[0]
+  const latestPatch = await dataDragonService.getLatestPatch()
   const ddragonChampions = await dataDragonService.getChampions(latestPatch)
   const skinsByChampion = await Object.entries(ddragonChampions).reduce<
     Promise<Record<string, ChampionDetailedInfo['skins']>>

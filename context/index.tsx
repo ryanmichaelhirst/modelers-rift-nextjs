@@ -9,14 +9,13 @@ import {
 } from '@customtypes/index'
 import { createContext, FC, PropsWithChildren, Reducer, useContext } from 'react'
 import { useReducerAsync } from 'use-reducer-async'
-import { SET_CHAMPIONS, SET_ITEMS, SET_PATCHES } from '../types'
+import { SET_CHAMPIONS, SET_ITEMS } from '../types'
 import { asyncActionHandlers } from './async-actions'
 
 export const initialState: AppState = {
   selectedChampion: {
     skin: 'skin0',
   },
-  patches: [],
   lolChampionsData: {},
   lolItemsData: {},
 }
@@ -58,11 +57,6 @@ export const reducer: Reducer<AppState, Action> = (state, action) => {
       return {
         ...state,
         animations: action.payload?.sort(),
-      }
-    case SET_PATCHES:
-      return {
-        ...state,
-        patches: action.payload,
       }
     case SET_CHAMPIONS:
       return {

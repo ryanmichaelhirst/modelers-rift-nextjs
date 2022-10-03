@@ -10,7 +10,6 @@ import {
   FETCH_NEW_CHAMPION,
   SET_CHAMPIONS,
   SET_ITEMS,
-  SET_PATCHES,
   SET_SELECTED_CHAMPION,
 } from '../types'
 
@@ -48,9 +47,7 @@ export const asyncActionHandlers: AsyncActionHandlers<Reducer<AppState, Action>,
   [FETCH_LOL_INFO]:
     ({ dispatch }) =>
     async (action) => {
-      // get patches
-      const patches = await dataDragonService.getPatches()
-      const latestPatch = patches[0]
+      const latestPatch = await dataDragonService.getLatestPatch()
 
       // get basic lol data from DDragon
       const ddragonChampions = await dataDragonService.getChampions(latestPatch)
@@ -60,7 +57,6 @@ export const asyncActionHandlers: AsyncActionHandlers<Reducer<AppState, Action>,
       // get detail lol data from DDragon
       const detailedInfo = await dataDragonService.getChampion(latestPatch, basicInfo?.name || '')
 
-      dispatch({ type: SET_PATCHES, payload: patches })
       dispatch({ type: SET_CHAMPIONS, payload: ddragonChampions })
       dispatch({
         type: SET_SELECTED_CHAMPION,
