@@ -298,7 +298,7 @@ export const Models: NextPage = () => {
           selected={searchValue}
           afterLeave={afterLeave}
           displayValue={(model: Asset) => model?.name ?? ''}
-          classes={{ box: 'z-20 w-72' }}
+          classes={{ box: 'z-10 w-72' }}
           showIcon={false}
           placeholder='Search skins...'
         >
