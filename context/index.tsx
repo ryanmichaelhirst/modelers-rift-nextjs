@@ -10,11 +10,10 @@ import {
 import { Character } from '@utils/trpc'
 import { createContext, FC, PropsWithChildren, Reducer, useContext } from 'react'
 import { useReducerAsync } from 'use-reducer-async'
-import { SET_CHAMPIONS, SET_ITEMS } from '../types'
+import { SET_ITEMS } from '../types'
 import { asyncActionHandlers } from './async-actions'
 
 export const initialState: AppState = {
-  lolChampionsData: {},
   lolItemsData: {},
 }
 
@@ -63,11 +62,6 @@ export const reducer: Reducer<AppState, Action> = (state, action) => {
       return {
         ...state,
         animations: action.payload?.sort(),
-      }
-    case SET_CHAMPIONS:
-      return {
-        ...state,
-        lolChampionsData: action.payload,
       }
     case SET_ITEMS:
       return {

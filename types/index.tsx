@@ -128,14 +128,12 @@ export type ChampionDetailedInfo = Omit<ChampionBasicInfo, 'square_asset' | 'ver
  * React Context
  */
 export interface AppState {
-  lolChampionsData: Record<string, any>
   lolItemsData: Record<string, Item>
   animations?: string[]
   currentCharacter?: null | (Character & { skin?: string })
 }
 
 export const SET_SELECTED_SKIN = 'SET_SELECTED_SKIN'
-export const SET_CHAMPIONS = 'SET_CHAMPIONS'
 export const SET_ITEMS = 'SET_LOL_ITEMS'
 export const SET_ANIMATIONS = 'SET_ANIMATIONS'
 export const SET_CURRENT_CHARACTER = 'SET_CURRENT_CHARACTER'
@@ -144,10 +142,6 @@ export type Action =
   | {
       type: typeof SET_SELECTED_SKIN
       payload: string
-    }
-  | {
-      type: typeof SET_CHAMPIONS
-      payload: Record<string, ChampionBasicInfo>
     }
   | {
       type: typeof SET_ITEMS
@@ -162,17 +156,11 @@ export type Action =
       payload: Character
     }
 
-export const FETCH_LOL_INFO = 'FETCH_LOL_INFO'
 export const FETCH_LOL_ITEMS = 'FETCH_LOL_ITEMS'
 
-export type AsyncAction =
-  | {
-      type: typeof FETCH_LOL_INFO
-      payload?: null
-    }
-  | {
-      type: typeof FETCH_LOL_ITEMS
-      payload: string
-    }
+export type AsyncAction = {
+  type: typeof FETCH_LOL_ITEMS
+  payload: string
+}
 
 export type ContextDispatch = React.Dispatch<AsyncAction | Action>
