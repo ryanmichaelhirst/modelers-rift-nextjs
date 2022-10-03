@@ -121,19 +121,3 @@ export type ChampionDetailedInfo = Omit<ChampionBasicInfo, 'square_asset' | 'ver
   skins?: { chromas?: boolean; id?: string; name?: string; num?: number }[]
   spells?: Spell[]
 }
-
-/**
- * React Context
- */
-export interface AppState {
-  animations?: string[]
-}
-
-export const SET_ANIMATIONS = 'SET_ANIMATIONS'
-
-export type Action = {
-  type: typeof SET_ANIMATIONS
-  payload?: string[]
-}
-
-export type ContextDispatch = React.Dispatch<Action>

@@ -2,7 +2,6 @@ import Aatrox from '@assets/Aatrox.png'
 import { Button } from '@components/button'
 import { Card } from '@components/card'
 import { Carousel } from '@components/carousel'
-import { useAppContext } from '@context/index'
 import {
   ArrowCircleRightIcon,
   ChevronDownIcon,
@@ -17,7 +16,6 @@ import { FC } from 'react'
 
 export const Home: FC = () => {
   const router = useRouter()
-  const [, dispatch] = useAppContext()
 
   const onExplore = () => {
     // TODO: set current character in context

@@ -15,7 +15,7 @@
     "next:lint": "next lint",
     "lint": "eslint . --ext ts --ext tsx --fix",
     "bin": "ts-node -r dotenv/config --project tsconfig.node.json -r tsconfig-paths/register bin/index",
-    "prettier": "npx prettier --write bin components context lib pages styles types utils",
+    "prettier": "npx prettier --write bin components lib pages styles types utils",
     "tunnel": "cloudflared tunnel --config cloudflare.yaml run"
   },
   "engines": {
