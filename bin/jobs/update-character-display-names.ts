@@ -1,5 +1,4 @@
 import { dataDragonService } from '@lib/ddragon'
-import { logger } from '@lib/logger'
 import { prismaService } from '@lib/prisma'
 
 export default async () => {
@@ -20,7 +19,5 @@ export default async () => {
         displayName,
       },
     })
-
-    logger.info(result)
   }
 }

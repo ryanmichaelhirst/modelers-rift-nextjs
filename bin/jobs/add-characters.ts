@@ -1,6 +1,7 @@
 import { logger } from '@lib/logger'
 import { prismaService } from '@lib/prisma'
 import { awsS3Service } from 'bin/services/aws-s3-service'
+import updateCharacterDisplayNames from './update-character-display-names'
 
 /**
  * Average Runtime: 3.08s
@@ -25,6 +26,8 @@ export const addCharacters = async () => {
     },
     { prefix: 'models/', delimiter: '/' },
   )
+
+  await updateCharacterDisplayNames()
 }
 
 export default addCharacters
