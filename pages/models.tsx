@@ -39,12 +39,6 @@ const Tab: FC<PropsWithChildren<{ onClick: any; tab: string; id: string }>> = ({
   </p>
 )
 
-const defaultCharacter = {
-  name: 'aatrox',
-  displayName: 'Aatrox',
-  skin: 'skin0',
-}
-
 export const Models: NextPage = () => {
   const character = useModelStore((state) => state.character)
   const skin = useModelStore((state) => state.skin)
@@ -54,7 +48,7 @@ export const Models: NextPage = () => {
     'character.get',
     {
       filter: {
-        nameEq: character?.name ?? defaultCharacter.name,
+        nameEq: character?.name,
       },
       includeAssets: true,
     },
@@ -153,7 +147,7 @@ export const Models: NextPage = () => {
       return
     }
 
-    const characterName = character?.name ?? defaultCharacter.name
+    const characterName = character?.name
 
     const signedUrl = await fetch(`/api/aws/signedUrl`, {
       method: 'POST',
@@ -285,9 +279,7 @@ export const Models: NextPage = () => {
       </div>
       <div className='md:w-4/6 md:min-h-full'>
         <div className='flex items-center mb-4'>
-          <span className='mr-6 text-lg'>
-            {character?.displayName ?? defaultCharacter.displayName}
-          </span>
+          <span className='mr-6 text-lg'>{character?.displayName}</span>
           <Button
             onClick={onExport}
             text='Download'
@@ -330,7 +322,7 @@ export const Models: NextPage = () => {
                         model?.name?.includes('Chroma')
                           ? '/no-image.jpg'
                           : dataDragonService.getSplashArtLink(
-                              character?.displayName ?? defaultCharacter.displayName,
+                              character?.displayName,
                               model?.skin?.replace('skin', '') ?? '',
                             )
                       }

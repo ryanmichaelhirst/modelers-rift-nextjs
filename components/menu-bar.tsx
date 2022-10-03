@@ -14,10 +14,11 @@ import { useModelStore } from 'store'
 
 export const MenuBar: FC = () => {
   const router = useRouter()
-  const [page, setPage] = useState('home')
-  const [selected, setSelected] = useState<Character>()
-  const [query, setQuery] = useState('')
+  const character = useModelStore((state) => state.character)
   const setCharacter = useModelStore((state) => state.setCharacter)
+
+  const [page, setPage] = useState('home')
+  const [query, setQuery] = useState('')
 
   const logout = trpc.useMutation('user.logout')
   const { data: loginData, refetch } = trpc.useQuery(['user.current'])
@@ -67,7 +68,6 @@ export const MenuBar: FC = () => {
   }
 
   const onSearch = (character: Character) => {
-    setSelected(character)
     if (!character?.displayName) return
 
     setCharacter(character)
@@ -102,7 +102,7 @@ export const MenuBar: FC = () => {
         <ComboBox
           onInput={onInput}
           onSearch={onSearch}
-          selected={selected}
+          selected={character}
           afterLeave={afterLeave}
           displayValue={(character: Character) => character?.displayName ?? ''}
           classes={{ box: 'z-30' }}
