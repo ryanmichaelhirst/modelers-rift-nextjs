@@ -4,6 +4,7 @@ import { redisService, Session } from '@lib/redis'
 import * as trpc from '@trpc/server'
 import * as trpcNext from '@trpc/server/adapters/next'
 import { characterRouter } from 'routers/character'
+import { donationRouter } from 'routers/donation'
 import { githubRouter } from 'routers/github'
 import { stripeRouter } from 'routers/stripe'
 import { userRouter } from 'routers/user'
@@ -88,6 +89,7 @@ export const appRouter = createRouter()
   .merge('user.', userRouter)
   .merge('github.', githubRouter)
   .merge('stripe.', stripeRouter)
+  .merge('donation.', donationRouter)
 
 // export type definition of API
 export type AppRouter = typeof appRouter

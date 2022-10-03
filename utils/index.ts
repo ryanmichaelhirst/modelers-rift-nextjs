@@ -14,3 +14,9 @@ export const capitalize = (str?: string | null) => {
 
 export const toNumber = (value: string | number) =>
   typeof value === 'string' ? parseInt(value) : value
+
+export const toDollarAmount = (value: string | number) => {
+  const amount = toNumber(value)
+
+  return `$${(amount / 100).toFixed(2)}`
+}

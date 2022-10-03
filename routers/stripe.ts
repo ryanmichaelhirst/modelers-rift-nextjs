@@ -1,4 +1,5 @@
 import { stripe } from '@lib/stripe'
+import { toDollarAmount } from '@utils/index'
 import sortBy from 'lodash.sortby'
 import { z } from 'zod'
 import { createRouter } from '../pages/api/trpc/[trpc]'
@@ -11,18 +12,20 @@ export const stripeRouter = createRouter().query('products.list', {
       limit: input.limit ?? 10,
     })
 
-    const productsWithPrices = products.data.map((product) => {
+    const productsWithDollarAmounts = products.data.map((product) => {
       const stripePrice = prices.data.find((price) => price.id === product.default_price)
-      const dollarPrice = stripePrice?.unit_amount ? stripePrice.unit_amount / 100 : undefined
+      const dollarAmount = stripePrice?.unit_amount
+        ? toDollarAmount(stripePrice.unit_amount)
+        : undefined
 
       return {
         ...product,
-        dollarPrice,
+        dollarAmount,
         imageUrl: product.images[0],
       }
     })
 
-    const sortedProducts = sortBy(productsWithPrices, ['dollarPrice'])
+    const sortedProducts = sortBy(productsWithDollarAmounts, ['dollarAmount'])
 
     return { products: sortedProducts }
   },

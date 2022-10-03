@@ -5,17 +5,17 @@ import { FC, useEffect, useState } from 'react'
 const Product: FC<{
   id: string
   name: string
-  price?: number
+  dollarAmount?: string
   imageUrl: string
   userId?: number
-}> = ({ id, name, price, imageUrl, userId }) => {
+}> = ({ id, name, dollarAmount, imageUrl, userId }) => {
   return (
     <div className='flex-1 rounded mr-2'>
       <div className='flex items-center p-3 border border border-solid border-b-0 rounded-t'>
         <Image src={imageUrl} alt={`Image for ${name}`} width='60px' height='80px' />
         <div className='description'>
           <h3>{name}</h3>
-          <h5>${price?.toFixed(2)}</h5>
+          <h5>{dollarAmount}</h5>
         </div>
       </div>
       <div className='bg-gray-100 p-3 rounded-b border border-solid border-b border-t-0'>
@@ -62,7 +62,7 @@ export default () => {
         <Product
           id={p.id}
           name={p.name}
-          price={p.dollarPrice}
+          dollarAmount={p.dollarAmount}
           imageUrl={p.imageUrl}
           userId={userData?.id}
         />

@@ -132,6 +132,9 @@ export class PrismaService {
 
   createDonation = async (args: Prisma.DonationCreateArgs) =>
     await this.client.donation.create(args)
+
+  finyManyDonations = async (args: Prisma.DonationFindManyArgs) =>
+    await this.client.donation.findMany(args)
 }
 
 // PrismaClient is attached to the `global` object in development to prevent
