@@ -1,6 +1,6 @@
-import { Button } from '@components/button'
+import { Button } from '@/components/button'
+import { trpc } from '@/utils/trpc'
 import { Dialog } from '@headlessui/react'
-import { trpc } from '@utils/trpc'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 

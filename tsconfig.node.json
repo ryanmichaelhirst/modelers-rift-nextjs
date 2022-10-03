@@ -12,9 +12,7 @@
     "downlevelIteration": true,
     "baseUrl": ".",
     "paths": {
-      "@customtypes/*": ["types/*"],
-      "@lib/*": ["lib/*"],
-      "@utils/*": ["utils/*"]
+      "@/*": ["*"]
     }
   },
   "include": ["."],

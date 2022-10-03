@@ -1,4 +1,4 @@
-import { logger } from '@lib/logger'
+import { logger } from '@/lib/logger'
 import fs from 'fs'
 import path from 'path'
 

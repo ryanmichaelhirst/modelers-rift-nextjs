@@ -1,5 +1,5 @@
-import { logger } from '@lib/logger'
-import { prismaService } from '@lib/prisma'
+import { logger } from '@/lib/logger'
+import { prismaService } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
 import { addAssets } from 'bin/jobs/add-assets'
 import { addCharacters } from 'bin/jobs/add-characters'

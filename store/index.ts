@@ -1,4 +1,4 @@
-import { Character } from '@utils/trpc'
+import { Character } from '@/utils/trpc'
 import create from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
 

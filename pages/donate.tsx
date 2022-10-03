@@ -1,4 +1,4 @@
-import { trpc } from '@utils/trpc'
+import { trpc } from '@/utils/trpc'
 import Image from 'next/image'
 import { FC, useEffect, useState } from 'react'
 

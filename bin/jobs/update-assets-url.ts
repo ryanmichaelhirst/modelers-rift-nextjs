@@ -1,4 +1,4 @@
-import { prismaService } from '@lib/prisma'
+import { prismaService } from '@/lib/prisma'
 
 export const updateAssetsUrl = async () => {
   const modelAssets = await prismaService.findManyAssets({

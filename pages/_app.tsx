@@ -1,5 +1,5 @@
-import ErrorBoundary from '@components/error-boundary'
-import { Layout } from '@components/layout'
+import ErrorBoundary from '@/components/error-boundary'
+import { Layout } from '@/components/layout'
 import { withTRPC } from '@trpc/next'
 import 'abort-controller/polyfill'
 import { AppType } from 'next/dist/shared/lib/utils'

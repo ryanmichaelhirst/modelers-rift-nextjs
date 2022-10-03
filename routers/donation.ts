@@ -1,4 +1,4 @@
-import { toDollarAmount } from '@utils/index'
+import { toDollarAmount } from '@/utils/index'
 import { z } from 'zod'
 import { createRouter } from '../pages/api/trpc/[trpc]'
 

@@ -1,7 +1,7 @@
-import { MenuBar } from '@components/menu-bar'
-import { trpc } from '@utils/trpc'
+import { MenuBar } from '@/components/menu-bar'
+import { useModelStore } from '@/store'
+import { trpc } from '@/utils/trpc'
 import { FC, PropsWithChildren, useEffect } from 'react'
-import { useModelStore } from 'store'
 
 export const Layout: FC<PropsWithChildren> = ({ children }) => {
   const { data: defaultCharacter } = trpc.useQuery(['character.all', { page: 1, pageSize: 1 }])

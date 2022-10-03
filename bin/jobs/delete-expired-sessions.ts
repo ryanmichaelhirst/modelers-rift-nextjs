@@ -1,5 +1,5 @@
-import { logger } from '@lib/logger'
-import { redisService, Session } from '@lib/redis'
+import { logger } from '@/lib/logger'
+import { redisService, Session } from '@/lib/redis'
 
 /**
  * Average Runtime: 2.542s

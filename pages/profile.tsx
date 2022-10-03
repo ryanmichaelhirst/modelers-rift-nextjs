@@ -1,5 +1,5 @@
-import { Button } from '@components/button'
-import { trpc } from '@utils/trpc'
+import { Button } from '@/components/button'
+import { trpc } from '@/utils/trpc'
 import { formatRFC7231 } from 'date-fns'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'

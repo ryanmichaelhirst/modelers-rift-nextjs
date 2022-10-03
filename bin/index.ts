@@ -1,4 +1,4 @@
-import { logger } from '@lib/logger'
+import { logger } from '@/lib/logger'
 import dotenv from 'dotenv'
 import path from 'path'
 import util from 'util'

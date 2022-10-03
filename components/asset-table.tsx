@@ -1,4 +1,4 @@
-import type { Asset } from '@utils/trpc'
+import type { Asset } from '@/utils/trpc'
 import classNames from 'classnames'
 
 export const AssetTable: React.FC<{

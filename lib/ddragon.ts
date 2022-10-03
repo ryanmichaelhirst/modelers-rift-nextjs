@@ -1,5 +1,5 @@
-import { HTTP_SAFE_CHAMPION_NAMES } from '@customtypes/constants'
-import { ChampionBasicInfo, ChampionDetailedInfo, Item } from '@customtypes/index'
+import { ChampionBasicInfo, ChampionDetailedInfo, Item } from '@/types'
+import { HTTP_SAFE_CHAMPION_NAMES } from '@/types/constants'
 import 'isomorphic-fetch' // polyfill fetch for frontend and backend
 
 class DataDragonService {

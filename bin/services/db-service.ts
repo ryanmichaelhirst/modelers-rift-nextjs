@@ -1,6 +1,6 @@
+import { logger } from '@/lib/logger'
+import { prismaService } from '@/lib/prisma'
 import { Database } from '@leafac/sqlite'
-import { logger } from '@lib/logger'
-import { prismaService } from '@lib/prisma'
 import { execSync } from 'child_process'
 import fs from 'fs'
 

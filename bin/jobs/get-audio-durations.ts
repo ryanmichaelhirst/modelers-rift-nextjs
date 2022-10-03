@@ -1,5 +1,5 @@
-import { logger } from '@lib/logger'
-import { prismaService } from '@lib/prisma'
+import { logger } from '@/lib/logger'
+import { prismaService } from '@/lib/prisma'
 import { soundTypes } from 'bin/types'
 import fs from 'fs'
 import { getAudioDurationInSeconds } from 'get-audio-duration'

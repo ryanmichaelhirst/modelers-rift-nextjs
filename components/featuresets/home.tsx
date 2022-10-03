@@ -1,7 +1,7 @@
-import Aatrox from '@assets/Aatrox.png'
-import { Button } from '@components/button'
-import { Card } from '@components/card'
-import { Carousel } from '@components/carousel'
+import Aatrox from '@/assets/Aatrox.png'
+import { Button } from '@/components/button'
+import { Card } from '@/components/card'
+import { Carousel } from '@/components/carousel'
 import {
   ArrowCircleRightIcon,
   ChevronDownIcon,

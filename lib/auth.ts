@@ -1,4 +1,4 @@
-import { redisService, Session } from '@lib/redis'
+import { redisService, Session } from '@/lib/redis'
 import { User } from '@prisma/client'
 import { addDays, addMinutes, formatRFC7231 } from 'date-fns'
 import { v4 as uuidv4 } from 'uuid'

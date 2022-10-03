@@ -1,4 +1,4 @@
-import { createIssue } from '@lib/github'
+import { createIssue } from '@/lib/github'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 import { createRouter } from '../pages/api/trpc/[trpc]'

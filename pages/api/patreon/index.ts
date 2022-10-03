@@ -1,4 +1,4 @@
-import { prismaService } from '@lib/prisma'
+import { prismaService } from '@/lib/prisma'
 import { Prisma } from '@prisma/client'
 import crypto from 'crypto'
 import type { NextApiRequest, NextApiResponse } from 'next'

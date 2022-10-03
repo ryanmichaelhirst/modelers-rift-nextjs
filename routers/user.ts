@@ -1,4 +1,9 @@
-import { createAccessToken, createRefreshToken, isTokenExpired, revokeAccessToken } from '@lib/auth'
+import {
+  createAccessToken,
+  createRefreshToken,
+  isTokenExpired,
+  revokeAccessToken,
+} from '@/lib/auth'
 import { TRPCError } from '@trpc/server'
 import bcrypt from 'bcryptjs'
 import { formatRFC7231 } from 'date-fns'

@@ -1,6 +1,6 @@
-import { dataDragonService } from '@lib/ddragon'
-import { logger } from '@lib/logger'
-import { prismaService } from '@lib/prisma'
+import { dataDragonService } from '@/lib/ddragon'
+import { logger } from '@/lib/logger'
+import { prismaService } from '@/lib/prisma'
 
 export default async () => {
   const assets = await prismaService.client.asset.findMany()

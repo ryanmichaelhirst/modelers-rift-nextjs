@@ -1,6 +1,6 @@
-import { prismaService } from '@lib/prisma'
+import { prismaService } from '@/lib/prisma'
+import { toNumber } from '@/utils/index'
 import { Prisma } from '@prisma/client'
-import { toNumber } from '@utils/index'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 interface StripeEvent {

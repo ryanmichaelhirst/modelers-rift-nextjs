@@ -1,5 +1,5 @@
+import { BUCKET_NAME, s3 } from '@/lib/s3'
 import { GetObjectCommand } from '@aws-sdk/client-s3'
-import { BUCKET_NAME, s3 } from '@lib/s3'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

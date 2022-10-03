@@ -1,5 +1,5 @@
-import { stripe } from '@lib/stripe'
-import { toDollarAmount } from '@utils/index'
+import { stripe } from '@/lib/stripe'
+import { toDollarAmount } from '@/utils/index'
 import sortBy from 'lodash.sortby'
 import { z } from 'zod'
 import { createRouter } from '../pages/api/trpc/[trpc]'

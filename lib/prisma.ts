@@ -1,5 +1,5 @@
-import { HTTP_SAFE_CHAMPION_NAMES } from '@customtypes/constants'
-import { logger } from '@lib/logger'
+import { logger } from '@/lib/logger'
+import { HTTP_SAFE_CHAMPION_NAMES } from '@/types/constants'
 import { PrismaClient, type Prisma } from '@prisma/client'
 
 export interface Asset {

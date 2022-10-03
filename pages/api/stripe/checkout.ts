@@ -1,6 +1,6 @@
-import { prismaService } from '@lib/prisma'
-import { stripe } from '@lib/stripe'
-import { toNumber } from '@utils/index'
+import { prismaService } from '@/lib/prisma'
+import { stripe } from '@/lib/stripe'
+import { toNumber } from '@/utils/index'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 const DOMAIN_URL =

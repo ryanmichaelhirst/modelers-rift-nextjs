@@ -1,5 +1,5 @@
-import { dataDragonService } from '@lib/ddragon'
-import { prismaService } from '@lib/prisma'
+import { dataDragonService } from '@/lib/ddragon'
+import { prismaService } from '@/lib/prisma'
 
 export default async () => {
   const champions = await prismaService.client.character.findMany({

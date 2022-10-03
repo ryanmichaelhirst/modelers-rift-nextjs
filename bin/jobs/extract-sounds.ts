@@ -1,4 +1,4 @@
-import { logger } from '@lib/logger'
+import { logger } from '@/lib/logger'
 import { fileService } from 'bin/services/file-service'
 import type { Sound } from 'bin/types'
 import { soundTypes } from 'bin/types'

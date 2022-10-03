@@ -1,5 +1,5 @@
-import { Button } from '@components/button'
-import { trpc } from '@utils/trpc'
+import { Button } from '@/components/button'
+import { trpc } from '@/utils/trpc'
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'

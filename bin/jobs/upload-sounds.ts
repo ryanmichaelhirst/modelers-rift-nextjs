@@ -1,5 +1,5 @@
-import { logger } from '@lib/logger'
-import { BUCKET_NAME } from '@lib/s3'
+import { logger } from '@/lib/logger'
+import { BUCKET_NAME } from '@/lib/s3'
 import { soundTypes } from 'bin/types'
 import { execSync } from 'child_process'
 import fs from 'fs'

@@ -1,4 +1,4 @@
-import { logger } from '@lib/logger'
+import { logger } from '@/lib/logger'
 import { exec, execSync } from 'child_process'
 import fs from 'fs'
 
