@@ -3,7 +3,14 @@ import { ChampionBasicInfo, ChampionDetailedInfo, Item } from '@customtypes/inde
 import 'isomorphic-fetch' // polyfill fetch for frontend and backend
 
 class DataDragonService {
-  constructor() {}
+  private latestPatch: string
+
+  constructor() {
+    this.latestPatch = '12.18.1'
+  }
+
+  // run get-lol-patches to find the latest patch
+  getLatestPatch = () => this.latestPatch
 
   // given 'aurelionsol' returns 'AurelionSol'
   getJsonName = (name: string) => {

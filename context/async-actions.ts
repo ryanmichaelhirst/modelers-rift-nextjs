@@ -25,14 +25,15 @@ export const asyncActionHandlers: AsyncActionHandlers<Reducer<AppState, Action>,
   [FETCH_NEW_CHAMPION]:
     ({ dispatch, getState }) =>
     async (action) => {
-      const { selectedPatch, lolChampionsData } = getState()
+      const latestPatch = dataDragonService.getLatestPatch()
+      const { lolChampionsData } = getState()
       const name = dataDragonService.getJsonName(action.payload)?.toLowerCase() || ''
 
       // get basic lol data from DDragon
       const basicInfo = lolChampionsData[name]
 
       // get detail lol data from DDragon
-      const detailedInfo = await dataDragonService.getChampion(selectedPatch, basicInfo?.name || '')
+      const detailedInfo = await dataDragonService.getChampion(latestPatch, basicInfo?.name || '')
       const skin = name === 'akali' ? 'skin1' : 'skin0'
 
       dispatch({
