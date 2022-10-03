@@ -19,9 +19,9 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { FC, PropsWithChildren, Suspense, useEffect, useRef, useState } from 'react'
 
-const DynamicModel = dynamic(() => import('../components/model'), {
-  suspense: true,
-})
+// TODO: { suspense: true } triggers nextjs error?
+// https://nextjs.org/docs/messages/invalid-dynamic-suspense
+const DynamicModel = dynamic(() => import('../components/model'), {})
 
 const Tab: FC<PropsWithChildren<{ onClick: any; tab: string; id: string }>> = ({
   tab,
