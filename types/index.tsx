@@ -1,5 +1,3 @@
-import type { Character } from '@utils/trpc'
-
 /**
  * Components
  */
@@ -129,25 +127,13 @@ export type ChampionDetailedInfo = Omit<ChampionBasicInfo, 'square_asset' | 'ver
  */
 export interface AppState {
   animations?: string[]
-  currentCharacter?: null | (Character & { skin?: string })
 }
 
-export const SET_SELECTED_SKIN = 'SET_SELECTED_SKIN'
 export const SET_ANIMATIONS = 'SET_ANIMATIONS'
-export const SET_CURRENT_CHARACTER = 'SET_CURRENT_CHARACTER'
 
-export type Action =
-  | {
-      type: typeof SET_SELECTED_SKIN
-      payload: string
-    }
-  | {
-      type: typeof SET_ANIMATIONS
-      payload?: string[]
-    }
-  | {
-      type: typeof SET_CURRENT_CHARACTER
-      payload: Character
-    }
+export type Action = {
+  type: typeof SET_ANIMATIONS
+  payload?: string[]
+}
 
 export type ContextDispatch = React.Dispatch<Action>

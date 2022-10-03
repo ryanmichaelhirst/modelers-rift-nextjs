@@ -3,9 +3,7 @@ import { Button } from '@components/button'
 import { ComboBox } from '@components/combo-box'
 import { Modal } from '@components/modal'
 import type { Animator } from '@components/model'
-import { useAppContext } from '@context/index'
 import { AssetType, HTTP_SAFE_CHAMPION_NAMES } from '@customtypes/constants'
-import { SET_SELECTED_SKIN } from '@customtypes/index'
 import { Combobox } from '@headlessui/react'
 import { DownloadIcon, PauseIcon, PlayIcon } from '@heroicons/react/outline'
 import { dataDragonService } from '@lib/ddragon'
@@ -17,6 +15,7 @@ import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { FC, PropsWithChildren, Suspense, useEffect, useRef, useState } from 'react'
+import { useModelStore } from 'store'
 
 // TODO: { suspense: true } triggers nextjs error?
 // https://nextjs.org/docs/messages/invalid-dynamic-suspense
@@ -47,13 +46,15 @@ const defaultCharacter = {
 }
 
 export const Models: NextPage = () => {
-  const [{ currentCharacter }, dispatch] = useAppContext()
+  const character = useModelStore((state) => state.character)
+  const skin = useModelStore((state) => state.skin)
+  const setSkin = useModelStore((state) => state.setSkin)
 
   const { data } = trpc.useQuery([
     'character.get',
     {
       filter: {
-        nameEq: currentCharacter?.name ?? defaultCharacter.name,
+        nameEq: character?.name ?? defaultCharacter.name,
       },
       includeAssets: true,
     },
@@ -73,7 +74,7 @@ export const Models: NextPage = () => {
 
   const [query, setQuery] = useState('')
   const models = data?.assets?.filter((a) => a?.type === 'model') ?? []
-  const model = models.find((m) => m?.skin === (currentCharacter?.skin ?? defaultCharacter.skin))
+  const model = models.find((m) => m?.skin === skin)
   const modelUrl = model?.url
   const assets = data?.assets?.filter((a) => {
     return [AssetType.SFX, AssetType.VO].includes(a?.type as AssetType)
@@ -130,11 +131,7 @@ export const Models: NextPage = () => {
     if (!value || !value.skin) return
 
     setSearch(value)
-
-    dispatch({
-      type: SET_SELECTED_SKIN,
-      payload: value.skin,
-    })
+    setSkin(value.skin)
   }
 
   const onRowClick = (asset?: Asset) => () => {
@@ -156,8 +153,7 @@ export const Models: NextPage = () => {
       return
     }
 
-    const characterName = currentCharacter?.name ?? defaultCharacter.name
-    const skin = currentCharacter?.skin ?? defaultCharacter.skin
+    const characterName = character?.name ?? defaultCharacter.name
 
     const signedUrl = await fetch(`/api/aws/signedUrl`, {
       method: 'POST',
@@ -290,7 +286,7 @@ export const Models: NextPage = () => {
       <div className='md:w-4/6 md:min-h-full'>
         <div className='flex items-center mb-4'>
           <span className='mr-6 text-lg'>
-            {currentCharacter?.displayName ?? defaultCharacter.displayName}
+            {character?.displayName ?? defaultCharacter.displayName}
           </span>
           <Button
             onClick={onExport}
@@ -334,7 +330,7 @@ export const Models: NextPage = () => {
                         model?.name?.includes('Chroma')
                           ? '/no-image.jpg'
                           : dataDragonService.getSplashArtLink(
-                              currentCharacter?.displayName ?? defaultCharacter.displayName,
+                              character?.displayName ?? defaultCharacter.displayName,
                               model?.skin?.replace('skin', '') ?? '',
                             )
                       }
