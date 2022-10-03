@@ -94,7 +94,7 @@ class DataDragonService {
     `https://universe.leagueoflegends.com/${region}/champion/${name}/`
 
   // expects name formatted as 'Tahm Kench'
-  getSplashArtLink = (displayName: string, skinNum: number | string) =>
+  getSplashArtLink = (displayName: string | null | undefined, skinNum: number | string) =>
     `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${displayName?.replace(
       ' ',
       '',

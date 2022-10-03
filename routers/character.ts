@@ -7,11 +7,13 @@ export const characterRouter = createRouter()
       .object({
         page: z.number().nullish(),
         pageSize: z.number().nullish(),
-        filter: z.object({
-          nameEq: z.string().nullish(),
-          typeEq: z.string().nullish(),
-        }),
-        includeAssets: z.boolean(),
+        filter: z
+          .object({
+            nameEq: z.string().nullish(),
+            typeEq: z.string().nullish(),
+          })
+          .nullish(),
+        includeAssets: z.boolean().optional(),
       })
       .nullish(),
     async resolve({ ctx, input }) {

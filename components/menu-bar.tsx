@@ -2,8 +2,6 @@ import PatreonButton from '@assets/patreon-button.webp'
 import { NavButton } from '@components/button'
 import { ComboBox } from '@components/combo-box'
 import { Dropdown } from '@components/dropdown'
-import { useAppContext } from '@context/index'
-import { FETCH_NEW_CHAMPION } from '@customtypes/index'
 import { Combobox } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/solid'
 import type { Character } from '@utils/trpc'
@@ -12,13 +10,15 @@ import classNames from 'classnames'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { FC, useState } from 'react'
+import { useModelStore } from 'store'
 
 export const MenuBar: FC = () => {
   const router = useRouter()
+  const character = useModelStore((state) => state.character)
+  const setCharacter = useModelStore((state) => state.setCharacter)
+
   const [page, setPage] = useState('home')
-  const [selected, setSelected] = useState<Character>()
   const [query, setQuery] = useState('')
-  const [, dispatch] = useAppContext()
 
   const logout = trpc.useMutation('user.logout')
   const { data: loginData, refetch } = trpc.useQuery(['user.current'])
@@ -68,10 +68,9 @@ export const MenuBar: FC = () => {
   }
 
   const onSearch = (character: Character) => {
-    setSelected(character)
     if (!character?.displayName) return
 
-    dispatch({ type: FETCH_NEW_CHAMPION, payload: character.displayName })
+    setCharacter(character)
     router.push(`/models`)
   }
 
@@ -103,7 +102,7 @@ export const MenuBar: FC = () => {
         <ComboBox
           onInput={onInput}
           onSearch={onSearch}
-          selected={selected}
+          selected={character}
           afterLeave={afterLeave}
           displayValue={(character: Character) => character?.displayName ?? ''}
           classes={{ box: 'z-30' }}

@@ -1,27 +1,25 @@
 import { MenuBar } from '@components/menu-bar'
-import { useAppContext } from '@context/index'
-import { FETCH_LOL_INFO } from '@customtypes/index'
+import { trpc } from '@utils/trpc'
 import { FC, PropsWithChildren, useEffect } from 'react'
+import { useModelStore } from 'store'
 
-const PageWrapper: FC<PropsWithChildren> = ({ children }) => {
-  const [, dispatch] = useAppContext()
+export const Layout: FC<PropsWithChildren> = ({ children }) => {
+  const { data: defaultCharacter } = trpc.useQuery(['character.all', { page: 1, pageSize: 1 }])
+  const character = useModelStore((state) => state.character)
+  const setCharacter = useModelStore((state) => state.setCharacter)
 
   useEffect(() => {
-    dispatch({ type: FETCH_LOL_INFO })
-  }, [])
+    if (!character && defaultCharacter) {
+      setCharacter(defaultCharacter.collection[0])
+    }
+  }, [character, defaultCharacter])
 
-  if (children) return <>{children}</>
-
-  return null
-}
-
-export const Layout: FC<PropsWithChildren> = ({ children }) => (
-  <div className='min-h-full'>
-    <header className='sticky top-0 bg-white z-20 h-[10vh]'>
-      <MenuBar />
-    </header>
-    <div className='mx-4 md:mx-16 h-[90vh]'>
-      <PageWrapper>{children}</PageWrapper>
+  return (
+    <div className='min-h-full'>
+      <header className='sticky top-0 bg-white z-20 h-[10vh]'>
+        <MenuBar />
+      </header>
+      <div className='mx-4 md:mx-16 h-[90vh]'>{children}</div>
     </div>
-  </div>
-)
+  )
+}

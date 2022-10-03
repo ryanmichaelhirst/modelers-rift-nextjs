@@ -2,8 +2,6 @@ import Aatrox from '@assets/Aatrox.png'
 import { Button } from '@components/button'
 import { Card } from '@components/card'
 import { Carousel } from '@components/carousel'
-import { useAppContext } from '@context/index'
-import { FETCH_NEW_CHAMPION } from '@customtypes/index'
 import {
   ArrowCircleRightIcon,
   ChevronDownIcon,
@@ -18,10 +16,9 @@ import { FC } from 'react'
 
 export const Home: FC = () => {
   const router = useRouter()
-  const [, dispatch] = useAppContext()
 
   const onExplore = () => {
-    dispatch({ type: FETCH_NEW_CHAMPION, payload: 'Aatrox' })
+    // TODO: set current character in context
     router.push('models')
   }
 

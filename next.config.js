@@ -4,7 +4,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 module.exports = withBundleAnalyzer({
   eslint: {
-    dirs: ['components', 'context', 'lib', 'pages', 'routers', 'types', 'utils'],
+    dirs: ['components', 'lib', 'pages', 'routers', 'types', 'utils'],
   },
   images: {
     domains: ['ddragon.leagueoflegends.com', 'files.stripe.com'],
