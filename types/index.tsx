@@ -156,11 +156,4 @@ export type Action =
       payload: Character
     }
 
-export const FETCH_LOL_ITEMS = 'FETCH_LOL_ITEMS'
-
-export type AsyncAction = {
-  type: typeof FETCH_LOL_ITEMS
-  payload: string
-}
-
-export type ContextDispatch = React.Dispatch<AsyncAction | Action>
+export type ContextDispatch = React.Dispatch<Action>

@@ -1,17 +1,14 @@
 import {
   Action,
   AppState,
-  AsyncAction,
   ContextDispatch,
   SET_ANIMATIONS,
   SET_CURRENT_CHARACTER,
   SET_SELECTED_SKIN,
 } from '@customtypes/index'
 import { Character } from '@utils/trpc'
-import { createContext, FC, PropsWithChildren, Reducer, useContext } from 'react'
-import { useReducerAsync } from 'use-reducer-async'
+import { createContext, FC, PropsWithChildren, Reducer, useContext, useReducer } from 'react'
 import { SET_ITEMS } from '../types'
-import { asyncActionHandlers } from './async-actions'
 
 export const initialState: AppState = {
   lolItemsData: {},
@@ -26,11 +23,7 @@ export const StoreProvider: FC<PropsWithChildren<{ initialState: AppState; reduc
   initialState,
   reducer,
 }) => {
-  const [state, dispatch] = useReducerAsync<
-    Reducer<AppState, Action>,
-    AsyncAction,
-    AsyncAction | Action
-  >(reducer, initialState, asyncActionHandlers)
+  const [state, dispatch] = useReducer<Reducer<AppState, Action>>(reducer, initialState)
 
   return <Store.Provider value={[state, dispatch]}>{children}</Store.Provider>
 }
