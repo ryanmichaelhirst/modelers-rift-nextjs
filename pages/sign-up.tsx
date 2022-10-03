@@ -1,16 +1,10 @@
 import { Button } from '@/components/button'
+import { PasswordInput } from '@/components/password-input'
 import { trpc } from '@/utils/trpc'
-import {
-  AnnotationIcon,
-  DocumentDownloadIcon,
-  EyeIcon,
-  EyeOffIcon,
-  StarIcon,
-} from '@heroicons/react/outline'
+import { AnnotationIcon, DocumentDownloadIcon, StarIcon } from '@heroicons/react/outline'
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 const SignUp: NextPage = () => {
@@ -31,7 +25,6 @@ const SignUp: NextPage = () => {
   })
   const signUp = trpc.useMutation('user.signup')
   const router = useRouter()
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
   const onSubmit = handleSubmit(async (data) => {
     const { name, email, password } = data
@@ -99,26 +92,10 @@ const SignUp: NextPage = () => {
 
         <div className='flex flex-col mb-4'>
           <label className='mb-1 text-tertiary'>Password</label>
-          <div className='flex relative items-center'>
-            <input
-              className='border border-solid border-slate-300 rounded text-slate-300 px-2 w-full'
-              placeholder='Password'
-              value={watch('password')}
-              {...register('password', { required: 'Password is required' })}
-              {...(isPasswordVisible ? { type: 'text' } : { type: 'password' })}
-            />
-            {isPasswordVisible ? (
-              <EyeOffIcon
-                className='text-slate-300 h-5 w-5 cursor-pointer w-1/5 absolute -right-3'
-                onClick={() => setIsPasswordVisible(false)}
-              />
-            ) : (
-              <EyeIcon
-                className='text-slate-300 h-5 w-5 cursor-pointer w-1/5 absolute -right-3'
-                onClick={() => setIsPasswordVisible(true)}
-              />
-            )}
-          </div>
+          <PasswordInput
+            value={watch('password')}
+            register={register('password', { required: 'Password is required' })}
+          />
 
           <span className='ml-2 text-red-600 mt-2'>
             {errors.password && <p>{errors.password.message}</p>}

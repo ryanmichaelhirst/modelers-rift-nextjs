@@ -14,7 +14,6 @@ export const useModelStore = create<ModelState>()(
     persist(
       (set) => ({
         skin: 'skin0',
-        animations: [],
         setSkin: (skin) => set((state) => ({ skin })),
         setCharacter: (character) => set((state) => ({ character })),
       }),

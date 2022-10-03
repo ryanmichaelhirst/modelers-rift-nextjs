@@ -1,4 +1,5 @@
 import { Button } from '@/components/button'
+import { PasswordInput } from '@/components/password-input'
 import { trpc } from '@/utils/trpc'
 import type { NextPage } from 'next'
 import Link from 'next/link'
@@ -74,11 +75,9 @@ const Login: NextPage = () => {
 
         <div className='flex flex-col mb-4'>
           <label className='mb-1 text-tertiary'>Password</label>
-          <input
-            className='border border-solid border-slate-300 rounded text-slate-300 px-2'
-            placeholder='Password'
+          <PasswordInput
             value={watch('password')}
-            {...register('password', { required: 'Password is required' })}
+            register={register('password', { required: 'Password is required' })}
           />
           <span className='ml-2 text-red-600 mt-2'>
             {errors.password && <p>{errors.password.message}</p>}
