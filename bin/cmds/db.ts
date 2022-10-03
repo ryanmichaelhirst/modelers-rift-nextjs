@@ -1,5 +1,6 @@
 import { logger } from '@lib/logger'
 import { prismaService } from '@lib/prisma'
+import bcrypt from 'bcryptjs'
 import { addAssets } from 'bin/jobs/add-assets'
 import { addCharacters } from 'bin/jobs/add-characters'
 import { uploadModels } from 'bin/jobs/upload-models'
@@ -13,6 +14,9 @@ export const seedAws = async () => {
   await uploadSounds()
 }
 
+/**
+ * Average runtime: 5:29.915 (m:ss.mmm)
+ */
 export const seedDb = async () => {
   // apply db migrations
   execSync(`npx prisma migrate dev`)
@@ -22,18 +26,19 @@ export const seedDb = async () => {
   const users = await prismaService.findManyUsers({ take: 100 })
   if (users.length === 0) {
     const usernames = ['test_user_1', 'test_user_2', 'test_user_3']
+    const hashedPassword = await bcrypt.hash('password', 10)
 
     for (const username of usernames) {
       await prismaService.createUser({
         data: {
           name: username,
           email: `${username}@gmail.com`,
-          password: 'password',
+          password: hashedPassword,
         },
       })
     }
 
-    logger.info('imported users')
+    logger.info('added test users')
   }
 
   // add characters
