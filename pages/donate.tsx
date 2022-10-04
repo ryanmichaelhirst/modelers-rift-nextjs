@@ -58,12 +58,9 @@ export default () => {
     </section>
   ) : (
     <section>
-      <div>
-        <div className='flex flex-col items-center'>
-          <p className='mb-6 text-3xl'>Make a Donation</p>
-          <p>Select an option below to make a donation through stripe</p>
-        </div>
-
+      <div className='mb-10 flex flex-col items-center'>
+        <h1 className='mb-6 text-3xl'>Make a Donation</h1>
+        <p>Select an option below to make a donation through stripe</p>
         <p>We appreciate any contribution you are able to make to Modeler's Rift!</p>
       </div>
       <div className='flex'>

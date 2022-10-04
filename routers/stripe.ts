@@ -1,5 +1,5 @@
 import { stripe } from '@/lib/stripe'
-import { toDollarAmount } from '@/utils/index'
+import { toDollarAmount, toDollarNumber } from '@/utils/index'
 import sortBy from 'lodash.sortby'
 import { z } from 'zod'
 import { createRouter } from '../pages/api/trpc/[trpc]'
@@ -21,11 +21,12 @@ export const stripeRouter = createRouter().query('products.list', {
       return {
         ...product,
         dollarAmount,
+        dollarNumber: toDollarNumber(stripePrice?.unit_amount),
         imageUrl: product.images[0],
       }
     })
 
-    const sortedProducts = sortBy(productsWithDollarAmounts, ['dollarAmount'])
+    const sortedProducts = sortBy(productsWithDollarAmounts, ['dollarNumber'])
 
     return { products: sortedProducts }
   },

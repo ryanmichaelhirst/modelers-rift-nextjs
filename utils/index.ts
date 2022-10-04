@@ -20,3 +20,11 @@ export const toDollarAmount = (value: string | number) => {
 
   return `$${(amount / 100).toFixed(2)}`
 }
+
+export const toDollarNumber = (value?: string | number | null) => {
+  if (!value) return 0
+
+  const amount = toNumber(value)
+
+  return amount / 100
+}
