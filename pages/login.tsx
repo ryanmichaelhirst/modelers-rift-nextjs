@@ -88,7 +88,7 @@ const Login: NextPage = () => {
           id='login'
           onClick={onSubmit}
           classes={{
-            button: 'mt-4 !py-2 !px-5 text-primary text-lg',
+            button: 'mt-4 !py-2 !px-5 text-lg',
           }}
           text={'Login'}
         />
