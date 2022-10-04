@@ -13,6 +13,7 @@ interface ButtonProps {
   iconPosition?: 'start' | 'end'
 }
 
+// TODO: change to className so tailwind-prettier organizes classes
 export const Button: FC<PropsWithChildren<ButtonProps>> = ({
   text,
   onClick,

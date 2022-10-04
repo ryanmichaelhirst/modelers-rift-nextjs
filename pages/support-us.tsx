@@ -8,55 +8,50 @@ export default () => {
   const router = useRouter()
 
   return (
-    <section>
-      <div>
-        <div className='flex flex-col items-center'>
-          <div
-            className='-mx-16 h-80 w-full bg-cover bg-no-repeat'
-            style={{
-              backgroundImage:
-                'url(https://cdn.mos.cms.futurecdn.net/2NQGX7WGDekmLQwhtzLRQP-1920-80.jpg.webp)',
-            }}
-          />
-          <Card classes='relative -top-20 px-10 bg-white'>
-            <p className='mb-6 text-3xl'>Support Us</p>
-            <Button
-              classes={{
-                button: 'shadow-lg px-6 py-2 text-xl rounded',
-              }}
-              onClick={() => router.push('/donate')}
-              text='Donate now'
+    <section className='relative z-0 flex flex-col items-center'>
+      <div
+        className='absolute top-0 -z-[1] -mx-16 h-80 w-full bg-cover bg-no-repeat'
+        style={{
+          backgroundImage:
+            'url(https://cdn.mos.cms.futurecdn.net/2NQGX7WGDekmLQwhtzLRQP-1920-80.jpg.webp)',
+        }}
+      />
+      <Card className='relative mt-60 flex w-1/2 flex-col items-center justify-center bg-opacity-100'>
+        <h1 className='mb-6 text-3xl'>Support Us</h1>
+        <Button
+          classes={{
+            button: 'shadow-lg px-6 py-2 text-xl rounded',
+          }}
+          onClick={() => router.push('/donate')}
+          text='Donate now'
+        />
+      </Card>
+      <Card className='my-12 border-black bg-opacity-100 p-8 text-lg'>
+        <p className='mb-4'>
+          Our models and champion assets will always be free to view. We strive to provide the best
+          modeling experience for the league community.
+        </p>
+        <p>
+          In order to maintain the site we offer unlimited downloads after a one time donation.
+          Hosting and downloading 3d assets is expensive. You can check out all operating costs
+          here.
+        </p>
+        <hr className='my-8' />
+        <p className='mb-4'>
+          If you would like to support the creator of this site and other works consider becoming a
+          patron!
+        </p>
+        <div className='flex justify-center'>
+          <div className='relative mx-4 h-[60px] w-[200px] cursor-pointer hover:opacity-50'>
+            <Image
+              layout='fill'
+              src={PatreonButton}
+              objectFit='contain'
+              onClick={() => window.open('https://www.patreon.com/ryanmichaelhirst', '_blank')}
             />
-          </Card>
-        </div>
-
-        <Card classes='p-8'>
-          <p className='mb-4'>
-            Our models and champion assets will always be free to view. We strive to provide the
-            best modeling experience for the league community.
-          </p>
-          <p className='mb-4'>
-            In order to maintain the site we offer unlimited downloads after a one time donation.
-            Hosting and downloading 3d assets is expensive. You can check out all operating costs
-            here.
-          </p>
-          <hr className='mb-4' />
-          <p className='mb-4'>
-            If you would like to support the creator of this site and other works consider becoming
-            a patron!
-          </p>
-          <div className='flex justify-center'>
-            <div className='relative mx-4 h-[30px] w-[100px] cursor-pointer hover:opacity-50'>
-              <Image
-                layout='fill'
-                src={PatreonButton}
-                objectFit='contain'
-                onClick={() => window.open('https://www.patreon.com/ryanmichaelhirst', '_blank')}
-              />
-            </div>
           </div>
-        </Card>
-      </div>
+        </div>
+      </Card>
     </section>
   )
 }
