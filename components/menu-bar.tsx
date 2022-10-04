@@ -1,4 +1,3 @@
-import PatreonButton from '@/assets/patreon-button.webp'
 import { NavButton } from '@/components/button'
 import { ComboBox } from '@/components/combo-box'
 import { Dropdown } from '@/components/dropdown'
@@ -147,7 +146,7 @@ export const MenuBar: FC = () => {
       </div>
 
       <div className='flex items-center'>
-        {['home', 'models', 'donate'].map((item) => (
+        {['home', 'models'].map((item) => (
           <NavButton
             id={item}
             onClick={onClick}
@@ -158,19 +157,24 @@ export const MenuBar: FC = () => {
             text={item}
           />
         ))}
+        <NavButton
+          id='support-us'
+          onClick={onClick}
+          text={'Support Us'}
+          classes={{
+            button: 'text-primary border-primary rounded shadow py-1 px-5',
+          }}
+        />
         {!loginData?.id && (
           <NavButton
             id='login'
             onClick={onClick}
-            text={'login'}
+            text={'Login'}
             classes={{
               button: 'text-primary border-primary rounded shadow py-1 px-5',
             }}
           />
         )}
-        <div className='w-[100px] h-[30px] relative mr-4 hover:opacity-50'>
-          <Image layout='fill' src={PatreonButton} objectFit='contain' />
-        </div>
         <Dropdown loggedIn={!!loginData?.id} onClick={onDropdownClick} />
       </div>
     </div>

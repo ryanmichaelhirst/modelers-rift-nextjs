@@ -57,16 +57,26 @@ export default () => {
       <p>{message}</p>
     </section>
   ) : (
-    <section className='flex'>
-      {data?.products.map((p) => (
-        <Product
-          id={p.id}
-          name={p.name}
-          dollarAmount={p.dollarAmount}
-          imageUrl={p.imageUrl}
-          userId={userData?.id}
-        />
-      ))}
+    <section>
+      <div>
+        <div className='flex flex-col items-center'>
+          <p className='text-3xl mb-6'>Make a Donation</p>
+          <p>Select an option below to make a donation through stripe</p>
+        </div>
+
+        <p>We appreciate any contribution you are able to make to Modeler's Rift!</p>
+      </div>
+      <div className='flex'>
+        {data?.products.map((p) => (
+          <Product
+            id={p.id}
+            name={p.name}
+            dollarAmount={p.dollarAmount}
+            imageUrl={p.imageUrl}
+            userId={userData?.id}
+          />
+        ))}
+      </div>
     </section>
   )
 }

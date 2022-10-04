@@ -19,7 +19,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
       <header className='sticky top-0 bg-white z-20 h-[10vh]'>
         <MenuBar />
       </header>
-      <div className='mx-4 md:mx-16 h-[90vh]'>{children}</div>
+      <div className='mx-4 md:mx-16 h-[90vh] my-6'>{children}</div>
     </div>
   )
 }
