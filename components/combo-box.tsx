@@ -3,6 +3,7 @@ import { SearchIcon } from '@heroicons/react/outline'
 import { SelectorIcon } from '@heroicons/react/solid'
 import classNames from 'classnames'
 import { FC, Fragment, PropsWithChildren } from 'react'
+import { twMerge } from 'tailwind-merge'
 
 export const ComboBox: FC<
   PropsWithChildren<{
@@ -28,7 +29,7 @@ export const ComboBox: FC<
 }) => {
   return (
     <Combobox value={selected} onChange={onSearch}>
-      <div className={classNames('relative', classes?.box)}>
+      <div className={twMerge('relative', classes?.box)}>
         <div className='flex item-center justify-center shadow rounded p-1'>
           {showIcon && <SearchIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />}
           <Combobox.Input
@@ -52,7 +53,7 @@ export const ComboBox: FC<
           afterLeave={afterLeave}
         >
           <Combobox.Options
-            className={classNames(
+            className={twMerge(
               'absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
               classes?.options,
             )}
