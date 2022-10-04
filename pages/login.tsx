@@ -49,37 +49,37 @@ const Login: NextPage = () => {
   })
 
   return (
-    <div className='flex items-center justify-center h-full'>
-      <div className='flex flex-col w-[400px] p-10 border border-solid border-slate-200 rounded-lg shadow-lg'>
-        <h1 className='text-tertiary text-3xl'>Welcome back</h1>
+    <div className='flex h-full items-center justify-center'>
+      <div className='flex w-[400px] flex-col rounded-lg border border-solid border-slate-200 p-10 shadow-lg'>
+        <h1 className='text-3xl text-tertiary'>Welcome back</h1>
 
-        <div className='flex mt-4 mb-10'>
+        <div className='mt-4 mb-10 flex'>
           <span className='mr-2'>Don't have an account?</span>
           <Link href='/sign-up'>
             <a className='text-primary underline hover:opacity-80'>Sign up</a>
           </Link>
         </div>
 
-        <div className='flex flex-col mb-4'>
+        <div className='mb-4 flex flex-col'>
           <label className='mb-1 text-tertiary'>Email</label>
           <input
-            className='border border-solid border-slate-300 rounded text-slate-300 px-2'
+            className='rounded border border-solid border-slate-300 px-2 text-slate-300'
             placeholder='Email'
             value={watch('email')}
             {...register('email', { required: 'Email is required' })}
           />
-          <span className='ml-2 text-red-600 mt-2'>
+          <span className='ml-2 mt-2 text-red-600'>
             {errors.email && <p>{errors.email.message}</p>}
           </span>
         </div>
 
-        <div className='flex flex-col mb-4'>
+        <div className='mb-4 flex flex-col'>
           <label className='mb-1 text-tertiary'>Password</label>
           <PasswordInput
             value={watch('password')}
             register={register('password', { required: 'Password is required' })}
           />
-          <span className='ml-2 text-red-600 mt-2'>
+          <span className='ml-2 mt-2 text-red-600'>
             {errors.password && <p>{errors.password.message}</p>}
           </span>
         </div>

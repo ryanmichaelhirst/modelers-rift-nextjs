@@ -11,8 +11,8 @@ import { FC } from 'react'
 
 export const Carousel: FC<{ items?: any[] }> = ({ items }) => {
   return (
-    <div className='slider m-auto overflow-hidden relative' aria-label='React Carousel'>
-      <div className='slide-track animate-pan flex'>
+    <div className='slider relative m-auto overflow-hidden' aria-label='React Carousel'>
+      <div className='slide-track flex animate-pan'>
         <div className='slide'>
           <Image src={Alistar} width='150px' height='170px' />
         </div>

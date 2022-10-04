@@ -20,43 +20,43 @@ export default () => {
 
   return (
     <>
-      <div className='flex flex-col justify-between h-full'>
-        <div className='flex flex-col mt-4 md:flex-row md:space-x-20 md:mt-10'>
+      <div className='flex h-full flex-col justify-between'>
+        <div className='mt-4 flex flex-col md:mt-10 md:flex-row md:space-x-20'>
           <div className='w-full md:w-3/5'>
-            <p className='text-primary text-xl mb-2 md:text-4xl md:mb-8'>
+            <p className='mb-2 text-xl text-primary md:mb-8 md:text-4xl'>
               Bringing the champions you love to the web
             </p>
-            <p className='text-tertiary text-lg mb-2 md:text-2xl md:mb-8'>
+            <p className='mb-2 text-lg text-tertiary md:mb-8 md:text-2xl'>
               Explore every champion, skin, voice line, sound effect, and animation in League of
               Legends. Perfect for viewing new releases and store content.
             </p>
             <Button text='Show me models' onClick={() => router.push('models')} />
           </div>
-          <div className='mt-10 w-[300px] text-center self-center md:text-left md:mt-0 md:w-2/5'>
+          <div className='mt-10 w-[300px] self-center text-center md:mt-0 md:w-2/5 md:text-left'>
             <Card>
-              <p className='text-tertiary font-nunito font-bold text-lg capitalize'>Aatrox</p>
+              <p className='font-nunito text-lg font-bold capitalize text-tertiary'>Aatrox</p>
               <p>The Darkin Blade</p>
               <div className='flex justify-center'>
                 <Image src={Aatrox} width='150px' height='297px' />
               </div>
-              <div className='flex items-center mt-2'>
+              <div className='mt-2 flex items-center'>
                 <Button
                   text='Explore'
                   onClick={onExplore}
                   classes={{ button: '!text-primary !bg-transparent hover:!opacity-80' }}
-                  icon={<ExternalLinkIcon className='text-primary h-4 w-4' />}
+                  icon={<ExternalLinkIcon className='h-4 w-4 text-primary' />}
                 />
               </div>
             </Card>
           </div>
         </div>
-        <div className='flex flex-col items-center justify-center mb-4 mt-10 md:mt-0'>
-          <p className='text-primary text-xl md:text-4xl md:mb-4'>Not enough?</p>
-          <p className='text-tertiary text-lg md:text-xl md:mb-4'>
+        <div className='mb-4 mt-10 flex flex-col items-center justify-center md:mt-0'>
+          <p className='text-xl text-primary md:mb-4 md:text-4xl'>Not enough?</p>
+          <p className='text-lg text-tertiary md:mb-4 md:text-xl'>
             Take a look at what else we have to offer
           </p>
           <ChevronDownIcon
-            className='text-primary h-10 w-10 cursor-pointer'
+            className='h-10 w-10 cursor-pointer text-primary'
             onClick={() =>
               window.document.getElementById('app-overview')?.scrollIntoView({ behavior: 'smooth' })
             }
@@ -65,9 +65,9 @@ export default () => {
       </div>
 
       <div className='flex flex-col items-center justify-center md:flex-row'>
-        <div id='app-overview' className='w-1/2 pt-32 mb-32 md:mr-[150px]'>
-          <p className='text-primary text-lg mb-4 font-bold'>Designed for league fanatics</p>
-          <p className='text-secondary text-xl font-bold mb-4'>
+        <div id='app-overview' className='mb-32 w-1/2 pt-32 md:mr-[150px]'>
+          <p className='mb-4 text-lg font-bold text-primary'>Designed for league fanatics</p>
+          <p className='mb-4 text-xl font-bold text-secondary'>
             Easily find your favorite assets and save them for later
           </p>
           <p className='text-tertiary'>
@@ -77,7 +77,7 @@ export default () => {
           </p>
         </div>
 
-        <div className='flex items-center justify-center relative w-full mb-32 h-[240px] md:mb-0 md:w-1/2'>
+        <div className='relative mb-32 flex h-[240px] w-full items-center justify-center md:mb-0 md:w-1/2'>
           <Image
             layout='fill'
             objectFit='cover'
@@ -92,22 +92,22 @@ export default () => {
         <Carousel />
       </div>
 
-      <div className='-mx-4 md:-mx-16 mb-32 px-4 md:px-20 pt-10 pb-10 bg-[#EFEFEF]'>
-        <p className='text-primary text-lg mb-4 font-bold'>Why Modeler's Rift</p>
-        <p className='text-secondary text-xl font-bold mb-4'>The only 3D Viewer you'll ever need</p>
+      <div className='-mx-4 mb-32 bg-[#EFEFEF] px-4 pt-10 pb-10 md:-mx-16 md:px-20'>
+        <p className='mb-4 text-lg font-bold text-primary'>Why Modeler's Rift</p>
+        <p className='mb-4 text-xl font-bold text-secondary'>The only 3D Viewer you'll ever need</p>
         <div className='flex justify-between'>
           <div className='w-[230px]'>
             <div className='flex'>
-              <CollectionIcon className='text-secondary mr-2 h-5 w-5' />
-              <p className='text-secondary mb-2'>Slammin Skins</p>
+              <CollectionIcon className='mr-2 h-5 w-5 text-secondary' />
+              <p className='mb-2 text-secondary'>Slammin Skins</p>
             </div>
             <p className='text-sm'>View your favorite skin for any champion. We have them all</p>
           </div>
 
           <div className='w-[230px]'>
             <div className='flex'>
-              <VolumeUpIcon className='text-secondary mr-2 h-5 w-5' />
-              <p className='text-secondary mb-2'>Valorant Voices</p>
+              <VolumeUpIcon className='mr-2 h-5 w-5 text-secondary' />
+              <p className='mb-2 text-secondary'>Valorant Voices</p>
             </div>
 
             <p className='text-sm'>
@@ -117,8 +117,8 @@ export default () => {
 
           <div className='w-[230px]'>
             <div className='flex'>
-              <DocumentDownloadIcon className='text-secondary mr-2 h-5 w-5' />
-              <p className='text-secondary mb-2'>Devious Downloads</p>
+              <DocumentDownloadIcon className='mr-2 h-5 w-5 text-secondary' />
+              <p className='mb-2 text-secondary'>Devious Downloads</p>
             </div>
 
             <p className='text-sm'>Download your favorite assets for personal use. Coming soon!</p>
@@ -126,7 +126,7 @@ export default () => {
         </div>
       </div>
 
-      <div className='flex justify-center items-center text-xl pb-20'>
+      <div className='flex items-center justify-center pb-20 text-xl'>
         <p className='mr-3'>Questions or feedback? Share it with us!</p>
         <ArrowCircleRightIcon className='h-5 w-5' />
       </div>

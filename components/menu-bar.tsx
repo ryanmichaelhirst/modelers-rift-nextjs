@@ -86,7 +86,7 @@ export const MenuBar: FC = () => {
         )
 
   return (
-    <div className='flex justify-between items-center px-4 py-5 h-full'>
+    <div className='flex h-full items-center justify-between px-4 py-5'>
       <div className='flex items-center'>
         <Image
           src={'/shen.svg'}
@@ -95,7 +95,7 @@ export const MenuBar: FC = () => {
           className='cursor-pointer'
           onClick={() => router.push('/')}
         />
-        <p className='text-black text-xl mx-6 cursor-pointer' onClick={() => router.push('/')}>
+        <p className='mx-6 cursor-pointer text-xl text-black' onClick={() => router.push('/')}>
           Modeler's Rift
         </p>
         <ComboBox
@@ -117,7 +117,7 @@ export const MenuBar: FC = () => {
                 key={character?.id}
                 className={({ active }) =>
                   classNames(
-                    'relative capitalize cursor-default select-none py-2 pl-10 pr-4 z-30',
+                    'relative z-30 cursor-default select-none py-2 pl-10 pr-4 capitalize',
                     active ? 'bg-primary text-white' : 'text-tertiary',
                   )
                 }

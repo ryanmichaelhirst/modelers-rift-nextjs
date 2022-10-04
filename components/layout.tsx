@@ -16,10 +16,10 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <div className='min-h-full'>
-      <header className='sticky top-0 bg-white z-20 h-[10vh]'>
+      <header className='sticky top-0 z-20 h-[10vh] bg-white'>
         <MenuBar />
       </header>
-      <div className='mx-4 md:mx-16 h-[90vh] my-6'>{children}</div>
+      <div className='mx-4 my-6 h-[90vh] md:mx-16'>{children}</div>
     </div>
   )
 }

@@ -30,11 +30,11 @@ export const ComboBox: FC<
   return (
     <Combobox value={selected} onChange={onSearch}>
       <div className={twMerge('relative', classes?.box)}>
-        <div className='flex item-center justify-center shadow rounded p-1'>
+        <div className='item-center flex justify-center rounded p-1 shadow'>
           {showIcon && <SearchIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />}
           <Combobox.Input
             className={classNames(
-              'w-full border-none leading-5 text-sm !outline-none',
+              'w-full border-none text-sm leading-5 !outline-none',
               showIcon ? 'pl-4' : 'pl-2',
             )}
             displayValue={displayValue}

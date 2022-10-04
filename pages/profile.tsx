@@ -52,34 +52,34 @@ const Profile: NextPage = () => {
       {isLoading || !user ? (
         <div>{error ? 'Redirecting...' : 'Loading profile...'}</div>
       ) : (
-        <div className='mt-10 p-4 border border-slate-300 rounded shadow'>
+        <div className='mt-10 rounded border border-slate-300 p-4 shadow'>
           <div className='mb-4'>
             <label className='mb-1 text-tertiary'>Name</label>
-            <p className='text-tertiary text-lg'>{user?.name}</p>
+            <p className='text-lg text-tertiary'>{user?.name}</p>
           </div>
 
           <div className='mb-4'>
             <label className='mb-1 text-tertiary'>Email</label>
-            <p className='text-tertiary text-lg'>{user?.email}</p>
+            <p className='text-lg text-tertiary'>{user?.email}</p>
           </div>
 
           <div className='mb-4'>
             <label className='mb-1 text-tertiary'>Created at</label>
-            <p className='text-tertiary text-lg'>{createdAt}</p>
+            <p className='text-lg text-tertiary'>{createdAt}</p>
           </div>
 
           <div className='mb-4'>
             <label className='mb-1 text-tertiary'>Last updated</label>
-            <p className='text-tertiary text-lg'>{updatedAt}</p>
+            <p className='text-lg text-tertiary'>{updatedAt}</p>
           </div>
         </div>
       )}
-      <div className='mt-10 p-4 border border-slate-300 rounded shadow'>
+      <div className='mt-10 rounded border border-slate-300 p-4 shadow'>
         <div className='mb-4'>
           <label className='mb-1 text-tertiary'>Donations</label>
           {donations?.collection.map((d) => (
             <div key={d.id}>
-              <p className='text-tertiary text-lg'>{d.productName}</p>
+              <p className='text-lg text-tertiary'>{d.productName}</p>
               <p>{d.dollarAmount}</p>
             </div>
           ))}

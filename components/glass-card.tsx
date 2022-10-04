@@ -2,7 +2,7 @@ import { FC, PropsWithChildren } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 export const GlassTitle: FC<PropsWithChildren> = ({ children }) => (
-  <div className='flex items-center text-2xl text-white font-nunito mb-4'>{children}</div>
+  <div className='mb-4 flex items-center font-nunito text-2xl text-white'>{children}</div>
 )
 
 export const GlassCard: FC<

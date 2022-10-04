@@ -29,7 +29,7 @@ const Tab: FC<PropsWithChildren<{ onClick: any; tab: string; id: string }>> = ({
 }) => (
   <p
     className={classNames(
-      'font-nunito opacity-50 hover:opacity-100 cursor-pointer',
+      'cursor-pointer font-nunito opacity-50 hover:opacity-100',
       tab === id && '!opacity-100',
     )}
     id={id}
@@ -200,12 +200,12 @@ export const Models: NextPage = () => {
   }
 
   return (
-    <div className='flex flex-col md:space-x-10 md:flex-row pb-10 h-full'>
+    <div className='flex h-full flex-col pb-10 md:flex-row md:space-x-10'>
       <Modal isOpen={isDonationModalOpen} onClose={onCloseDonationModal} />
-      <div className='md:min-w-[500px] md:min-h-full overflow-hidden'>
+      <div className='overflow-hidden md:min-h-full md:min-w-[500px]'>
         {data && (
           <div className='card'>
-            <div className='flex text-primary space-x-5 pb-1 border-slate-200 border-b'>
+            <div className='flex space-x-5 border-b border-slate-200 pb-1 text-primary'>
               <Tab onClick={onTabChange} id='Animations' tab={tab}>
                 Animations
               </Tab>
@@ -219,14 +219,14 @@ export const Models: NextPage = () => {
             <div>
               {tab === 'Animations' ? (
                 <table className='w-full font-nunito'>
-                  <thead className='block border-slate-200 border-b'>
+                  <thead className='block border-b border-slate-200'>
                     <tr className='flex text-left text-slate-400'>
                       <th className='w-8 py-2 font-normal'></th>
                       <th className='w-12 py-2 font-normal'>#</th>
                       <th className='py-2 font-normal'>Title</th>
                     </tr>
                   </thead>
-                  <tbody className='block overflow-y-scroll h-[500px]'>
+                  <tbody className='block h-[500px] overflow-y-scroll'>
                     {modelConfig?.animationNames?.map((a, idx) => {
                       const Icon = isAnimationPlaying ? PauseIcon : PlayIcon
 
@@ -236,20 +236,20 @@ export const Models: NextPage = () => {
                           key={a}
                           className={classNames(
                             a === selectedAnimation
-                              ? 'text-primary font-semibold'
+                              ? 'font-semibold text-primary'
                               : 'text-slate-400',
-                            'flex text-left cursor-pointer items-center hover:text-primary',
+                            'flex cursor-pointer items-center text-left hover:text-primary',
                           )}
                         >
-                          <td className='py-1 w-8'>
+                          <td className='w-8 py-1'>
                             {a === selectedAnimation && (
                               <Icon
-                                className='text-primary h-5 w-5'
+                                className='h-5 w-5 text-primary'
                                 onClick={onPlayPauseAnimation}
                               />
                             )}
                           </td>
-                          <td className='py-1 w-12'>{idx}</td>
+                          <td className='w-12 py-1'>{idx}</td>
                           <td className='py-1'>{a}</td>
                         </tr>
                       )
@@ -277,8 +277,8 @@ export const Models: NextPage = () => {
           </div>
         )}
       </div>
-      <div className='md:w-4/6 md:min-h-full'>
-        <div className='flex items-center mb-4'>
+      <div className='md:min-h-full md:w-4/6'>
+        <div className='mb-4 flex items-center'>
           <span className='mr-6 text-lg'>{character?.displayName}</span>
           <Button
             onClick={onExport}
@@ -307,7 +307,7 @@ export const Models: NextPage = () => {
                 key={model?.id}
                 className={({ active }) =>
                   classNames(
-                    'relative capitalize cursor-default select-none py-0 pl-10 pr-4',
+                    'relative cursor-default select-none py-0 pl-10 pr-4 capitalize',
                     active ? 'bg-primary text-white' : 'text-tertiary',
                   )
                 }

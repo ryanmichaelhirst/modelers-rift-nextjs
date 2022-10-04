@@ -12,14 +12,14 @@ export default () => {
       <div>
         <div className='flex flex-col items-center'>
           <div
-            className='h-80 w-full bg-no-repeat bg-cover -mx-16'
+            className='-mx-16 h-80 w-full bg-cover bg-no-repeat'
             style={{
               backgroundImage:
                 'url(https://cdn.mos.cms.futurecdn.net/2NQGX7WGDekmLQwhtzLRQP-1920-80.jpg.webp)',
             }}
           />
           <Card classes='relative -top-20 px-10 bg-white'>
-            <p className='text-3xl mb-6'>Support Us</p>
+            <p className='mb-6 text-3xl'>Support Us</p>
             <Button
               classes={{
                 button: 'shadow-lg px-6 py-2 text-xl rounded',
@@ -46,7 +46,7 @@ export default () => {
             a patron!
           </p>
           <div className='flex justify-center'>
-            <div className='w-[100px] h-[30px] relative mx-4 hover:opacity-50 cursor-pointer'>
+            <div className='relative mx-4 h-[30px] w-[100px] cursor-pointer hover:opacity-50'>
               <Image
                 layout='fill'
                 src={PatreonButton}

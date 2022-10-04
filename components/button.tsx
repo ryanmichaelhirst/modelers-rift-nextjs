@@ -34,7 +34,7 @@ export const Button: FC<PropsWithChildren<ButtonProps>> = ({
       id={id}
       disabled={disabled}
       className={twMerge(
-        'flex items-center justify-center bg-primary text-white py-1 px-4 rounded-lg hover:opacity-90 disabled:opacity-50',
+        'flex items-center justify-center rounded-lg bg-primary py-1 px-4 text-white hover:opacity-90 disabled:opacity-50',
         classes?.button,
       )}
       onClick={disabled ? null : onClick}
@@ -59,7 +59,7 @@ export const NavButton: FC<PropsWithChildren<ButtonProps>> = ({
     id={id}
     disabled={disabled}
     className={twMerge(
-      'flex items-center justify-center text-tertiary my-1 mx-3 disabled:opacity-50 hover:text-primary',
+      'my-1 mx-3 flex items-center justify-center text-tertiary hover:text-primary disabled:opacity-50',
       classes?.button,
     )}
     onClick={disabled ? null : onClick}

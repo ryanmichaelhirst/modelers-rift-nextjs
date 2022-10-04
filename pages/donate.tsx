@@ -10,15 +10,15 @@ const Product: FC<{
   userId?: number
 }> = ({ id, name, dollarAmount, imageUrl, userId }) => {
   return (
-    <div className='flex-1 rounded mr-2'>
-      <div className='flex items-center p-3 border border border-solid border-b-0 rounded-t'>
+    <div className='mr-2 flex-1 rounded'>
+      <div className='flex items-center rounded-t border border border-b-0 border-solid p-3'>
         <Image src={imageUrl} alt={`Image for ${name}`} width='60px' height='80px' />
         <div className='description'>
           <h3>{name}</h3>
           <h5>{dollarAmount}</h5>
         </div>
       </div>
-      <div className='bg-gray-100 p-3 rounded-b border border-solid border-b border-t-0'>
+      <div className='rounded-b border border-b border-t-0 border-solid bg-gray-100 p-3'>
         <form action='/api/stripe/checkout' method='POST'>
           <input name='productId' value={id} hidden={true} />
           <input name='userId' value={userId} type='number' hidden={true} />
@@ -60,7 +60,7 @@ export default () => {
     <section>
       <div>
         <div className='flex flex-col items-center'>
-          <p className='text-3xl mb-6'>Make a Donation</p>
+          <p className='mb-6 text-3xl'>Make a Donation</p>
           <p>Select an option below to make a donation through stripe</p>
         </div>
 

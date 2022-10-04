@@ -6,7 +6,7 @@
 
 /* style dat.gui controls */
 .dg.main > ul {
-  @apply border border-solid border-slate-400 rounded-t font-nunito;
+  @apply rounded-t border border-solid border-slate-400 font-nunito;
 }
 
 .dg.main > ul.closed {
@@ -45,11 +45,11 @@ li.cr > div > div.c > div.slider > div.slider-fg {
 }
 
 li.cr > div > div.c > div > input {
-  @apply !bg-slate-200 !text-tertiary !leading-[1px];
+  @apply !bg-slate-200 !leading-[1px] !text-tertiary;
 }
 
 .dg.main .close-button.close-bottom {
-  @apply left-0 text-slate-400 !bg-white !border !border-solid border-slate-400 rounded-b;
+  @apply left-0 rounded-b !border !border-solid border-slate-400 !bg-white text-slate-400;
   text-shadow: none;
 }
 
@@ -120,7 +120,7 @@ li.cr > div > div.c > div > input {
 
 @layer components {
   .card {
-    @apply rounded-lg px-4 py-2 border shadow-lg;
+    @apply rounded-lg border px-4 py-2 shadow-lg;
   }
 
   .glass-gradient {
