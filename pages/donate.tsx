@@ -1,3 +1,4 @@
+import { H1 } from '@/components/h1'
 import { trpc } from '@/utils/trpc'
 import Image from 'next/image'
 import { FC, useEffect, useState } from 'react'
@@ -59,7 +60,7 @@ export default () => {
   ) : (
     <section>
       <div className='mb-10 flex flex-col items-center'>
-        <h1 className='mb-6 text-3xl'>Make a Donation</h1>
+        <H1 className='mb-6'>Make a Donation</H1>
         <p>Select an option below to make a donation through stripe</p>
         <p>We appreciate any contribution you are able to make to Modeler's Rift!</p>
       </div>

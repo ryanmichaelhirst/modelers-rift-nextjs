@@ -1,4 +1,5 @@
 import { Button } from '@/components/button'
+import { H1 } from '@/components/h1'
 import { trpc } from '@/utils/trpc'
 import { formatRFC7231 } from 'date-fns'
 import { NextPage } from 'next'
@@ -47,7 +48,7 @@ const Profile: NextPage = () => {
 
   return (
     <div>
-      <h1>Profile</h1>
+      <H1>Profile</H1>
       {error && <div>You must login to see your profile!</div>}
       {isLoading || !user ? (
         <div>{error ? 'Redirecting...' : 'Loading profile...'}</div>

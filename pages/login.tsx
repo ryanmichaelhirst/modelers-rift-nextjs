@@ -1,4 +1,5 @@
 import { Button } from '@/components/button'
+import { H1 } from '@/components/h1'
 import { PasswordInput } from '@/components/password-input'
 import { trpc } from '@/utils/trpc'
 import type { NextPage } from 'next'
@@ -51,7 +52,7 @@ const Login: NextPage = () => {
   return (
     <div className='flex h-full items-center justify-center'>
       <div className='flex w-[400px] flex-col rounded-lg border border-solid border-slate-200 p-10 shadow-lg'>
-        <h1 className='text-3xl text-tertiary'>Welcome back</h1>
+        <H1>Welcome back</H1>
 
         <div className='mt-4 mb-10 flex'>
           <span className='mr-2'>Don't have an account?</span>

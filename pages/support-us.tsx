@@ -1,6 +1,7 @@
 import PatreonButton from '@/assets/patreon-button.webp'
 import { Button } from '@/components/button'
 import { Card } from '@/components/card'
+import { H1 } from '@/components/h1'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
@@ -17,7 +18,7 @@ export default () => {
         }}
       />
       <Card className='relative mt-60 flex w-1/2 flex-col items-center justify-center bg-opacity-100'>
-        <h1 className='mb-6 text-3xl'>Support Us</h1>
+        <H1 className='mb-6'>Support Us</H1>
         <Button
           classes={{
             button: 'shadow-lg px-6 py-2 text-xl rounded',
