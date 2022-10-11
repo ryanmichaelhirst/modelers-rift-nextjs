@@ -10,10 +10,11 @@ generator client {
 
 model Character {
   id     Int    @id @default(autoincrement())
-  name   String
+  name   String @unique
   displayName String?
   type   String
   assets Asset[]
+  imageUrl String?
 }
 
 model Asset {

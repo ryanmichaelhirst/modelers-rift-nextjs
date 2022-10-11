@@ -14,7 +14,9 @@ export default async () => {
     const displayName = dataDragonService.getDisplayName(champion.name)
 
     const result = await prismaService.updateCharacter({
-      id: champion.id,
+      where: {
+        id: champion.id,
+      },
       data: {
         displayName,
       },

@@ -5,11 +5,11 @@ import type { Character } from '@/utils/trpc'
 import { trpc } from '@/utils/trpc'
 import { Combobox } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/solid'
-import classNames from 'classnames'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { FC, useState } from 'react'
 import { useModelStore } from 'store'
+import { twMerge } from 'tailwind-merge'
 
 export const MenuBar: FC = () => {
   const router = useRouter()
@@ -34,6 +34,8 @@ export const MenuBar: FC = () => {
   ])
 
   const characters = data?.collection?.filter(Boolean) ?? []
+
+  console.log(characters)
 
   const onClick = async (e: any) => {
     const { id } = e.target
@@ -116,28 +118,25 @@ export const MenuBar: FC = () => {
               <Combobox.Option
                 key={character?.id}
                 className={({ active }) =>
-                  classNames(
-                    'relative z-30 cursor-default select-none py-2 pl-10 pr-4 capitalize',
-                    active ? 'bg-primary text-white' : 'text-tertiary',
+                  twMerge(
+                    'relative z-30 cursor-default select-none py-2 px-2 capitalize text-tertiary',
+                    active && 'bg-primary text-white',
                   )
                 }
                 value={character}
               >
                 {({ selected, active }) => (
-                  <>
-                    <span className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}>
+                  <div className='flex items-center'>
+                    <span className={twMerge('mr-1 text-primary', active && 'text-white')}>
+                      <CheckIcon
+                        className={twMerge('invisible h-5 w-5', selected && 'visible')}
+                        aria-hidden='true'
+                      />
+                    </span>
+                    <span className={twMerge('truncate font-normal', selected && 'font-medium')}>
                       {character?.name}
                     </span>
-                    {selected ? (
-                      <span
-                        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                          active ? 'text-white' : 'text-primary'
-                        }`}
-                      >
-                        <CheckIcon className='h-5 w-5' aria-hidden='true' />
-                      </span>
-                    ) : null}
-                  </>
+                  </div>
                 )}
               </Combobox.Option>
             ))
@@ -152,7 +151,7 @@ export const MenuBar: FC = () => {
             onClick={onClick}
             key={item}
             classes={{
-              button: classNames(item === page && 'text-primary'),
+              button: twMerge(item === page && 'text-primary'),
             }}
             text={item}
           />

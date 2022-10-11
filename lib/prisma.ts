@@ -70,16 +70,7 @@ export class PrismaService {
     return await this.createCharacter(name)
   }
 
-  updateCharacter = async ({ id, data }: { id: number; data?: Record<string, unknown> }) => {
-    if (!data) return
-
-    return await this.client.character.update({
-      where: {
-        id,
-      },
-      data,
-    })
-  }
+  updateCharacter = (args: Prisma.CharacterUpdateArgs) => this.client.character.update(args)
 
   createAssets = async ({ assets, characterName }: { assets: Asset[]; characterName: string }) => {
     const character = await this.findCharacter(characterName)
