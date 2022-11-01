@@ -35,8 +35,6 @@ export const MenuBar: FC = () => {
 
   const characters = data?.collection?.filter(Boolean) ?? []
 
-  console.log(characters)
-
   const onClick = async (e: any) => {
     const { id } = e.target
     const value = (() => {
@@ -90,14 +88,20 @@ export const MenuBar: FC = () => {
   return (
     <div className='flex h-full items-center justify-between px-4 py-5'>
       <div className='flex items-center'>
-        <Image
-          src={'/shen.svg'}
-          width='56px'
-          height='39px'
-          className='cursor-pointer'
+        <div className='mr-6 shrink-0 grow-0 basis-[56px]'>
+          <Image
+            layout='fixed'
+            src={'/shen.svg'}
+            width='56px'
+            height='39px'
+            className='cursor-pointer'
+            onClick={() => router.push('/')}
+          />
+        </div>
+        <p
+          className='mr-6 hidden cursor-pointer text-black lg:flex lg:text-xl'
           onClick={() => router.push('/')}
-        />
-        <p className='mx-6 cursor-pointer text-xl text-black' onClick={() => router.push('/')}>
+        >
           Modeler's Rift
         </p>
         <ComboBox

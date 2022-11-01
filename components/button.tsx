@@ -60,7 +60,7 @@ export const NavButton: FC<PropsWithChildren<ButtonProps>> = ({
     id={id}
     disabled={disabled}
     className={twMerge(
-      'my-1 mx-3 flex items-center justify-center text-tertiary hover:text-primary disabled:opacity-50',
+      'my-1 mx-3 flex items-center justify-center text-sm text-tertiary hover:text-primary disabled:opacity-50 md:text-base',
       classes?.button,
     )}
     onClick={disabled ? null : onClick}

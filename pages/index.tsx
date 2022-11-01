@@ -33,7 +33,7 @@ export default () => {
             <Button text='Show me models' onClick={() => router.push('models')} />
           </div>
           <div className='mt-10 w-[300px] self-center text-center md:mt-0 md:w-2/5 md:text-left'>
-            <Card>
+            <Card className='bg-corner-gradient border-none'>
               <p className='font-nunito text-lg font-bold capitalize text-tertiary'>Aatrox</p>
               <p>The Darkin Blade</p>
               <div className='flex justify-center'>
@@ -51,7 +51,7 @@ export default () => {
           </div>
         </div>
         <div className='mb-4 mt-10 flex flex-col items-center justify-center md:mt-0'>
-          <p className='text-xl text-primary md:mb-4 md:text-4xl'>Not enough?</p>
+          <p className='text-xl text-primary md:mb-4 md:text-4xl'>Interested?</p>
           <p className='text-lg text-tertiary md:mb-4 md:text-xl'>
             Take a look at what else we have to offer
           </p>
@@ -68,12 +68,11 @@ export default () => {
         <div id='app-overview' className='mb-32 w-1/2 pt-32 md:mr-[150px]'>
           <p className='mb-4 text-lg font-bold text-primary'>Designed for league fanatics</p>
           <p className='mb-4 text-xl font-bold text-secondary'>
-            Easily find your favorite assets and save them for later
+            Easily view your favorite models in seconds
           </p>
           <p className='text-tertiary'>
-            After being out for over a decade, players still don't have an accessible solution to
-            viewing in game assets. We change that today by bringing them to you in our polished
-            model explorer.
+            After being out for over a decade, players still don’t have an accessible solution to
+            viewing in game assets. We change that today.
           </p>
         </div>
 
