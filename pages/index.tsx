@@ -23,17 +23,17 @@ export default () => {
       <div className='flex h-full flex-col justify-between'>
         <div className='mt-4 flex flex-col md:mt-10 md:flex-row md:space-x-20'>
           <div className='w-full md:w-3/5'>
-            <p className='mb-2 text-xl text-primary md:mb-8 md:text-4xl'>
+            <p className='h1 mb-2 text-primary md:mb-8'>
               Bringing the champions you love to the web
             </p>
-            <p className='mb-2 text-lg text-tertiary md:mb-8 md:text-2xl'>
+            <p className='h2 mb-2 text-tertiary md:mb-8'>
               Explore every champion, skin, voice line, sound effect, and animation in League of
               Legends. Perfect for viewing new releases and store content.
             </p>
             <Button text='Show me models' onClick={() => router.push('models')} />
           </div>
           <div className='mt-10 w-[300px] self-center text-center md:mt-0 md:w-2/5 md:text-left'>
-            <Card className='bg-corner-gradient border-none'>
+            <Card className='bg-corner-gradient rounded-lg border-none'>
               <p className='font-nunito text-lg font-bold capitalize text-tertiary'>Aatrox</p>
               <p>The Darkin Blade</p>
               <div className='flex justify-center'>
@@ -43,18 +43,17 @@ export default () => {
                 <Button
                   text='Explore'
                   onClick={onExplore}
-                  classes={{ button: '!text-primary !bg-transparent hover:!opacity-80' }}
+                  classes={{ button: '!text-primary !bg-transparent hover:!opacity-80 p-0' }}
                   icon={<ExternalLinkIcon className='h-4 w-4 text-primary' />}
+                  iconPosition='end'
                 />
               </div>
             </Card>
           </div>
         </div>
         <div className='mb-4 mt-10 flex flex-col items-center justify-center md:mt-0'>
-          <p className='text-xl text-primary md:mb-4 md:text-4xl'>Interested?</p>
-          <p className='text-lg text-tertiary md:mb-4 md:text-xl'>
-            Take a look at what else we have to offer
-          </p>
+          <p className='h4 text-primary md:mb-4'>Interested?</p>
+          <p className='h3 text-tertiary md:mb-4'>Take a look at what else we have to offer</p>
           <ChevronDownIcon
             className='h-10 w-10 cursor-pointer text-primary'
             onClick={() =>
@@ -66,8 +65,8 @@ export default () => {
 
       <div className='flex flex-col items-center justify-center md:flex-row'>
         <div id='app-overview' className='mb-32 w-1/2 pt-32 md:mr-[150px]'>
-          <p className='mb-4 text-lg font-bold text-primary'>Designed for league fanatics</p>
-          <p className='mb-4 text-xl font-bold text-secondary'>
+          <p className='h4 mb-4 font-bold text-primary'>Designed for league fanatics</p>
+          <p className='h3 mb-4 font-bold text-secondary'>
             Easily view your favorite models in seconds
           </p>
           <p className='text-tertiary'>
@@ -92,8 +91,8 @@ export default () => {
       </div>
 
       <div className='-mx-4 mb-32 bg-[#EFEFEF] px-4 pt-10 pb-10 md:-mx-16 md:px-20'>
-        <p className='mb-4 text-lg font-bold text-primary'>Why Modeler's Rift</p>
-        <p className='mb-4 text-xl font-bold text-secondary'>The only 3D Viewer you'll ever need</p>
+        <p className='h4 mb-4 font-bold text-primary'>Why Modeler's Rift</p>
+        <p className='h3 mb-4 font-bold text-secondary'>The only 3D Viewer you'll ever need</p>
         <div className='flex justify-between'>
           <div className='w-[230px]'>
             <div className='flex'>
@@ -126,7 +125,7 @@ export default () => {
       </div>
 
       <div className='flex items-center justify-center pb-20 text-xl'>
-        <p className='mr-3'>Questions or feedback? Share it with us!</p>
+        <p className='h3 mr-3'>Questions or feedback? Share it with us!</p>
         <ArrowCircleRightIcon className='h-5 w-5' />
       </div>
     </>

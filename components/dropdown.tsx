@@ -1,6 +1,21 @@
 import { Menu, Transition } from '@headlessui/react'
-import { CogIcon, IdentificationIcon, LoginIcon, LogoutIcon } from '@heroicons/react/outline'
+import {
+  MenuIcon,
+  IdentificationIcon,
+  LoginIcon,
+  LogoutIcon,
+  CreditCardIcon,
+  HomeIcon,
+  CubeIcon,
+} from '@heroicons/react/outline'
 import { FC, Fragment } from 'react'
+import { twMerge } from 'tailwind-merge'
+
+const btnClassname = (active: boolean) =>
+  twMerge(
+    'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+    active ? 'bg-violet-500 text-white' : 'text-gray-900',
+  )
 
 export const Dropdown: FC<{ loggedIn: boolean; onClick: (value: string) => void }> = ({
   loggedIn,
@@ -13,11 +28,10 @@ export const Dropdown: FC<{ loggedIn: boolean; onClick: (value: string) => void 
 
   return (
     <Menu as='div' className='relative inline-block text-left'>
-      <div>
-        <Menu.Button className='flex items-center justify-center bg-transparent py-1 opacity-50 hover:opacity-100'>
-          <CogIcon className='h-5 w-5 text-primary' />
-        </Menu.Button>
-      </div>
+      <Menu.Button className='flex cursor-pointer items-center justify-center rounded-full bg-primary/50 py-1 px-3 hover:bg-primary'>
+        <MenuIcon className='h-5 w-5 text-white' />
+      </Menu.Button>
+
       <Transition
         as={Fragment}
         enter='transition ease-out duration-100'
@@ -35,9 +49,7 @@ export const Dropdown: FC<{ loggedIn: boolean; onClick: (value: string) => void 
                   <button
                     onClick={onMenuItemClick('profile')}
                     id='profile'
-                    className={`${
-                      active ? 'bg-violet-500 text-white' : 'text-gray-900'
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                    className={btnClassname(active)}
                   >
                     <IdentificationIcon className='mr-2 h-5 w-5' />
                     Profile
@@ -51,9 +63,7 @@ export const Dropdown: FC<{ loggedIn: boolean; onClick: (value: string) => void 
                   // headlessui doesn't let you set id's
                   // https://github.com/tailwindlabs/headlessui/discussions/1041
                   onClick={onMenuItemClick(loggedIn ? 'logout' : 'login')}
-                  className={`${
-                    active ? 'bg-violet-500 text-white' : 'text-gray-900'
-                  } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                  className={btnClassname(active)}
                 >
                   {loggedIn ? (
                     <LogoutIcon className='mr-2 h-5 w-5' />
@@ -61,6 +71,35 @@ export const Dropdown: FC<{ loggedIn: boolean; onClick: (value: string) => void 
                     <LoginIcon className='mr-2 h-5 w-5' />
                   )}
                   {loggedIn ? 'Logout' : 'Login'}
+                </button>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <button onClick={onMenuItemClick('home')} className={btnClassname(active)}>
+                  <HomeIcon className='mr-2 h-5 w-5' />
+                  Home
+                </button>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <button
+                  onClick={onMenuItemClick('models')}
+                  className={`${
+                    active ? 'bg-violet-500 text-white' : 'text-gray-900'
+                  } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                >
+                  <CubeIcon className='mr-2 h-5 w-5' />
+                  Models
+                </button>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <button onClick={onMenuItemClick('support-us')} className={btnClassname(active)}>
+                  <CreditCardIcon className='mr-2 h-5 w-5' />
+                  Support us
                 </button>
               )}
             </Menu.Item>

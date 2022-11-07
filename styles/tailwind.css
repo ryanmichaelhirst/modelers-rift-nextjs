@@ -151,10 +151,26 @@ li.cr > div > div.c > div > input {
     background: linear-gradient(235deg, hsla(314, 100%, 93%, 1) 0%, hsla(0, 0%, 100%, 1) 16%);
     background: -moz-linear-gradient(235deg, hsla(314, 100%, 93%, 1) 0%, hsla(0, 0%, 100%, 1) 16%);
     background: -webkit-linear-gradient(
-      235deg,
+      200deg,
       hsla(314, 100%, 93%, 1) 0%,
-      hsla(0, 0%, 100%, 1) 16%
+      hsla(0, 0%, 100%, 1) 45%
     );
     filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FFDDF7", endColorstr="#FFFFFF", GradientType=1 );
+  }
+
+  .h1 {
+    @apply text-3xl leading-8 md:text-4xl;
+  }
+
+  .h2 {
+    @apply text-2xl leading-8 md:text-3xl;
+  }
+
+  .h3 {
+    @apply text-xl leading-8 md:text-2xl;
+  }
+
+  .h4 {
+    @apply text-lg leading-8 md:text-xl;
   }
 }
