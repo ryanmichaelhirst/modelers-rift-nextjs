@@ -44,6 +44,7 @@ export class Animator {
   public width: number
   public previousTime: number
   public gui: dat.GUI
+  public group?: Group
 
   constructor(canvas: HTMLCanvasElement, gui: dat.GUI) {
     const width = canvas.parentElement?.clientWidth ?? sizes.width
@@ -130,6 +131,15 @@ export class Animator {
     pointLightFolder.add(pointLight.position, 'y').min(0).max(500).step(0.01).name('y')
     pointLightFolder.add(pointLight.position, 'z').min(0).max(500).step(0.01).name('z')
 
+    const meshFolder = this.gui.addFolder('Mesh')
+    meshFolder
+      .add({ enabled: true }, 'enabled')
+      .name('enable floor')
+      .onChange((value) => {
+        if (value) this.addFloor()
+        else this.removeFloor()
+      })
+
     this.renderer.setSize(width, height)
     this.renderer.setPixelRatio(window.devicePixelRatio)
     this.renderer.setClearColor(0xffffff, 0)
@@ -141,6 +151,31 @@ export class Animator {
     this.renderer.shadowMap.type = PCFSoftShadowMap
   }
 
+  removeFloor() {
+    if (!this.group) return
+
+    const floor = this.group?.children.find((c) => c.type === 'Mesh')
+    if (!floor) return
+
+    this.group.remove(floor)
+  }
+
+  addFloor() {
+    if (!this.group) return
+
+    const floor = new Mesh(
+      new PlaneGeometry(this.width, 300),
+      new MeshStandardMaterial({
+        color: '#fff',
+        metalness: 0,
+        roughness: 0.5,
+      }),
+    )
+    floor.receiveShadow = true
+    floor.rotation.x = -Math.PI * 0.5
+    this.group.add(floor)
+  }
+
   async load(url: string) {
     await new Promise<void>((resolve) => {
       this.loader.load(url, (gltf) => {
@@ -148,19 +183,11 @@ export class Animator {
         const center = new Vector3()
         box.getCenter(center)
         const group = new Group()
+        this.group = group
+
         group.position.sub(center)
         group.add(gltf.scene)
-        const floor = new Mesh(
-          new PlaneGeometry(this.width, 300),
-          new MeshStandardMaterial({
-            color: '#fff',
-            metalness: 0,
-            roughness: 0.5,
-          }),
-        )
-        floor.receiveShadow = true
-        floor.rotation.x = -Math.PI * 0.5
-        group.add(floor)
+        this.addFloor()
         this.scene.add(group)
         this.castShadows()
 
