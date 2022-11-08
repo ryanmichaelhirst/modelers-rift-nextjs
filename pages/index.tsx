@@ -74,7 +74,7 @@ export default () => {
     <>
       <div className='flex h-full flex-col justify-between'>
         <div className='mt-4 flex flex-col md:mt-10 md:flex-row md:space-x-20'>
-          <div className='ml-4 md:ml-16 md:w-3/5'>
+          <div className='md:w-3/5'>
             <p className='h1 mb-2 text-primary md:mb-8'>
               Bringing the champions you love to the web
             </p>

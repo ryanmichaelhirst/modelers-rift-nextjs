@@ -39,7 +39,7 @@ const SearchBar = () => {
     if (!character?.displayName) return
 
     setCharacter(character)
-    router.push(`/models`)
+    router.push(`/model/${character.name}`)
   }
 
   const afterLeave = () => setQuery('')
