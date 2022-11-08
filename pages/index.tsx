@@ -1,4 +1,6 @@
-import Aatrox from '@/assets/Aatrox.png'
+import GalioCard from '@/assets/Galio-card.png'
+import YoneCard from '@/assets/Yone-card.png'
+import GwenCard from '@/assets/Gwen-card.png'
 import { Button } from '@/components/button'
 import { Card } from '@/components/card'
 import { Carousel } from '@/components/carousel'
@@ -13,16 +15,66 @@ import {
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
+const ExploreCard = ({
+  onExplore,
+  name,
+  title,
+  src,
+}: {
+  onExplore: (characterName: string) => () => void
+  name: string
+  title: string
+  src: any
+}) => {
+  return (
+    <Card className='bg-corner-gradient h-[317px] w-[200px] rounded-lg border-none'>
+      <p className='font-nunito text-lg font-bold capitalize text-tertiary'>{name}</p>
+      <p>{title}</p>
+      <div className='flex justify-center'>
+        <Image src={src} objectFit='fill' />
+      </div>
+      <div className='mt-2 flex items-center'>
+        <Button
+          text='Explore'
+          onClick={onExplore(name)}
+          classes={{ button: '!text-primary !bg-transparent hover:!opacity-80 p-0' }}
+          icon={<ExternalLinkIcon className='h-4 w-4 text-primary' />}
+          iconPosition='end'
+        />
+      </div>
+    </Card>
+  )
+}
+
+const EXPLORE_CARDS = [
+  {
+    name: 'Galio',
+    title: 'The Colossus',
+    src: GalioCard,
+  },
+  {
+    name: 'Yone',
+    title: 'The Unforgotten',
+    src: YoneCard,
+  },
+  {
+    name: 'Gwen',
+    title: 'The Hallowed Seamstress',
+    src: GwenCard,
+  },
+]
+
 export default () => {
   const router = useRouter()
 
-  const onExplore = () => router.push('models')
+  const onExplore = (characterName: string) => () =>
+    router.push(`model/${characterName.toLowerCase()}`)
 
   return (
     <>
       <div className='flex h-full flex-col justify-between'>
         <div className='mt-4 flex flex-col md:mt-10 md:flex-row md:space-x-20'>
-          <div className='w-full md:w-3/5'>
+          <div className='ml-4 md:ml-16 md:w-3/5'>
             <p className='h1 mb-2 text-primary md:mb-8'>
               Bringing the champions you love to the web
             </p>
@@ -32,23 +84,14 @@ export default () => {
             </p>
             <Button text='Show me models' onClick={() => router.push('models')} />
           </div>
-          <div className='mt-10 w-[300px] self-center text-center md:mt-0 md:w-2/5 md:text-left'>
-            <Card className='bg-corner-gradient rounded-lg border-none'>
-              <p className='font-nunito text-lg font-bold capitalize text-tertiary'>Aatrox</p>
-              <p>The Darkin Blade</p>
-              <div className='flex justify-center'>
-                <Image src={Aatrox} width='150px' height='297px' />
+          <div className='overflow-x-hidden md:w-2/5'>
+            <div className='mt-10 text-center md:relative md:mt-0 md:text-left'>
+              <div className='flex space-x-4 md:absolute'>
+                {EXPLORE_CARDS.map((ec) => (
+                  <ExploreCard key={ec.name} onExplore={onExplore} {...ec} />
+                ))}
               </div>
-              <div className='mt-2 flex items-center'>
-                <Button
-                  text='Explore'
-                  onClick={onExplore}
-                  classes={{ button: '!text-primary !bg-transparent hover:!opacity-80 p-0' }}
-                  icon={<ExternalLinkIcon className='h-4 w-4 text-primary' />}
-                  iconPosition='end'
-                />
-              </div>
-            </Card>
+            </div>
           </div>
         </div>
         <div className='mb-4 mt-10 flex flex-col items-center justify-center md:mt-0'>
@@ -63,7 +106,7 @@ export default () => {
         </div>
       </div>
 
-      <div className='flex flex-col items-center justify-center md:flex-row'>
+      <div className='mx-4 flex flex-col items-center justify-center md:mx-16 md:flex-row'>
         <div id='app-overview' className='mb-32 w-1/2 pt-32 md:mr-[150px]'>
           <p className='h4 mb-4 font-bold text-primary'>Designed for league fanatics</p>
           <p className='h3 mb-4 font-bold text-secondary'>
