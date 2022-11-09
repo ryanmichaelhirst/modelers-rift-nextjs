@@ -11,6 +11,7 @@ interface ButtonProps {
   id?: string
   icon?: any
   iconPosition?: 'start' | 'end'
+  type?: 'filled' | 'text'
 }
 
 // TODO: change to className so tailwind-prettier organizes classes
@@ -22,6 +23,7 @@ export const Button: FC<PropsWithChildren<ButtonProps>> = ({
   id,
   icon: Icon,
   iconPosition = 'start',
+  type = 'filled',
 }) => {
   const spanPaddingClass = (() => {
     if (Icon && iconPosition === 'start') return 'pl-2'
@@ -30,14 +32,19 @@ export const Button: FC<PropsWithChildren<ButtonProps>> = ({
     return ''
   })()
 
+  const btnClassname = (() => {
+    if (type === 'filled')
+      return 'flex items-center justify-center rounded-lg bg-primary py-1 px-4 text-white hover:opacity-90 disabled:opacity-50'
+
+    // type === 'text'
+    return 'flex items-center rounded-lg text-primary hover:opacity-90 disabled:opacity-50'
+  })()
+
   return (
     <button
       id={id}
       disabled={disabled}
-      className={twMerge(
-        'flex items-center justify-center rounded-lg bg-primary py-1 px-4 text-white hover:opacity-90 disabled:opacity-50',
-        classes?.button,
-      )}
+      className={twMerge(btnClassname, classes?.button)}
       onClick={disabled ? null : onClick}
     >
       {iconPosition === 'start' && Icon && Icon}
