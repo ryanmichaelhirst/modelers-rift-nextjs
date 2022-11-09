@@ -51,7 +51,7 @@ const ExploreCard = ({
   src: any
 }) => {
   return (
-    <Card className='bg-corner-gradient h-[317px] w-[200px] rounded-lg border-none'>
+    <Card className='bg-corner-gradient h-[317px] w-[200px] rounded-lg border-none shadow-md'>
       <p className='font-nunito text-lg font-bold capitalize text-tertiary'>{name}</p>
       <p>{title}</p>
       <div className='flex justify-center'>
@@ -167,13 +167,11 @@ export default () => {
             </p>
             <Button text='Show me models' onClick={() => router.push('models')} />
           </div>
-          <div className='overflow-x-hidden md:w-2/5'>
-            <div className='mt-10 text-center md:relative md:mt-0 md:text-left'>
-              <div className='flex space-x-4 md:absolute'>
-                {EXPLORE_CARDS.map((ec) => (
-                  <ExploreCard key={ec.name} onExplore={onExplore} {...ec} />
-                ))}
-              </div>
+          <div className='mt-10 -mr-16 overflow-x-hidden text-center md:relative md:mt-0 md:!-mr-16 md:h-[330px] md:w-2/5 md:text-left'>
+            <div className='flex space-x-4 md:absolute'>
+              {EXPLORE_CARDS.map((ec) => (
+                <ExploreCard key={ec.name} onExplore={onExplore} {...ec} />
+              ))}
             </div>
           </div>
         </div>
