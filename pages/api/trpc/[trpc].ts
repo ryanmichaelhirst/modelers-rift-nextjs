@@ -11,10 +11,12 @@ import { userRouter } from 'routers/user'
 import superjson from 'superjson'
 import { z } from 'zod'
 
-const sessionUserId = async (accessToken: string) => {
-  const session = (await redisService.client().json.get(accessToken)) as Session
+type SessionPayload = Session | undefined | null
 
-  return session.userId
+const sessionUserId = async (accessToken: string) => {
+  const session = (await redisService.client().json.get(accessToken)) as SessionPayload
+
+  return session?.userId
 }
 
 export const createContext = async (opts?: trpcNext.CreateNextContextOptions) => {
@@ -34,7 +36,9 @@ export const createContext = async (opts?: trpcNext.CreateNextContextOptions) =>
     if (!refreshToken) return null
 
     // get a new access token
-    const payload = (await redisService.client().json.get(refreshToken)) as Session
+    const payload = (await redisService.client().json.get(refreshToken)) as SessionPayload
+    if (!payload) return null
+
     const user = await prismaService.client.user.findUnique({
       where: {
         id: payload.userId,
