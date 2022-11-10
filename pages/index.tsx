@@ -108,24 +108,24 @@ const FeatureCard = ({
 
 const LINK_BLOCKS = [
   {
-    title: 'Create an account',
-    description: 'Sign up for an account to start downloading models.',
+    title: 'Sign up',
+    description: 'Create an account and download files',
     icon: IdentificationIcon,
     buttonText: 'Sign up',
     href: '/sign-up',
   },
   {
     title: 'Search models',
-    description: 'Select a champion and view all their interactions on the rift.',
+    description: 'Pick a champion and cycle through their skins',
     icon: SearchIcon,
-    buttonText: 'Select a model',
+    buttonText: 'Find a model',
     href: '/models',
   },
   {
-    title: 'Support on Patreon',
-    description: 'Consider becoming a patron or donating to support the project.',
+    title: 'Support us',
+    description: 'Make a donation or consider becoming a patron',
     icon: EmojiHappyIcon,
-    buttonText: 'Become a patron',
+    buttonText: 'Donate now',
     href: '/support-us',
   },
 ]
@@ -137,7 +137,7 @@ const LinkBlock = ({ icon: Icon, title, description, buttonText, href }: any) =>
     <div className='flex flex-col'>
       <Icon className='mb-1 h-5 w-5 text-black' />
       <p className='mb-2 font-bold'>{title}</p>
-      <p className='mb-2'>{description}</p>
+      <p className='mb-2 flex-grow'>{description}</p>
       <Button
         type='text'
         text={buttonText}
@@ -227,9 +227,9 @@ export default () => {
       </div>
 
       <div className='mt-40 flex flex-col md:flex-row'>
-        <div className='mr-8 md:w-[370px] md:min-w-[370px]'>
-          <p className='h4 mb-4 font-bold text-primary'>Ready to get started?</p>
-          <p className='mb-6 text-secondary'>
+        <div className='mr-12 md:w-[370px] md:min-w-[370px]'>
+          <p className='h3 mb-4 font-bold text-primary'>Ready to get started?</p>
+          <p className='h4 mb-6 text-secondary'>
             Check out your favorite champion in our{' '}
             <Link className='text-primary' href='/models'>
               Model Explorer
