@@ -5,7 +5,6 @@ import { addAssets } from 'bin/jobs/add-assets'
 import { addCharacters } from 'bin/jobs/add-characters'
 import { uploadModels } from 'bin/jobs/upload-models'
 import { uploadSounds } from 'bin/jobs/upload-sounds'
-import { execSync } from 'child_process'
 
 export const seedAws = async () => {
   // upload glb files
@@ -18,10 +17,6 @@ export const seedAws = async () => {
  * Average runtime: 5:29.915 (m:ss.mmm)
  */
 export const seedDb = async () => {
-  // apply db migrations
-  execSync(`npx prisma migrate dev`)
-  logger.info('applied prisma migrations')
-
   // add dummy users
   const users = await prismaService.findManyUsers({ take: 100 })
   if (users.length === 0) {
