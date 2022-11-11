@@ -68,7 +68,7 @@ const SignUp: NextPage = () => {
         <div className='mb-4 flex flex-col'>
           <label className='mb-1 text-tertiary'>Name</label>
           <input
-            className='rounded border border-solid border-slate-300 px-2 text-slate-300'
+            className='rounded border border-solid border-slate-300 px-2 text-slate-500'
             placeholder='Name'
             value={watch('name')}
             {...register('name', { required: 'Name is required' })}
@@ -81,7 +81,7 @@ const SignUp: NextPage = () => {
         <div className='mb-4 flex flex-col'>
           <label className='mb-1 text-tertiary'>Email</label>
           <input
-            className='rounded border border-solid border-slate-300 px-2 text-slate-300'
+            className='rounded border border-solid border-slate-300 px-2 text-slate-500'
             placeholder='Email'
             value={watch('email')}
             {...register('email', { required: 'Email is required' })}
@@ -125,7 +125,7 @@ const SignUp: NextPage = () => {
           id='create-account'
           onClick={onSubmit}
           classes={{
-            button: 'mt-4 !py-2 !px-5 text-primary text-lg',
+            button: 'mt-4 !py-2 !px-5 text-lg',
           }}
           text={'Create an account'}
         />

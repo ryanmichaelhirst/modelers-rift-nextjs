@@ -34,12 +34,12 @@ export default () => {
         </p>
         <p>
           In order to maintain the site we offer unlimited downloads after a one time donation.
-          Hosting and downloading 3d assets is expensive. You can check out all operating costs
-          here.
+          Hosting and downloading 3D assets can be expensive as these files are much larger (10 -
+          50MBs) than standard assets like images and audio files.
         </p>
         <hr className='my-8' />
         <p className='mb-4'>
-          If you would like to support the creator of this site and other works consider becoming a
+          If you would like to support this site further and other future works consider becoming a
           patron!
         </p>
         <div className='flex justify-center'>

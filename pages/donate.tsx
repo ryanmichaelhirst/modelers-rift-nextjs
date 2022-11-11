@@ -1,6 +1,7 @@
 import { H1 } from '@/components/h1'
 import { trpc } from '@/utils/trpc'
 import Image from 'next/image'
+import type { NextRequest, NextResponse } from 'next/server'
 import { FC, useEffect, useState } from 'react'
 
 const Product: FC<{
@@ -11,8 +12,8 @@ const Product: FC<{
   userId?: number
 }> = ({ id, name, dollarAmount, imageUrl, userId }) => {
   return (
-    <div className='mr-2 flex-1 rounded'>
-      <div className='flex items-center rounded-t border border border-b-0 border-solid p-3'>
+    <div className='mr-2 flex-1 cursor-pointer rounded'>
+      <div className='flex items-center rounded-t border border-b-0 border-solid p-3'>
         <Image src={imageUrl} alt={`Image for ${name}`} width='60px' height='80px' />
         <div className='description'>
           <h3>{name}</h3>
@@ -28,6 +29,23 @@ const Product: FC<{
       </div>
     </div>
   )
+}
+
+export const getServerSideProps = async ({ req, res }: { req: NextRequest; res: NextResponse }) => {
+  // TODO: why is it set as 'undefined' and not undefined?
+  // @ts-ignore
+  if (!req.cookies.token || req.cookies.token === 'undefined') {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false, // make this true if you want the redirect to be cached by the search engines and clients forever
+      },
+    }
+  }
+
+  return {
+    props: {},
+  }
 }
 
 export default () => {
@@ -58,10 +76,10 @@ export default () => {
       <p>{message}</p>
     </section>
   ) : (
-    <section>
+    <section className='rounded border p-6 shadow'>
       <div className='mb-10 flex flex-col items-center'>
         <H1 className='mb-6'>Make a Donation</H1>
-        <p>Select an option below to make a donation through stripe</p>
+        <p>Select an option below to make a donation through stripe.</p>
         <p>We appreciate any contribution you are able to make to Modeler's Rift!</p>
       </div>
       <div className='flex'>

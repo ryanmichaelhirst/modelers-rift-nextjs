@@ -5,6 +5,7 @@ import { formatRFC7231 } from 'date-fns'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import Link from 'next/link'
 
 const Profile: NextPage = () => {
   const router = useRouter()
@@ -46,6 +47,8 @@ const Profile: NextPage = () => {
     return formatRFC7231(date)
   })()
 
+  const isDonating = donations?.collection && donations?.collection?.length > 0
+
   return (
     <div>
       <H1>Profile</H1>
@@ -76,21 +79,31 @@ const Profile: NextPage = () => {
         </div>
       )}
       <div className='mt-10 rounded border border-slate-300 p-4 shadow'>
-        <div className='mb-4'>
-          <label className='mb-1 text-tertiary'>Donations</label>
-          {donations?.collection.map((d) => (
-            <div key={d.id}>
-              <p className='text-lg text-tertiary'>{d.productName}</p>
-              <p>{d.dollarAmount}</p>
+        <p className='mb-2 text-tertiary'>Donations</p>
+        {isDonating ? (
+          <>
+            {donations?.collection.map((d) => (
+              <div key={d.id} className='flex items-center'>
+                <p className='mr-2 text-lg text-tertiary'>{d.productName}</p>
+                <p className='rounded bg-primary px-2 text-white'>{d.dollarAmount}</p>
+              </div>
+            ))}
+            <div className='mt-4'>
+              <p>
+                Thank you for donating! If you would like to make another donation or become a
+                patron click{' '}
+                <Link href='/support-us' passHref>
+                  <a className='text-primary'>here</a>
+                </Link>
+              </p>
             </div>
-          ))}
-          {donations?.collection.length === 0 && (
-            <div className='my-2'>
-              <p className='my-2'>Make a donation to start downloading champion assets!</p>
-              <Button text='Donate' onClick={() => router.push('/donate')} />
-            </div>
-          )}
-        </div>
+          </>
+        ) : (
+          <div className='my-2'>
+            <p className='my-2'>Make a donation to start downloading champion assets!</p>
+            <Button text='Donate' onClick={() => router.push('/donate')} />
+          </div>
+        )}
       </div>
     </div>
   )

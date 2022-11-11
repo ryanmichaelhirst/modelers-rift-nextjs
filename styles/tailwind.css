@@ -5,8 +5,12 @@
 @tailwind base;
 
 /* style dat.gui controls */
+.dg.main {
+  @apply !w-72;
+}
+
 .dg.main > ul {
-  @apply rounded-t border border-solid border-slate-400 font-nunito;
+  @apply rounded-t font-nunito;
 }
 
 .dg.main > ul.closed {
@@ -49,7 +53,8 @@ li.cr > div > div.c > div > input {
 }
 
 .dg.main .close-button.close-bottom {
-  @apply left-0 rounded-b !border !border-solid border-slate-400 !bg-white text-slate-400;
+  @apply left-0 !h-[20px] !w-72 !bg-white text-sm text-gray-400;
+  @apply !flex items-center rounded p-1 pl-2 shadow;
   text-shadow: none;
 }
 
@@ -139,5 +144,33 @@ li.cr > div > div.c > div > input {
   .slide {
     height: 202px;
     width: 150px;
+  }
+
+  .bg-corner-gradient {
+    background: hsla(314, 100%, 93%, 1);
+    background: linear-gradient(235deg, hsla(314, 100%, 93%, 1) 0%, hsla(0, 0%, 100%, 1) 16%);
+    background: -moz-linear-gradient(235deg, hsla(314, 100%, 93%, 1) 0%, hsla(0, 0%, 100%, 1) 16%);
+    background: -webkit-linear-gradient(
+      200deg,
+      hsla(314, 100%, 93%, 1) 0%,
+      hsla(0, 0%, 100%, 1) 45%
+    );
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#FFDDF7", endColorstr="#FFFFFF", GradientType=1 );
+  }
+
+  .h1 {
+    @apply text-3xl leading-8 md:text-4xl;
+  }
+
+  .h2 {
+    @apply text-2xl leading-8 md:text-3xl;
+  }
+
+  .h3 {
+    @apply text-xl leading-8 md:text-2xl;
+  }
+
+  .h4 {
+    @apply text-lg leading-8 md:text-xl;
   }
 }
