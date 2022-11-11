@@ -3,6 +3,7 @@ import { prismaService } from '@/lib/prisma'
 import { redisService, Session } from '@/lib/redis'
 import * as trpc from '@trpc/server'
 import * as trpcNext from '@trpc/server/adapters/next'
+import { NextApiResponse } from 'next'
 import { characterRouter } from 'routers/character'
 import { donationRouter } from 'routers/donation'
 import { githubRouter } from 'routers/github'
@@ -19,6 +20,11 @@ const sessionUserId = async (accessToken: string) => {
   return session?.userId
 }
 
+const resetCookie = (res?: NextApiResponse) => res?.setHeader('Set-Cookie', '')
+
+const deleteRefreshToken = async (refreshToken: string) =>
+  await redisService.client().json.del(refreshToken)
+
 export const createContext = async (opts?: trpcNext.CreateNextContextOptions) => {
   const req = opts?.req
   const res = opts?.res
@@ -33,11 +39,21 @@ export const createContext = async (opts?: trpcNext.CreateNextContextOptions) =>
     if (accessToken) return await sessionUserId(accessToken)
 
     // logout user if no refresh token
-    if (!refreshToken) return null
+    if (!refreshToken) {
+      resetCookie(res)
 
-    // get a new access token
+      return null
+    }
+
     const payload = (await redisService.client().json.get(refreshToken)) as SessionPayload
-    if (!payload) return null
+
+    // clean up cookie if refresh token is invalid
+    if (!payload) {
+      deleteRefreshToken(refreshToken)
+      resetCookie(res)
+
+      return null
+    }
 
     const user = await prismaService.client.user.findUnique({
       where: {
@@ -46,13 +62,13 @@ export const createContext = async (opts?: trpcNext.CreateNextContextOptions) =>
     })
     if (!user) return null
 
+    // create new tokens and set in cookie
     const { token: newAccessToken, setCookieHeader: accessTokenHeader } = await createAccessToken(
       user,
     )
     accessToken = newAccessToken
 
-    // delete old refresh token
-    await redisService.client().json.del(refreshToken)
+    deleteRefreshToken(refreshToken)
 
     const { token: newRefreshToken, setCookieHeader: refreshTokenHeader } =
       await createRefreshToken(user)
