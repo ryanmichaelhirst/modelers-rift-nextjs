@@ -24,6 +24,8 @@ const NextApp: AppType = ({ Component, pageProps }) => {
   )
 }
 
+// This method fixes trpc CORS issue
+// https://trpc.io/docs/v10/nextjs#4-create-trpc-hooks
 const getBaseUrl = () => {
   // browser should use relative path
   if (typeof window !== 'undefined') return ''
