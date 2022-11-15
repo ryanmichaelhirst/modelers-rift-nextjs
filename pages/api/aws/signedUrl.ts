@@ -10,7 +10,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 // Initializing the cors middleware
 // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
 const cors = Cors({
-  methods: ['POST', 'GET', 'HEAD'],
+  methods: ['POST', 'GET', 'HEAD', 'OPTIONS'],
 })
 
 // Helper method to wait for a middleware to execute before continuing
@@ -27,7 +27,9 @@ function runMiddleware(req: NextApiRequest, res: NextApiResponse, fn: Function) 
   })
 }
 
-// previous implementation @ https://github.com/rmbh4211995/league-of-legends-champions/pull/1/files#diff-436932cb510af2021cba101c422550c0afa7a2cb2814f93669e1b339eee669ab
+// previous implementation
+// https://github.com/rmbh4211995/league-of-legends-champions/pull/1/files#diff-436932cb510af2021cba101c422550c0afa7a2cb2814f93669e1b339eee669ab
+// https://github.com/rmbh4211995/league-of-legends-champions/blob/d93963c363fbdcf0919fbe8cb44aa554f713f854/pages/api/aws_presigned_url/%5Bname%5D.ts
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   // Run the middleware
   await runMiddleware(req, res, cors)
