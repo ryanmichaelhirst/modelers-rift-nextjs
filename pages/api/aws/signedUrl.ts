@@ -4,36 +4,33 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import Cors from 'cors'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
+// nextjs example
+// https://github.com/vercel/next.js/blob/canary/examples/api-routes-cors/pages/api/cors.ts
+
+// Initializing the cors middleware
+// You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
+const cors = Cors({
+  methods: ['POST', 'GET', 'HEAD'],
+})
+
 // Helper method to wait for a middleware to execute before continuing
 // And to throw an error when an error happens in a middleware
-type Middleware = (req: NextApiRequest, res: NextApiResponse, result: (res: any) => any) => any
+function runMiddleware(req: NextApiRequest, res: NextApiResponse, fn: Function) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result: any) => {
+      if (result instanceof Error) {
+        return reject(result)
+      }
 
-export const initMiddleware = (middleware: Middleware) => {
-  return (req: NextApiRequest, res: NextApiResponse) =>
-    new Promise((resolve, reject) => {
-      middleware(req, res, (result) => {
-        if (result instanceof Error) {
-          return reject(result)
-        }
-
-        return resolve(result)
-      })
+      return resolve(result)
     })
+  })
 }
-
-// Initialize the cors middleware
-const cors = initMiddleware(
-  // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
-  Cors({
-    // Only allow requests with GET, POST and OPTIONS
-    methods: ['GET', 'POST', 'OPTIONS'],
-  }),
-)
 
 // previous implementation @ https://github.com/rmbh4211995/league-of-legends-champions/pull/1/files#diff-436932cb510af2021cba101c422550c0afa7a2cb2814f93669e1b339eee669ab
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  // Run cors
-  // await cors(req, res)
+  // Run the middleware
+  await runMiddleware(req, res, cors)
 
   const Key = req.body.Key
   const command = new GetObjectCommand({
