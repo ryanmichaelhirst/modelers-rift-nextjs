@@ -27,30 +27,29 @@ interface StripeEvent {
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const body = req.body as StripeEvent
+  try {
+    const body = req.body as StripeEvent
 
-  if (
-    body.type === 'checkout.session.completed' &&
-    body.data.object.status === 'complete' &&
-    body.data.object.payment_status === 'paid'
-  ) {
-    const metaUserId = body.data.object.metadata.userId
-    const userId = toNumber(metaUserId)
-    if (!userId) {
-      res.status(400).send({ error: 'No user id' })
+    if (body.type === 'checkout.session.completed') {
+      const metaUserId = body.data.object.metadata.userId
+      const userId = toNumber(metaUserId)
+      if (!userId) {
+        res.status(400).send({ error: 'No user id' })
 
-      return
+        return
+      }
+
+      await prismaService.createDonation({
+        data: {
+          userId,
+          amount: body.data.object.amount_total.toString(),
+          productName: body.data.object.metadata.productName,
+          payload: body as unknown as Prisma.JsonObject,
+        },
+      })
     }
-
-    await prismaService.createDonation({
-      data: {
-        userId,
-        amount: body.data.object.amount_total.toString(),
-        productName: body.data.object.metadata.productName,
-        payload: body as unknown as Prisma.JsonObject,
-      },
-    })
+    res.status(200).send('OK')
+  } catch (err) {
+    res.status(500).send('Error parsing stripe event')
   }
-
-  res.status(200).send('OK')
 }
