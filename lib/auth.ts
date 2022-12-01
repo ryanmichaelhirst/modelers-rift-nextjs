@@ -32,7 +32,9 @@ export const revokeAccessToken = async (token: string) => {
   return `token=${token}; Expires=${rfcDate}; Secure; HttpOnly`
 }
 
-export const isTokenExpired = async (token: string) => {
+export const isTokenExpired = async (token?: string) => {
+  if (!token) return true
+
   const session = (await redisService.client().json.get(token)) as Session | null
   if (!session) return true
 

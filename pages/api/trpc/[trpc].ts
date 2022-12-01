@@ -1,4 +1,4 @@
-import { createAccessToken, createRefreshToken } from '@/lib/auth'
+import { createAccessToken, createRefreshToken, isTokenExpired } from '@/lib/auth'
 import { prismaService } from '@/lib/prisma'
 import { redisService, Session } from '@/lib/redis'
 import * as trpc from '@trpc/server'
@@ -35,11 +35,19 @@ export const createContext = async (opts?: trpcNext.CreateNextContextOptions) =>
   let accessToken = cookie.match(/(?<=token=).*?(?=;)/g)?.at(0)
   let refreshToken = cookie.match(/(?<=refresh=).*/g)?.at(0)
 
-  const userId = await (async () => {
-    if (accessToken) return await sessionUserId(accessToken)
+  console.log({ accessToken, refreshToken })
 
-    // logout user if no refresh token
+  const userId = await (async () => {
+    const isExpired = isTokenExpired(accessToken)
+    if (accessToken && !isExpired) {
+      console.log(`cookie has access token: ${accessToken}`)
+
+      return await sessionUserId(accessToken)
+    }
+
+    // logout user if no refresh token (this should never happen)
     if (!refreshToken) {
+      console.log('no refresh token')
       resetCookie(res)
 
       return null
@@ -49,6 +57,7 @@ export const createContext = async (opts?: trpcNext.CreateNextContextOptions) =>
 
     // clean up cookie if refresh token is invalid
     if (!payload) {
+      console.log(`no payload for refresh token: ${refreshToken}`)
       deleteRefreshToken(refreshToken)
       resetCookie(res)
 
@@ -60,7 +69,11 @@ export const createContext = async (opts?: trpcNext.CreateNextContextOptions) =>
         id: payload.userId,
       },
     })
-    if (!user) return null
+    if (!user) {
+      console.log(`no user for payload.userId: ${payload.userId}`)
+
+      return null
+    }
 
     // create new tokens and set in cookie
     const { token: newAccessToken, setCookieHeader: accessTokenHeader } = await createAccessToken(
@@ -76,8 +89,12 @@ export const createContext = async (opts?: trpcNext.CreateNextContextOptions) =>
 
     res?.setHeader('Set-Cookie', [accessTokenHeader, refreshTokenHeader])
 
+    console.log(`getting session user id from access token: ${accessToken}`)
+
     return await sessionUserId(accessToken)
   })()
+
+  console.log({ userId })
 
   return {
     ...opts,
