@@ -4,6 +4,7 @@ import { Prisma } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { stripe } from '@/lib/stripe'
 import { stripeLogger } from '@/lib/datadog'
+import Cors from 'cors'
 
 interface StripeEvent {
   id: string
@@ -69,7 +70,26 @@ const saveStripeDonation = async ({ res, event }: { res: NextApiResponse; event:
 
 const signingSecret = 'whsec_NX8SiSlAk2okY1FDRFZxiKRvIwFG2azi'
 
+// run cors middleware
+const cors = Cors({
+  methods: ['POST', 'GET', 'HEAD'],
+})
+function runMiddleware(req: NextApiRequest, res: NextApiResponse, fn: Function) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result: any) => {
+      if (result instanceof Error) {
+        return reject(result)
+      }
+
+      return resolve(result)
+    })
+  })
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  // Run the middleware
+  await runMiddleware(req, res, cors)
+
   let event: StripeEvent | undefined
 
   stripeLogger.info('Stripe event received', { metadata: { headers: req.headers, body: req.body } })
