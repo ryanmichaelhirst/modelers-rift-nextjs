@@ -2,55 +2,100 @@ import { prismaService } from '@/lib/prisma'
 import { toNumber } from '@/utils/index'
 import { Prisma } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { stripe } from '@/lib/stripe'
 
 interface StripeEvent {
   id: string
   object: 'event'
   api_version: string
   created: number
-  livemode: boolean
-  pending_webhooks: number
-  type: 'checkout.session.completed' | 'payment_intent.succeeded'
-  request: { id: string | null; idempotency_key: string | null }
   data: {
     object: {
       id: string
       object: 'checkout.session'
       amount_subtotal: number
       amount_total: number
-      status: 'complete'
       customer_email?: string | null
+      metadata: {
+        productId: string
+        productName: string
+        userId: string
+      }
       payment_status: 'paid'
-      metadata: { userId: string; productId: string; productName: string }
+      status: 'complete'
     }
+  }
+  livemode: boolean
+  pending_webhooks: number
+  request: {
+    id: string | null
+    idempotency_key: string | null
+  }
+  type: 'checkout.session.completed' | 'payment_intent.succeeded'
+}
+
+interface StripeError {
+  message: string
+}
+
+const isStripeError = (err: unknown): err is StripeError =>
+  typeof err === 'object' && err !== null && 'message' in err
+
+const saveStripeDonation = async ({ res, event }: { res: NextApiResponse; event: StripeEvent }) => {
+  if (event.type === 'checkout.session.completed') {
+    const metaUserId = event.data.object.metadata.userId
+    const userId = toNumber(metaUserId)
+
+    if (!userId) {
+      res.status(400).send('No user id')
+
+      return
+    }
+
+    await prismaService.createDonation({
+      data: {
+        userId,
+        amount: event.data.object.amount_total.toString(),
+        productName: event.data.object.metadata.productName,
+        payload: event as unknown as Prisma.JsonObject,
+      },
+    })
   }
 }
 
+const signingSecret = 'whsec_NX8SiSlAk2okY1FDRFZxiKRvIwFG2azi'
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  try {
-    const body = req.body as StripeEvent
+  let event: StripeEvent | undefined
 
-    if (body.type === 'checkout.session.completed') {
-      const metaUserId = body.data.object.metadata.userId
-      const userId = toNumber(metaUserId)
-      if (!userId) {
-        res.status(400).send({ error: 'No user id' })
+  if (process.env.NODE_ENV === 'production') {
+    const sig = req.headers['stripe-signature']
 
-        return
-      }
+    if (!sig) {
+      res.status(400).send('Stripe signature not present')
 
-      await prismaService.createDonation({
-        data: {
-          userId,
-          amount: body.data.object.amount_total.toString(),
-          productName: body.data.object.metadata.productName,
-          payload: body as unknown as Prisma.JsonObject,
-        },
-      })
+      return
     }
 
-    res.status(200).send('OK')
-  } catch (err) {
-    res.status(500).send('Error parsing stripe event')
+    try {
+      event = stripe.webhooks.constructEvent(req.body, sig, signingSecret) as StripeEvent
+    } catch (err) {
+      const errMessage = isStripeError(err) ? err.message : err
+      res.status(500).send(`Error constructing event: ${errMessage}`)
+
+      return
+    }
+  } else {
+    event = req.body as StripeEvent
   }
+
+  switch (event.type) {
+    case 'checkout.session.completed':
+      await saveStripeDonation({ res, event })
+      break
+    default:
+      res.status(500).send(`Unhandled event type ${event.type}`)
+  }
+
+  res.status(200).send('OK')
 }
