@@ -3,6 +3,7 @@ import { toNumber } from '@/utils/index'
 import { Prisma } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { stripe } from '@/lib/stripe'
+import { stripeLogger } from '@/lib/datadog'
 
 interface StripeEvent {
   id: string
@@ -47,12 +48,13 @@ const saveStripeDonation = async ({ res, event }: { res: NextApiResponse; event:
     const userId = toNumber(metaUserId)
 
     if (!userId) {
+      stripeLogger.error(`No user id`)
       res.status(400).send('No user id')
 
       return
     }
 
-    await prismaService.createDonation({
+    const donation = await prismaService.createDonation({
       data: {
         userId,
         amount: event.data.object.amount_total.toString(),
@@ -60,6 +62,8 @@ const saveStripeDonation = async ({ res, event }: { res: NextApiResponse; event:
         payload: event as unknown as Prisma.JsonObject,
       },
     })
+
+    stripeLogger.info('Saved stripe donation', { metadata: { donation } })
   }
 }
 
@@ -72,6 +76,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const sig = req.headers['stripe-signature']
 
     if (!sig) {
+      stripeLogger.error('Stripe signature not present', { metadata: { sig } })
       res.status(400).send('Stripe signature not present')
 
       return
@@ -79,8 +84,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     try {
       event = stripe.webhooks.constructEvent(req.body, sig, signingSecret) as StripeEvent
+      stripeLogger.info('Constructed stripe event', { metadata: { event } })
     } catch (err) {
       const errMessage = isStripeError(err) ? err.message : err
+      stripeLogger.error('Error constructing event', { metadata: { errMessage } })
       res.status(500).send(`Error constructing event: ${errMessage}`)
 
       return
@@ -94,6 +101,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       await saveStripeDonation({ res, event })
       break
     default:
+      stripeLogger.error(`Unhandled event type ${event.type}`)
       res.status(500).send(`Unhandled event type ${event.type}`)
   }
 
