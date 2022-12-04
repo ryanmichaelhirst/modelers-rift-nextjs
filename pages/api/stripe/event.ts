@@ -70,7 +70,13 @@ const saveStripeDonation = async ({ res, event }: { res: NextApiResponse; event:
 const signingSecret = 'whsec_NX8SiSlAk2okY1FDRFZxiKRvIwFG2azi'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  stripeLogger.info('Stripe event received', { metadata: { headers: req.headers, body: req.body } })
+  stripeLogger.info('Stripe event received')
+
+  if (req.method !== 'POST') {
+    stripeLogger.info('Method is not POST', { metadata: { method: req.method } })
+    res.setHeader('Allow', 'POST')
+    res.status(405).end('Method not allowed')
+  }
 
   let event: StripeEvent | undefined
 
