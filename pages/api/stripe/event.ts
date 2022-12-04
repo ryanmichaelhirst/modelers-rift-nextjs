@@ -4,7 +4,6 @@ import { Prisma } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { stripe } from '@/lib/stripe'
 import { stripeLogger } from '@/lib/datadog'
-import { buffer } from 'micro'
 
 interface StripeEvent {
   id: string
@@ -91,8 +90,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const reqBuffer = await buffer(req)
-    event = stripe.webhooks.constructEvent(reqBuffer, sig, signingSecret) as StripeEvent
+    event = stripe.webhooks.constructEvent(req.body, sig, signingSecret) as StripeEvent
     stripeLogger.info('Constructed stripe event', { metadata: { event } })
   } catch (err) {
     const errMessage = isStripeError(err) ? err.message : err
