@@ -70,8 +70,6 @@ export const config = {
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  stripeLogger.info('Stripe event received', { metadata: { body: req.body, headers: req.headers } })
-
   if (req.method !== 'POST') {
     stripeLogger.info('Method is not POST', { metadata: { method: req.method } })
     res.setHeader('Allow', 'POST')
@@ -89,13 +87,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return
   }
 
+  stripeLogger.info('Stripe event received', { metadata: { body: req.body, sig } })
+
   try {
     const buf = await buffer(req.body)
     stripeLogger.info(req.body)
     stripeLogger.info(buf)
     stripeLogger.info(JSON.stringify(req.body))
 
-    event = stripe.webhooks.constructEvent(buf, sig, signingSecret) as StripeEvent
+    event = stripe.webhooks.constructEvent(req.body, sig, signingSecret) as StripeEvent
     stripeLogger.info('Constructed stripe event', { metadata: { event } })
   } catch (err) {
     const errMessage = isStripeError(err) ? err.message : err
