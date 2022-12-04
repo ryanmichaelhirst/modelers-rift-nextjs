@@ -4,6 +4,7 @@ import { Prisma } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { stripe } from '@/lib/stripe'
 import { stripeLogger } from '@/lib/datadog'
+import { buffer } from 'micro'
 
 interface StripeEvent {
   id: string
@@ -80,28 +81,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   let event: StripeEvent | undefined
 
-  if (process.env.NODE_ENV === 'production') {
-    const sig = req.headers['stripe-signature']
+  const sig = req.headers['stripe-signature']
 
-    if (!sig) {
-      stripeLogger.error('Stripe signature not present', { metadata: { sig } })
-      res.status(400).send('Stripe signature not present')
+  if (!sig) {
+    stripeLogger.error('Stripe signature not present', { metadata: { sig } })
+    res.status(400).send('Stripe signature not present')
 
-      return
-    }
+    return
+  }
 
-    try {
-      event = stripe.webhooks.constructEvent(req.body, sig, signingSecret) as StripeEvent
-      stripeLogger.info('Constructed stripe event', { metadata: { event } })
-    } catch (err) {
-      const errMessage = isStripeError(err) ? err.message : err
-      stripeLogger.error('Error constructing event', { metadata: { errMessage } })
-      res.status(500).send(`Error constructing event: ${errMessage}`)
+  try {
+    const reqBuffer = await buffer(req)
+    event = stripe.webhooks.constructEvent(reqBuffer, sig, signingSecret) as StripeEvent
+    stripeLogger.info('Constructed stripe event', { metadata: { event } })
+  } catch (err) {
+    const errMessage = isStripeError(err) ? err.message : err
+    stripeLogger.error('Error constructing event', { metadata: { errMessage } })
+    res.status(500).send(`Error constructing event: ${errMessage}`)
 
-      return
-    }
-  } else {
-    event = req.body as StripeEvent
+    return
   }
 
   switch (event.type) {
