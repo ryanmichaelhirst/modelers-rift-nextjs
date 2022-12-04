@@ -124,7 +124,7 @@ export class PrismaService {
   createDonation = async (args: Prisma.DonationCreateArgs) =>
     await this.client.donation.create(args)
 
-  finyManyDonations = async (args: Prisma.DonationFindManyArgs) =>
+  findManyDonations = async (args: Prisma.DonationFindManyArgs) =>
     await this.client.donation.findMany(args)
 
   deleteManyDonations = async (args?: Prisma.DonationDeleteManyArgs) =>

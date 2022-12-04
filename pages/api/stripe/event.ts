@@ -48,6 +48,23 @@ const saveStripeDonation = async (event: StripeEvent) => {
     const metaUserId = event.data.object.metadata.userId
     const userId = toNumber(metaUserId)
 
+    const existingDonations = await prismaService.findManyDonations({
+      where: {
+        userId,
+      },
+    })
+    const processedEvent = existingDonations.find((d) => {
+      // @ts-ignore
+      return d.payload?.id === event.id
+    })
+    if (processedEvent) {
+      stripeLogger.info('Stripe donation has already been saved', {
+        metadata: { processedEvent, eventId: event.id },
+      })
+
+      return
+    }
+
     const donation = await prismaService.createDonation({
       data: {
         userId,
