@@ -1,22 +1,24 @@
 import { z } from 'zod'
-import { createRouter } from '../pages/api/trpc/[trpc]'
+import { router, procedure } from '@/server/trpc'
 
-export const characterRouter = createRouter()
-  .query('all', {
-    input: z
-      .object({
-        page: z.number().nullish(),
-        pageSize: z.number().nullish(),
-        filter: z
-          .object({
-            nameEq: z.string().nullish(),
-            typeEq: z.string().nullish(),
-          })
-          .nullish(),
-        includeAssets: z.boolean().optional(),
-      })
-      .nullish(),
-    async resolve({ ctx, input }) {
+export const characterRouter = router({
+  all: procedure
+    .input(
+      z
+        .object({
+          page: z.number().nullish(),
+          pageSize: z.number().nullish(),
+          filter: z
+            .object({
+              nameEq: z.string().nullish(),
+              typeEq: z.string().nullish(),
+            })
+            .nullish(),
+          includeAssets: z.boolean().optional(),
+        })
+        .nullish(),
+    )
+    .query(async ({ ctx, input }) => {
       const page = input?.page ?? 1
       const pageSize = input?.pageSize ?? 10
       const skip = (page - 1) * pageSize
@@ -57,22 +59,23 @@ export const characterRouter = createRouter()
           pageSize,
         },
       }
-    },
-  })
-  .query('get', {
-    input: z
-      .object({
-        page: z.number().nullish(),
-        pageSize: z.number().nullish(),
-        filter: z.object({
-          nameEq: z.string().nullish(),
-          typeEq: z.string().nullish(),
-        }),
-        includeAssets: z.boolean(),
-      })
-      .nullish(),
-    async resolve({ ctx, input }) {
-      return await ctx.prisma.character.findFirst({
+    }),
+  get: procedure
+    .input(
+      z
+        .object({
+          page: z.number().nullish(),
+          pageSize: z.number().nullish(),
+          filter: z.object({
+            nameEq: z.string().nullish(),
+            typeEq: z.string().nullish(),
+          }),
+          includeAssets: z.boolean(),
+        })
+        .nullish(),
+    )
+    .query(async ({ ctx, input }) => {
+      const character = await ctx.prisma.character.findFirst({
         where: {
           name: {
             equals: input?.filter?.nameEq ?? undefined,
@@ -85,5 +88,7 @@ export const characterRouter = createRouter()
           assets: input?.includeAssets,
         },
       })
-    },
-  })
+
+      return character ?? null
+    }),
+})

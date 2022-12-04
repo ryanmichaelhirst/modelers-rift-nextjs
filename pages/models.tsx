@@ -44,16 +44,13 @@ export const Models: NextPage = () => {
   const skin = useModelStore((state) => state.skin)
   const setSkin = useModelStore((state) => state.setSkin)
 
-  const { data } = trpc.useQuery([
-    'character.get',
-    {
-      filter: {
-        nameEq: character?.name,
-      },
-      includeAssets: true,
+  const { data } = trpc.character.get.useQuery({
+    filter: {
+      nameEq: character?.name,
     },
-  ])
-  const { data: user } = trpc.useQuery(['user.current', { includeDonations: true }])
+    includeAssets: true,
+  })
+  const { data: user } = trpc.user.current.useQuery({ includeDonations: true })
 
   const router = useRouter()
 

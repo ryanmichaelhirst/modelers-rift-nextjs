@@ -16,17 +16,14 @@ const SearchBar = () => {
   const router = useRouter()
   const character = useModelStore((state) => state.character)
   const setCharacter = useModelStore((state) => state.setCharacter)
-  const { data } = trpc.useQuery([
-    'character.all',
-    {
-      filter: {
-        typeEq: 'champion',
-      },
-      includeAssets: false,
-      page: 1,
-      pageSize: 200,
+  const { data } = trpc.character.all.useQuery({
+    filter: {
+      typeEq: 'champion',
     },
-  ])
+    includeAssets: false,
+    page: 1,
+    pageSize: 200,
+  })
 
   const characters = data?.collection?.filter(Boolean) ?? []
 
@@ -103,8 +100,8 @@ const SearchBar = () => {
 export const MenuBar: FC = () => {
   const router = useRouter()
   const [page, setPage] = useState('home')
-  const logout = trpc.useMutation('user.logout')
-  const { data: loginData, refetch } = trpc.useQuery(['user.current'])
+  const logout = trpc.user.logout.useMutation()
+  const { data: user, refetch } = trpc.user.current.useQuery()
 
   const onClick = async (e: any) => {
     const { id } = e.target
@@ -171,7 +168,7 @@ export const MenuBar: FC = () => {
             />
           ))}
         </div>
-        <Dropdown loggedIn={!!loginData?.id} onClick={onDropdownClick} />
+        <Dropdown loggedIn={!!user?.id} onClick={onDropdownClick} />
       </div>
     </div>
   )

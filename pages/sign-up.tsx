@@ -24,7 +24,7 @@ const SignUp: NextPage = () => {
       password: '',
     },
   })
-  const signUp = trpc.useMutation('user.signup')
+  const signUp = trpc.user.signup.useMutation()
   const router = useRouter()
 
   const onSubmit = handleSubmit(async (data) => {

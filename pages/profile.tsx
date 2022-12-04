@@ -9,15 +9,12 @@ import Link from 'next/link'
 
 const Profile: NextPage = () => {
   const router = useRouter()
-  const { data: user, error, refetch, isLoading } = trpc.useQuery(['user.current'])
-  const { data: donations } = trpc.useQuery([
-    'donation.list',
-    {
-      filter: {
-        userIdEq: user?.id ?? -1,
-      },
+  const { data: user, error, refetch, isLoading } = trpc.user.current.useQuery()
+  const { data: donations } = trpc.donation.list.useQuery({
+    filter: {
+      userIdEq: user?.id ?? -1,
     },
-  ])
+  })
 
   useEffect(() => {
     if (error?.message === 'session has expired') {

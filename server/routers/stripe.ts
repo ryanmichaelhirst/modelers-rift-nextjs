@@ -2,11 +2,10 @@ import { stripe } from '@/lib/stripe'
 import { toDollarAmount, toDollarNumber } from '@/utils/index'
 import sortBy from 'lodash.sortby'
 import { z } from 'zod'
-import { createRouter } from '../pages/api/trpc/[trpc]'
+import { router, procedure } from '@/server/trpc'
 
-export const stripeRouter = createRouter().query('products.list', {
-  input: z.object({ limit: z.number() }),
-  async resolve({ input }) {
+export const stripeRouter = router({
+  'products.list': procedure.input(z.object({ limit: z.number() })).query(async ({ input }) => {
     const products = await stripe.products.list({ limit: input.limit ?? 10, active: true })
     const prices = await stripe.prices.list({
       limit: input.limit ?? 10,
@@ -29,5 +28,5 @@ export const stripeRouter = createRouter().query('products.list', {
     const sortedProducts = sortBy(productsWithDollarAmounts, ['dollarNumber'])
 
     return { products: sortedProducts }
-  },
+  }),
 })

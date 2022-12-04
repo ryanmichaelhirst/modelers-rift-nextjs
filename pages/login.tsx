@@ -22,7 +22,7 @@ const Login: NextPage = () => {
       password: '',
     },
   })
-  const login = trpc.useMutation('user.login')
+  const login = trpc.user.login.useMutation()
   const router = useRouter()
 
   const onSubmit = handleSubmit(async (data) => {
@@ -64,7 +64,7 @@ const Login: NextPage = () => {
         <div className='mb-4 flex flex-col'>
           <label className='mb-1 text-tertiary'>Email</label>
           <input
-            className='rounded border border-solid border-slate-300 px-2 text-slate-300'
+            className='rounded border border-solid border-slate-300 px-2 text-slate-500'
             placeholder='Email'
             value={watch('email')}
             {...register('email', { required: 'Email is required' })}

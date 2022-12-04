@@ -5,14 +5,14 @@ import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 
 const DraftHeader = () => (
-  <Dialog.Title className='bg-primary text-white p-6 rounded-t'>
+  <Dialog.Title className='rounded-t bg-primary p-6 text-white'>
     <p className='text-lg font-bold'>An error has occurred</p>
     <p className='text-sm'>"It's not a bug, it's a feature" (:</p>
   </Dialog.Title>
 )
 
 const CompleteHeader = () => (
-  <Dialog.Title className='bg-[#4BCA85] text-white p-6 rounded-t'>
+  <Dialog.Title className='rounded-t bg-[#4BCA85] p-6 text-white'>
     <p className='text-lg font-bold'>Issue created</p>
     <p className='text-sm'>A copy of your submission is below</p>
   </Dialog.Title>
@@ -38,7 +38,7 @@ export const BugReport = () => {
       issueUrl: '',
     },
   })
-  const createIssue = trpc.useMutation('github.issue')
+  const createIssue = trpc.github.issue.useMutation()
 
   const onSubmit = handleSubmit(async (data) => {
     if (!data.title || !data.description || !data.stepsToReproduce) return
@@ -78,7 +78,7 @@ export const BugReport = () => {
           <div className='p-6'>
             <p className='mb-2'>Title</p>
             <input
-              className='mb-4 w-full border border-solid border-primary rounded'
+              className='mb-4 w-full rounded border border-solid border-primary'
               disabled={issueIsCreated}
               value={watch('title')}
               {...register('title', { required: true })}
@@ -86,7 +86,7 @@ export const BugReport = () => {
 
             <p className='mb-2'>What happened?</p>
             <textarea
-              className='mb-4 w-full border border-solid border-primary rounded'
+              className='mb-4 w-full rounded border border-solid border-primary'
               rows={5}
               disabled={issueIsCreated}
               value={watch('description')}
@@ -95,7 +95,7 @@ export const BugReport = () => {
 
             <p className='mb-2'>Specifically, what steps should we take to reproduce this error?</p>
             <textarea
-              className='mb-4 w-full border border-solid border-primary rounded'
+              className='mb-4 w-full rounded border border-solid border-primary'
               disabled={issueIsCreated}
               rows={5}
               value={watch('stepsToReproduce')}

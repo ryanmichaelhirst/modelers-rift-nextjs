@@ -45,16 +45,13 @@ export const Models: NextPage = () => {
   const skin = useModelStore((state) => state.skin)
   const setSkin = useModelStore((state) => state.setSkin)
 
-  const { data } = trpc.useQuery([
-    'character.get',
-    {
-      filter: {
-        nameEq: name as string,
-      },
-      includeAssets: true,
+  const { data } = trpc.character.get.useQuery({
+    filter: {
+      nameEq: name as string,
     },
-  ])
-  const { data: user } = trpc.useQuery(['user.current', { includeDonations: true }])
+    includeAssets: true,
+  })
+  const { data: user } = trpc.user.current.useQuery({ includeDonations: true })
 
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false)
   const [tab, setTab] = useState('Animations')

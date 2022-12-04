@@ -22,12 +22,12 @@ export const PasswordInput = ({
       />
       {isPasswordVisible ? (
         <EyeOffIcon
-          className='absolute right-0 h-5 w-5 cursor-pointer text-slate-300'
+          className='absolute right-0 h-5 w-5 cursor-pointer text-slate-400'
           onClick={() => setIsPasswordVisible(false)}
         />
       ) : (
         <EyeIcon
-          className='absolute right-0 h-5 w-5 cursor-pointer text-slate-300'
+          className='absolute right-0 h-5 w-5 cursor-pointer text-slate-400'
           onClick={() => setIsPasswordVisible(true)}
         />
       )}

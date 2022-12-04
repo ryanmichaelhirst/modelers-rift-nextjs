@@ -22,8 +22,8 @@ const Product: FC<{
       </div>
       <div className='rounded-b border border-b border-t-0 border-solid bg-gray-100 p-3'>
         <form action='/api/stripe/checkout' method='POST'>
-          <input name='productId' value={id} hidden={true} />
-          <input name='userId' value={userId} type='number' hidden={true} />
+          <input name='productId' defaultValue={id} hidden={true} />
+          <input name='userId' defaultValue={userId} type='number' hidden={true} />
           <button type='submit'>Checkout</button>
         </form>
       </div>
@@ -50,13 +50,8 @@ export const getServerSideProps = async ({ req, res }: { req: NextRequest; res: 
 
 export default () => {
   const [message, setMessage] = useState('')
-  const { data } = trpc.useQuery([
-    'stripe.products.list',
-    {
-      limit: 10,
-    },
-  ])
-  const { data: userData } = trpc.useQuery(['user.current'])
+  const { data } = trpc.stripe['products.list'].useQuery({ limit: 10 })
+  const { data: user } = trpc.user.current.useQuery()
 
   useEffect(() => {
     // Check to see if this is a redirect back from Checkout
@@ -85,11 +80,12 @@ export default () => {
       <div className='flex'>
         {data?.products.map((p) => (
           <Product
+            key={p.id}
             id={p.id}
             name={p.name}
             dollarAmount={p.dollarAmount}
             imageUrl={p.imageUrl}
-            userId={userData?.id}
+            userId={user?.id}
           />
         ))}
       </div>
