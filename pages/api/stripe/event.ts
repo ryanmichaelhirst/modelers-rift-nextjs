@@ -72,6 +72,8 @@ const signingSecret = 'whsec_NX8SiSlAk2okY1FDRFZxiKRvIwFG2azi'
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   let event: StripeEvent | undefined
 
+  stripeLogger.info('Stripe event received', { metadata: { headers: req.headers, body: req.body } })
+
   if (process.env.NODE_ENV === 'production') {
     const sig = req.headers['stripe-signature']
 
