@@ -87,12 +87,12 @@ function runMiddleware(req: NextApiRequest, res: NextApiResponse, fn: Function) 
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  stripeLogger.info('Stripe event received', { metadata: { headers: req.headers, body: req.body } })
+
   // Run the middleware
   await runMiddleware(req, res, cors)
 
   let event: StripeEvent | undefined
-
-  stripeLogger.info('Stripe event received', { metadata: { headers: req.headers, body: req.body } })
 
   if (process.env.NODE_ENV === 'production') {
     const sig = req.headers['stripe-signature']
