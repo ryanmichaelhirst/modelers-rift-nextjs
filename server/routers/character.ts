@@ -1,6 +1,5 @@
 import { z } from 'zod'
 import { router, procedure } from '@/server/trpc'
-import { stripeLogger } from '@/lib/datadog'
 
 export const characterRouter = router({
   all: procedure
@@ -50,8 +49,6 @@ export const characterRouter = router({
           where,
         }),
       ])
-
-      stripeLogger.info('log from trpc route')
 
       return {
         collection: characters,
