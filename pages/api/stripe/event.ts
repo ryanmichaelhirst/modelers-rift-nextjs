@@ -70,7 +70,7 @@ export const config = {
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  stripeLogger.info('Stripe event received')
+  stripeLogger.info('Stripe event received', { metadata: { body: req.body } })
 
   if (req.method !== 'POST') {
     stripeLogger.info('Method is not POST', { metadata: { method: req.method } })
