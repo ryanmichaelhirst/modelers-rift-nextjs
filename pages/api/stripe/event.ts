@@ -4,6 +4,7 @@ import { Prisma } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { stripe } from '@/lib/stripe'
 import { stripeLogger } from '@/lib/datadog'
+import { buffer } from 'micro'
 
 interface StripeEvent {
   id: string
@@ -42,17 +43,10 @@ interface StripeError {
 const isStripeError = (err: unknown): err is StripeError =>
   typeof err === 'object' && err !== null && 'message' in err
 
-const saveStripeDonation = async ({ res, event }: { res: NextApiResponse; event: StripeEvent }) => {
+const saveStripeDonation = async (event: StripeEvent) => {
   if (event.type === 'checkout.session.completed') {
     const metaUserId = event.data.object.metadata.userId
     const userId = toNumber(metaUserId)
-
-    if (!userId) {
-      stripeLogger.error(`No user id`)
-      res.status(400).send('No user id')
-
-      return
-    }
 
     const donation = await prismaService.createDonation({
       data: {
@@ -68,6 +62,12 @@ const saveStripeDonation = async ({ res, event }: { res: NextApiResponse; event:
 }
 
 const signingSecret = 'whsec_NX8SiSlAk2okY1FDRFZxiKRvIwFG2azi'
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   stripeLogger.info('Stripe event received')
@@ -90,7 +90,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    event = stripe.webhooks.constructEvent(req.body, sig, signingSecret) as StripeEvent
+    const buf = await buffer(req.body)
+    event = stripe.webhooks.constructEvent(buf, sig, signingSecret) as StripeEvent
     stripeLogger.info('Constructed stripe event', { metadata: { event } })
   } catch (err) {
     const errMessage = isStripeError(err) ? err.message : err
@@ -102,18 +103,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   switch (event.type) {
     case 'checkout.session.completed':
-      await saveStripeDonation({ res, event })
+      await saveStripeDonation(event)
       break
     default:
       stripeLogger.error(`Unhandled event type ${event.type}`)
-      res.status(500).send(`Unhandled event type ${event.type}`)
+      res.status(500).end(`Unhandled event type ${event.type}`)
   }
 
-  res.status(200).send('OK')
-}
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
+  res.json({ received: true })
 }
