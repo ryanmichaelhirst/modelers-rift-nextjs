@@ -48,6 +48,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     type: patreonEvent as string,
   }
 
+  console.log('Patreon webhook data', data)
+
   switch (patreonEvent) {
     case 'members:pledge:create':
       await prismaService.createPatreonEvent({
