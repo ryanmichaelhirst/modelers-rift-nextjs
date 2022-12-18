@@ -98,7 +98,7 @@ interface PatreonEvent {
     attributes: {
       campaign_lifetime_support_cents: number
       currently_entitled_amount_cents: number
-      email: string
+      email: string | null
       full_name: string
       is_follower: boolean
       last_charge_date: string | null
@@ -111,7 +111,7 @@ interface PatreonEvent {
       pledge_relationship_start: string
       will_pay_amount_cents: number
     }
-    id: string
+    id: string | null
     relationships: {
       address: { data?: null }
       campaign: {
