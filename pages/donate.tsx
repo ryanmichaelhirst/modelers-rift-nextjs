@@ -1,6 +1,7 @@
 import { H1 } from '@/components/h1'
 import { trpc } from '@/utils/trpc'
 import Image from 'next/image'
+import Link from 'next/link'
 import type { NextRequest, NextResponse } from 'next/server'
 import { FC, useEffect, useState } from 'react'
 
@@ -49,28 +50,53 @@ export const getServerSideProps = async ({ req, res }: { req: NextRequest; res: 
 }
 
 export default () => {
-  const [message, setMessage] = useState('')
   const { data } = trpc.stripe['products.list'].useQuery({ limit: 10 })
   const { data: user } = trpc.user.current.useQuery()
+  const query = (() => {
+    if (typeof window === 'undefined') return
 
-  useEffect(() => {
-    // Check to see if this is a redirect back from Checkout
-    const query = new URLSearchParams(window.location.search)
+    return new URLSearchParams(window.location.search)
+  })()
 
-    if (query.get('success')) {
-      setMessage('Order placed! You will receive an email confirmation.')
-    }
+  if (query?.get('success')) {
+    return (
+      <section>
+        <p>
+          Donation made! Thank you for supporting the site we greatly appreciate your contribution.
+        </p>
+        <p>
+          Click{' '}
+          <Link className='text-primary' href='/models'>
+            here
+          </Link>{' '}
+          to start exploring models
+        </p>
+      </section>
+    )
+  }
 
-    if (query.get('canceled')) {
-      setMessage("Order canceled -- continue to shop around and checkout when you're ready.")
-    }
-  }, [])
+  if (query?.get('failed')) {
+    return (
+      <section>
+        <p>
+          Donation canceled. If you would like to try and donate again head over{' '}
+          <Link className='text-primary' href='/donate'>
+            here
+          </Link>
+          .
+        </p>
+        <p>
+          Otherwise you can return to the model explorer{' '}
+          <Link className='text-primary' href='/models'>
+            here
+          </Link>
+          .
+        </p>
+      </section>
+    )
+  }
 
-  return message ? (
-    <section>
-      <p>{message}</p>
-    </section>
-  ) : (
+  return (
     <section className='rounded border p-6 shadow'>
       <div className='mb-10 flex flex-col items-center'>
         <H1 className='mb-6'>Make a Donation</H1>
