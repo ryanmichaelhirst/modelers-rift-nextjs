@@ -23,3 +23,17 @@ export const stripeLogger = createLogger({
   // automatically log all uncaught exceptions to the console
   exceptionHandlers: [new transports.Console()],
 })
+
+export const patreonLogger = createLogger({
+  levels: config.syslog.levels,
+  defaultMeta: { component: 'patreon-service' },
+  format: combine(
+    timestamp({
+      format: 'YYYY-MM-DD HH:mm:ss',
+    }),
+    json(),
+  ),
+  transports: [new transports.Console(), new transports.Http(httpTransportOptions)],
+  // automatically log all uncaught exceptions to the console
+  exceptionHandlers: [new transports.Console()],
+})

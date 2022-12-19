@@ -4,6 +4,7 @@ import crypto from 'crypto'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import util from 'util'
 import { buffer, json } from 'micro'
+import { patreonLogger } from '@/lib/datadog'
 
 util.inspect.defaultOptions.maxArrayLength = null
 
@@ -17,6 +18,7 @@ export const config = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (!PATREON_WEBHOOK_SECRET) {
+    patreonLogger.error('No patreon webhook secret')
     res.status(405).send({ error: `No patreon webhook secret` })
 
     return
@@ -30,20 +32,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const hex = crypto.createHmac('md5', PATREON_WEBHOOK_SECRET).update(buf).digest('hex')
   const body: PatreonEvent = await json(req)
 
-  console.log(`x-patreon-event header - ${patreonEventHeader}`)
-  console.log(`x-patreon-signature header ${patreonSigHeader}`)
+  patreonLogger.info(`x-patreon-event header`, { metadata: { patreonEventHeader } })
+  patreonLogger.info(`x-patreon-signature header`, { metadata: { patreonSigHeader } })
 
-  console.log(util.inspect(body, { showHidden: false, depth: null, colors: true }))
+  patreonLogger.info(`Patreon body`, {
+    metadata: { body: util.inspect(body, { showHidden: false, depth: null, colors: true }) },
+  })
 
   if (patreonSigHeader !== hex) {
-    console.log('sig not equal')
+    patreonLogger.error('sig not equal', { metadata: { patreonSigHeader, hex } })
     res.status(400).send({ error: 'Request signature is unauthorized' })
 
     return
   }
 
   if (method !== 'POST') {
-    console.log('method not post')
+    patreonLogger.error('method not post')
     res.status(405).send({ error: `Method ${method} not allowed` })
 
     return
@@ -57,7 +61,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     type: patreonEventHeader as string,
   }
 
-  console.log('Patreon webhook data', data)
+  patreonLogger.info('PatreonEvent prisma data', { metadata: { data } })
 
   switch (patreonEventHeader) {
     case 'members:pledge:create':
@@ -71,6 +75,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       await prismaService.createPatreonEvent({
         data,
       })
+
       res.status(200).send('OK')
       break
     case 'members:pledge:delete':
@@ -91,9 +96,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           deletedAt: new Date(),
         },
       })
+
       res.status(200).send('OK')
       break
     default:
+      patreonLogger.error('Event not supported', { netadata: { patreonEventHeader } })
       res.status(400).send({ error: 'event not supported' })
   }
 }
