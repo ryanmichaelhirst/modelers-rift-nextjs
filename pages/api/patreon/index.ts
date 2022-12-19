@@ -68,15 +68,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       await prismaService.createPatreonEvent({
         data,
       })
-
-      res.status(200).send('OK')
       break
     case 'members:pledge:update':
       await prismaService.createPatreonEvent({
         data,
       })
-
-      res.status(200).send('OK')
       break
     case 'members:pledge:delete':
       if (patronEmail === null) {
@@ -96,11 +92,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           deletedAt: new Date(),
         },
       })
-
-      res.status(200).send('OK')
       break
     default:
       patreonLogger.error('Event not supported', { netadata: { patreonEventHeader } })
-      res.status(400).send({ error: 'event not supported' })
+      res.status(400).end(`Unhandled event type ${patreonEventHeader}`)
   }
+
+  res.json({ received: true })
 }
