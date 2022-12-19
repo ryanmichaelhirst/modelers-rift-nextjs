@@ -8,7 +8,7 @@ import { patreonLogger } from '@/lib/datadog'
 
 util.inspect.defaultOptions.maxArrayLength = null
 
-const PATREON_WEBHOOK_SECRET = 'gRyywPUoiIV6fvVAhce2ZYOQDbzHxRbUjX6vyPr_3-JHn6zH0f55jgS4-Afz6tSM'
+const PATREON_WEBHOOK_SECRET = process.env.PATREON_WEBHOOK_SECRET
 
 export const config = {
   api: {
@@ -78,7 +78,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break
     case 'members:pledge:delete':
       if (patronEmail === null) {
-        res.status(400).send('No patron email - unable to delete pledge')
+        res.status(400).end('No patron email - unable to delete pledge')
 
         return
       }
