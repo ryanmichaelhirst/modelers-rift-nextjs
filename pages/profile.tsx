@@ -1,11 +1,11 @@
 import { Button } from '@/components/button'
 import { H1 } from '@/components/h1'
 import { trpc } from '@/utils/trpc'
-import { formatRFC7231 } from 'date-fns'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import Link from 'next/link'
+import { formatLocalDate } from '@/utils'
 
 const Profile: NextPage = () => {
   const router = useRouter()
@@ -32,16 +32,14 @@ const Profile: NextPage = () => {
 
   const createdAt = (() => {
     if (!user?.createdAt) return
-    const date = new Date(user.createdAt)
 
-    return formatRFC7231(date)
+    return formatLocalDate(user.createdAt)
   })()
 
   const updatedAt = (() => {
     if (!user?.updatedAt) return
-    const date = new Date(user.updatedAt)
 
-    return formatRFC7231(date)
+    return formatLocalDate(user.updatedAt)
   })()
 
   const isDonating = donations?.collection && donations?.collection?.length > 0

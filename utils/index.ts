@@ -1,3 +1,6 @@
+import { utcToZonedTime } from 'date-fns-tz'
+import { format } from 'date-fns'
+
 // given 'the dog' returns 'The Dog'
 export const capitalize = (str?: string | null) => {
   if (!str) return ''
@@ -27,4 +30,12 @@ export const toDollarNumber = (value?: string | number | null) => {
   const amount = toNumber(value)
 
   return amount / 100
+}
+
+const timezone = () => Intl.DateTimeFormat().resolvedOptions().timeZone
+
+export const formatLocalDate = (date: Date) => {
+  const dateWithTimezone = utcToZonedTime(date, timezone())
+
+  return format(dateWithTimezone, 'MM/dd/yyyy hh:mm:ss aaa')
 }
