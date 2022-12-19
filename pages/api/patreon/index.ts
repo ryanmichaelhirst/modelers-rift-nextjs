@@ -8,7 +8,7 @@ import { patreonLogger } from '@/lib/datadog'
 
 util.inspect.defaultOptions.maxArrayLength = null
 
-const PATREON_WEBHOOK_SECRET = process.env.PATREON_WEBHOOK_SECRET
+const PATREON_WEBHOOK_SECRET = 'gRyywPUoiIV6fvVAhce2ZYOQDbzHxRbUjX6vyPr_3-JHn6zH0f55jgS4-Afz6tSM'
 
 export const config = {
   api: {
@@ -17,6 +17,8 @@ export const config = {
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  patreonLogger.info('Hit patreon endpoint')
+
   if (!PATREON_WEBHOOK_SECRET) {
     patreonLogger.error('No patreon webhook secret')
     res.status(405).send({ error: `No patreon webhook secret` })
