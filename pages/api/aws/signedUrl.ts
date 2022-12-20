@@ -3,6 +3,7 @@ import { GetObjectCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import Cors from 'cors'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { awsLogger } from '@/lib/datadog'
 
 // nextjs example
 // https://github.com/vercel/next.js/blob/canary/examples/api-routes-cors/pages/api/cors.ts
@@ -39,6 +40,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     Bucket: BUCKET_NAME,
     Key,
   })
+
+  awsLogger.info(`Getting aws signed url for ${Key}`)
 
   const url = await getSignedUrl(s3, command, { expiresIn: 3600 })
   res.status(200).send(url)

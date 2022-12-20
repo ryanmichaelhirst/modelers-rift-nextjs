@@ -40,3 +40,18 @@ export const patreonLogger = createLogger({
   exceptionHandlers: [new transports.Console()],
   exitOnError: false,
 })
+
+export const awsLogger = createLogger({
+  levels: config.syslog.levels,
+  defaultMeta: { component: 'aws-service' },
+  format: combine(
+    timestamp({
+      format: 'YYYY-MM-DD HH:mm:ss',
+    }),
+    json(),
+  ),
+  transports: [new transports.Http(httpTransportOptions)],
+  // automatically log all uncaught exceptions to the console
+  exceptionHandlers: [new transports.Console()],
+  exitOnError: false,
+})
