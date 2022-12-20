@@ -10,6 +10,7 @@ const httpTransportOptions = {
   ssl: true,
 }
 
+// new transports.Console(),
 export const stripeLogger = createLogger({
   levels: config.syslog.levels,
   defaultMeta: { component: 'stripe-service' },
@@ -19,9 +20,10 @@ export const stripeLogger = createLogger({
     }),
     json(),
   ),
-  transports: [new transports.Console(), new transports.Http(httpTransportOptions)],
+  transports: [new transports.Http(httpTransportOptions)],
   // automatically log all uncaught exceptions to the console
   exceptionHandlers: [new transports.Console()],
+  exitOnError: false,
 })
 
 export const patreonLogger = createLogger({
@@ -33,7 +35,8 @@ export const patreonLogger = createLogger({
     }),
     json(),
   ),
-  transports: [new transports.Console(), new transports.Http(httpTransportOptions)],
+  transports: [new transports.Http(httpTransportOptions)],
   // automatically log all uncaught exceptions to the console
   exceptionHandlers: [new transports.Console()],
+  exitOnError: false,
 })
