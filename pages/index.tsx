@@ -20,6 +20,8 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { SVGProps } from 'react'
 import Link from 'next/link'
+import { awsLogger } from '@/lib/datadog'
+import { GetServerSideProps } from 'next'
 
 const EXPLORE_CARDS = [
   {
@@ -147,6 +149,22 @@ const LinkBlock = ({ icon: Icon, title, description, buttonText, href }: any) =>
       />
     </div>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+  res,
+  resolvedUrl,
+  params,
+  query,
+}) => {
+  awsLogger.info('server side rendering the home page', {
+    metadata: { resolvedUrl, params, query, cookies: req.cookies, headers: req.headers },
+  })
+
+  return {
+    props: {}, // will be passed to the page component as props
+  }
 }
 
 export default () => {
