@@ -28,6 +28,15 @@ function runMiddleware(req: NextApiRequest, res: NextApiResponse, fn: Function) 
   })
 }
 
+export const getAwsSignedUrl = async ({ key, expiresIn }: { key: string; expiresIn: number }) => {
+  const command = new GetObjectCommand({
+    Bucket: BUCKET_NAME,
+    Key: key,
+  })
+
+  return await getSignedUrl(s3, command, { expiresIn })
+}
+
 // previous implementation
 // https://github.com/rmbh4211995/league-of-legends-champions/pull/1/files#diff-436932cb510af2021cba101c422550c0afa7a2cb2814f93669e1b339eee669ab
 // https://github.com/rmbh4211995/league-of-legends-champions/blob/d93963c363fbdcf0919fbe8cb44aa554f713f854/pages/api/aws_presigned_url/%5Bname%5D.ts
@@ -35,14 +44,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   // Run the middleware
   await runMiddleware(req, res, cors)
 
-  const Key = req.body.Key
-  const command = new GetObjectCommand({
-    Bucket: BUCKET_NAME,
-    Key,
-  })
+  const key = req.body.key
+  const url = getAwsSignedUrl({ key, expiresIn: 3600 })
 
-  awsLogger.info(`Getting aws signed url for ${Key}`)
+  awsLogger.info(`Fetched aws signed url for ${key}`, { metadata: { key, signedUrl: url } })
 
-  const url = await getSignedUrl(s3, command, { expiresIn: 3600 })
   res.status(200).send(url)
 }

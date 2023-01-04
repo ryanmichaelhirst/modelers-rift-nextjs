@@ -22,6 +22,8 @@ import { SVGProps } from 'react'
 import Link from 'next/link'
 import { awsLogger } from '@/lib/datadog'
 import { GetServerSideProps } from 'next'
+import { getAwsSignedUrl } from '@/pages/api/aws/signedUrl'
+import { awsS3Service } from '@/bin/services/aws-s3-service'
 
 const EXPLORE_CARDS = [
   {
@@ -162,12 +164,26 @@ export const getServerSideProps: GetServerSideProps = async ({
     metadata: { resolvedUrl, params, query, cookies: req.cookies, headers: req.headers },
   })
 
+  const resp = await awsS3Service.listObjects({
+    prefix: 'images/models',
+  })
+  const contents = resp.Contents ?? []
+  const images = await Promise.all(
+    contents.map(async (c) => {
+      if (!c.Key) return undefined
+
+      return await getAwsSignedUrl({ key: c.Key, expiresIn: 3600 })
+    }),
+  )
+
   return {
-    props: {}, // will be passed to the page component as props
+    props: {
+      images: images.filter((i) => i !== undefined),
+    },
   }
 }
 
-export default () => {
+export default ({ images }: { images?: string[] }) => {
   const router = useRouter()
 
   const onExplore = (characterName: string) => () =>
@@ -229,7 +245,7 @@ export default () => {
       </div>
 
       <div className='mb-32'>
-        <Carousel />
+        <Carousel items={images} />
       </div>
 
       <div className='-mx-4 mb-32 bg-[#EFEFEF] px-4 pt-10 pb-10 md:-mx-16 md:px-20'>

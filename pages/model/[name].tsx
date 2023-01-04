@@ -151,7 +151,7 @@ export const Models: NextPage = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        Key: `models/${characterName}/${skin}.glb`,
+        key: `models/${characterName}/${skin}.glb`,
       }),
     }).then((res) => res.text())
 

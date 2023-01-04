@@ -25,9 +25,10 @@ class AwsS3Service {
     return await this.client.send(command)
   }
 
-  listObjects = async () => {
+  listObjects = async ({ prefix }: { prefix?: string }) => {
     const command = new ListObjectsV2Command({
       Bucket: this.bucketName,
+      ...(prefix && { Prefix: prefix }),
     })
 
     return await this.client.send(command)
