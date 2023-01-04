@@ -13,7 +13,7 @@ export const Carousel: FC<{ items?: string[] }> = ({ items }) => {
 
         {items?.map((i) => (
           <div className='slide'>
-            <Image key={i} src={i} width='150px' height='170px' />
+            <Image key={`${i}-copy`} src={i} width='150px' height='170px' />
           </div>
         ))}
       </div>

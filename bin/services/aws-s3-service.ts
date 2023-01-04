@@ -3,6 +3,7 @@ import {
   ListObjectsV2CommandOutput,
   PutObjectCommand,
   S3Client,
+  GetObjectCommand,
 } from '@aws-sdk/client-s3'
 import { BUCKET_NAME, s3 } from 'lib/s3'
 
@@ -32,6 +33,17 @@ class AwsS3Service {
     })
 
     return await this.client.send(command)
+  }
+
+  getObject = async (key: string) => {
+    const command = new GetObjectCommand({
+      Bucket: BUCKET_NAME,
+      Key: key,
+    })
+
+    return await (
+      await this.client.send(command)
+    ).Body
   }
 
   performOnAllObjects = async (
