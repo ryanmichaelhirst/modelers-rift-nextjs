@@ -180,7 +180,7 @@ export default ({
   cardImages,
 }: {
   carouselImages?: string[]
-  cardImages: string[]
+  cardImages?: string[]
 }) => {
   const router = useRouter()
 
@@ -191,17 +191,17 @@ export default ({
     {
       name: 'Galio',
       title: 'The Colossus',
-      src: cardImages.find((img) => img.toLowerCase().includes('galio')),
+      src: cardImages?.find((img) => img.toLowerCase().includes('galio')),
     },
     {
       name: 'Gwen',
       title: 'The Hallowed Seamstress',
-      src: cardImages.find((img) => img.toLowerCase().includes('gwen')),
+      src: cardImages?.find((img) => img.toLowerCase().includes('gwen')),
     },
     {
       name: 'Yone',
       title: 'The Unforgotten',
-      src: cardImages.find((img) => img.toLowerCase().includes('yone')),
+      src: cardImages?.find((img) => img.toLowerCase().includes('yone')),
     },
   ]
 
