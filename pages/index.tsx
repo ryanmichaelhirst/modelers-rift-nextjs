@@ -36,8 +36,8 @@ const ExploreCard = ({
     <Card className='bg-corner-gradient h-[317px] w-[200px] rounded-lg border-none shadow-md'>
       <p className='font-nunito text-lg font-bold capitalize text-tertiary'>{name}</p>
       <p>{title}</p>
-      <div className='relative flex h-full justify-center'>
-        <Image src={src} layout='fill' objectFit='fill' />
+      <div className='relative h-[150px]'>
+        <Image src={src} layout='fill' objectFit='contain' />
       </div>
       <div className='mt-2 flex items-center'>
         <Button
