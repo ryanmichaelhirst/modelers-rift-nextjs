@@ -16,14 +16,7 @@ const SearchBar = () => {
   const router = useRouter()
   const character = useModelStore((state) => state.character)
   const setCharacter = useModelStore((state) => state.setCharacter)
-  const { data } = trpc.character.all.useQuery({
-    filter: {
-      typeEq: 'champion',
-    },
-    includeAssets: false,
-    page: 1,
-    pageSize: 200,
-  })
+  const { data } = trpc.character.searchBar.useQuery()
 
   const characters = data?.collection?.filter(Boolean) ?? []
 

@@ -4,15 +4,15 @@ import { trpc } from '@/utils/trpc'
 import { FC, PropsWithChildren, useEffect } from 'react'
 
 export const Layout: FC<PropsWithChildren> = ({ children }) => {
-  const { data: defaultCharacter } = trpc.character.all.useQuery({ page: 1, pageSize: 1 })
+  const { data: firstCharacter } = trpc.character.first.useQuery()
   const character = useModelStore((state) => state.character)
   const setCharacter = useModelStore((state) => state.setCharacter)
 
   useEffect(() => {
-    if (!character && defaultCharacter) {
-      setCharacter(defaultCharacter.collection[0])
+    if (!character && firstCharacter) {
+      setCharacter(firstCharacter)
     }
-  }, [character, defaultCharacter])
+  }, [character, firstCharacter])
 
   return (
     <div className='min-h-full'>

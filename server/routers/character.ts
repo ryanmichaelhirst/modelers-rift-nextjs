@@ -91,4 +91,40 @@ export const characterRouter = router({
 
       return character ?? null
     }),
+  searchBar: procedure.query(async ({ ctx }) => {
+    const result = await ctx.prisma.character.findMany({
+      where: {
+        type: {
+          equals: 'champion',
+        },
+      },
+      orderBy: {
+        name: 'asc',
+      },
+      select: {
+        id: true,
+        displayName: true,
+        name: true,
+        imageUrl: true,
+      },
+    })
+
+    return {
+      collection: result,
+    }
+  }),
+  first: procedure.query(async ({ ctx }) => {
+    const firstCharacter = await ctx.prisma.character.findFirst({
+      where: {
+        type: {
+          equals: 'champion',
+        },
+      },
+      orderBy: {
+        name: 'asc',
+      },
+    })
+
+    return firstCharacter
+  }),
 })

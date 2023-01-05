@@ -3,10 +3,10 @@ import create from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
 
 interface ModelState {
-  character?: Character
+  character?: Partial<Character>
   skin: string
   setSkin: (skin: string) => void
-  setCharacter: (character: Character) => void
+  setCharacter: (character: Partial<Character>) => void
 }
 
 export const useModelStore = create<ModelState>()(
