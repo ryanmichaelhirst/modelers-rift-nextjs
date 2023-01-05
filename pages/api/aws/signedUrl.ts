@@ -1,10 +1,7 @@
-import { BUCKET_NAME, s3 } from '@/lib/s3'
-import { GetObjectCommand } from '@aws-sdk/client-s3'
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+import { awsS3Service } from '@/bin/services/aws-s3-service'
+import { awsLogger } from '@/lib/datadog'
 import Cors from 'cors'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { awsLogger } from '@/lib/datadog'
-import { awsS3Service } from '@/bin/services/aws-s3-service'
 
 // nextjs example
 // https://github.com/vercel/next.js/blob/canary/examples/api-routes-cors/pages/api/cors.ts

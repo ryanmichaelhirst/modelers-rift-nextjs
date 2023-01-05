@@ -4,10 +4,12 @@ import { Card } from '@/components/card'
 import { H1 } from '@/components/h1'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { getAwsSignedUrl } from '@/pages/api/aws/signedUrl'
 
 export const getServerSideProps = async () => {
-  const resp = await getAwsSignedUrl({ key: 'images/patreon-button.webp', expiresIn: 3600 })
+  const resp = await awsS3Service.getSignedUrl({
+    key: 'images/patreon-button.webp',
+    expiresIn: 3600,
+  })
 
   return {
     props: {

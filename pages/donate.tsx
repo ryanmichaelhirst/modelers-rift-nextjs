@@ -3,7 +3,7 @@ import { trpc } from '@/utils/trpc'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { NextRequest, NextResponse } from 'next/server'
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 
 const Product: FC<{
   id: string

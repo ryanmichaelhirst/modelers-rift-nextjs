@@ -1,11 +1,11 @@
 import { Button } from '@/components/button'
 import { H1 } from '@/components/h1'
+import { formatLocalDate } from '@/utils'
 import { trpc } from '@/utils/trpc'
 import { NextPage } from 'next'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import Link from 'next/link'
-import { formatLocalDate } from '@/utils'
 
 const Profile: NextPage = () => {
   const router = useRouter()
