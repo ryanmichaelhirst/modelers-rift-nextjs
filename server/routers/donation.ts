@@ -1,6 +1,6 @@
+import { procedure, router } from '@/server/trpc'
 import { toDollarAmount } from '@/utils/index'
 import { z } from 'zod'
-import { router, procedure } from '@/server/trpc'
 
 export const donationRouter = router({
   list: procedure
