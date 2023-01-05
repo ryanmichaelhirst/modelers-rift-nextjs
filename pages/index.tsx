@@ -19,7 +19,6 @@ import { SVGProps } from 'react'
 import Link from 'next/link'
 import { awsLogger } from '@/lib/datadog'
 import { GetServerSideProps } from 'next'
-import { getAwsSignedUrl } from '@/pages/api/aws/signedUrl'
 import { awsS3Service } from '@/bin/services/aws-s3-service'
 
 const ExploreCard = ({
@@ -146,24 +145,24 @@ export const getServerSideProps: GetServerSideProps = async ({
   const modelImgsResp = await awsS3Service.listObjects({
     prefix: 'images/models',
   })
-  const modelImgsContents = modelImgsResp.Contents ?? []
+  const modelImgsContents = modelImgsResp.Contents?.filter((c) => c?.Size && c.Size > 0) ?? []
   const carouselImages = await Promise.all(
     modelImgsContents.map(async (c) => {
       if (!c.Key) return undefined
 
-      return await getAwsSignedUrl({ key: c.Key, expiresIn: 3600 })
+      return await awsS3Service.getSignedUrl({ key: c.Key, expiresIn: 3600 })
     }),
   )
 
   const cardImgsResp = await awsS3Service.listObjects({
     prefix: 'images/cards',
   })
-  const cardImgsContents = cardImgsResp.Contents ?? []
+  const cardImgsContents = cardImgsResp.Contents?.filter((c) => c?.Size && c.Size > 0) ?? []
   const cardImages = await Promise.all(
     cardImgsContents.map(async (c) => {
       if (!c.Key) return undefined
 
-      return await getAwsSignedUrl({ key: c.Key, expiresIn: 3600 })
+      return await awsS3Service.getSignedUrl({ key: c.Key, expiresIn: 3600 })
     }),
   )
 

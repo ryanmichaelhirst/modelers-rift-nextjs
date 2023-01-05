@@ -6,6 +6,7 @@ import {
   GetObjectCommand,
 } from '@aws-sdk/client-s3'
 import { BUCKET_NAME, s3 } from 'lib/s3'
+import { getSignedUrl as awsRequestPresigner } from '@aws-sdk/s3-request-presigner'
 
 class AwsS3Service {
   public bucketName: string
@@ -26,13 +27,23 @@ class AwsS3Service {
     return await this.client.send(command)
   }
 
-  listObjects = async ({ prefix }: { prefix?: string }) => {
+  listObjects = async ({ prefix, delimiter }: { prefix?: string; delimiter?: string }) => {
     const command = new ListObjectsV2Command({
       Bucket: this.bucketName,
       ...(prefix && { Prefix: prefix }),
+      ...(delimiter && { Delimiter: delimiter }),
     })
 
     return await this.client.send(command)
+  }
+
+  getSignedUrl = async ({ key, expiresIn }: { key: string; expiresIn?: number }) => {
+    const command = new GetObjectCommand({
+      Bucket: BUCKET_NAME,
+      Key: key,
+    })
+
+    return await awsRequestPresigner(s3, command, { expiresIn })
   }
 
   getObject = async (key: string) => {

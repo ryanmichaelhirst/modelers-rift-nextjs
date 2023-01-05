@@ -4,6 +4,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import Cors from 'cors'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { awsLogger } from '@/lib/datadog'
+import { awsS3Service } from '@/bin/services/aws-s3-service'
 
 // nextjs example
 // https://github.com/vercel/next.js/blob/canary/examples/api-routes-cors/pages/api/cors.ts
@@ -28,15 +29,6 @@ function runMiddleware(req: NextApiRequest, res: NextApiResponse, fn: Function) 
   })
 }
 
-export const getAwsSignedUrl = async ({ key, expiresIn }: { key: string; expiresIn: number }) => {
-  const command = new GetObjectCommand({
-    Bucket: BUCKET_NAME,
-    Key: key,
-  })
-
-  return await getSignedUrl(s3, command, { expiresIn })
-}
-
 // previous implementation
 // https://github.com/rmbh4211995/league-of-legends-champions/pull/1/files#diff-436932cb510af2021cba101c422550c0afa7a2cb2814f93669e1b339eee669ab
 // https://github.com/rmbh4211995/league-of-legends-champions/blob/d93963c363fbdcf0919fbe8cb44aa554f713f854/pages/api/aws_presigned_url/%5Bname%5D.ts
@@ -45,7 +37,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   await runMiddleware(req, res, cors)
 
   const key = req.body.key
-  const url = getAwsSignedUrl({ key, expiresIn: 3600 })
+  const url = awsS3Service.getSignedUrl({ key, expiresIn: 3600 })
 
   awsLogger.info(`Fetched aws signed url for ${key}`, { metadata: { key, signedUrl: url } })
 
