@@ -1,12 +1,12 @@
 import { Menu, Transition } from '@headlessui/react'
 import {
-  MenuIcon,
+  CreditCardIcon,
+  CubeIcon,
+  HomeIcon,
   IdentificationIcon,
   LoginIcon,
   LogoutIcon,
-  CreditCardIcon,
-  HomeIcon,
-  CubeIcon,
+  MenuIcon,
 } from '@heroicons/react/outline'
 import { FC, Fragment } from 'react'
 import { twMerge } from 'tailwind-merge'

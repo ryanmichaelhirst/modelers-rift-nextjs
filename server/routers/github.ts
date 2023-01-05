@@ -1,7 +1,7 @@
 import { createIssue } from '@/lib/github'
+import { procedure, router } from '@/server/trpc'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
-import { router, procedure } from '@/server/trpc'
 
 export const githubRouter = router({
   issue: procedure

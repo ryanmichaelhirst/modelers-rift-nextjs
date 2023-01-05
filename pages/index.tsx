@@ -1,45 +1,25 @@
-import GalioCard from '@/assets/Galio-card.png'
-import YoneCard from '@/assets/Yone-card.png'
-import GwenCard from '@/assets/Gwen-card.png'
+import { awsS3Service } from '@/bin/services/aws-s3-service'
 import { Button } from '@/components/button'
 import { Card } from '@/components/card'
 import { Carousel } from '@/components/carousel'
+import { awsLogger } from '@/lib/datadog'
 import {
   ArrowCircleRightIcon,
   ChevronDownIcon,
+  ChevronRightIcon,
   CollectionIcon,
-  IdentificationIcon,
-  SearchIcon,
   EmojiHappyIcon,
   ExternalLinkIcon,
-  VolumeUpIcon,
+  IdentificationIcon,
   LightningBoltIcon,
-  ChevronRightIcon,
+  SearchIcon,
+  VolumeUpIcon,
 } from '@heroicons/react/outline'
+import { GetServerSideProps } from 'next'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { SVGProps } from 'react'
-import Link from 'next/link'
-import { awsLogger } from '@/lib/datadog'
-import { GetServerSideProps } from 'next'
-
-const EXPLORE_CARDS = [
-  {
-    name: 'Galio',
-    title: 'The Colossus',
-    src: GalioCard,
-  },
-  {
-    name: 'Yone',
-    title: 'The Unforgotten',
-    src: YoneCard,
-  },
-  {
-    name: 'Gwen',
-    title: 'The Hallowed Seamstress',
-    src: GwenCard,
-  },
-]
 
 const ExploreCard = ({
   onExplore,
@@ -56,8 +36,8 @@ const ExploreCard = ({
     <Card className='bg-corner-gradient h-[317px] w-[200px] rounded-lg border-none shadow-md'>
       <p className='font-nunito text-lg font-bold capitalize text-tertiary'>{name}</p>
       <p>{title}</p>
-      <div className='flex justify-center'>
-        <Image src={src} objectFit='fill' />
+      <div className='relative h-[150px]'>
+        <Image src={src} layout='fill' objectFit='contain' />
       </div>
       <div className='mt-2 flex items-center'>
         <Button
@@ -162,16 +142,67 @@ export const getServerSideProps: GetServerSideProps = async ({
     metadata: { resolvedUrl, params, query, cookies: req.cookies, headers: req.headers },
   })
 
+  const modelImgsResp = await awsS3Service.listObjects({
+    prefix: 'images/models',
+  })
+  const modelImgsContents = modelImgsResp.Contents?.filter((c) => c?.Size && c.Size > 0) ?? []
+  const carouselImages = await Promise.all(
+    modelImgsContents.map(async (c) => {
+      if (!c.Key) return undefined
+
+      return await awsS3Service.getSignedUrl({ key: c.Key, expiresIn: 3600 })
+    }),
+  )
+
+  const cardImgsResp = await awsS3Service.listObjects({
+    prefix: 'images/cards',
+  })
+  const cardImgsContents = cardImgsResp.Contents?.filter((c) => c?.Size && c.Size > 0) ?? []
+  const cardImages = await Promise.all(
+    cardImgsContents.map(async (c) => {
+      if (!c.Key) return undefined
+
+      return await awsS3Service.getSignedUrl({ key: c.Key, expiresIn: 3600 })
+    }),
+  )
+
   return {
-    props: {}, // will be passed to the page component as props
+    props: {
+      carouselImages: carouselImages.filter((i) => i !== undefined),
+      cardImages,
+    },
   }
 }
 
-export default () => {
+export default ({
+  carouselImages,
+  cardImages,
+}: {
+  carouselImages?: string[]
+  cardImages?: string[]
+}) => {
   const router = useRouter()
 
   const onExplore = (characterName: string) => () =>
     router.push(`model/${characterName.toLowerCase()}`)
+
+  const exploreCards = [
+    {
+      name: 'Galio',
+      title: 'The Colossus',
+      src: cardImages?.find((img) => img.toLowerCase().includes('galio')),
+    },
+    {
+      name: 'Gwen',
+      title: 'The Hallowed Seamstress',
+      src: cardImages?.find((img) => img.toLowerCase().includes('gwen')),
+    },
+    {
+      name: 'Yone',
+      title: 'The Unforgotten',
+      src: cardImages?.find((img) => img.toLowerCase().includes('yone')),
+    },
+  ]
 
   return (
     <>
@@ -187,7 +218,7 @@ export default () => {
           </div>
           <div className='mt-10 -mr-16 overflow-x-hidden text-center md:relative md:mt-0 md:!-mr-16 md:h-[330px] md:w-2/5 md:text-left'>
             <div className='flex space-x-4 md:absolute'>
-              {EXPLORE_CARDS.map((ec) => (
+              {exploreCards.map((ec) => (
                 <ExploreCard key={ec.name} onExplore={onExplore} {...ec} />
               ))}
             </div>
@@ -229,7 +260,7 @@ export default () => {
       </div>
 
       <div className='mb-32'>
-        <Carousel />
+        <Carousel items={carouselImages} />
       </div>
 
       <div className='-mx-4 mb-32 bg-[#EFEFEF] px-4 pt-10 pb-10 md:-mx-16 md:px-20'>

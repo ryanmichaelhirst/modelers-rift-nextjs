@@ -1,5 +1,5 @@
-import { utcToZonedTime } from 'date-fns-tz'
 import { format } from 'date-fns'
+import { utcToZonedTime } from 'date-fns-tz'
 
 // given 'the dog' returns 'The Dog'
 export const capitalize = (str?: string | null) => {

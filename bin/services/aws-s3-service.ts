@@ -1,9 +1,11 @@
 import {
+  GetObjectCommand,
   ListObjectsV2Command,
   ListObjectsV2CommandOutput,
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3'
+import { getSignedUrl as awsRequestPresigner } from '@aws-sdk/s3-request-presigner'
 import { BUCKET_NAME, s3 } from 'lib/s3'
 
 class AwsS3Service {
@@ -25,12 +27,34 @@ class AwsS3Service {
     return await this.client.send(command)
   }
 
-  listObjects = async () => {
+  listObjects = async ({ prefix, delimiter }: { prefix?: string; delimiter?: string }) => {
     const command = new ListObjectsV2Command({
       Bucket: this.bucketName,
+      ...(prefix && { Prefix: prefix }),
+      ...(delimiter && { Delimiter: delimiter }),
     })
 
     return await this.client.send(command)
+  }
+
+  getSignedUrl = async ({ key, expiresIn }: { key: string; expiresIn?: number }) => {
+    const command = new GetObjectCommand({
+      Bucket: BUCKET_NAME,
+      Key: key,
+    })
+
+    return await awsRequestPresigner(s3, command, { expiresIn })
+  }
+
+  getObject = async (key: string) => {
+    const command = new GetObjectCommand({
+      Bucket: BUCKET_NAME,
+      Key: key,
+    })
+
+    return await (
+      await this.client.send(command)
+    ).Body
   }
 
   performOnAllObjects = async (

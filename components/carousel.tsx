@@ -1,67 +1,21 @@
-import Alistar from '@/assets/Alistar.png'
-import Amumu from '@/assets/Amumu.png'
-import Anivia from '@/assets/Anivia.png'
-import Annie from '@/assets/Annie.png'
-import Ashe from '@/assets/Ashe.png'
-import Ekko from '@/assets/Ekko.png'
-import Galio from '@/assets/Galio.png'
-import Sett from '@/assets/Sett.png'
 import Image from 'next/image'
 import { FC } from 'react'
 
-export const Carousel: FC<{ items?: any[] }> = ({ items }) => {
+export const Carousel: FC<{ items?: string[] }> = ({ items }) => {
   return (
     <div className='slider relative m-auto overflow-hidden' aria-label='React Carousel'>
       <div className='slide-track flex animate-pan'>
-        <div className='slide'>
-          <Image src={Alistar} width='150px' height='170px' />
-        </div>
-        <div className='slide'>
-          <Image src={Sett} width='150px' height='170px' />
-        </div>
-        <div className='slide'>
-          <Image src={Ashe} width='150px' height='170px' />
-        </div>
-        <div className='slide'>
-          <Image src={Alistar} width='150px' height='170px' />
-        </div>
-        <div className='slide'>
-          <Image src={Amumu} width='150px' height='170px' />
-        </div>
-        <div className='slide'>
-          <Image src={Anivia} width='150px' height='170px' />
-        </div>
-        <div className='slide'>
-          <Image src={Annie} width='150px' height='170px' />
-        </div>
-        <div className='slide'>
-          <Image src={Ekko} width='150px' height='170px' />
-        </div>
+        {items?.map((i) => (
+          <div key={i} className='slide'>
+            <Image src={i} width='150px' height='170px' />
+          </div>
+        ))}
 
-        <div className='slide'>
-          <Image src={Galio} width='150px' height='170px' />
-        </div>
-        <div className='slide'>
-          <Image src={Sett} width='150px' height='170px' />
-        </div>
-        <div className='slide'>
-          <Image src={Ashe} width='150px' height='170px' />
-        </div>
-        <div className='slide'>
-          <Image src={Alistar} width='150px' height='170px' />
-        </div>
-        <div className='slide'>
-          <Image src={Amumu} width='150px' height='170px' />
-        </div>
-        <div className='slide'>
-          <Image src={Anivia} width='150px' height='170px' />
-        </div>
-        <div className='slide'>
-          <Image src={Annie} width='150px' height='170px' />
-        </div>
-        <div className='slide'>
-          <Image src={Ekko} width='150px' height='170px' />
-        </div>
+        {items?.map((i) => (
+          <div key={`${i}-copy`} className='slide'>
+            <Image src={i} width='150px' height='170px' />
+          </div>
+        ))}
       </div>
     </div>
   )

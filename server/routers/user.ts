@@ -4,11 +4,11 @@ import {
   isTokenExpired,
   revokeAccessToken,
 } from '@/lib/auth'
+import { procedure, router } from '@/server/trpc'
 import { TRPCError } from '@trpc/server'
 import bcrypt from 'bcryptjs'
 import { formatRFC7231 } from 'date-fns'
 import { z } from 'zod'
-import { router, procedure } from '@/server/trpc'
 
 export const userRouter = router({
   current: procedure

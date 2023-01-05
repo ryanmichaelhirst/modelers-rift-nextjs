@@ -1,8 +1,8 @@
 import { stripe } from '@/lib/stripe'
+import { procedure, router } from '@/server/trpc'
 import { toDollarAmount, toDollarNumber } from '@/utils/index'
 import sortBy from 'lodash.sortby'
 import { z } from 'zod'
-import { router, procedure } from '@/server/trpc'
 
 export const stripeRouter = router({
   'products.list': procedure.input(z.object({ limit: z.number() })).query(async ({ input }) => {

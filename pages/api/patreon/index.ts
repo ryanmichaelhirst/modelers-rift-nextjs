@@ -1,10 +1,10 @@
+import { patreonLogger } from '@/lib/datadog'
 import { prismaService } from '@/lib/prisma'
 import { Prisma } from '@prisma/client'
 import crypto from 'crypto'
+import { buffer, json } from 'micro'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import util from 'util'
-import { buffer, json } from 'micro'
-import { patreonLogger } from '@/lib/datadog'
 
 util.inspect.defaultOptions.maxArrayLength = null
 
