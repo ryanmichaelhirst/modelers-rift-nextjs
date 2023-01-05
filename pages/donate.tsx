@@ -15,7 +15,7 @@ const Product: FC<{
   return (
     <div className='mr-2 flex-1 cursor-pointer rounded'>
       <div className='flex items-center rounded-t border border-b-0 border-solid p-3'>
-        <Image src={imageUrl} alt={`Image for ${name}`} width='60px' height='80px' />
+        <Image src={imageUrl} alt={`Image for ${name}`} width='60' height='80' />
         <div className='description'>
           <h3>{name}</h3>
           <h5>{dollarAmount}</h5>

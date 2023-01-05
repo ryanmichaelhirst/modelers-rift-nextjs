@@ -134,10 +134,10 @@ export const MenuBar: FC = () => {
       <div className='flex items-center'>
         <div className='shrink-0 grow-0 basis-[56px]'>
           <Image
-            layout='fixed'
+            alt='Modelers rift logo'
             src={'/shen.svg'}
-            width='56px'
-            height='39px'
+            width='56'
+            height='39'
             className='cursor-pointer'
             onClick={() => router.push('/')}
           />

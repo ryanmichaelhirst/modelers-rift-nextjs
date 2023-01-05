@@ -60,8 +60,8 @@ const SignUp: NextPage = () => {
 
         <div className='mt-4 mb-10 flex'>
           <span className='mr-2'>Already have an account?</span>
-          <Link href='/login'>
-            <a className='text-primary underline hover:opacity-80'>Login</a>
+          <Link href='/login' className='text-primary underline hover:opacity-80'>
+            Login
           </Link>
         </div>
 

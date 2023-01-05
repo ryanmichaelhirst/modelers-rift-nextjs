@@ -37,7 +37,7 @@ const ExploreCard = ({
       <p className='font-nunito text-lg font-bold capitalize text-tertiary'>{name}</p>
       <p>{title}</p>
       <div className='relative h-[150px]'>
-        <Image src={src} layout='fill' objectFit='contain' />
+        <Image src={src} fill style={{ objectFit: 'contain' }} alt={title} />
       </div>
       <div className='mt-2 flex items-center'>
         <Button
@@ -250,11 +250,11 @@ export default ({
 
         <div className='relative mb-32 flex h-[240px] w-full items-center justify-center md:mb-0 md:w-1/2'>
           <Image
-            layout='fill'
-            objectFit='contain'
+            fill
+            style={{ objectFit: 'contain' }}
             src={'/explorer-screenshot.png'}
             className='rounded'
-            alt={'model explorer table'}
+            alt={'Model explorer screenshot'}
           />
         </div>
       </div>
