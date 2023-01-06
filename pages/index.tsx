@@ -33,12 +33,10 @@ const ExploreCard = ({
   src: any
 }) => {
   return (
-    <Card className='bg-corner-gradient h-[317px] w-[200px] rounded-lg border-none shadow-md'>
+    <Card className='bg-corner-gradient w-[200px] rounded-lg border-none shadow-md'>
       <p className='font-nunito text-lg font-bold capitalize text-tertiary'>{name}</p>
-      <p>{title}</p>
-      <div className='relative h-[150px]'>
-        <Image src={src} fill style={{ objectFit: 'contain' }} alt={title} />
-      </div>
+      <p className='truncate'>{title}</p>
+      <Image src={src} height={150} width={200} alt={title} />
       <div className='mt-2 flex items-center'>
         <Button
           text='Explore'
@@ -248,10 +246,12 @@ export default ({
           </p>
         </div>
 
-        <div className='relative mb-32 flex h-[240px] w-full items-center justify-center md:mb-0 md:w-1/2'>
+        <div className='relative mb-32 flex h-[300px] w-full items-center justify-center md:mb-0 md:w-1/2'>
           <Image
             fill
-            style={{ objectFit: 'contain' }}
+            sizes='(max-width: 768px) 50%,
+            (max-width: 1200px) 50%,
+            50%'
             src={'/explorer-screenshot.png'}
             className='rounded'
             alt={'Model explorer screenshot'}
