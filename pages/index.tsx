@@ -20,6 +20,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { SVGProps } from 'react'
+import { defaultModelHref } from './model/[name]'
 
 const ExploreCard = ({
   onExplore,
@@ -99,7 +100,7 @@ const LINK_BLOCKS = [
     description: 'Pick a champion and cycle through their skins',
     icon: SearchIcon,
     buttonText: 'Find a model',
-    href: '/models',
+    href: defaultModelHref,
   },
   {
     title: 'Support us',
@@ -280,7 +281,7 @@ export default ({
           <p className='h3 mb-4 font-bold text-primary'>Ready to get started?</p>
           <p className='h4 mb-6 text-secondary'>
             Check out your favorite champion in our{' '}
-            <Link className='text-primary' href='/models'>
+            <Link className='text-primary' href={defaultModelHref}>
               Model Explorer
             </Link>
             , or create an account and start downloading models.

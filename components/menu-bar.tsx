@@ -1,6 +1,7 @@
 import { NavButton } from '@/components/button'
 import { ComboBox } from '@/components/combo-box'
 import { Dropdown } from '@/components/dropdown'
+import { defaultModelHref } from '@/pages/model/[name]'
 import type { Character } from '@/utils/trpc'
 import { trpc } from '@/utils/trpc'
 import { Combobox } from '@headlessui/react'
@@ -100,6 +101,7 @@ export const MenuBar: FC = () => {
     const { id } = e.target
     const value = (() => {
       if (id === 'home') return ''
+      if (id === 'models') return defaultModelHref
 
       return id
     })()
@@ -119,7 +121,8 @@ export const MenuBar: FC = () => {
     }
 
     setPage(value)
-    router.push(`/${value.toLowerCase()}`)
+    const route = value === 'models' ? defaultModelHref : value
+    router.push(`/${route.toLowerCase()}`)
   }
 
   return (

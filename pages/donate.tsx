@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { NextRequest, NextResponse } from 'next/server'
 import { FC } from 'react'
+import { defaultModelHref } from './model/[name]'
 
 const Product: FC<{
   id: string
@@ -66,7 +67,7 @@ export default () => {
         </p>
         <p>
           Click{' '}
-          <Link className='text-primary' href='/models'>
+          <Link className='text-primary' href={defaultModelHref}>
             here
           </Link>{' '}
           to start exploring models
@@ -87,7 +88,7 @@ export default () => {
         </p>
         <p>
           Otherwise you can return to the model explorer{' '}
-          <Link className='text-primary' href='/models'>
+          <Link className='text-primary' href={defaultModelHref}>
             here
           </Link>
           .
