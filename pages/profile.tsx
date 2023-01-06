@@ -87,7 +87,7 @@ const Profile: NextPage = () => {
               <p>
                 Thank you for donating! If you would like to make another donation or become a
                 patron click{' '}
-                <Link href='/support-us' className='text-primary' passHref>
+                <Link href='/support-us' className='text-primary'>
                   here
                 </Link>
               </p>
