@@ -1,10 +1,10 @@
 import { H1 } from '@/components/h1'
+import { defaultModelHref } from '@/pages/model/[name]'
 import { trpc } from '@/utils/trpc'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { NextRequest, NextResponse } from 'next/server'
 import { FC } from 'react'
-import { defaultModelHref } from './model/[name]'
 
 const Product: FC<{
   id: string

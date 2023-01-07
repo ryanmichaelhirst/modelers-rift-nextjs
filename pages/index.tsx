@@ -3,6 +3,7 @@ import { Button } from '@/components/button'
 import { Card } from '@/components/card'
 import { Carousel } from '@/components/carousel'
 import { awsLogger } from '@/lib/datadog'
+import { defaultModelHref } from '@/pages/model/[name]'
 import {
   ArrowCircleRightIcon,
   ChevronDownIcon,
@@ -20,7 +21,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { SVGProps } from 'react'
-import { defaultModelHref } from './model/[name]'
 
 const ExploreCard = ({
   onExplore,
