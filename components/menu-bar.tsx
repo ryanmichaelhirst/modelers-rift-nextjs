@@ -1,6 +1,7 @@
 import { NavButton } from '@/components/button'
 import { ComboBox } from '@/components/combo-box'
 import { Dropdown } from '@/components/dropdown'
+import { defaultModelHref } from '@/pages/model/[name]'
 import type { Character } from '@/utils/trpc'
 import { trpc } from '@/utils/trpc'
 import { Combobox } from '@headlessui/react'
@@ -16,14 +17,7 @@ const SearchBar = () => {
   const router = useRouter()
   const character = useModelStore((state) => state.character)
   const setCharacter = useModelStore((state) => state.setCharacter)
-  const { data } = trpc.character.all.useQuery({
-    filter: {
-      typeEq: 'champion',
-    },
-    includeAssets: false,
-    page: 1,
-    pageSize: 200,
-  })
+  const { data } = trpc.character.searchBar.useQuery()
 
   const characters = data?.collection?.filter(Boolean) ?? []
 
@@ -107,9 +101,10 @@ export const MenuBar: FC = () => {
     const { id } = e.target
     const value = (() => {
       if (id === 'home') return ''
+      if (id === 'models') return defaultModelHref
 
       return id
-    })()
+    })().replace('/', '')
 
     setPage(id)
     router.push(`/${value.toLowerCase()}`)
@@ -126,7 +121,13 @@ export const MenuBar: FC = () => {
     }
 
     setPage(value)
-    router.push(`/${value.toLowerCase()}`)
+    const route = (() => {
+      if (value === 'home') return ''
+      if (value === 'models') return defaultModelHref
+
+      return value
+    })().replace('/', '')
+    router.push(`/${route.toLowerCase()}`)
   }
 
   return (
@@ -134,10 +135,10 @@ export const MenuBar: FC = () => {
       <div className='flex items-center'>
         <div className='shrink-0 grow-0 basis-[56px]'>
           <Image
-            layout='fixed'
+            alt='Modelers rift logo'
             src={'/shen.svg'}
-            width='56px'
-            height='39px'
+            width='56'
+            height='39'
             className='cursor-pointer'
             onClick={() => router.push('/')}
           />

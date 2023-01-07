@@ -1,5 +1,7 @@
-import { BugReport } from '@/featuresets/bug-report'
-import { Component, ErrorInfo, PropsWithChildren } from 'react'
+import dynamic from 'next/dynamic'
+import { Component, ErrorInfo, PropsWithChildren, Suspense } from 'react'
+
+const BugReport = dynamic(() => import('../featuresets/bug-report').then((m) => m.BugReport))
 
 class ErrorBoundary extends Component<PropsWithChildren, { hasError: boolean }> {
   constructor(props: {}) {
@@ -19,7 +21,11 @@ class ErrorBoundary extends Component<PropsWithChildren, { hasError: boolean }> 
   render() {
     if (this.state.hasError) {
       // You can render any custom fallback UI
-      return <BugReport />
+      return (
+        <Suspense fallback={'Loading'}>
+          <BugReport />
+        </Suspense>
+      )
     }
 
     return this.props.children

@@ -1,25 +1,26 @@
 import { AssetTable } from '@/components/asset-table'
 import { Button } from '@/components/button'
-import { ComboBox } from '@/components/combo-box'
-import { Modal } from '@/components/modal'
 import type { Animator } from '@/components/model'
-import { dataDragonService } from '@/lib/ddragon'
 import { AssetType, HTTP_SAFE_CHAMPION_NAMES } from '@/types/constants'
 import type { Asset } from '@/utils/trpc'
 import { trpc } from '@/utils/trpc'
-import { Combobox } from '@headlessui/react'
 import { DownloadIcon, PauseIcon, PlayIcon } from '@heroicons/react/outline'
 import classNames from 'classnames'
 import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
-import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { FC, PropsWithChildren, Suspense, useEffect, useRef, useState } from 'react'
 import { useModelStore } from 'store'
 
+export const defaultModelHref = '/model/aatrox'
+
 // TODO: { suspense: true } triggers nextjs error?
 // https://nextjs.org/docs/messages/invalid-dynamic-suspense
-const DynamicModel = dynamic(() => import('../../components/model'), {})
+const Model = dynamic(() => import('../../components/model').then((m) => m.Model))
+const Modal = dynamic(() => import('../../components/modal').then((m) => m.Modal))
+const SkinSearchBar = dynamic(() =>
+  import('../../components/skin-search-bar').then((m) => m.SkinSearchBar),
+)
 
 const Tab: FC<PropsWithChildren<{ onClick: any; tab: string; id: string }>> = ({
   tab,
@@ -197,7 +198,9 @@ export const Models: NextPage = () => {
 
   return (
     <div className='flex h-full flex-col pb-10 md:flex-row md:space-x-10'>
-      <Modal isOpen={isDonationModalOpen} onClose={onCloseDonationModal} />
+      <Suspense fallback={'Loading'}>
+        <Modal isOpen={isDonationModalOpen} onClose={onCloseDonationModal} />
+      </Suspense>
       <div className='overflow-hidden md:min-h-full md:min-w-[500px]'>
         {data && (
           <div className='card'>
@@ -283,64 +286,17 @@ export const Models: NextPage = () => {
             icon={<DownloadIcon className='h-4 w-4' />}
           />
         </div>
-        <ComboBox
-          onInput={onInput}
-          onSearch={onSearch}
-          selected={searchValue}
-          afterLeave={afterLeave}
-          displayValue={(model: Asset) => model?.name ?? ''}
-          classes={{ box: 'z-10 w-72' }}
-          showIcon={false}
-          placeholder='Search skins...'
-        >
-          {filtered.length === 0 && query !== '' ? (
-            <div className='relative cursor-default select-none py-2 px-4 text-gray-700'>
-              Nothing found.
-            </div>
-          ) : (
-            filtered.map((model) => (
-              <Combobox.Option
-                key={model?.id}
-                className={({ active }) =>
-                  classNames(
-                    'relative cursor-default select-none py-0 pl-10 pr-4 capitalize',
-                    active ? 'bg-primary text-white' : 'text-tertiary',
-                  )
-                }
-                value={model}
-              >
-                {({ selected }) => (
-                  <>
-                    <Image
-                      height='20'
-                      width='20'
-                      src={
-                        model?.name?.includes('Chroma')
-                          ? '/no-image.jpg'
-                          : dataDragonService.getSplashArtLink(
-                              data?.displayName,
-                              model?.skin?.replace('skin', '') ?? '',
-                            )
-                      }
-                      className='rounded'
-                      alt={model?.name ?? ''}
-                    />
-                    <span
-                      className={classNames(
-                        'ml-4 inline-block truncate',
-                        selected && 'font-medium',
-                      )}
-                    >
-                      {model?.name}
-                    </span>
-                  </>
-                )}
-              </Combobox.Option>
-            ))
-          )}
-        </ComboBox>
         <Suspense fallback={<p>Loading...</p>}>
-          {modelUrl && <DynamicModel url={modelUrl} onSetModelConfig={onSetModelConfig} />}
+          <SkinSearchBar
+            onInput={onInput}
+            onSearch={onSearch}
+            searchValue={searchValue}
+            afterLeave={afterLeave}
+            filtered={filtered}
+            query={query}
+            data={data}
+          />
+          {modelUrl && <Model url={modelUrl} onSetModelConfig={onSetModelConfig} />}
         </Suspense>
       </div>
     </div>

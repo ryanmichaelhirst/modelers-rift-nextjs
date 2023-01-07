@@ -7,13 +7,13 @@ export const Carousel: FC<{ items?: string[] }> = ({ items }) => {
       <div className='slide-track flex animate-pan'>
         {items?.map((i) => (
           <div key={i} className='slide'>
-            <Image src={i} width='150px' height='170px' />
+            <Image src={i} width='150' height='170' alt={`model for ${i}`} />
           </div>
         ))}
 
         {items?.map((i) => (
           <div key={`${i}-copy`} className='slide'>
-            <Image src={i} width='150px' height='170px' />
+            <Image src={i} width='150' height='170' alt={`model for ${i}`} />
           </div>
         ))}
       </div>

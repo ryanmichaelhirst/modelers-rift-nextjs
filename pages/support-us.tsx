@@ -58,10 +58,11 @@ export default ({ patreonButton }: { patreonButton?: string }) => {
         <div className='flex justify-center'>
           <div className='relative mx-4 h-[60px] w-[200px] cursor-pointer hover:opacity-50'>
             <Image
-              layout='fill'
+              fill
               src={patreonButton ?? ''}
-              objectFit='contain'
+              style={{ objectFit: 'contain' }}
               onClick={() => window.open('https://www.patreon.com/ryanmichaelhirst', '_blank')}
+              alt='Patreon button'
             />
           </div>
         </div>
