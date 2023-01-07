@@ -282,5 +282,3 @@ export const Model: FC<{ url: string; onSetModelConfig: any }> = ({ url, onSetMo
     </div>
   )
 }
-
-export default Model

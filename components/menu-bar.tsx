@@ -104,7 +104,7 @@ export const MenuBar: FC = () => {
       if (id === 'models') return defaultModelHref
 
       return id
-    })()
+    })().replace('/', '')
 
     setPage(id)
     router.push(`/${value.toLowerCase()}`)
@@ -121,7 +121,12 @@ export const MenuBar: FC = () => {
     }
 
     setPage(value)
-    const route = value === 'models' ? defaultModelHref : value
+    const route = (() => {
+      if (value === 'home') return ''
+      if (value === 'models') return defaultModelHref
+
+      return value
+    })().replace('/', '')
     router.push(`/${route.toLowerCase()}`)
   }
 
