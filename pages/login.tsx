@@ -1,11 +1,16 @@
 import { Button } from '@/components/button'
 import { H1 } from '@/components/h1'
-import { PasswordInput } from '@/components/password-input'
 import { trpc } from '@/utils/trpc'
 import type { NextPage } from 'next'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { Suspense } from 'react'
 import { useForm } from 'react-hook-form'
+
+const PasswordInput = dynamic(() =>
+  import('../components/password-input').then((m) => m.PasswordInput),
+)
 
 const Login: NextPage = () => {
   const {
@@ -76,10 +81,12 @@ const Login: NextPage = () => {
 
         <div className='mb-4 flex flex-col'>
           <label className='mb-1 text-tertiary'>Password</label>
-          <PasswordInput
-            value={watch('password')}
-            register={register('password', { required: 'Password is required' })}
-          />
+          <Suspense fallback={'Loading'}>
+            <PasswordInput
+              value={watch('password')}
+              register={register('password', { required: 'Password is required' })}
+            />
+          </Suspense>
           <span className='ml-2 mt-2 text-red-600'>
             {errors.password && <p>{errors.password.message}</p>}
           </span>

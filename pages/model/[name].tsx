@@ -14,8 +14,6 @@ import { useModelStore } from 'store'
 
 export const defaultModelHref = '/model/aatrox'
 
-// TODO: { suspense: true } triggers nextjs error?
-// https://nextjs.org/docs/messages/invalid-dynamic-suspense
 const Model = dynamic(() => import('../../components/model').then((m) => m.Model))
 const Modal = dynamic(() => import('../../components/modal').then((m) => m.Modal))
 const SkinSearchBar = dynamic(() =>
