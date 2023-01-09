@@ -2,6 +2,7 @@ import { H1 } from '@/components/h1'
 import type { NextPage } from 'next'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
+import { Suspense } from 'react'
 
 const SignUpForm = dynamic(() => import('../components/sign-up-form').then((m) => m.SignUpForm))
 
@@ -18,7 +19,9 @@ const SignUp: NextPage = () => {
           </Link>
         </div>
 
-        <SignUpForm />
+        <Suspense fallback={'Loading'}>
+          <SignUpForm />
+        </Suspense>
       </div>
     </div>
   )
