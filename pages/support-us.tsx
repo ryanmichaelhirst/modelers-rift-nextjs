@@ -40,7 +40,7 @@ export default ({ patreonButton }: { patreonButton?: string }) => {
           text='Donate now'
         />
       </Card>
-      <Card className='my-12 border-black bg-opacity-100 p-8 text-lg'>
+      <Card className='my-12 border-black/5 bg-opacity-100 p-8 text-lg'>
         <p className='mb-4'>
           Our models and champion assets will always be free to view. We strive to provide the best
           modeling experience for the league community.

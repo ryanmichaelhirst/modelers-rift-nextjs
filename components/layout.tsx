@@ -23,7 +23,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
           <MenuBar />
         </Suspense>
       </header>
-      <div className='mx-4 my-6 min-h-[90vh] md:mx-16'>{children}</div>
+      <div className='mx-4 my-6 md:mx-16'>{children}</div>
       <footer className='mx-4 mb-10 text-xs text-slate-300 md:mx-16'>
         <hr className='mb-4' />
         <p>

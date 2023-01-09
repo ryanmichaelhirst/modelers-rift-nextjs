@@ -34,9 +34,13 @@ const ExploreCard = ({
   src: any
 }) => {
   return (
-    <Card className='bg-corner-gradient w-[200px] rounded-lg border-none shadow-md'>
-      <p className='font-nunito text-lg font-bold capitalize text-tertiary'>{name}</p>
-      <p className='truncate'>{title}</p>
+    <Card className='bg-corner-gradient w-1/3 md:w-[200px] rounded-lg border border-primary md:border-none shadow-md'>
+      <p className='font-nunito text-lg font-bold capitalize text-tertiary' title={name}>
+        {name}
+      </p>
+      <p className='truncate hidden md:block' title={title}>
+        {title}
+      </p>
       <Image src={src} height={150} width={200} alt={title} />
       <div className='mt-2 flex items-center'>
         <Button
@@ -78,7 +82,7 @@ const FeatureCard = ({
   title: string
   subtitle: string
 }) => (
-  <div className='flex w-[230px] flex-col rounded bg-white py-4 px-6 text-center shadow'>
+  <div className='flex md:w-[230px] flex-col rounded bg-white py-4 px-6 text-center shadow'>
     <div className='flex flex-col items-center'>
       <Icon className='mr-2 h-5 w-5 text-black' />
       <p className='mt-1 mb-2 text-black'>{title}</p>
@@ -89,7 +93,7 @@ const FeatureCard = ({
 
 const LINK_BLOCKS = [
   {
-    title: 'Sign up',
+    title: 'Register',
     description: 'Create an account and download files',
     icon: IdentificationIcon,
     buttonText: 'Sign up',
@@ -115,7 +119,7 @@ const LinkBlock = ({ icon: Icon, title, description, buttonText, href }: any) =>
   const router = useRouter()
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col mb-10 md:mb-0'>
       <Icon className='mb-1 h-5 w-5 text-black' />
       <p className='mb-2 font-bold'>{title}</p>
       <p className='mb-2 flex-grow'>{description}</p>
@@ -205,17 +209,17 @@ export default ({
 
   return (
     <>
-      <div className='flex h-full flex-col justify-between'>
-        <div className='mt-4 flex flex-col md:mt-10 md:flex-row md:space-x-20'>
+      <div className='h-[85vh] flex flex-col justify-between'>
+        <div className='mt-4 flex flex-col md:flex-row md:space-x-20'>
           <div className='md:w-3/5'>
             <p className='h1 mb-5 text-primary'>Bringing the champions you love to the web</p>
             <p className='h2 mb-2 text-tertiary md:mb-8'>
               Explore every champion, skin, voice line, sound effect, and animation in League of
               Legends. Perfect for viewing new releases and store content.
             </p>
-            <Button text='Show me models' onClick={() => router.push('models')} />
+            <Button text='Show me models' onClick={() => router.push(defaultModelHref)} />
           </div>
-          <div className='mt-10 -mr-16 overflow-x-hidden text-center md:relative md:mt-0 md:!-mr-16 md:h-[330px] md:w-2/5 md:text-left'>
+          <div className='mt-10 overflow-x-hidden text-center md:relative md:mt-0 md:!-mr-16 md:h-[330px] md:w-2/5 md:text-left'>
             <div className='flex space-x-4 md:absolute'>
               {exploreCards.map((ec) => (
                 <ExploreCard key={ec.name} onExplore={onExplore} {...ec} />
@@ -236,7 +240,7 @@ export default ({
       </div>
 
       <div className='flex flex-col items-center justify-center md:flex-row'>
-        <div id='app-overview' className='mb-32 w-1/2 pt-32 md:mr-[150px]'>
+        <div id='app-overview' className='md:mb-32 mb-4 md:w-1/2 pt-32 md:mr-[150px]'>
           <p className='h4 font-bold text-primary'>Designed for league fanatics</p>
           <p className='h3 mb-4 font-bold text-secondary'>
             Easily view your favorite models in seconds
@@ -269,7 +273,7 @@ export default ({
         <p className='h3 mb-6 font-bold text-secondary'>
           Full support for animations, audio, and more
         </p>
-        <div className='flex justify-between'>
+        <div className='flex flex-col justify-between md:flex-row'>
           {FEATURE_CARDS.map((fc) => (
             <FeatureCard key={fc.title} {...fc} />
           ))}
@@ -294,7 +298,7 @@ export default ({
             iconPosition='end'
           />
         </div>
-        <div className='flex space-x-6'>
+        <div className='flex flex-col space-x-0 md:flex-row mt-10 md:mt-0 md:space-x-6'>
           {LINK_BLOCKS.map((lb) => (
             <LinkBlock key={lb.title} {...lb} />
           ))}
