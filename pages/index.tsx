@@ -141,6 +141,8 @@ export const getServerSideProps: GetServerSideProps = async ({
   params,
   query,
 }) => {
+  res.setHeader('Cache-Control', 'public, max-age=31536000, immutable')
+
   awsLogger.info('server side rendering the home page', {
     metadata: { resolvedUrl, params, query, cookies: req.cookies, headers: req.headers },
   })
