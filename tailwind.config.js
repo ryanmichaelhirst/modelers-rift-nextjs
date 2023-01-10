@@ -28,8 +28,7 @@ module.exports = {
         '1/9': '1fr 9fr',
       },
       fontFamily: {
-        nunito: ['Nunito Sans', 'sans-serif'],
-        montserrat: ['Montserrat'],
+        nunito: ['var(--font-nunito)'],
       },
       keyframes: {
         pan: {
