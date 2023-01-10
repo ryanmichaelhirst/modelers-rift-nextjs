@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { NextRequest, NextResponse } from 'next/server'
 import { FC } from 'react'
+import { checkUserIsLoggedIn } from './profile'
 
 const Product: FC<{
   id: string
@@ -34,20 +35,7 @@ const Product: FC<{
 }
 
 export const getServerSideProps = async ({ req, res }: { req: NextRequest; res: NextResponse }) => {
-  // TODO: why is it set as 'undefined' and not undefined?
-  // @ts-ignore
-  if (!req.cookies.token || req.cookies.token === 'undefined') {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false, // make this true if you want the redirect to be cached by the search engines and clients forever
-      },
-    }
-  }
-
-  return {
-    props: {},
-  }
+  return checkUserIsLoggedIn(req)
 }
 
 export default () => {
