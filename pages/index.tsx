@@ -141,6 +141,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   params,
   query,
 }) => {
+  // cache homepage for 1 year
   res.setHeader('Cache-Control', 'public, max-age=31536000, immutable')
 
   awsLogger.info('server side rendering the home page', {
@@ -155,7 +156,8 @@ export const getServerSideProps: GetServerSideProps = async ({
     modelImgsContents.map(async (c) => {
       if (!c.Key) return undefined
 
-      return await awsS3Service.getSignedUrl({ key: c.Key, expiresIn: 3600 })
+      // cache images for 1 week
+      return await awsS3Service.getSignedUrl({ key: c.Key, expiresIn: 604800 })
     }),
   )
 
@@ -167,7 +169,8 @@ export const getServerSideProps: GetServerSideProps = async ({
     cardImgsContents.map(async (c) => {
       if (!c.Key) return undefined
 
-      return await awsS3Service.getSignedUrl({ key: c.Key, expiresIn: 3600 })
+      // cache images for 1 week
+      return await awsS3Service.getSignedUrl({ key: c.Key, expiresIn: 604800 })
     }),
   )
 
