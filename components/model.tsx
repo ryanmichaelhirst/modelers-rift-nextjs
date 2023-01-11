@@ -140,8 +140,13 @@ export class Animator {
         else this.removeFloor()
       })
 
+    this.gui.addColor({ backgroundColor: '#FFFFFF' }, 'backgroundColor').onChange((value) => {
+      this.renderer.setClearColor(value, 1)
+    })
+
     this.renderer.setSize(width, height)
     this.renderer.setPixelRatio(window.devicePixelRatio)
+    // sets the canvas background color, default is transparent
     this.renderer.setClearColor(0xffffff, 0)
     this.renderer.physicallyCorrectLights = true
     this.renderer.outputEncoding = sRGBEncoding
