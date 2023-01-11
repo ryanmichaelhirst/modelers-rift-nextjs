@@ -177,3 +177,9 @@ For a full list of supported events
 Simulate a payment with stripe test cards
 
 `https://stripe.com/docs/testing`
+
+### Performance Testing
+
+Test cdn content such as images, 3d models, and video with `https://tools.keycdn.com/performance`
+
+Test web page performance with [Lighthouse](https://developer.chrome.com/docs/lighthouse/overview/) and `https://pagespeed.web.dev`
