@@ -1,6 +1,6 @@
 import { Button } from '@/components/button'
 import { trpc } from '@/utils/trpc'
-import { AnnotationIcon, DocumentDownloadIcon, StarIcon } from '@heroicons/react/outline'
+// import { AnnotationIcon, DocumentDownloadIcon, StarIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { PasswordInput } from '../components/password-input'
@@ -90,7 +90,7 @@ export const SignUpForm = () => {
       </div>
 
       <div className='mt-2 mb-6'>
-        <p className='text-lg'>The following comes with your free account!</p>
+        {/* <p className='text-lg'>The following comes with your free account!</p>
         <ul className='mt-2'>
           <li className='my-2 flex items-center pl-2'>
             <DocumentDownloadIcon className='h-5 w-5 text-primary' />
@@ -104,7 +104,7 @@ export const SignUpForm = () => {
             <AnnotationIcon className='h-5 w-5 text-primary' />
             <span className='ml-2'>Access to community</span>
           </li>
-        </ul>
+        </ul> */}
       </div>
 
       <Button
