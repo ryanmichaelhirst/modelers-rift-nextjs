@@ -16,7 +16,7 @@ export const AssetTable: React.FC<{
           <th className='w-1/6 py-2 font-normal'>Time</th>
         </tr>
       </thead>
-      <tbody className='block h-[500px] overflow-y-scroll'>
+      <tbody className='block h-[100px] md:h-[500px] overflow-y-scroll'>
         {data?.map((s, idx) => (
           <tr
             onClick={onRowClick(s)}

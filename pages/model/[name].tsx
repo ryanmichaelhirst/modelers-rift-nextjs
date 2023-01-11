@@ -218,12 +218,12 @@ export const Models: NextPage = () => {
                 <table className='w-full font-nunito'>
                   <thead className='block border-b border-slate-200'>
                     <tr className='flex text-left text-slate-400'>
-                      <th className='w-8 py-2 font-normal'></th>
-                      <th className='w-12 py-2 font-normal'>#</th>
-                      <th className='py-2 font-normal'>Title</th>
+                      <th className='w-1/12 py-2 font-normal'></th>
+                      <th className='w-1/12 py-2 font-normal'>#</th>
+                      <th className='w-10/12 py-2 font-normal'>Title</th>
                     </tr>
                   </thead>
-                  <tbody className='block h-[500px] overflow-y-scroll'>
+                  <tbody className='block h-[100px] md:h-[500px] overflow-y-scroll'>
                     {modelConfig?.animationNames?.map((a, idx) => {
                       const Icon = isAnimationPlaying ? PauseIcon : PlayIcon
 
@@ -238,7 +238,7 @@ export const Models: NextPage = () => {
                             'flex cursor-pointer items-center text-left hover:text-primary',
                           )}
                         >
-                          <td className='w-8 py-1'>
+                          <td className='w-1/12 py-1'>
                             {a === selectedAnimation && (
                               <Icon
                                 className='h-5 w-5 text-primary'
@@ -246,8 +246,8 @@ export const Models: NextPage = () => {
                               />
                             )}
                           </td>
-                          <td className='w-12 py-1'>{idx}</td>
-                          <td className='py-1'>{a}</td>
+                          <td className='w-1/12 py-1'>{idx}</td>
+                          <td className='w-10/12 py-1'>{a}</td>
                         </tr>
                       )
                     })}
@@ -274,7 +274,7 @@ export const Models: NextPage = () => {
           </div>
         )}
       </div>
-      <div className='md:min-h-full md:w-4/6'>
+      <div className='h-[500px] mt-2 md:min-h-full md:w-4/6 md:mt-0'>
         <div className='mb-4 flex items-center'>
           <span className='mr-6 text-lg'>{data?.displayName}</span>
           <Button
