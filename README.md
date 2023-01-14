@@ -18,8 +18,10 @@ You will need to extract all champion wad files using Obsidian for voice lines a
 
 ### Extracting Champion Models
 
-1. Download League Bulk Converter
+1. Download League Bulk Converter 
    https://github.com/Jochem-W/LeagueConvert/releases
+
+   Note: The last release version is no longer supported. Download a release from the build action here https://github.com/Jochem-W/LeagueConvert/actions
 
 ## Setting up the /input directory (.gltf files)
 
