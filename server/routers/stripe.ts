@@ -25,7 +25,9 @@ export const stripeRouter = router({
       }
     })
 
-    const sortedProducts = sortBy(productsWithDollarAmounts, ['dollarNumber'])
+    const sortedProducts = sortBy(productsWithDollarAmounts, ['dollarNumber']).filter((p) => {
+      return p.metadata.tag !== 'cancelme'
+    })
 
     return { products: sortedProducts }
   }),
