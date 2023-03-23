@@ -34,7 +34,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   await runMiddleware(req, res, cors)
 
   const key = req.body.key
-  const url = awsS3Service.getSignedUrl({ key, expiresIn: 3600 })
+  const url = await awsS3Service.getSignedUrl({ key, expiresIn: 3600 })
 
   awsLogger.info(`Fetched aws signed url for ${key}`, { metadata: { key, signedUrl: url } })
 
