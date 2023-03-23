@@ -180,6 +180,8 @@ Simulate a payment with stripe test cards
 
 `https://stripe.com/docs/testing`
 
+Use card details `4242 4242 4242 4242`, `12/34` and `123`
+
 ### Performance Testing
 
 Test cdn content such as images, 3d models, and video with `https://tools.keycdn.com/performance`

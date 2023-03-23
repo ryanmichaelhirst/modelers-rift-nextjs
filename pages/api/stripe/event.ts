@@ -78,7 +78,7 @@ const saveStripeDonation = async (event: StripeEvent) => {
   }
 }
 
-const signingSecret = 'whsec_NX8SiSlAk2okY1FDRFZxiKRvIwFG2azi'
+const signingSecret = process.env.STRIPE_SIGNING_SECRET ?? ''
 
 export const config = {
   api: {
