@@ -136,7 +136,7 @@ export const Models: NextPage = () => {
 
   const onExport = async () => {
     // if the user has not made any donations, display the donation modal
-    if (user?.donations.length === 0) {
+    if (!user || user?.donations.length === 0) {
       setIsDonationModalOpen(true)
 
       return
