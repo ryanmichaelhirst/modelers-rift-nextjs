@@ -1,6 +1,7 @@
 import { H1 } from '@/components/h1'
 import { defaultModelHref } from '@/pages/model/[name]'
 import { trpc } from '@/utils/trpc'
+import classNames from 'classnames'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { NextRequest, NextResponse } from 'next/server'
@@ -14,9 +15,11 @@ const Product: FC<{
   imageUrl: string
   userId?: number
 }> = ({ id, name, dollarAmount, imageUrl, userId }) => {
+  const isDisabled = !userId
+
   return (
-    <div className='mr-2 flex-1 cursor-pointer rounded'>
-      <div className='flex items-center rounded-t border border-b-0 border-solid p-3'>
+    <div className={classNames('mr-2 flex-1 rounded', isDisabled && 'opacity-50')}>
+      <div className='flex items-center rounded-t border border-b-0 border-solid p-3 cursor-default'>
         <Image src={imageUrl} alt={`Image for ${name}`} width='60' height='80' />
         <div className='description'>
           <h3>{name}</h3>
@@ -27,7 +30,13 @@ const Product: FC<{
         <form action='/api/stripe/checkout' method='POST'>
           <input name='productId' defaultValue={id} hidden={true} />
           <input name='userId' defaultValue={userId} type='number' hidden={true} />
-          <button type='submit'>Checkout</button>
+          <button
+            type='submit'
+            disabled={isDisabled}
+            className='disabled:cursor-not-allowed hover:bg-gray-400 h-full w-full text-left'
+          >
+            Checkout
+          </button>
         </form>
       </div>
     </div>
@@ -104,6 +113,11 @@ export default () => {
           />
         ))}
       </div>
+      {!user?.id && (
+        <div className='mt-4 italic'>
+          *Please sign in to make a donation. This ensures we link your donation with your account.
+        </div>
+      )}
     </section>
   )
 }
