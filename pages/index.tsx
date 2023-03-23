@@ -273,15 +273,17 @@ export default ({
         <Carousel items={carouselImages} />
       </div>
 
-      <div className='-mx-4 mb-32 bg-[#EFEFEF] px-4 pt-10 pb-10 md:-mx-16 md:px-20'>
-        <p className='h4 font-bold text-primary'>Why Modeler's Rift</p>
-        <p className='h3 mb-6 font-bold text-secondary'>
-          Full support for animations, audio, and more
-        </p>
-        <div className='flex flex-col justify-between md:flex-row'>
-          {FEATURE_CARDS.map((fc) => (
-            <FeatureCard key={fc.title} {...fc} />
-          ))}
+      <div className='-mx-4 mb-32 bg-[#EFEFEF] pt-10 pb-10 md:-mx-40'>
+        <div className='flex flex-col items-stretch mx-4 md:mx-40'>
+          <p className='h4 font-bold text-primary'>Why Modeler's Rift</p>
+          <p className='h3 mb-6 font-bold text-secondary'>
+            Full support for animations, audio, and more
+          </p>
+          <div className='flex flex-col justify-between md:flex-row'>
+            {FEATURE_CARDS.map((fc) => (
+              <FeatureCard key={fc.title} {...fc} />
+            ))}
+          </div>
         </div>
       </div>
 

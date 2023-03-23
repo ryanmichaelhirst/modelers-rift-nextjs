@@ -24,7 +24,7 @@ export default ({ patreonButton }: { patreonButton?: string }) => {
   return (
     <section className='relative z-0 flex flex-col items-center'>
       <div
-        className='absolute top-0 -z-[1] -mx-16 h-80 w-full bg-cover bg-no-repeat'
+        className='absolute top-0 -z-[1] -mx-40 h-80 w-full bg-cover bg-no-repeat'
         style={{
           backgroundImage:
             'url(https://cdn.mos.cms.futurecdn.net/2NQGX7WGDekmLQwhtzLRQP-1920-80.jpg.webp)',

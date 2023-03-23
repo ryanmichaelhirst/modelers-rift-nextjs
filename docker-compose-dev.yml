@@ -9,7 +9,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - db:/var/lib/postgresql/data
+      - modelersrift-db:/var/lib/postgresql/data
 volumes:
-  db:
+  modelersrift-db:
     driver: local

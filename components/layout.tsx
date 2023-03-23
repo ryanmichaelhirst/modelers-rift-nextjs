@@ -23,8 +23,8 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
           <MenuBar />
         </Suspense>
       </header>
-      <div className='mx-4 my-6 md:mx-16'>{children}</div>
-      <footer className='mx-4 mb-10 text-xs text-slate-300 md:mx-16'>
+      <div className='mx-4 my-6 md:mx-40'>{children}</div>
+      <footer className='mx-4 mb-10 text-xs text-slate-300 md:mx-40'>
         <hr className='mb-4' />
         <p>
           © 2022 Modeler's Rift. Modeler's Rift isn’t endorsed by Riot Games and doesn’t reflect the
