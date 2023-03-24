@@ -31,7 +31,7 @@ You will need to extract all champion wad files using Obsidian for voice lines a
 
 ## Generating the /output directory (.glb files)
 
-4. Run `npm run bin -- -c=generate-glb`
+4. Run `yarn run bin -c=generate-glb`
 5. Assets will be extracted to /output/glb_models
 
 ### Extracting Champion Audios
@@ -47,8 +47,8 @@ You will need to extract all champion wad files using Obsidian for voice lines a
 
 ## Generating the /output directory (.ogg files)
 
-5. Run `npm run bin -- -c=job -f=extract-sounds`
-6. Run `npm run bin -- -c=job -f=transform-sounds`
+5. Run `yarn run bin -c=job -f=extract-sounds`
+6. Run `yarn run bin -c=job -f=transform-sounds`
 7. Raw assets will be extracted to /output/extracted
 8. Human readable assets will be extracted to /output/transformed
 

@@ -11,7 +11,7 @@ export const checkUserIsLoggedIn = (req: NextRequest) => {
   const cookies: Record<string, unknown> = req.cookies
   const isEmpty = Object.keys(cookies).length === 0
   const token = cookies['token']
-  console.log({ isEmpty, token })
+  // console.log({ isEmpty, token })
 
   // TODO: why is token set as 'undefined' and not undefined?
   if (isEmpty || !token || token === 'undefined') {
