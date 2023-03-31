@@ -19,20 +19,20 @@ You will need to extract all champion wad files using Obsidian for voice lines a
 ### Extracting Champion Models
 
 1. Download League Bulk Converter 
-   https://github.com/Jochem-W/LeagueConvert/releases
+   https://github.com/Jochem-W/LeagueConvert
 
-   Note: The last release version is no longer supported. Download a release from the build action here https://github.com/Jochem-W/LeagueConvert/actions
+   Note: The lastest release version is no longer working. Because the desktop app to extract the game assets is not working right now, you will need to run the script from the command line.  Download a release from the build action here https://github.com/Jochem-W/LeagueConvert/actions
 
 ## Setting up the /input directory (.gltf files)
 
-2. Install and run the converter
-3. Install Directoy should be C:\Riot Games\League of Legends
-4. Move the extracted files to /input
+1. Download and extract the zip
+2. From the command line run `dotnet LeagueConvert.CommandLine.dll convert-all C:\"Riot Games"\"League of Legends"\Game\DATA\FINAL\Champions`
+3. Move the extracted files to /modelers-rift/input
 
 ## Generating the /output directory (.glb files)
 
 4. Run `yarn run bin -c=generate-glb`
-5. Assets will be extracted to /output/glb_models
+5. Assets will be extracted to /modelers-rift/output/glb_models
 
 ### Extracting Champion Audios
 
@@ -42,8 +42,8 @@ You will need to extract all champion wad files using Obsidian for voice lines a
 ## Setting up the /input directory (.bnk and .wpk files)
 
 2. Install and run Obsidian
-3. Select Riot Games -> League of Legends -> Game -> DATA -> Final -> Champions at the source directory
-4. Extract all to /input directory
+3. Select `C:\"Riot Games"\"League of Legends"\Game\DATA\FINAL\Champions` as the source directory
+4. Extract all to /modelers-rift/input
 
 ## Generating the /output directory (.ogg files)
 
