@@ -29,10 +29,12 @@ You will need to extract all champion wad files using Obsidian for voice lines a
 2. From the command line run `dotnet LeagueConvert.CommandLine.dll convert-all C:\"Riot Games"\"League of Legends"\Game\DATA\FINAL\Champions`
 3. Move the extracted files to /modelers-rift/input
 
-## Generating the /output directory (.glb files)
+Deprecated: The section below for generating .glb files is no longer needed. LeagueConvert now does this step auto-magically
 
-4. Run `yarn run bin -c=generate-glb`
-5. Assets will be extracted to /modelers-rift/output/glb_models
+## Deprecated: ~~Generating the /output directory (.glb files)~~
+
+4. ~~Run `yarn run bin -c=generate-glb`~~
+5. ~~Assets will be extracted to /modelers-rift/output/glb_models~~
 
 ### Extracting Champion Audios
 
