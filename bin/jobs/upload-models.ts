@@ -32,8 +32,6 @@ export const uploadModels = async (type: UploadType = 'rift') => {
   const champDirs = await fs.promises.readdir(inputDir)
 
   for (const champDir of champDirs) {
-    if (champDir !== 'akali') continue
-
     if (type === 'tft') {
       if (!champDir.includes('tft')) continue
     } else if (type === 'rift') {

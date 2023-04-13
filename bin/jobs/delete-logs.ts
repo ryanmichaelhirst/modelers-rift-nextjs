@@ -3,9 +3,9 @@ import fs from 'fs'
 import path from 'path'
 
 export const deleteLogs = async () => {
-  const logs = await (
-    await fs.promises.readdir('logs')
-  ).filter((filename) => filename !== '.gitignore')
+  const logs = await (await fs.promises.readdir('logs')).filter(
+    (filename) => filename !== '.gitignore',
+  )
 
   for (const log of logs) {
     try {
