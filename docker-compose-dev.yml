@@ -1,8 +1,9 @@
 version: '3.8'
 services:
-  db:
+  postgres_db:
     image: postgres:14.1-alpine
     restart: always
+    container_name: postgres_db
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -12,4 +13,3 @@ services:
       - modelersrift-db:/var/lib/postgresql/data
 volumes:
   modelersrift-db:
-    driver: local
