@@ -5,8 +5,9 @@
   "main": "pages/_app.tsx",
   "scripts": {
     "dev:next": "NODE_ENV=development next dev",
-    "dev:postgres": "docker-compose -f docker-compose-dev.yml up",
+    "dev:postgres": "docker-compose -f docker-compose-dev.yml up -d",
     "dev": "run-p dev:*",
+    "prisma:migrate": "bash prisma-migrate.sh",
     "analyze": "ANALYZE=true yarn build",
     "build::next": "next build",
     "build::prisma": "npx prisma generate",
@@ -17,6 +18,9 @@
     "bin": "ts-node -r dotenv/config --project tsconfig.node.json -r tsconfig-paths/register bin/index",
     "prettier": "npx prettier --write bin components lib pages styles types utils server",
     "tunnel": "cloudflared tunnel --config cloudflare.yaml run"
+  },
+  "comments": {
+    "prisma:migrate": "This command is needed in order to support wsl2 environments. Docker does not expose localhost on a wsl2 machine"
   },
   "engines": {
     "node": ">=16.0.0"
