@@ -11,30 +11,14 @@ Assets include:
 
 ### How to generate assets
 
-If you would like to use `npm run bin -- -c={some-command}` you will need to create an /input and /output folder.
+If you would like to use `yarn run bin -c={some-command}` you will need to create an /input and /output folder.
 
 You will need to extract all champion wad files using LeagueBulkConvert for 3D models (gltf / glb files).
 You will need to extract all champion wad files using Obsidian for voice lines and sound effects (ogg / wav files).
 
-### Extracting Champion Models
+### Generating Models (.glb files)
 
-1. Download League Bulk Converter 
-   https://github.com/Jochem-W/LeagueConvert
-
-   Note: The lastest release version is no longer working. Because the desktop app to extract the game assets is not working right now, you will need to run the script from the command line.  Download a release from the build action here https://github.com/Jochem-W/LeagueConvert/actions
-
-## Setting up the /input directory (.gltf files)
-
-1. Download and extract the zip
-2. From the command line run `dotnet LeagueConvert.CommandLine.dll convert-all C:\"Riot Games"\"League of Legends"\Game\DATA\FINAL\Champions`
-3. Move the extracted files to /modelers-rift/input
-
-Deprecated: The section below for generating .glb files is no longer needed. LeagueConvert now does this step auto-magically
-
-## Deprecated: ~~Generating the /output directory (.glb files)~~
-
-4. ~~Run `yarn run bin -c=generate-glb`~~
-5. ~~Assets will be extracted to /modelers-rift/output/glb_models~~
+Please follow the [generating-models-guide](/docs/generating-models-guide.md) to generate 3D models for all champions!
 
 ### Extracting Champion Audios
 
