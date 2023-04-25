@@ -26,6 +26,13 @@ class Logger {
       this.fileStream.write(formattedMsg)
     }
   }
+
+  debug(message: any, error?: any) {
+    const formattedMsg = util.inspect(message, false, null, true /* enable colors */)
+    process.stdout.write(`${formattedMsg}\n`)
+
+    this.fileStream?.write(formattedMsg)
+  }
 }
 
 export const logger = new Logger()
