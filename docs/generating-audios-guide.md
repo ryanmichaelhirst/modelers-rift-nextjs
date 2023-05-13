@@ -13,7 +13,7 @@ This doc covers how we can extract the champion voice lines and sound effects fr
 Before generating glb models, you will need:
 
 - [Node.js](https://nodejs.org/) installed on your computer
-- [Obsidian](https://github.com/Crauzer/Obsidian) downloaded on your computer
+- [Obsidian](https://github.com/Crauzer/Obsidian/releases) downloaded on your computer
 - [League of Legends](https://signup.leagueoflegends.com/en-us/signup/redownload) installed on your computer
 
 

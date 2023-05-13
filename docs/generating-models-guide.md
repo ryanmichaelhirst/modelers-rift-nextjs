@@ -27,7 +27,7 @@ To generate glb models, follow these steps:
 3. Run `dotnet LeagueConvert.CommandLine.dll convert-all C:\"Riot Games"\"League of Legends"\Game\DATA\FINAL\Champions -a -s` to generate the model (.glb) files
 4. Rename \LeagueConvert\output to \LeagueConvert\glb_models.
 5. Move \LeagueConvert\glb_models to \modelers-rift\output\glb_models
-6. Run `yarn run bin -c=job -f=rename-glb-file` to rename the files
+6. Run `yarn run bin -c=job -f=rename-glb-files` to rename the files
 7. Run `yarn run bin -c=job -f=compress-glb` to reduce the size of all files
 8. Run `yarn run bin -c=job -f=upload-models` to upload to s3 bucket
 9. Run `yarn run bin -c=job -f=add-characters` and `yarn run bin -c=job -f=add-assets` to seed postgres db
