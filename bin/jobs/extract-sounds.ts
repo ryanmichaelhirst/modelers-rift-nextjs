@@ -1,5 +1,5 @@
 import { logger } from '@/lib/logger'
-import type { Sound } from 'bin/types'
+import type { Sound } from '@/bin/types'
 import { exec, execSync } from 'child_process'
 import fs from 'fs'
 import PQueue from 'p-queue'

@@ -26,8 +26,8 @@ To generate voice lines and sounds effects, follow these steps:
 3. Open Obsidian and set the League of Legends directory to your local path. 
 4. After the directory is set and indexed by Obsidian, select the checkbox for Game/DATA/Final/Champions and click "File -> Extract Selected."
 5. Set the output directory to \modelers-rift\input
-6. Run `yarn run bin -c=job -f=generate-audio` to generate the sound effects and voice lines for each champion
-9. Run `yarn run bin -c=job -f=add-characters` and `yarn run bin -c=job -f=add-assets` to seed postgres db
+6. Run `pnpm run bin -c=job -f=generate-audio` to generate the sound effects and voice lines for each champion
+9. Run `pnpm run bin -c=job -f=add-characters` and `pnpm run bin -c=job -f=add-assets` to seed postgres db
 
 ### Convert BNK -> OGG / WAV
 

@@ -5,7 +5,7 @@ import { BUCKET_NAME } from '@/lib/s3'
 import { ChampionDetailedInfo } from '@/types'
 import { capitalize } from '@/utils/index'
 import { ListObjectsV2CommandOutput } from '@aws-sdk/client-s3'
-import { awsS3Service } from 'bin/services/aws-s3-service'
+import { awsS3Service } from '@/bin/services/aws-s3-service'
 import groupBy from 'lodash.groupby'
 
 /**

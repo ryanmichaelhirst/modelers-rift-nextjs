@@ -1,22 +1,10 @@
 import { addAssets } from '@/bin/jobs/add-assets'
 import { addCharacters } from '@/bin/jobs/add-characters'
-import { uploadModels } from '@/bin/jobs/upload-models'
-import { uploadSounds } from '@/bin/jobs/upload-sounds'
 import { logger } from '@/lib/logger'
 import { prismaService } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
 
-export const seedAws = async () => {
-  // upload glb files
-  await uploadModels('rift')
-  // upload sfx and vo files
-  await uploadSounds()
-}
-
-/**
- * Average runtime: 5:29.915 (m:ss.mmm)
- */
-export const seedDb = async () => {
+async function main() {
   // add dummy users
   const users = await prismaService.findManyUsers({ take: 100 })
   if (users.length === 0) {
@@ -50,3 +38,13 @@ export const seedDb = async () => {
     logger.info('added assets')
   }
 }
+
+main()
+  .then(async () => {
+    await prismaService.client.$disconnect()
+  })
+  .catch(async (e) => {
+    console.error(e)
+    await prismaService.client.$disconnect()
+    process.exit(1)
+  })

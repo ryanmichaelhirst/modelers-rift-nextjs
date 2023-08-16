@@ -1,6 +1,6 @@
 import { logger } from '@/lib/logger'
 import { prismaService } from '@/lib/prisma'
-import { awsS3Service } from 'bin/services/aws-s3-service'
+import { awsS3Service } from '@/bin/services/aws-s3-service'
 import updateCharacterDisplayNames from './update-character-display-names'
 
 /**

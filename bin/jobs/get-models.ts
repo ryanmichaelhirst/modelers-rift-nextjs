@@ -1,5 +1,5 @@
+import { awsS3Service } from '@/bin/services/aws-s3-service'
 import { logger } from '@/lib/logger'
-import { awsS3Service } from 'bin/services/aws-s3-service'
 
 export const getModels = async () => {
   try {

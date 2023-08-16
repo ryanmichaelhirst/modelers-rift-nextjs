@@ -11,7 +11,7 @@ Assets include:
 
 ### How to generate assets
 
-If you would like to use `yarn run bin -c={some-command}` you will need to create an /input and /output folder.
+If you would like to use `pnpm run bin -c={some-command}` you will need to create an /input and /output folder.
 
 You will need to extract all champion wad files using LeagueBulkConvert for 3D models (gltf / glb files).
 You will need to extract all champion wad files using Obsidian for voice lines and sound effects (ogg / wav files).
@@ -54,13 +54,13 @@ Queries and mutations can be created under `/server/routers` and then added to `
 
 First run the dev server
 
-`yarn run dev`
+`pnpm dev`
 
 This will launch nextjs in development mode, and start a local postgres db with `docker`
 
 Next populate the db
 
-`yarn run bin -c=seed-db`
+`pnpm run bin -c=seed-db`
 
 Finally view your db to make sure everything is setup properly
 
@@ -68,7 +68,7 @@ Finally view your db to make sure everything is setup properly
 
 ### Cloudflare Tunnels
 
-You can expose your localhost server (`yarn dev`) as a publicaly routable IP address with ssh tunneling
+You can expose your localhost server (`pnpm dev`) as a publicaly routable IP address with ssh tunneling
 
 Full instructions [here](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/tunnel-guide/local/#set-up-a-tunnel-locally-cli-setup)
 
@@ -94,7 +94,7 @@ Route traffic to tunnel
 
 Run the tunnel
 
-`cloudflared tunnel run <UUID or NAME>` or `yarn tunnel`
+`cloudflared tunnel run <UUID or NAME>` or `pnpm tunnel`
 
 Get the name record mappings on vercel
 
