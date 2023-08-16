@@ -4,7 +4,7 @@ import path from 'path'
 import util from 'util'
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
-import { generateGlb, seedAws, seedDb } from './cmds'
+import { seedAws, seedDb } from './cmds'
 
 util.inspect.defaultOptions.maxArrayLength = null
 
@@ -52,9 +52,6 @@ const run = async () => {
       break
     case 'seed-db':
       await seedDb()
-      break
-    case 'generate-glb':
-      await generateGlb()
       break
     case 'job':
       if (!file) throw new Error('command requires file (-f) flag')

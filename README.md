@@ -11,56 +11,18 @@ Assets include:
 
 ### How to generate assets
 
-If you would like to use `npm run bin -- -c={some-command}` you will need to create an /input and /output folder.
+If you would like to use `yarn run bin -c={some-command}` you will need to create an /input and /output folder.
 
 You will need to extract all champion wad files using LeagueBulkConvert for 3D models (gltf / glb files).
 You will need to extract all champion wad files using Obsidian for voice lines and sound effects (ogg / wav files).
 
-### Extracting Champion Models
+### Generating models (.glb files)
 
-1. Download League Bulk Converter 
-   https://github.com/Jochem-W/LeagueConvert
+Please follow the [generating-models-guide](/docs/generating-models-guide.md) to generate 3D models for all champions!
 
-   Note: The lastest release version is no longer working. Because the desktop app to extract the game assets is not working right now, you will need to run the script from the command line.  Download a release from the build action here https://github.com/Jochem-W/LeagueConvert/actions
+### Generating audios (.bnk and .wpk files)
 
-## Setting up the /input directory (.gltf files)
-
-1. Download and extract the zip
-2. From the command line run `dotnet LeagueConvert.CommandLine.dll convert-all C:\"Riot Games"\"League of Legends"\Game\DATA\FINAL\Champions`
-3. Move the extracted files to /modelers-rift/input
-
-Deprecated: The section below for generating .glb files is no longer needed. LeagueConvert now does this step auto-magically
-
-## Deprecated: ~~Generating the /output directory (.glb files)~~
-
-4. ~~Run `yarn run bin -c=generate-glb`~~
-5. ~~Assets will be extracted to /modelers-rift/output/glb_models~~
-
-### Extracting Champion Audios
-
-1. Download Obsidian
-   https://github.com/Crauzer/Obsidian
-
-## Setting up the /input directory (.bnk and .wpk files)
-
-2. Install and run Obsidian
-3. Select `C:\"Riot Games"\"League of Legends"\Game\DATA\FINAL\Champions` as the source directory
-4. Extract all to /modelers-rift/input
-
-## Generating the /output directory (.ogg files)
-
-5. Run `yarn run bin -c=job -f=extract-sounds`
-6. Run `yarn run bin -c=job -f=transform-sounds`
-7. Raw assets will be extracted to /output/extracted
-8. Human readable assets will be extracted to /output/transformed
-
-### Convert BNK -> OGG / WAV
-
-https://www.youtube.com/watch?v=cMXan62JCuk
-
-https://github.com/Morilli/bnk-extract/releases/tag/v1.6
-
-`./bnk-extract.exe --audio path/to/audio.[bnk|wpk] [--bin path/to/skinX.bin --events path/to/events.bnk] [-o path/to/output] [--wems-only] [--oggs-only]`
+Please follow the [generating-audios-guide](/docs/generating-audios-guide.md) to generate audio files for all champions!
 
 ### Prisma
 

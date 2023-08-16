@@ -1,33 +1,34 @@
 import { logger } from '@/lib/logger'
-import { fileService } from 'bin/services/file-service'
 import type { Sound } from 'bin/types'
-import { soundTypes } from 'bin/types'
-import { execSync } from 'child_process'
+import { exec, execSync } from 'child_process'
 import fs from 'fs'
+import PQueue from 'p-queue'
 import path from 'path'
 
 const extractBnkContent = async ({
   inputDir,
   outputDir,
-  region,
   soundType,
 }: {
   inputDir: string
   outputDir: string
-  region: string
   soundType: Sound
 }) => {
-  // read extracted champion assets from WAD files from Obsidian
+  const queue = new PQueue({ concurrency: 10 })
+  const region = 'en_us'
+
+  // determine whether to read from "sfx" or "vo" directory
   const champDirPath =
     soundType === 'sfx'
       ? path.join(inputDir, `assets/sounds/wwise2016/${soundType}/characters`)
       : path.join(inputDir, `assets/sounds/wwise2016/${soundType}/${region}/characters`)
 
+  // get champion directories i.e. "/aatrox", "/ahri", "/akali
   const champDirs = await fs.promises.readdir(champDirPath)
 
   for (const cdir of champDirs) {
-    if (cdir !== 'aatrox') continue
-
+    // get skin directories for each champion
+    // i.e. "../sounds/wwise2016/sfx/characters/aatrox/skins/base", "../sounds/wwise2016/sfx/characters/aatrox/skins/skin01"
     const skinDirPath = path.join(champDirPath, cdir, 'skins')
     const skinDirs = await fs.promises.readdir(skinDirPath)
 
@@ -52,35 +53,87 @@ const extractBnkContent = async ({
       const bnkExe = path.join(process.env.APP_HOME || '', 'bin/executables/bnk-extract.exe')
       const extractCmd = `${bnkExe} --audio ${audioPath} --bin ${binPath} --events ${eventPath} -o ${outputPath} --oggs-only`
 
-      // extract .ogg files from bnk sound files
-      try {
-        execSync(extractCmd)
-        logger.info(extractCmd)
-      } catch (err) {
-        logger.info(`Could not run bnk-extract for ${outputPath}`)
-      }
+      queue.add(() => {
+        return new Promise<void>(async (resolve, reject) => {
+          // extract .ogg files from bnk sound files
+          exec(extractCmd, (err) => {
+            if (err) {
+              logger.debug(`Could not run bnk-extract for ${outputPath}`)
+              logger.debug(err.message)
+              reject(err)
+            } else {
+              logger.info(extractCmd)
+              resolve()
+            }
+          })
+        })
+      })
     }
   }
+
+  await queue.onIdle()
 }
 
-export const extractSounds = async ({
-  input,
-  output,
-  region = 'en_us',
-}: {
-  input?: string
-  output?: string
-  region?: string
-}) => {
-  const inputDir = input || path.join(process.env.APP_HOME || '', 'input')
-  const outputDir = output || path.join(process.env.APP_HOME || '', 'output/extracted')
+const createOrWipeDir = async (dirPath: string) => {
+  await new Promise<void>(async (resolve, reject) => {
+    const makeDirCmd = `mkdir -p ${dirPath}`
 
-  await fileService.createOrWipeDir(outputDir)
+    try {
+      // wipe directory if it exists
+      await fs.promises.access(dirPath)
+      logger.info(`rm -r ${dirPath}`)
+      execSync(`rm -r ${dirPath}`)
+    } catch (err) {
+      // directory doesn't exist, create it
+      logger.debug(`[Failed] rm -r ${dirPath}`, err)
+    } finally {
+      exec(makeDirCmd, (err) => {
+        if (err) {
+          logger.debug(`[Failed] ${makeDirCmd}`, err)
+          reject()
+        } else {
+          logger.info(`[Succeeded] ${makeDirCmd}`)
+          resolve()
+        }
+      })
+    }
+  })
+}
 
-  for (const soundType of soundTypes) {
-    logger.info(`queued ${soundType} extraction`)
-    await extractBnkContent({ inputDir, outputDir, region, soundType })
-  }
+// read extracted champion assets from WAD files from Obsidian
+export const extractSounds = async () => {
+  const inputDir = path.join(process.env.APP_HOME ?? '', 'input')
+  const outputDir = path.join(process.env.APP_HOME ?? '', 'output/ogg_audios')
+
+  await createOrWipeDir(outputDir)
+
+  const queue = new PQueue({ concurrency: 2 })
+
+  queue.add(() => {
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+        await extractBnkContent({ inputDir, outputDir, soundType: 'vo' })
+        resolve()
+      } catch (err) {
+        logger.debug('Failed to schedule vo extraction', err)
+        reject()
+      }
+    })
+  })
+
+  queue.add(() => {
+    return new Promise<void>(async (resolve, reject) => {
+      try {
+        await extractBnkContent({ inputDir, outputDir, soundType: 'sfx' })
+        resolve()
+      } catch (err) {
+        logger.debug('Failed to schedule sfx extraction', err)
+        reject()
+      }
+    })
+  })
+
+  await queue.onIdle()
 }
 
 export default extractSounds

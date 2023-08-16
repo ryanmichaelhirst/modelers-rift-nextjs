@@ -2,7 +2,7 @@ import { logger } from '@/lib/logger'
 import fs from 'fs'
 import path from 'path'
 
-export const updateGlbFilenames = async () => {
+export const renameGlbFiles = async () => {
   const inputDir = path.join(process.env.APP_HOME || '', 'output/glb_models')
   const champDirs = await fs.promises.readdir(inputDir)
 
@@ -22,4 +22,4 @@ export const updateGlbFilenames = async () => {
   }
 }
 
-export default updateGlbFilenames
+export default renameGlbFiles

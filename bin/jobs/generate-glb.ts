@@ -3,6 +3,7 @@ import { exec } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 
+// Deprecated: Use compress-glb.ts instead, this was a previous implementation when we needed to convert .gltf files to .glb files
 export const generateGlb = async () => {
   const inputDir = path.join(process.env.APP_HOME || '', 'input/export')
   const outputDir = path.join(process.env.APP_HOME || '', 'output/glb_models')
